@@ -235,18 +235,54 @@ Examples:
 		.action(async (opts) => {
 			const chalk = (await import("chalk")).default;
 			if (opts.list) {
-				console.log(chalk.bold.cyan("\n  Secrets (masked)\n"));
-				console.log(chalk.dim("  No secrets configured.\n"));
+				console.log(chalk.bold.cyan("\n  Secrets (from environment)\n"));
+				// Show known API keys from env
+				const secretKeys = [
+					'OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GOOGLE_API_KEY', 'GEMINI_API_KEY',
+					'XAI_API_KEY', 'DEEPSEEK_API_KEY', 'MISTRAL_API_KEY', 'OPENROUTER_API_KEY',
+					'GITHUB_TOKEN', 'GITLAB_TOKEN', 'DATABASE_URL',
+				];
+				for (const key of secretKeys) {
+					const val = process.env[key];
+					if (val) {
+						const masked = val.substring(0, 6) + '...' + val.substring(val.length - 4);
+						console.log(chalk.dim(`  ${key}: `) + chalk.white(masked));
+					}
+				}
+				console.log('');
 			} else if (opts.set) {
-				console.log(chalk.yellow(`  Setting secret: ${opts.set}`));
-				console.log(chalk.dim("  (Interactive input not yet implemented)"));
+				// Write secret to config
+				const { readFileSync, writeFileSync, mkdirSync } = await import("fs");
+				const { resolve, dirname } = await import("path");
+				const { homedir } = await import("os");
+				const configDir = process.env.BORG_CONFIG_DIR || resolve(homedir(), ".borg");
+				const configPath = resolve(configDir, "config.jsonc");
+				let config: Record<string, any> = {};
+				try {
+					const raw = readFileSync(configPath, "utf8");
+					config = JSON.parse(raw.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, ""));
+				} catch {}
+				if (!config.secrets) config.secrets = {};
+				config.secrets[opts.set] = process.env[opts.set] ?? '';
+				mkdirSync(dirname(configPath), { recursive: true });
+				writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
+				console.log(chalk.green(`  ✓ Secret '${opts.set}' saved to config`));
 			} else if (opts.delete) {
 				console.log(chalk.green(`  ✓ Secret '${opts.delete}' deleted`));
 			} else if (opts.env) {
 				console.log(chalk.bold.cyan("\n  Environment Variable Sources\n"));
-				console.log(
-					chalk.dim("  .env files, system env, and encrypted secrets\n"),
-				);
+				const { existsSync } = await import("fs");
+				const { resolve: resolvePath } = await import("path");
+				const { homedir: getHome } = await import("os");
+				const sources = [
+					{ name: 'System env', available: true },
+					{ name: '.env (cwd)', available: existsSync('.env') },
+					{ name: '~/.env', available: existsSync(resolvePath(getHome(), '.env')) },
+				];
+				for (const s of sources) {
+					console.log(`  ${s.available ? chalk.green('✓') : chalk.dim('○')} ${s.name}`);
+				}
+				console.log('');
 			} else {
 				console.log(chalk.dim("  Use --list, --set, --delete, or --env\n"));
 			}
