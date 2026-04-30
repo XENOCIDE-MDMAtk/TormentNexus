@@ -85,6 +85,10 @@ function test(name, cmd, expectFn, timeout = 10000) {
   test('metrics stats', 'metrics stats', o => o.includes('Metrics') || o.includes('events'));
   test('skills list', 'skills list', o => o.includes('Skills') || o.includes('skills'));
   test('upgrade check', 'upgrade --check', o => o.includes('Upgrade') || o.includes('version'), 20000);
+  test('plan status', 'plan status', o => o.includes('Plan') || o.includes('PLAN'));
+  test('plan diffs', 'plan diffs', o => o.includes('Diff') || o.includes('Pending'));
+  test('plan checkpoints', 'plan checkpoints', o => o.includes('Checkpoint') || o.includes('checkpoint'));
+  test('browser status', 'browser status', o => o.includes('Browser') || o.includes('browser'));
 
   console.log(`\n  ${passed} passed, ${failed} failed\n`);
   process.exit(failed > 0 ? 1 : 0);
