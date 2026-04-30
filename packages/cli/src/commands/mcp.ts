@@ -330,6 +330,25 @@ Examples:
             return;
           }
           console.log(chalk.dim('  Status:     ') + (server.runtimeConnected ? chalk.green('● Connected') : chalk.dim('○ Disconnected')));
+
+          // Check PID file for spawn status
+          try {
+            const fs = await import('fs');
+            const path = await import('path');
+            const pidFile = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids', `${name}.pid`);
+            const pid = parseInt(fs.readFileSync(pidFile, 'utf8').trim());
+            process.kill(pid, 0);
+            console.log(chalk.dim('  Fleet:      ') + chalk.green(`● Spawned (PID ${pid})`));
+          } catch {
+            try {
+              const fs = await import('fs');
+              const path = await import('path');
+              const pidFile = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids', `${name}.pid`);
+              if (fs.existsSync(pidFile)) {
+                console.log(chalk.dim('  Fleet:      ') + chalk.red('✗ Process dead'));
+              }
+            } catch {}
+          }
           console.log(chalk.dim('  Transport:  ') + (server.transport ?? 'stdio'));
           console.log(chalk.dim('  Tools:      ') + (server.toolCount ?? 0));
           console.log(chalk.dim('  Source:     ') + (server.source ?? 'unknown'));
