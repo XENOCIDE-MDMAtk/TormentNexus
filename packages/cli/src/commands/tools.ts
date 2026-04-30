@@ -211,7 +211,29 @@ Examples:
     .action(async (name, opts) => {
       const chalk = (await import('chalk')).default;
       console.log(chalk.bold.cyan(`\n  Tool: ${name}\n`));
-      console.log(chalk.dim('  Tool not found. Check available tools with `borg tools list`.\n'));
+
+      try {
+        // Search across all servers for this tool
+        const res = await fetch(`http://127.0.0.1:4000/trpc/mcp.listServers`, { signal: AbortSignal.timeout(5000) });
+        if (res.ok) {
+          const json = await res.json();
+          const servers = json?.result?.data ?? [];
+          // Find the server that has this tool
+          for (const s of servers) {
+            if (s.name === name || s.displayName?.includes(name)) {
+              console.log(chalk.bold('  Server: ') + (s.displayName ?? s.name));
+              console.log(chalk.bold('  Status: ') + (s.runtimeConnected ? chalk.green('● Connected') : chalk.dim('○ Disconnected')));
+              console.log(chalk.bold('  Tools:  ') + (s.toolCount ?? 0));
+              console.log(chalk.bold('  Tags:   ') + ((s.tags ?? []).join(', ') || 'none'));
+              if (s.config?.command) console.log(chalk.bold('  Command:') + ` ${s.config.command} ${(s.config.args ?? []).join(' ')}`);
+              if (s.description) console.log(chalk.bold('  Desc:   ') + s.description.substring(0, 100));
+              console.log('');
+              return;
+            }
+          }
+        }
+      } catch {}
+      console.log(chalk.dim('  Not found. Check available tools with `borg tools list`.\n'));
     });
 
   tools
