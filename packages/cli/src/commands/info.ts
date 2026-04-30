@@ -144,6 +144,23 @@ export function registerInfoCommand(program: Command): void {
         if (sessRes.ok) {
           const sessions = (await sessRes.json())?.data ?? [];
           if (sessions.length > 0) console.log(chalk.bold('  Sessions:') + ` ${sessions.length} discovered`);
+
+        // Fleet
+        try {
+          const fs = await import('fs');
+          const path = await import('path');
+          const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+          const pidFiles = fs.readdirSync(pidDir).filter(f => f.endsWith('.pid'));
+          let fleetAlive = 0;
+          for (const pf of pidFiles) {
+            try {
+              const pid = parseInt(fs.readFileSync(path.join(pidDir, pf), 'utf8').trim());
+              process.kill(pid, 0);
+              fleetAlive++;
+            } catch {}
+          }
+          console.log(chalk.bold('  Fleet:') + ` ${fleetAlive}/${pidFiles.length} spawned alive`);
+        } catch {}
         }
       } catch {}
 
