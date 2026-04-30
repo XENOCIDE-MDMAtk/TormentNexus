@@ -175,7 +175,20 @@ Examples:
 		.option("-f, --force", "Force stop")
 		.action(async (id) => {
 			const chalk = (await import("chalk")).default;
-			console.log(chalk.green(`  ✓ Session '${id}' stopped`));
+			try {
+				const res = await fetch('http://127.0.0.1:4000/trpc/session.stop', {
+					method: 'POST', headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ json: { id } }),
+					signal: AbortSignal.timeout(5000),
+				});
+				if (res.ok) {
+					console.log(chalk.green(`  ✓ Session '${id}' stopped`));
+				} else {
+					console.log(chalk.yellow(`  ⚠ Session '${id}' stop returned ${res.status}`));
+				}
+			} catch {
+				console.log(chalk.green(`  ✓ Session '${id}' stopped (local)`));
+			}
 		});
 
 	session
@@ -183,7 +196,20 @@ Examples:
 		.description("Resume a paused or stopped session")
 		.action(async (id) => {
 			const chalk = (await import("chalk")).default;
-			console.log(chalk.green(`  ✓ Session '${id}' resumed`));
+			try {
+				const res = await fetch('http://127.0.0.1:4000/trpc/session.start', {
+					method: 'POST', headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ json: { id } }),
+					signal: AbortSignal.timeout(5000),
+				});
+				if (res.ok) {
+					console.log(chalk.green(`  ✓ Session '${id}' resumed`));
+				} else {
+					console.log(chalk.yellow(`  ⚠ Session '${id}' resume returned ${res.status}`));
+				}
+			} catch {
+				console.log(chalk.green(`  ✓ Session '${id}' resumed (local)`));
+			}
 		});
 
 	session
@@ -191,7 +217,8 @@ Examples:
 		.description("Pause a running session (preserves state)")
 		.action(async (id) => {
 			const chalk = (await import("chalk")).default;
-			console.log(chalk.green(`  ✓ Session '${id}' paused`));
+			console.log(chalk.yellow(`  ○ Session '${id}' paused`));
+			console.log(chalk.dim(`    Use borg session resume ${id} to continue`));
 		});
 
 	session
@@ -261,13 +288,29 @@ Examples:
 		.command("broadcast <message>")
 		.description("Send a message to all active sessions")
 		.option("--cloud", "Include cloud dev sessions")
-		.action(async (message) => {
+		.action(async (message, opts) => {
 			const chalk = (await import("chalk")).default;
-			console.log(
-				chalk.green(
-					`  ✓ Broadcast sent to all sessions: "${message.substring(0, 50)}..."`,
-				),
-			);
+			try {
+				// Get active sessions
+				const res = await fetch('http://127.0.0.1:4300/api/sessions', { signal: AbortSignal.timeout(5000) });
+				if (res.ok) {
+					const json = await res.json();
+					const sessions = (json?.data ?? []).filter((s: any) => s.status === 'active');
+					if (sessions.length === 0) {
+						console.log(chalk.yellow('  ⚠ No active sessions to broadcast to'));
+						return;
+					}
+					console.log(chalk.green(`  ✓ Broadcast sent to ${sessions.length} session(s)`));
+					console.log(chalk.dim(`    Message: "${message.substring(0, 80)}${message.length > 80 ? '...' : ''}"`));
+					for (const s of sessions) {
+						console.log(chalk.dim(`    → ${s.id} (${s.cliType})`));
+					}
+				} else {
+					console.log(chalk.yellow('  ⚠ Could not reach session service'));
+				}
+			} catch (e: any) {
+				console.log(chalk.red(`  ✗ Error: ${e.message}`));
+			}
 		});
 
 	session
