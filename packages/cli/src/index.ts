@@ -36,6 +36,7 @@ import { registerBillingCommand } from './commands/billing.js';
 import { registerContextCommand } from './commands/context.js';
 import { registerKnowledgeCommand } from './commands/knowledge.js';
 import { registerSwarmCommand } from './commands/swarm.js';
+import { registerMetricsCommand } from './commands/metrics.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -85,6 +86,7 @@ registerBillingCommand(program);
 registerContextCommand(program);
 registerKnowledgeCommand(program);
 registerSwarmCommand(program);
+registerMetricsCommand(program);
 
 // Default action: show help if no command given
 program.action(() => {

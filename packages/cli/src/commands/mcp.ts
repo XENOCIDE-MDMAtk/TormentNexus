@@ -605,12 +605,12 @@ Examples:
             const res = await fetch('http://127.0.0.1:4000/trpc/mcp.addServer', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
+              body: JSON.stringify({ json: {
                 name: server.name,
                 command: server.command ?? 'npx',
                 args: server.args ?? [],
                 env: server.env ?? {},
-              }),
+              } }),
               signal: AbortSignal.timeout(3000),
             });
             if (res.ok) imported_count++; else failed++;
