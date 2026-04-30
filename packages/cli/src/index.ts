@@ -30,6 +30,7 @@ import { registerPingCommand } from './commands/ping.js';
 import { registerCatalogCommand } from './commands/catalog.js';
 import { registerInfoCommand } from './commands/info.js';
 import { registerDoctorCommand } from './commands/doctor.js';
+import { registerInventoryCommand } from './commands/inventory.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -73,6 +74,7 @@ registerPingCommand(program);
 registerCatalogCommand(program);
 registerInfoCommand(program);
 registerDoctorCommand(program);
+registerInventoryCommand(program);
 
 // Default action: show help if no command given
 program.action(() => {
