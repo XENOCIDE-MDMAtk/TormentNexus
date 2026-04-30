@@ -188,9 +188,48 @@ OAuth-capable subscription services:
     .option('--provider <name>', 'Show quota for specific provider')
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
+      const Table = (await import('cli-table3')).default;
+
       console.log(chalk.bold.cyan('\n  Provider Quotas & Billing\n'));
-      console.log(chalk.dim('  No providers configured with quota tracking.\n'));
-      console.log(chalk.dim('  Tip: Enable quota tracking with `borg provider add <name>`\n'));
+
+      // Check known providers
+      const providers = [
+        { name: 'OpenAI', envKey: 'OPENAI_API_KEY' },
+        { name: 'Anthropic', envKey: 'ANTHROPIC_API_KEY' },
+        { name: 'Google', envKey: 'GOOGLE_API_KEY' },
+        { name: 'xAI', envKey: 'XAI_API_KEY' },
+        { name: 'DeepSeek', envKey: 'DEEPSEEK_API_KEY' },
+        { name: 'Mistral', envKey: 'MISTRAL_API_KEY' },
+        { name: 'OpenRouter', envKey: 'OPENROUTER_API_KEY' },
+      ];
+
+      if (opts.provider) {
+        const filtered = providers.filter(p => p.name.toLowerCase() === opts.provider.toLowerCase());
+        if (filtered.length === 0) {
+          console.log(chalk.red(`  Unknown provider: ${opts.provider}`));
+          return;
+        }
+      }
+
+      const table = new Table({
+        head: ['Provider', 'API Key', 'Status'],
+        style: { head: ['cyan'] },
+      });
+
+      for (const p of providers) {
+        if (opts.provider && p.name.toLowerCase() !== opts.provider.toLowerCase()) continue;
+        const key = process.env[p.envKey];
+        if (key) {
+          const masked = key.substring(0, 8) + '...' + key.substring(key.length - 4);
+          table.push([p.name, chalk.dim(masked), chalk.green('● Active')]);
+        } else {
+          table.push([p.name, chalk.dim('not set'), chalk.dim('○ Inactive')]);
+        }
+      }
+
+      console.log(table.toString());
+      console.log(chalk.dim('\n  Quota tracking requires billing dashboard integration.'));
+      console.log(chalk.dim('  Use borg provider test <name> to verify connectivity.\n'));
     });
 
   provider
