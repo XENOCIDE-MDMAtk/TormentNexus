@@ -77,6 +77,9 @@ function test(name, cmd, expectFn, timeout = 10000) {
   test('context list', 'context list', o => o.includes('Context') || o.includes('harvested'));
   test('knowledge stats', 'knowledge stats', o => o.includes('Knowledge'));
   test('knowledge resources', 'knowledge resources', o => o.includes('Knowledge') || o.includes('resources'));
+  test('swarm missions', 'swarm missions', o => o.includes('Swarm') || o.includes('mission'));
+  test('swarm risk', 'swarm risk', o => o.includes('Risk') || o.includes('N/A'));
+  test('swarm capabilities', 'swarm capabilities', o => o.includes('Swarm') || o.includes('capabilities'));
 
   console.log(`\n  ${passed} passed, ${failed} failed\n`);
   process.exit(failed > 0 ? 1 : 0);
