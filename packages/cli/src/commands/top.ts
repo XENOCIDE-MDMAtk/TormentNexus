@@ -93,6 +93,21 @@ export function registerTopCommand(program: Command): void {
           console.log(chalk.bold('  Memory: ') + `${m.total ?? 0} entries (${m.longTerm ?? 0} long-term, ${m.working ?? 0} working)`);
         }
 
+        // Providers
+        const providerKeys = ['OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GOOGLE_API_KEY', 'DEEPSEEK_API_KEY', 'MISTRAL_API_KEY', 'OPENROUTER_API_KEY', 'XAI_API_KEY'];
+        const providers = providerKeys.filter(k => process.env[k]);
+        if (providers.length > 0) {
+          console.log(chalk.bold('  Providers:') + ` ${providers.length} active`);
+        }
+
+        // Sessions
+        const sessRes = await fetchJSON('http://127.0.0.1:4300/api/sessions');
+        if (sessRes?.data) {
+          const sessions = sessRes.data;
+          const active = sessions.filter((s: any) => s.status === 'active').length;
+          console.log(chalk.bold('  Sessions:') + ` ${sessions.length} discovered` + (active > 0 ? `, ${active} active` : ''));
+        }
+
         console.log('');
         iteration++;
         if (iteration < maxIterations) {
