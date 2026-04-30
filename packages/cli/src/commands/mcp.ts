@@ -172,7 +172,7 @@ Examples:
         const res = await fetch('http://127.0.0.1:4000/trpc/mcpServers.create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: JSON.stringify({ json: {
             name,
             command,
             transport: opts.transport,
@@ -180,7 +180,7 @@ Examples:
             args: opts.args,
             env: opts.env?.reduce((acc: any, v: string) => { const [k, ...r] = v.split('='); acc[k] = r.join('='); return acc; }, {}),
             autoStart: opts.autoStart,
-          }),
+          } }),
           signal: AbortSignal.timeout(5000),
         });
         if (res.ok) {
@@ -207,7 +207,7 @@ Examples:
         const res = await fetch('http://127.0.0.1:4000/trpc/mcpServers.delete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name }),
+          body: JSON.stringify({ json: { name } }),
           signal: AbortSignal.timeout(5000),
         });
         if (res.ok) {
@@ -446,12 +446,12 @@ Examples:
         const res = await fetch('http://127.0.0.1:4000/trpc/mcp.addServer', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: JSON.stringify({ json: {
             name: serverName,
             command: 'npx',
             args: ['-y', pkg],
             env: {},
-          }),
+          } }),
           signal: AbortSignal.timeout(5000),
         });
         if (res.ok) {
