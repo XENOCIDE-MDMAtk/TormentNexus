@@ -233,7 +233,36 @@ Examples:
 		.option("--transfer <id>", "Transfer local session to cloud")
 		.action(async (opts) => {
 			const chalk = (await import("chalk")).default;
-			console.log(chalk.bold.cyan("\n  Cloud Dev Sessions\n"));
-			console.log(chalk.dim("  No cloud sessions configured.\n"));
+			const { existsSync } = await import("fs");
+			const { resolve } = await import("path");
+			const { homedir } = await import("os");
+			const home = homedir();
+
+			console.log(chalk.bold.cyan("\n  Cloud Dev Environments\n"));
+
+			// Detect cloud dev tools
+			const clouds = [
+				{ name: 'Google Jules', path: resolve(home, '.config/jules'), url: 'https://jules.google.com' },
+				{ name: 'Devin', path: resolve(home, '.devin'), url: 'https://app.devin.ai' },
+				{ name: 'OpenAI Codex', path: resolve(home, '.codex'), url: 'https://chatgpt.com/codex' },
+				{ name: 'Replit', path: resolve(home, '.replit'), url: 'https://replit.com' },
+				{ name: 'GitHub Codespaces', path: resolve(home, '.config/gh'), url: 'https://github.com/codespaces' },
+			];
+
+			let found = 0;
+			for (const cloud of clouds) {
+				const exists = existsSync(cloud.path);
+				if (exists) {
+					found++;
+					console.log(chalk.green(`  ✓ ${cloud.name}`) + chalk.dim(` (${cloud.path})`));
+					console.log(chalk.dim(`    ${cloud.url}`));
+				}
+			}
+
+			if (found === 0) {
+				console.log(chalk.dim("  No cloud dev environments detected."));
+				console.log(chalk.dim("  Supported: Jules, Devin, Codex, Replit, Codespaces"));
+			}
+			console.log('');
 		});
 }
