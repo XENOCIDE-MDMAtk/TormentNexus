@@ -198,3 +198,4 @@ git submodule update --remote --merge
 ---
 
 *For model-specific quirks, refer to `CLAUDE.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md`.*
+>>>>>>> main
