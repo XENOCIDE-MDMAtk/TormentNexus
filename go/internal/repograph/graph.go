@@ -271,7 +271,27 @@ func (rgs *RepoGraphService) indexFile(graph *Graph, filePath string) {
 		Language: languageFromExt(filepath.Ext(filePath)),
 	}
 	graph.Nodes[fileID] = fileNode
-	// ... index content ...
+
+	// Read and parse
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return
+	}
+	if len(data) > 500*1024 {
+		return // Skip very large files
+	}
+
+	ext := strings.ToLower(filepath.Ext(filePath))
+	switch ext {
+	case ".go":
+		rgs.indexGoFile(graph, relPath, string(data))
+	case ".ts", ".tsx", ".js", ".jsx":
+		rgs.indexTSFile(graph, relPath, string(data))
+	case ".py":
+		rgs.indexPythonFile(graph, relPath, string(data))
+	case ".rs":
+		rgs.indexRustFile(graph, relPath, string(data))
+	}
 }
 
 func (rgs *RepoGraphService) resolveTSImport(currentFile, importPath string) string {
