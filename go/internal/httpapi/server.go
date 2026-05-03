@@ -960,7 +960,6 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/skills/read", s.handleSkillsRead)
 	s.mux.HandleFunc("/api/skills/create", s.handleSkillsCreate)
 	s.mux.HandleFunc("/api/skills/save", s.handleSkillsSave)
-	s.mux.HandleFunc("/api/skills/search", s.handleSkillsSearch)
 	s.mux.HandleFunc("/api/skills/assimilate", s.handleSkillsAssimilate)
 	s.mux.HandleFunc("/api/workflows", s.handleWorkflowList)
 	s.mux.HandleFunc("/api/workflows/graph", s.handleWorkflowGraph)
@@ -6533,7 +6532,19 @@ func (s *Server) handleSkillsSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, http.StatusServiceUnavailable, map[string]any{"success": false, "error": "upstream unavailable"})
+	res, fallbackErr := s.skillStore.SearchSkills(query)
+	if fallbackErr != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": fallbackErr.Error()})
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"success": true,
+		"data":    res,
+		"bridge": map[string]any{
+			"fallback": "go-local-skills",
+		},
+	})
 }
 
 func (s *Server) handleSkillsAssimilate(w http.ResponseWriter, r *http.Request) {
@@ -7728,8 +7739,22 @@ func (s *Server) handleInfrastructureApply(w http.ResponseWriter, r *http.Reques
 }
 
 func (s *Server) handleExpertResearch(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]any{"success": false, "error": "method not allowed"})
+		return
+	}
+
+	var payload struct {
+		Topic string `json:"topic"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "invalid JSON body"})
+		return
+	}
+
+	// Try upstream first
 	var result any
-	upstreamBase, err := s.callUpstreamJSON(r.Context(), "expert.research", nil, &result)
+	upstreamBase, err := s.callUpstreamJSON(r.Context(), "expert.research", payload, &result)
 	if err == nil {
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
@@ -7742,21 +7767,10 @@ func (s *Server) handleExpertResearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var payload struct {
-		Topic string `json:"topic"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "invalid request body"})
-		return
-	}
-
-	res, fallbackErr := hsync.ExpertResearch(payload.Topic)
+	// Fallback to local
+	res, fallbackErr := s.expertManager.ExpertResearch(r.Context(), payload.Topic)
 	if fallbackErr != nil {
-		writeJSON(w, http.StatusServiceUnavailable, map[string]any{
-			"success": false,
-			"error":   fallbackErr.Error(),
-			"detail":  fallbackErr.Error(),
-		})
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": fallbackErr.Error()})
 		return
 	}
 
@@ -7764,16 +7778,28 @@ func (s *Server) handleExpertResearch(w http.ResponseWriter, r *http.Request) {
 		"success": true,
 		"data":    res,
 		"bridge": map[string]any{
-			"fallback":  "go-local-expert",
-			"procedure": "expert.research",
-			"reason":    "upstream unavailable; executing native Go expert research",
+			"fallback": "go-local-expert",
 		},
 	})
 }
 
 func (s *Server) handleExpertCode(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]any{"success": false, "error": "method not allowed"})
+		return
+	}
+
+	var payload struct {
+		Instruction string `json:"instruction"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "invalid JSON body"})
+		return
+	}
+
+	// Try upstream first
 	var result any
-	upstreamBase, err := s.callUpstreamJSON(r.Context(), "expert.code", nil, &result)
+	upstreamBase, err := s.callUpstreamJSON(r.Context(), "expert.code", payload, &result)
 	if err == nil {
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
@@ -7786,21 +7812,10 @@ func (s *Server) handleExpertCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var payload struct {
-		Instruction string `json:"instruction"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "invalid request body"})
-		return
-	}
-
-	res, fallbackErr := hsync.ExpertCode(payload.Instruction)
+	// Fallback to local
+	res, fallbackErr := s.expertManager.ExpertCode(r.Context(), payload.Instruction)
 	if fallbackErr != nil {
-		writeJSON(w, http.StatusServiceUnavailable, map[string]any{
-			"success": false,
-			"error":   fallbackErr.Error(),
-			"detail":  fallbackErr.Error(),
-		})
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": fallbackErr.Error()})
 		return
 	}
 
@@ -7808,14 +7823,13 @@ func (s *Server) handleExpertCode(w http.ResponseWriter, r *http.Request) {
 		"success": true,
 		"data":    res,
 		"bridge": map[string]any{
-			"fallback":  "go-local-expert",
-			"procedure": "expert.code",
-			"reason":    "upstream unavailable; executing native Go expert coding",
+			"fallback": "go-local-expert",
 		},
 	})
 }
 
 func (s *Server) handleExpertStatus(w http.ResponseWriter, r *http.Request) {
+	// Try upstream first
 	var result any
 	upstreamBase, err := s.callUpstreamJSON(r.Context(), "expert.getStatus", nil, &result)
 	if err == nil {
@@ -7833,13 +7847,11 @@ func (s *Server) handleExpertStatus(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
 		"data": map[string]any{
-			"researcher": "active", // Researcher logic is mostly in TS for now
-			"coder":      s.getCoderStatus(),
+			"researcher": "online",
+			"coder":      "online",
 		},
 		"bridge": map[string]any{
-			"fallback":  "go-local-status",
-			"procedure": "expert.getStatus",
-			"reason":    "upstream unavailable; using local expert agent status",
+			"fallback": "go-local-expert",
 		},
 	})
 }

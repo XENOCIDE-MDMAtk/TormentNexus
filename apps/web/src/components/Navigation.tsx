@@ -26,7 +26,11 @@ const NAV_ITEMS = [
     { href: '/dashboard/config', label: 'Settings', color: 'hover:text-slate-500', activeColor: 'text-slate-500' },
 ];
 
-export function Navigation() {
+interface NavigationProps {
+    versionLabel?: string;
+}
+
+export function Navigation({ versionLabel = 'dev' }: NavigationProps) {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
@@ -74,7 +78,7 @@ export function Navigation() {
                                 </Link>
                             ))}
                             <div className="mt-auto pt-8 border-t border-zinc-200 dark:border-zinc-800">
-                                <span className="text-xs text-zinc-400">v0.1.0-alpha</span>
+                                <span className="text-xs text-zinc-400">v{versionLabel}</span>
                             </div>
                         </div>
                     </SheetContent>
@@ -82,7 +86,7 @@ export function Navigation() {
             </div>
 
             <div className="hidden md:block text-xs text-zinc-400">
-                v0.1.0-alpha
+                v{versionLabel}
             </div>
         </nav>
     );

@@ -13,6 +13,41 @@ import type { Command } from 'commander';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
+async function openBrowserUrl(url: string): Promise<boolean> {
+  const { spawn } = await import('child_process');
+
+  try {
+    if (process.platform === 'win32') {
+      const child = spawn('cmd', ['/c', 'start', '', url], {
+        stdio: 'ignore',
+        detached: true,
+      });
+      child.unref();
+      return true;
+    }
+
+    const opener = process.platform === 'darwin' ? 'open' : 'xdg-open';
+    const child = spawn(opener, [url], {
+      stdio: 'ignore',
+      detached: true,
+    });
+    child.unref();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function isCoreReachable(trpcUrl: string): Promise<boolean> {
+  const healthUrl = trpcUrl.replace(/\/trpc\/?$/, '/health');
+  try {
+    const response = await fetch(healthUrl, { signal: AbortSignal.timeout(1500) });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 function getVersion(): string {
   try {
     let dir = process.cwd();
@@ -55,40 +90,50 @@ Examples:
     `)
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
+      const { spawn } = await import('child_process');
+      const webDir = resolve(process.cwd(), 'apps/web');
       const url = `http://${opts.host}:${opts.port}`;
+      const upstreamTrpc = process.env.BORG_TRPC_UPSTREAM?.trim() || 'http://127.0.0.1:4100/trpc';
+      const scriptPath = resolve(webDir, 'scripts', opts.dev ? 'dev.mjs' : 'start.mjs');
+      const coreReachable = await isCoreReachable(upstreamTrpc);
 
       console.log(chalk.bold.cyan('\n  ⬡ Borg Dashboard\n'));
       console.log(chalk.dim(`  URL: ${url}`));
       console.log(chalk.dim(`  Mode: ${opts.dev ? 'development' : 'production'}`));
+      console.log(chalk.dim(`  Core: ${upstreamTrpc}`));
       console.log('');
 
-      if (opts.dev) {
-        // Start the Next.js dev server
-        console.log(chalk.yellow('  Starting Next.js dev server...'));
-        const { spawn } = await import('child_process');
-        const { resolve } = await import('path');
-        const webDir = resolve(process.cwd(), 'apps/web');
-        const child = spawn('pnpm', ['dev', '--port', String(opts.port)], {
-          stdio: 'inherit',
-          cwd: webDir,
-          shell: true,
-          env: { ...process.env, BORG_TRPC_UPSTREAM: `http://127.0.0.1:4100/trpc` },
-        });
-        child.on('exit', (code) => process.exit(code ?? 0));
-        return;
+      if (!coreReachable) {
+        console.log(chalk.yellow('  ⚠ Core control plane is not responding yet.'));
+        console.log(chalk.dim('    Start it with: borg start --port 4100'));
+        console.log('');
       }
 
+      console.log(chalk.yellow(`  Starting dashboard ${opts.dev ? 'dev' : 'standalone'} server...`));
+      const child = spawn(process.execPath, [scriptPath, '--port', String(opts.port), '--host', String(opts.host)], {
+        stdio: 'inherit',
+        cwd: webDir,
+        env: {
+          ...process.env,
+          BORG_TRPC_UPSTREAM: upstreamTrpc,
+        },
+      });
+
       if (opts.open !== false) {
-        try {
-          const open = (await import('open')).default;
-          await open(url);
-          console.log(chalk.green('  ✓ Dashboard opened in browser'));
-        } catch {
-          console.log(chalk.yellow(`  ⚠ Could not open browser. Visit ${url} manually.`));
-        }
+        const openDelayMs = opts.dev ? 3500 : 1500;
+        setTimeout(() => {
+          void openBrowserUrl(url).then((opened) => {
+            if (opened) {
+              console.log(chalk.green(`  ✓ Opening ${url}`));
+            } else {
+              console.log(chalk.yellow(`  ⚠ Could not open browser automatically. Visit ${url} manually.`));
+            }
+          });
+        }, openDelayMs);
       }
 
       console.log(chalk.dim('\n  Press Ctrl+C to stop\n'));
+      child.on('exit', (code) => process.exit(code ?? 0));
     });
 
   // About command (bonus)

@@ -2,8 +2,6 @@ package controlplane
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"time"
 )
 

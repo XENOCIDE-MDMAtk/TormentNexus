@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/borghq/borg-go/internal/controlplane"
-	"time"
 
 	_ "modernc.org/sqlite"
 )

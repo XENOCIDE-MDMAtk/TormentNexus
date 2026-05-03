@@ -311,22 +311,20 @@ export function createLockLifecycleHandlers(
 			cleanup();
 			exit(143);
 		},
-		handleUncaughtException: (error: unknown) => {
-			cleanup();
-			logError(
-				error instanceof Error ? (error.stack ?? error.message) : String(error),
-			);
-			exit(1);
-		},
-		handleUnhandledRejection: (reason: unknown) => {
-			cleanup();
-			logError(
-				reason instanceof Error
-					? (reason.stack ?? reason.message)
-					: String(reason),
-			);
-			exit(1);
-		},
+  async handleUncaughtException(error: unknown) {
+    this.cleanup();
+    const chalk = (await import('chalk')).default;
+    const msg = error instanceof Error ? (error.stack ?? error.message) : String(error);
+    console.error(chalk.red(`\n  ✗ Uncaught Exception: ${msg}`));
+    process.exit(1);
+  },
+  async handleUnhandledRejection(reason: unknown) {
+    this.cleanup();
+    const chalk = (await import('chalk')).default;
+    const msg = reason instanceof Error ? (reason.stack ?? reason.message) : String(reason);
+    console.error(chalk.red(`\n  ✗ Unhandled Rejection: ${msg}`));
+    process.exit(1);
+  },
 	};
 }
 

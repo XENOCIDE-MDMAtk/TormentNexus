@@ -16,6 +16,7 @@
         "lint": "pnpm run check:placeholders",
         "lint:turbo": "set TURBO_DAEMON=false&& turbo run lint --output-logs=errors-only --filter=!mcp-superassistant --filter=!@extension/shared",
         "test": "set TURBO_DAEMON=false&& turbo run test",
+        "smoke:dashboard": "node scripts/dashboard-smoke.cjs",
         "check:placeholders": "node scripts/check-placeholder-regressions.mjs",
         "check:dev-readiness": "node scripts/verify_dev_readiness.mjs",
         "check:release-gate": "node scripts/check_release_gate.mjs",

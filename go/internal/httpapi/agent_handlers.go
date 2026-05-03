@@ -315,7 +315,7 @@ func (s *Server) handleAgentSwarmTranscript(w http.ResponseWriter, r *http.Reque
 
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
-		"data":    s.swarmController.getTranscript(),
+		"data":    s.swarmController.GetTranscript(),
 		"bridge": map[string]any{
 			"fallback": "go-local-swarm",
 		},

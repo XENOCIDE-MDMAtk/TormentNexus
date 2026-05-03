@@ -19,14 +19,14 @@ export default function ManualPage() {
             try {
                 let output: unknown;
                 try {
-                    output = await executeTool.mutateAsync({ name: 'read_file', args: { filePath: 'VERSION.md' } });
+                    output = await executeTool.mutateAsync({ name: 'read_file', args: { filePath: 'VERSION' } });
                 } catch {
-                    output = await executeTool.mutateAsync({ name: 'read_file', args: { path: 'VERSION.md' } });
+                    output = await executeTool.mutateAsync({ name: 'read_file', args: { path: 'VERSION' } });
                 }
 
                 const text = typeof output === 'string' ? output : JSON.stringify(output);
-                const match = text.match(/\b\d+\.\d+\.\d+\b/);
-                setVersionLabel(match ? `v${match[0]}` : 'unknown');
+                const version = text.trim().replace(/^v/i, '');
+                setVersionLabel(version ? `v${version}` : 'unknown');
             } catch {
                 setVersionLabel('unknown');
             }

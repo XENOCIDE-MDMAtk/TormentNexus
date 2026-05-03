@@ -1,6 +1,9 @@
 package httpapi
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 func (s *Server) handleDirectorMemorize(w http.ResponseWriter, r *http.Request) {
 	s.handleTRPCBridgeBodyCall(w, r, "director.memorize")

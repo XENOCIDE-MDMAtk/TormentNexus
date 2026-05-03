@@ -27,7 +27,18 @@ cd ..
 
 :skip_go
 
-REM ── 2. Install Dependencies ──────────────────────
+REM ── 2. Run Readiness Probe ───────────────────────
+set SKIP_READINESS=0
+if /I "%BORG_SKIP_READINESS%"=="1" set SKIP_READINESS=1
+
+if "%SKIP_READINESS%"=="1" (
+    echo [2/5] Skipping readiness probe (BORG_SKIP_READINESS=1^)
+) else (
+    echo [2/5] Checking dev readiness...
+    node scripts/verify_dev_readiness.mjs --soft
+)
+
+REM ── 3. Install Dependencies ──────────────────────
 where pnpm >nul 2>nul
 if errorlevel 1 (
     echo [FATAL] pnpm not found. Install with: npm install -g pnpm
@@ -38,22 +49,11 @@ set SKIP_INSTALL=0
 if /I "%BORG_SKIP_INSTALL%"=="1" set SKIP_INSTALL=1
 
 if "%SKIP_INSTALL%"=="1" (
-    echo [2/5] Skipping install (BORG_SKIP_INSTALL=1^)
+    echo [3/5] Skipping install (BORG_SKIP_INSTALL=1^)
 ) else (
-    echo [2/5] Installing dependencies...
+    echo [3/5] Installing dependencies...
     call pnpm install --frozen-lockfile 2>nul || call pnpm install
     if errorlevel 1 exit /b 1
-)
-
-REM ── 3. Rebuild native modules ────────────────────
-set SKIP_NATIVE=0
-if /I "%BORG_SKIP_NATIVE%"=="1" set SKIP_NATIVE=1
-
-if "%SKIP_NATIVE%"=="1" (
-    echo [3/5] Skipping native rebuild (BORG_SKIP_NATIVE=1^)
-) else (
-    echo [3/5] Rebuilding native modules for Node 24...
-    call pnpm rebuild better-sqlite3 2>nul
 )
 
 REM ── 4. Build TypeScript ───────────────────────────

@@ -106,9 +106,3 @@ func extractJSON(content string, target interface{}) error {
 	return json.Unmarshal([]byte(content[start:end+1]), target)
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

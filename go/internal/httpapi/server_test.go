@@ -9567,10 +9567,10 @@ var SearchTools = struct{
 	if !strings.Contains(recorder.Body.String(), `"procedure":"mcp.searchTools"`) {
 		t.Fatalf("expected searchTools procedure metadata, got %s", recorder.Body.String())
 	}
-	if !strings.Contains(recorder.Body.String(), `using local MCP tool search results`) {
+	if !strings.Contains(recorder.Body.String(), `using local MCP inventory cache`) {
 		t.Fatalf("expected local search fallback reason, got %s", recorder.Body.String())
 	}
-	if !strings.Contains(recorder.Body.String(), `"name":"search_tools"`) {
+	if !strings.Contains(recorder.Body.String(), `"name":"start_search"`) {
 		t.Fatalf("expected local source-backed search result, got %s", recorder.Body.String())
 	}
 }

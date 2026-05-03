@@ -4,9 +4,9 @@
     "private": true,
     "scripts": {
         "dev": "node ./scripts/dev.mjs",
-        "dev:auto": "node ./scripts/dev-auto.mjs",
-        "build": "next build",
-        "start": "next start",
+        "dev:auto": "node ./scripts/dev.mjs",
+        "build": "next build && node ./scripts/prepare-standalone.mjs",
+        "start": "node ./scripts/start.mjs",
         "lint": "eslint --config eslint.syntax.config.mjs \"src/**/*.{ts,tsx,js,mjs,cjs}\""
     },
     "dependencies": {

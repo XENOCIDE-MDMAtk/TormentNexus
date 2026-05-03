@@ -3,6 +3,8 @@ package httpapi
 import (
 	"context"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/borghq/borg-go/internal/config"
@@ -152,6 +154,9 @@ func (s *Server) importedSessionMaintenanceStats(ctx context.Context) ImportedSe
 	if archivedRecords, err := s.loadArchivedImportedSessionRecords(); err == nil && len(archivedRecords) > 0 {
 		return archivedImportedSessionMaintenanceStats(archivedRecords)
 	}
+
+	// Ensure .borg/imported_sessions exists
+	_ = os.MkdirAll(filepath.Join(s.cfg.WorkspaceRoot, ".borg", "imported_sessions"), 0755)
 
 	candidates, err := s.scanValidatedImportSources()
 	if err != nil {

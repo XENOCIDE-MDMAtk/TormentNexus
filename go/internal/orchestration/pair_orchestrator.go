@@ -170,7 +170,6 @@ func (p *PairOrchestrator) RunTask(ctx context.Context, task string) (*PairSessi
 
 		case StateEvaluating:
 			// Final audit by the Critic
-			fullHistory := strings.Join(p.History, "\n\n")
 			audit, err := p.executeTurn(ctx, Critic, "Perform a final audit of the conversation and implementation. Does it satisfy the original goal? Respond with 'COMPLETE' if successful, or list remaining issues.")
 			if err != nil {
 				return p.failSession(err)

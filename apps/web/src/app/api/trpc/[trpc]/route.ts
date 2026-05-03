@@ -33,22 +33,86 @@ function cloneHeaders(req: Request): Headers {
   return headers;
 }
 
-async function tryCompatFallback(procedurePath: string): Promise<Response | null> {
-  if (procedurePath.includes(',')) {
+function getCompatRoute(procedurePath: string, input: unknown): string | null {
+  if (procedurePath === 'billing.getProviderQuotas') {
+    return '/api/billing/provider-quotas';
+  }
+
+  if (procedurePath === 'billing.getCostHistory') {
+    const days = typeof input === 'object' && input !== null && 'days' in input
+      ? Number((input as { days?: unknown }).days)
+      : NaN;
+    const normalizedDays = Number.isFinite(days) && days > 0 ? Math.min(Math.round(days), 90) : 30;
+    return `/api/billing/cost-history?days=${normalizedDays}`;
+  }
+
+  if (procedurePath === 'billing.getModelPricing') {
+    return '/api/billing/model-pricing';
+  }
+
+  if (procedurePath === 'billing.getFallbackChain') {
+    const taskType = typeof input === 'object' && input !== null && 'taskType' in input
+      ? (input as { taskType?: unknown }).taskType
+      : undefined;
+    const search = typeof taskType === 'string' && taskType.length > 0
+      ? `?taskType=${encodeURIComponent(taskType)}`
+      : '';
+    return `/api/billing/fallback-chain${search}`;
+  }
+
+  if (procedurePath === 'billing.getTaskRoutingRules') {
+    return '/api/billing/task-routing-rules';
+  }
+
+  if (procedurePath === 'memory.getRecentObservations') {
+    const limit = typeof input === 'object' && input !== null && 'limit' in input
+      ? Number((input as { limit?: unknown }).limit)
+      : NaN;
+    const namespace = typeof input === 'object' && input !== null && 'namespace' in input
+      ? (input as { namespace?: unknown }).namespace
+      : undefined;
+    const type = typeof input === 'object' && input !== null && 'type' in input
+      ? (input as { type?: unknown }).type
+      : undefined;
+    const params = new URLSearchParams();
+    params.set('limit', String(Number.isFinite(limit) && limit > 0 ? Math.round(limit) : 6));
+    if (typeof namespace === 'string' && namespace.length > 0) params.set('namespace', namespace);
+    if (typeof type === 'string' && type.length > 0) params.set('type', type);
+    return `/api/memory/observations/recent?${params.toString()}`;
+  }
+
+  if (procedurePath === 'memory.getRecentUserPrompts') {
+    const limit = typeof input === 'object' && input !== null && 'limit' in input
+      ? Number((input as { limit?: unknown }).limit)
+      : NaN;
+    const role = typeof input === 'object' && input !== null && 'role' in input
+      ? (input as { role?: unknown }).role
+      : undefined;
+    const params = new URLSearchParams();
+    params.set('limit', String(Number.isFinite(limit) && limit > 0 ? Math.round(limit) : 5));
+    if (typeof role === 'string' && role.length > 0) params.set('role', role);
+    return `/api/memory/user-prompts/recent?${params.toString()}`;
+  }
+
+  if (procedurePath === 'memory.getRecentSessionSummaries') {
+    const limit = typeof input === 'object' && input !== null && 'limit' in input
+      ? Number((input as { limit?: unknown }).limit)
+      : NaN;
+    const params = new URLSearchParams();
+    params.set('limit', String(Number.isFinite(limit) && limit > 0 ? Math.round(limit) : 4));
+    return `/api/memory/session-summaries/recent?${params.toString()}`;
+  }
+
+  return null;
+}
+
+async function getCompatPayload(procedurePath: string, input: unknown): Promise<unknown | null> {
+  const compatRoute = getCompatRoute(procedurePath, input);
+  if (!compatRoute) {
     return null;
   }
 
   const goApiBase = resolveGoApiBase().replace(/\/$/, '');
-  const compatRoute =
-    procedurePath === 'billing.getProviderQuotas'
-      ? '/api/billing/provider-quotas'
-      : procedurePath === 'billing.getFallbackChain'
-        ? '/api/billing/fallback-chain'
-        : null;
-
-  if (!compatRoute) {
-    return null;
-  }
 
   try {
     const compatResponse = await fetch(`${goApiBase}${compatRoute}`);
@@ -57,17 +121,88 @@ async function tryCompatFallback(procedurePath: string): Promise<Response | null
     }
 
     const compatJson = await compatResponse.json();
-    const payload = Array.isArray(compatJson?.data) || typeof compatJson?.data === 'object'
+    return Array.isArray(compatJson?.data) || typeof compatJson?.data === 'object'
       ? compatJson.data
       : compatJson;
-
-    return new Response(JSON.stringify([{ result: { data: payload } }]), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
-    });
   } catch {
     return null;
   }
+}
+
+function parseBatchInput(req: Request): Record<string, unknown> {
+  const inputParam = new URL(req.url).searchParams.get('input');
+  if (!inputParam) {
+    return {};
+  }
+
+  try {
+    const parsed = JSON.parse(inputParam);
+    return parsed && typeof parsed === 'object' ? parsed as Record<string, unknown> : {};
+  } catch {
+    return {};
+  }
+}
+
+async function fetchSingleProcedureEntry(procedurePath: string, input: unknown): Promise<any | null> {
+  const upstreamBase = resolveUpstreamBase().replace(/\/$/, '');
+  const upstreamUrl = new URL(`${upstreamBase}/${procedurePath}`);
+  upstreamUrl.searchParams.set('batch', '1');
+  upstreamUrl.searchParams.set('input', JSON.stringify(input ?? {}));
+
+  try {
+    const response = await fetch(upstreamUrl, { method: 'GET' });
+    if (response.ok) {
+      const json = await response.json();
+      if (Array.isArray(json) && json.length > 0) {
+        return json[0];
+      }
+      return json;
+    }
+  } catch {
+    // Fall through to compat path below.
+  }
+
+  const compatPayload = await getCompatPayload(procedurePath, input);
+  if (compatPayload !== null) {
+    return { result: { data: compatPayload } };
+  }
+
+  return null;
+}
+
+async function tryCompatFallback(req: Request, procedurePath: string): Promise<Response | null> {
+  if (!procedurePath.includes(',')) {
+    const compatPayload = await getCompatPayload(procedurePath, {});
+    if (compatPayload === null) {
+      return null;
+    }
+
+    return new Response(JSON.stringify([{ result: { data: compatPayload } }]), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
+
+  const procedures = procedurePath.split(',').map((entry) => entry.trim()).filter(Boolean);
+  if (procedures.length === 0) {
+    return null;
+  }
+
+  const batchInput = parseBatchInput(req);
+  const entries = [];
+  for (const [index, procedure] of procedures.entries()) {
+    const entry = await fetchSingleProcedureEntry(procedure, batchInput[String(index)] ?? {});
+    if (!entry) {
+      return null;
+    }
+    entries.push(entry);
+  }
+
+  const hasErrors = entries.some((entry) => entry?.error);
+  return new Response(JSON.stringify(entries), {
+    status: hasErrors ? 207 : 200,
+    headers: { 'content-type': 'application/json' },
+  });
 }
 
 async function handler(req: Request): Promise<Response> {
@@ -87,9 +222,9 @@ async function handler(req: Request): Promise<Response> {
     });
     console.log(`[TRPC-Proxy] Upstream responded: ${upstreamResponse.status} ${upstreamResponse.statusText}`);
   } catch (error) {
-    const compatFallback = await tryCompatFallback(procedurePath);
+    const compatFallback = await tryCompatFallback(req, procedurePath);
     if (compatFallback) {
-      console.warn(`[TRPC-Proxy] Using Go compat fallback for ${procedurePath} after upstream fetch failure`);
+      console.warn(`[TRPC-Proxy] Using compat fallback for ${procedurePath} after upstream fetch failure`);
       return compatFallback;
     }
 
@@ -109,9 +244,9 @@ async function handler(req: Request): Promise<Response> {
   }
 
   if (!upstreamResponse.ok) {
-    const compatFallback = await tryCompatFallback(procedurePath);
+    const compatFallback = await tryCompatFallback(req, procedurePath);
     if (compatFallback) {
-      console.warn(`[TRPC-Proxy] Using Go compat fallback for ${procedurePath} after upstream status ${upstreamResponse.status}`);
+      console.warn(`[TRPC-Proxy] Using compat fallback for ${procedurePath} after upstream status ${upstreamResponse.status}`);
       return compatFallback;
     }
   }

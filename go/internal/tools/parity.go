@@ -126,7 +126,7 @@ func HandleGrep(ctx context.Context, args map[string]interface{}) (ToolResponse,
 
 	if e != nil {
 		// rg returns exit code 1 if no matches found
-		if exitErr, ok := e.(*exec.ExitError); ok && exitErr.ExitCode() == 1 {
+		if exitErr, okMatch := e.(*exec.ExitError); okMatch && exitErr.ExitCode() == 1 {
 			return ok("No matches found.")
 		}
 		return err(fmt.Sprintf("Grep Error: %v\n%s", e, outputStr))
@@ -156,7 +156,7 @@ func HandleGlob(ctx context.Context, args map[string]interface{}) (ToolResponse,
 
 	// Fallback to manual walk if rg fails or not found
 	var matches []string
-	filepath.Walk(path, func(p string, info fs.FileInfo, err error) error {
+	filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
 		if err != nil {
 			return nil
 		}
@@ -211,11 +211,13 @@ func HandleMultiEdit(ctx context.Context, args map[string]interface{}) (ToolResp
 		return err("file_path is required")
 	}
 
-	editsRaw, ok := args["edits"].([]interface{})
-	if !ok {
-		editsRaw, ok = args["operations"].([]interface{})
+	var editsRaw []interface{}
+	if v, okEdits := args["edits"].([]interface{}); okEdits {
+		editsRaw = v
+	} else if v, okOps := args["operations"].([]interface{}); okOps {
+		editsRaw = v
 	}
-	if !ok || len(editsRaw) == 0 {
+	if len(editsRaw) == 0 {
 		return err("edits array is required")
 	}
 

@@ -3,20 +3,10 @@ package httpapi
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 )
 
-func (s *Server) handleSkillsSearch(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query().Get("query")
-	results, _ := s.skillDecision.SearchSkills(r.Context(), query)
-	writeJSON(w, http.StatusOK, map[string]any{
-		"success": true,
-		"data":    results,
-	})
-}
-
 func (s *Server) handleSkillsListLoaded(w http.ResponseWriter, r *http.Request) {
-	results := s.skillDecision.ListLoadedSkills()
+	results := s.skillStore.ListLoadedSkills()
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
 		"data":    results,
@@ -37,7 +27,7 @@ func (s *Server) handleSkillsLoad(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := s.skillDecision.LoadSkill(payload.ID)
+	err := s.skillStore.LoadSkill(payload.ID)
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error()})
 		return
@@ -60,6 +50,6 @@ func (s *Server) handleSkillsUnload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	existed := s.skillDecision.UnloadSkill(payload.ID)
+	existed := s.skillStore.UnloadSkill(payload.ID)
 	writeJSON(w, http.StatusOK, map[string]any{"success": true, "existed": existed})
 }

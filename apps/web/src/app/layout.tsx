@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -24,6 +26,20 @@ import { TRPCProvider } from "../utils/TRPCProvider";
 import { Toaster } from "@borg/ui";
 import { Navigation } from "../components/Navigation";
 
+function getVersionLabel(): string {
+  const roots = [process.cwd(), resolve(process.cwd(), '..'), resolve(process.cwd(), '..', '..')];
+
+  for (const root of roots) {
+    try {
+      return readFileSync(resolve(root, 'VERSION'), 'utf8').trim();
+    } catch {
+      // Keep searching upward until we find the workspace VERSION file.
+    }
+  }
+
+  return 'dev';
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,7 +52,7 @@ export default function RootLayout({
       >
         <TRPCProvider>
           <div className="flex flex-col min-h-screen">
-            <Navigation />
+            <Navigation versionLabel={getVersionLabel()} />
             <div className="flex-1 overflow-auto min-w-0">
               {children}
             </div>

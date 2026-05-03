@@ -130,7 +130,7 @@ func (c *SwarmController) StartSession(ctx context.Context, goal string, cfg Swa
 	return &SwarmSessionResult{
 		Success:    isComplete,
 		Turns:      turnCount,
-		Transcript: c.getTranscript(),
+		Transcript: c.GetTranscript(),
 	}, nil
 }
 
@@ -251,7 +251,7 @@ func (c *SwarmController) addTranscript(entry string) {
 	c.transcript = append(c.transcript, entry)
 }
 
-func (c *SwarmController) getTranscript() []string {
+func (c *SwarmController) GetTranscript() []string {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 	return append([]string(nil), c.transcript...)
@@ -278,12 +278,6 @@ func (c *SwarmController) broadcastUpdate() {
 	})
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
 
 func nowMillis() int64 {
 	return time.Now().UTC().UnixMilli()
