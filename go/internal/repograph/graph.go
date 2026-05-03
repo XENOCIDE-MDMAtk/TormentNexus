@@ -401,8 +401,9 @@ func (rgs *RepoGraphService) indexTSFile(graph *Graph, relPath, content string) 
 	// Imports
 	for _, match := range tsImportRe.FindAllStringSubmatch(content, -1) {
 		if len(match) > 1 {
+			target := rgs.resolveTSImport(relPath, match[1])
 			graph.Edges = append(graph.Edges, Edge{
-				From: fileID, To: "import:" + match[1], Type: "imports",
+				From: fileID, To: target, Type: "imports",
 			})
 		}
 	}
