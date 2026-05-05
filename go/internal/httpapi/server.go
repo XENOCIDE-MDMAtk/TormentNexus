@@ -94,6 +94,7 @@ type Server struct {
 	mcpAggregator     *mcp.Aggregator
 	mcpPredictor      *mcp.ToolPredictor
 	mcpDecision       *mcp.DecisionSystem
+	nativeRouter   *mcp.NativeMCPRouter
 	a2aLogger         *orchestration.A2ALogger
 	a2aBroker         *orchestration.A2ABroker
 	taskQueue         *orchestration.TaskQueue
@@ -486,6 +487,11 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	// Refresh from live inventory
 	if inv, err := mcp.LoadInventory(cfg.WorkspaceRoot, cfg.MainConfigDir); err == nil {
 		server.mcpDecision.RefreshFromInventory(inv)
+	// Initialize Go-native MCP Router
+	server.nativeRouter = mcp.NewNativeMCPRouter(server.mcpDecision, nil, mcp.DefaultRouterConfig())
+	if inv != nil {
+		server.nativeRouter.RefreshCatalog(inv)
+	}
 	}
 
 	// --- Initialize new Go-native services ---
@@ -641,10 +647,19 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/mcp/tools/call", s.handleMCPCallTool)
 	s.mux.HandleFunc("/api/mcp/tools/auto-call", s.handleMCPAutoCallTool)
 	s.mux.HandleFunc("/api/mcp/tool-ads", s.handleMCPToolAdvertisements)
+	s.mux.HandleFunc("/api/mcp/sync", s.handleMCPSync)
+	s.mux.HandleFunc("/api/service/connectivity", s.handleServiceConnectivity)
+	s.mux.HandleFunc("/api/mcp/client-sync", s.handleMCPClientSync)
 
 	// --- MCP Decision System (unified search/call/load) ---
 	s.mux.HandleFunc("/api/mcp/decision/search", s.handleDecisionSearch)
 	s.mux.HandleFunc("/api/mcp/decision/search-and-call", s.handleDecisionSearchAndCall)
+	s.mux.HandleFunc("/api/mcp/native/search", s.handleNativeRouterSearch)
+	s.mux.HandleFunc("/api/mcp/native/working-set", s.handleNativeRouterWorkingSet)
+	s.mux.HandleFunc("/api/mcp/native/load", s.handleNativeRouterLoad)
+	s.mux.HandleFunc("/api/mcp/native/unload", s.handleNativeRouterUnload)
+	s.mux.HandleFunc("/api/mcp/native/state", s.handleNativeRouterState)
+	s.mux.HandleFunc("/api/mcp/native/refresh-catalog", s.handleNativeRouterRefreshCatalog)
 	s.mux.HandleFunc("/api/mcp/decision/load", s.handleDecisionLoad)
 	s.mux.HandleFunc("/api/mcp/decision/call", s.handleDecisionCall)
 	s.mux.HandleFunc("/api/mcp/decision/list-loaded", s.handleDecisionListLoaded)
@@ -920,6 +935,13 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/settings/environment", s.handleSettingsEnvironment)
 	s.mux.HandleFunc("/api/settings/mcp-servers", s.handleSettingsMCPServers)
 	s.mux.HandleFunc("/api/settings/provider-key", s.handleSettingsProviderKey)
+	s.mux.HandleFunc("/api/skills/get", s.handleSkillGet)
+	s.mux.HandleFunc("/api/skills/list", s.handleSkillList)
+	s.mux.HandleFunc("/api/skills/search", s.handleSkillSearch)
+	s.mux.HandleFunc("/api/skills/load", s.handleSkillLoad)
+	s.mux.HandleFunc("/api/skills/unload", s.handleSkillUnload)
+	s.mux.HandleFunc("/api/skills/list-loaded", s.handleSkillListLoaded)
+	s.mux.HandleFunc("/api/skills/summary", s.handleSkillsSummary)
 	s.mux.HandleFunc("/api/tools", s.handleToolsList)
 	s.mux.HandleFunc("/api/tools/by-server", s.handleToolsByServer)
 	s.mux.HandleFunc("/api/tools/search", s.handleToolsSearch)
@@ -938,11 +960,6 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/tool-sets/update", s.handleToolSetsUpdate)
 	s.mux.HandleFunc("/api/tool-sets/delete", s.handleToolSetsDelete)
 	s.mux.HandleFunc("/api/project/context", s.handleProjectContext)
-	s.mux.HandleFunc("/api/skills/search", s.handleSkillsSearch)
-	s.mux.HandleFunc("/api/skills/list-loaded", s.handleSkillsListLoaded)
-	s.mux.HandleFunc("/api/skills/load", s.handleSkillsLoad)
-	s.mux.HandleFunc("/api/skills/unload", s.handleSkillsUnload)
-	s.mux.HandleFunc("/api/agent/pair/run", s.handleAgentPairRun)
 	s.mux.HandleFunc("/api/director/notes", s.handleDirectorNotesList)
 	s.mux.HandleFunc("/api/director/notes/synthesize", s.handleDirectorNotesSynthesize)
 	s.mux.HandleFunc("/api/project/context/update", s.handleProjectContextUpdate)
@@ -961,10 +978,15 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/agent/supervisor/evaluate", s.handleAgentSupervisorEvaluate)
 	s.mux.HandleFunc("/api/agent/director/start", s.handleGoDirectorStart)
 	s.mux.HandleFunc("/api/memory/archive-session", s.handleMemoryArchiveSession)
+	s.mux.HandleFunc("/api/memory/hydrate", s.handleMemoryHydrate)
+	s.mux.HandleFunc("/api/memory/hydration/status", s.handleMemoryHydrationStatus)
+	s.mux.HandleFunc("/api/memory/hydration/query", s.handleMemoryHydrationQuery)
+	s.mux.HandleFunc("/api/memory/hydration/add", s.handleMemoryHydrationAdd)
 	s.mux.HandleFunc("/api/commands/execute", s.handleCommandsExecute)
 	s.mux.HandleFunc("/api/commands", s.handleCommandsList)
+	s.mux.HandleFunc("/api/code/wasm/exec", s.handleWASMExec)
+	s.mux.HandleFunc("/api/code/wasm/status", s.handleWASMStatus)
 	s.mux.HandleFunc("/api/skills", s.handleSkillsList)
-	s.mux.HandleFunc("/api/skills/summary", s.handleSkillsSummary)
 	s.mux.HandleFunc("/api/skills/read", s.handleSkillsRead)
 	s.mux.HandleFunc("/api/skills/create", s.handleSkillsCreate)
 	s.mux.HandleFunc("/api/skills/save", s.handleSkillsSave)
@@ -1127,6 +1149,9 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/browser-controls/logs/push", s.handleBrowserControlsPushLogs)
 	s.mux.HandleFunc("/api/browser-controls/logs/query", s.handleBrowserControlsQueryLogs)
 	s.mux.HandleFunc("/api/browser-controls/stats", s.handleBrowserControlsStats)
+	s.mux.HandleFunc("/api/agent/pair/run", s.handlePairSessionRun)
+	s.mux.HandleFunc("/api/agent/pair/status", s.handlePairSessionStatus)
+	s.mux.HandleFunc("/api/agent/pair/rotate", s.handlePairSessionRotate)
 	s.mux.HandleFunc("/api/swarm/start", s.handleSwarmStart)
 	s.mux.HandleFunc("/api/swarm/resume", s.handleSwarmResumeMission)
 	s.mux.HandleFunc("/api/swarm/approve-task", s.handleSwarmApproveTask)

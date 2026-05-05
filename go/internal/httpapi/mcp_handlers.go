@@ -3,7 +3,10 @@ package httpapi
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 	"strings"
+
+	"github.com/borghq/borg-go/internal/mcp"
 )
 
 func (s *Server) handleMCPStatus(w http.ResponseWriter, r *http.Request) {
@@ -160,6 +163,7 @@ func (s *Server) handleMCPSearchTools(w http.ResponseWriter, r *http.Request) {
 		}
 		bridge := map[string]any{
 			"fallback":  "go-local-mcp",
+
 			"procedure": "mcp.searchTools",
 			"reason":    "upstream unavailable; local MCP inventory cache is empty",
 		}
@@ -287,5 +291,25 @@ func (s *Server) handleMCPPredictTools(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusServiceUnavailable, map[string]any{
 		"success": false,
 		"error":   err.Error(),
+	})
+}
+
+func (s *Server) handleMCPSync(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]any{"success": false, "error": "method not allowed"})
+		return
+	}
+
+	homeDir, _ := os.UserHomeDir()
+	cwd, _ := os.Getwd()
+	appData := os.Getenv("APPDATA")
+
+	targets := mcp.ResolveClientTargets(homeDir, appData, cwd)
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"success": true,
+		"data": map[string]any{
+			"targets": targets,
+		},
 	})
 }

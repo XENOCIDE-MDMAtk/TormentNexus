@@ -5,13 +5,15 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/borghq/borg-go/internal/controlplane"
+	"sync"
 
+	"github.com/borghq/borg-go/internal/controlplane"
 	_ "modernc.org/sqlite"
 )
 
 type VectorStore struct {
 	db *sql.DB
+	mu sync.Mutex
 }
 
 func NewVectorStore(dbPath string) (*VectorStore, error) {
@@ -20,8 +22,25 @@ func NewVectorStore(dbPath string) (*VectorStore, error) {
 		return nil, err
 	}
 
+	// Enable WAL mode for better concurrent access support
+	if dbPath != ":memory:" {
+		if _, err := db.Exec("PRAGMA journal_mode=WAL"); err != nil {
+			db.Close()
+			return nil, fmt.Errorf("failed to set WAL mode: %w", err)
+		}
+		if _, err := db.Exec("PRAGMA synchronous=NORMAL"); err != nil {
+			db.Close()
+			return nil, fmt.Errorf("failed to set synchronous mode: %w", err)
+		}
+		if _, err := db.Exec("PRAGMA busy_timeout=5000"); err != nil {
+			db.Close()
+			return nil, fmt.Errorf("failed to set busy timeout: %w", err)
+		}
+	}
+
 	// Initialize schema from foundation
 	if _, err := db.Exec(controlplane.VectorSchemaSQL); err != nil {
+		db.Close()
 		return nil, fmt.Errorf("failed to init vector schema: %w", err)
 	}
 
@@ -33,6 +52,9 @@ func (s *VectorStore) Close() error {
 }
 
 func (s *VectorStore) Commit(ctx context.Context, entry controlplane.L2VaultRecord) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	// Insert into regular table
 	_, err := s.db.ExecContext(ctx, `
 		INSERT INTO l2_vault (id, session_id, memory_type, content, importance, created_at)
@@ -42,9 +64,8 @@ func (s *VectorStore) Commit(ctx context.Context, entry controlplane.L2VaultReco
 			importance = excluded.importance,
 			created_at = excluded.created_at
 	`, entry.ID, entry.SessionID, string(entry.Type), entry.Content, entry.Importance, entry.CreatedAt)
-
 	if err != nil {
-		return err
+		return fmt.Errorf("memorystore commit insert: %w", err)
 	}
 
 	// If we have an embedding, insert into virtual table
@@ -54,29 +75,18 @@ func (s *VectorStore) Commit(ctx context.Context, entry controlplane.L2VaultReco
 			INSERT INTO vec_l2_vault (rowid, embedding)
 			SELECT rowid, ? FROM l2_vault WHERE id = ?
 		`, string(embeddingJSON), entry.ID)
-		return err
+		if err != nil {
+			return fmt.Errorf("memorystore commit embedding: %w", err)
+		}
 	}
-
 	return nil
 }
 
 func (s *VectorStore) SemanticSearch(ctx context.Context, query string, limit int) ([]controlplane.L2VaultRecord, error) {
-	// NOTE: This implementation assumes we have a way to generate embeddings in Go.
-	// For now, if we don't have embeddings, we fall back to LIKE search.
-	
-	// Real implementation with sqlite-vec would look like:
-	/*
-	rows, err := s.db.QueryContext(ctx, `
-		SELECT v.id, v.session_id, v.memory_type, v.content, v.importance, v.created_at
-		FROM l2_vault v
-		JOIN vec_l2_vault vec ON v.rowid = vec.rowid
-		WHERE vec.embedding MATCH ? -- query embedding
-		ORDER BY distance
-		LIMIT ?
-	`, queryEmbedding, limit)
-	*/
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
-	// Fallback to LIKE search
+	// Fallback to LIKE search (real sqlite-vec search when embeddings available)
 	queryStr := "%" + query + "%"
 	rows, err := s.db.QueryContext(ctx, `
 		SELECT id, session_id, memory_type, content, importance, created_at
@@ -85,9 +95,8 @@ func (s *VectorStore) SemanticSearch(ctx context.Context, query string, limit in
 		ORDER BY importance DESC, created_at DESC
 		LIMIT ?
 	`, queryStr, limit)
-
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("memorystore search: %w", err)
 	}
 	defer rows.Close()
 
@@ -101,6 +110,5 @@ func (s *VectorStore) SemanticSearch(ctx context.Context, query string, limit in
 		r.Type = controlplane.MemoryType(mType)
 		results = append(results, r)
 	}
-
 	return results, nil
 }

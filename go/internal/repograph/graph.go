@@ -80,6 +80,8 @@ type GraphStats struct {
 
 // RepoGraphService builds and queries repository graphs.
 type RepoGraphService struct {
+	goModule   string
+	goModuleMu sync.Once
 	root  string
 	mu    sync.RWMutex
 	graph *Graph
@@ -526,47 +528,6 @@ func (rgs *RepoGraphService) resolvePythonRelativeImport(relPath, dots, modName 
 	}
 
 	return "import:" + dots + modName
-}
-
-func (rgs *RepoGraphService) resolveGoImport(importPath string) string {
-	// If it's a relative import (rare in Go, but possible in some projects)
-	if strings.HasPrefix(importPath, "./") || strings.HasPrefix(importPath, "../") {
-		return "import:" + importPath
-	}
-
-	// In a Go project, we map imports to our own files if the module path matches.
-	const modulePrefix = "github.com/borghq/borg-go"
-	
-	// Handle standard library imports
-	if !strings.Contains(importPath, ".") && !strings.HasPrefix(importPath, modulePrefix) {
-		return "import:std/" + importPath
-	}
-
-	if strings.HasPrefix(importPath, modulePrefix) {
-		internalPath := strings.TrimPrefix(importPath, modulePrefix)
-		internalPath = strings.TrimPrefix(internalPath, "/")
-
-		// Now we look for any file in the graph that belongs to this package.
-		// Since Go packages are directories, we look for files where the directory
-		// matches the internalPath or its subdirectories.
-		if rgs.graph != nil {
-			// Find files in 'go/internal/' or 'go/' or whatever matches the monorepo structure
-			// This is an approximation since we don't parse go.mod perfectly here.
-			// We'll search for any NodeFile whose Path contains the internalPath and whose Package matches.
-			targetPkg := filepath.Base(internalPath)
-			
-			for _, node := range rgs.graph.Nodes {
-				if node.Type == NodeFile && node.Package == targetPkg {
-					// Check if the directory path matches approximately
-					if strings.Contains(node.Path, internalPath) {
-						return "file:" + node.Path
-					}
-				}
-			}
-		}
-	}
-
-	return "import:" + importPath
 }
 
 func (rgs *RepoGraphService) indexGoFile(graph *Graph, relPath, content string) {

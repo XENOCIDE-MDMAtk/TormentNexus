@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/borghq/borg-go/internal/config"
 	"github.com/borghq/borg-go/internal/lockfile"
 )
 
@@ -20,6 +21,16 @@ var defaultTRPCBases = []string{
 	"http://127.0.0.1:3847/trpc",
 }
 
+// DefaultTRPCBasesFromDiscovery returns the tRPC upstream URLs from
+// standardized service discovery, falling back to the hardcoded defaults.
+func DefaultTRPCBasesFromDiscovery() []string {
+	sd := config.DefaultServiceDiscovery()
+	if len(sd.TRPCUpstreamURLs) > 0 {
+		return sd.TRPCUpstreamURLs
+	}
+	return defaultTRPCBases
+}
+
 type UpstreamCallResult struct {
 	BaseURL string          `json:"baseUrl"`
 	Data    json.RawMessage `json:"data"`
@@ -27,14 +38,14 @@ type UpstreamCallResult struct {
 
 func ResolveTRPCBases(mainLockPath string) []string {
 	configured := strings.TrimSpace(os.Getenv("BORG_TRPC_UPSTREAM"))
-	bases := make([]string, 0, len(defaultTRPCBases)+2)
+	bases := make([]string, 0, len(DefaultTRPCBasesFromDiscovery())+2)
 	if lockedBase := resolveLockedTRPCBase(mainLockPath); lockedBase != "" {
 		bases = append(bases, lockedBase)
 	}
 	if configured != "" {
 		bases = append(bases, configured)
 	}
-	bases = append(bases, defaultTRPCBases...)
+	bases = append(bases, DefaultTRPCBasesFromDiscovery()...)
 
 	seen := map[string]struct{}{}
 	normalized := make([]string, 0, len(bases))

@@ -163,15 +163,15 @@ Deliverables officially achieved and stabilized in the `1.0.0-alpha.45` mileston
 
 
 
-### D. Session and memory continuity (EXPERIMENTAL)
+### D. Session and memory continuity (BETA)
 
 - [ ] Auto-detect sessions from all AI harnesses (Claude Code, Codex, Gemini CLI, etc.)
 
 - [ ] Session import with LLM extraction of valuable memories
 
-- [ ] Memory subsystem plugin architecture
+- ✅ Memory hydration engine (workspace bootstrapping, sectioned store)
 
-- [ ] Context harvesting from file changes
+- ✅ Context harvesting from file changes (Go MemoryReactor)
 
 - [ ] Memory browser extension integration
 
@@ -193,11 +193,11 @@ Deliverables officially achieved and stabilized in the `1.0.0-alpha.45` mileston
 
 
 
-### F. Multi-model orchestration (VISION)
+### F. Multi-model orchestration (EXPERIMENTAL)
 
 - [ ] Multi-model chatroom with shared context
 
-- [ ] Rotating implementer/tester/planner roles
+- ✅ Rotating implementer/tester/planner roles (pair orchestrator state machine)
 
 - [ ] Council debate and consensus protocols
 
@@ -217,7 +217,7 @@ Deliverables officially achieved and stabilized in the `1.0.0-alpha.45` mileston
 
 
 
-### H. Go parity (BETA)
+### H. Go parity (BETA → STABLE)
 
 - ✅ Go sidecar with 543 API routes
 
@@ -15463,8 +15463,8 @@ Deliverables officially achieved and stabilized in the `1.0.0-alpha.45` mileston
 ### D. Session and memory continuity (EXPERIMENTAL)
 - [ ] Auto-detect sessions from all AI harnesses (Claude Code, Codex, Gemini CLI, etc.)
 - [ ] Session import with LLM extraction of valuable memories
-- [ ] Memory subsystem plugin architecture
-- [ ] Context harvesting from file changes
+- ✅ Memory hydration engine (workspace bootstrapping, sectioned store)
+- ✅ Context harvesting from file changes (Go MemoryReactor)
 - [ ] Memory browser extension integration
 
 ### E. Provider and model management (STABLE)
@@ -15477,7 +15477,7 @@ Deliverables officially achieved and stabilized in the `1.0.0-alpha.45` mileston
 
 ### F. Multi-model orchestration (VISION)
 - [ ] Multi-model chatroom with shared context
-- [ ] Rotating implementer/tester/planner roles
+- ✅ Rotating implementer/tester/planner roles (pair orchestrator state machine)
 - [ ] Council debate and consensus protocols
 - [ ] Autonomous supervisor until completion criteria met
 

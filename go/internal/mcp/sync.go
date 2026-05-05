@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 )
 
 type SupportedClient string
@@ -63,7 +64,9 @@ func ResolveClientTargets(homeDir string, appData string, cwd string) []Resolved
 
 func getClientCandidates(client SupportedClient, homeDir string, appData string, cwd string) []string {
 	if appData == "" {
-		appData = filepath.Join(homeDir, "AppData", "Roaming")
+		if runtime.GOOS == "windows" {
+			appData = filepath.Join(homeDir, "AppData", "Roaming")
+		}
 	}
 
 	switch client {
@@ -139,8 +142,13 @@ func SyncToClient(client SupportedClient, targetPath string, servers map[string]
 		}
 	}
 
-	// 3. Merge
-	existing["mcpServers"] = mcpServers
+	// 3. Merge or Replace
+	// Some tools like Cursor store MCP servers in a sub-property, others top-level
+	if client == VSCode && strings.HasSuffix(targetPath, "settings.json") {
+		existing["mcp.servers"] = mcpServers
+	} else {
+		existing["mcpServers"] = mcpServers
+	}
 
 	// 4. Write
 	data, err := json.MarshalIndent(existing, "", "  ")
