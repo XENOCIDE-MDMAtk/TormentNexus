@@ -84,13 +84,15 @@ if exist bin\borg.exe (
 REM Start Next.js dashboard in background
 set DASH_PORT=%BORG_DASH_PORT%
 if "%DASH_PORT%"=="" set DASH_PORT=3000
+REM Fix Turbopack LevelDB deadlock on Windows
+set NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE=1
 curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%DASH_PORT%/dashboard > "%TEMP%\borg_web_check.txt" 2>nul
 set /p WEB_CHECK=<"%TEMP%\borg_web_check.txt"
 if "!WEB_CHECK!"=="200" (
     echo   Next.js dashboard already running on port %DASH_PORT%.
 ) else (
     echo   Starting Next.js dashboard on port %DASH_PORT%...
-    start /B cmd /c "cd apps\web && npx next dev --port %DASH_PORT% > nul 2>&1"
+    start /B cmd /c "cd apps\web && set NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE=1 && npx next dev --port %DASH_PORT% > nul 2>&1"
 )
 
 REM Start TypeScript control plane

@@ -10,6 +10,9 @@ interface AgentState {
 }
 
 export class ClaudeAgent extends EventEmitter implements IAgent {
+  id = 'claude';
+  name = 'Claude';
+  role = 'assistant';
     private llmService: LLMService;
     private promptRegistry: PromptRegistry;
     private state: AgentState;
@@ -31,6 +34,7 @@ export class ClaudeAgent extends EventEmitter implements IAgent {
         await this.promptRegistry.initialize();
         this.emit('ready');
     }
+  async stop(): Promise<void> { this.state.status = 'idle'; this.emit('stopped'); }
 
     async send(message: string, context?: any): Promise<string> {
         this.state.status = 'thinking';

@@ -1,6 +1,6 @@
 {
     "name": "@borg/memory",
-    "version": "0.90.7",
+    "version": "0.90.8",
     "type": "module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

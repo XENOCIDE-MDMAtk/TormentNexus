@@ -29,16 +29,31 @@ export interface IA2AClient {
   delegateTask(task: A2ATask, recipient: string): Promise<A2ATask>;
 }
 
-export interface CouncilRole {
+export interface CouncilRoleDefinition {
   name: string;
   systemPrompt: string;
   model?: string;
   provider?: string;
 }
 
+// ── Const enums (used as values) ────────────────────────────────────────────
+
+export const CouncilRole = {
+  CRITIC: 'critic',
+  ARCHITECT: 'architect',
+  META_ARCHITECT: 'meta_architect',
+  PLANNER: 'planner',
+  IMPLEMENTER: 'implementer',
+  TESTER: 'tester',
+  COORDINATOR: 'coordinator',
+} as const;
+
+export type CouncilRole = typeof CouncilRole[keyof typeof CouncilRole];
+
 // ── Class stubs (runtime-safe, full surface area) ───────────────────────────
 
 export class A2ALogger {
+  constructor(_dir?: string) {}
   logEvent(_event: any): void {}
   getEvents(): any[] { return []; }
   getRecentLogs(_limit?: number): any[] { return []; }
@@ -48,9 +63,12 @@ export class A2ALogger {
 export class Council {
   private _agents: any[] = [];
   private _server: any = null;
+  constructor(_modelSelector?: any) {}
   setServer(server: any): void { this._server = server; }
-  registerAgent(agent: any): void { this._agents.push(agent); }
-  async runDebate(_topic: string, _roles?: CouncilRole[]): Promise<any> {
+  registerAgent(roleOrAgent: any, agent?: any): void {
+    this._agents.push(agent ?? roleOrAgent);
+  }
+  async runDebate(_topic: string, _roles?: CouncilRoleDefinition[]): Promise<any> {
     return { summary: '[Council stub]', consensus: null };
   }
   async runConsensusSession(_topic: string, _opts?: any): Promise<any> {
@@ -60,6 +78,7 @@ export class Council {
 }
 
 export class Director {
+  constructor(_server?: any) {}
   async direct(_task: string): Promise<any> { return { result: '[Director stub]' }; }
   async executeTask(_task: string, _opts?: any): Promise<any> { return { result: '[Director executeTask stub]' }; }
   async startAutoDrive(_opts?: any): Promise<void> {}
@@ -71,21 +90,24 @@ export class Director {
 }
 
 export class PairOrchestrator {
+  constructor(_server?: any, _llm?: any) {}
   async run(_config?: any): Promise<any> { return { result: '[PairOrchestrator stub]' }; }
   async runTask(_task: string, _opts?: any): Promise<any> { return { result: '[PairOrchestrator runTask stub]' }; }
   async rotateRoles(): Promise<void> {}
-  async setupFrontierSquad(_a: any, _b?: any): Promise<void> {}
+  async setupFrontierSquad(_a?: any, _b?: any): Promise<void> {}
 }
 
 export class Supervisor {
+  constructor(_server?: any) {}
   async supervise(_task: string): Promise<any> { return { result: '[Supervisor stub]' }; }
 }
 
 export class SwarmController {
+  constructor(_server?: any, _llm?: any) {}
   private _members: any[] = [];
   async launch(_config?: any): Promise<any> { return { result: '[SwarmController stub]' }; }
   addMember(_member: any): void { this._members.push(_member); }
-  async startSession(_opts?: any): Promise<any> { return { result: '[SwarmController startSession stub]' }; }
+  async startSession(_goal?: any, _opts?: any): Promise<any> { return { result: '[SwarmController startSession stub]' }; }
   getTranscript(): any[] { return []; }
 }
 
@@ -109,7 +131,7 @@ export const a2aBroker = {
   listAgents: () => [] as any[],
   getHistory: () => [] as any[],
   getNegotiations: () => [] as any[],
-  registerAgent: (_agent: any) => {},
+  registerAgent: (_id: any, _agent?: any) => {},
 };
 
 export const taskQueue = {

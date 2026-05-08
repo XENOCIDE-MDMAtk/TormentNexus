@@ -45,6 +45,13 @@ class WorktreeServerProxy implements IMCPServer {
     get directorConfig() { return this.server.directorConfig; }
     get council() { return this.getCouncilRuntime(); }
 
+  async handleRequest(request: any) { return this.server.handleRequest(request); }
+  get name() { return this.server.name; }
+  get version() { return this.server.version; }
+  async getStatus() { return this.server.getStatus(); }
+  getTools() { return this.server.getTools(); }
+  async start() { return this.server.start(); }
+  async stop() { return this.server.stop(); }
     async executeTool(name: string, args: any): Promise<any> {
         // Intercept Path-based tools
         const pathTools = ['read_file', 'write_file', 'list_files', 'delete_file', 'replace_in_file', 'create_directory', 'move_file', 'copy_file', 'git_worktree_add', 'git_worktree_remove'];
@@ -84,7 +91,7 @@ export class SquadService {
     private members: Map<string, SquadMember> = new Map();
     private worktreesDir: string;
 
-    constructor(private server: IMCPServer) {
+    constructor(private server: IMCPServer & { modelSelector?: any; permissionManager?: any; directorConfig?: any; }) {
         this.worktreesDir = path.join(process.cwd(), '.borg', 'worktrees');
     }
 

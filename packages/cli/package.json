@@ -1,6 +1,6 @@
 {
     "name": "@borg/cli",
-    "version": "0.90.7",
+    "version": "0.90.8",
     "type": "module",
     "bin": {
         "borg": "./dist/cli/src/index.js"

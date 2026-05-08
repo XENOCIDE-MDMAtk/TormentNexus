@@ -38,6 +38,9 @@ export interface IAgent {
   role: string;
   start(): Promise<void>;
   stop(): Promise<void>;
+  getStatus?(): any;
+  getCapabilities?(): string[];
+  handleMessage?(message: any): Promise<any>;
 }
 
 // ── Class stubs ────────────────────────────────────────────────────────────
@@ -50,6 +53,9 @@ export class ModelSelector {
 
 export class LLMService {
   modelSelector: ModelSelector = new ModelSelector();
+  constructor(modelSelector?: ModelSelector, _opts?: any) {
+    if (modelSelector) this.modelSelector = modelSelector;
+  }
   async generateText(
     _provider: string,
     _modelId: string,
@@ -62,64 +68,15 @@ export class LLMService {
 }
 
 export class QuotaService {
-  protected configState: QuotaConfig = { providers: {}, dailyBudgetUsd: 5, monthlyBudgetUsd: 100, providerLimits: {} };
+  protected configState: QuotaConfig = {
+    providers: {},
+    dailyBudgetUsd: 5,
+    monthlyBudgetUsd: 100,
+    providerLimits: {},
+  };
   setConfig(config: QuotaConfig) { Object.assign(this.configState, config); }
   getConfig(): QuotaConfig { return this.configState; }
-  markAuthRevoked(_provider: string): void {}
+  markAuthRevoked(_provider: string, _reason?: string): void {}
 }
 
 export const DEFAULT_OPENROUTER_FREE_MODEL = 'google/gemma-3-27b-it:free';
-
-// ── Additional stubs that @borg/core references ────────────────────────────
-
-export class SearchService {
-  async search(_query: string, _opts?: any): Promise<any[]> { return []; }
-}
-
-export interface SearchResult {
-  title: string;
-  url: string;
-  snippet: string;
-  score?: number;
-}
-
-export class InputTools {
-  async process(_input: string): Promise<any> { return {}; }
-}
-
-export class SystemStatusTool {
-  async getStatus(): Promise<any> { return { status: 'stub' }; }
-}
-
-export class ProcessRegistry {
-  list(): any[] { return []; }
-  get(_name: string): any { return null; }
-}
-
-export class ChainExecutor {
-  async executeChain(_req: any): Promise<any> { return { result: '[ChainExecutor stub]' }; }
-}
-
-export class ChainRequest {
-  tools?: string[];
-  input?: string;
-  [key: string]: any;
-}
-
-export class TerminalService {
-  async execute(_cmd: string): Promise<any> { return { output: '', exitCode: 0 }; }
-}
-
-export class BrowserTool {
-  async browse(_url: string): Promise<any> { return { content: '[BrowserTool stub]' }; }
-}
-
-export class McpServerRegistry {
-  list(): any[] { return []; }
-  get(_name: string): any { return null; }
-}
-
-export class IMCPServer {
-  async callTool(_name: string, _args: any): Promise<any> { return null; }
-  listTools(): any[] { return []; }
-}
