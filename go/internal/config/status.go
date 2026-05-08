@@ -35,6 +35,8 @@ func Snapshot(cfg Config) Status {
 		WorkspaceRoot:        buildPathStatus(cfg.WorkspaceRoot),
 		ConfigDir:            buildPathStatus(cfg.ConfigDir),
 		MainConfigDir:        buildPathStatus(cfg.MainConfigDir),
+		BorgConfigFile:       buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "borg.config.json")),
+		BorgConfigFile:       buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "borg.config.json")),
 		MCPConfigFile:        buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "mcp.jsonc")),
 		GoLockPath:           buildPathStatus(cfg.LockPath()),
 		MainLockPath:         buildPathStatus(cfg.MainLockPath()),

@@ -55,6 +55,15 @@ import (
 	"github.com/borghq/borg-go/internal/toolregistry"
 	"github.com/borghq/borg-go/internal/workspaces"
 	"github.com/google/uuid"
+	"github.com/borghq/borg-go/internal/buildinfo"
+	"github.com/borghq/borg-go/internal/config"
+	"github.com/borghq/borg-go/internal/controlplane"
+	"github.com/borghq/borg-go/internal/harnesses"
+	"github.com/borghq/borg-go/internal/interop"
+	"github.com/borghq/borg-go/internal/memorystore"
+	"github.com/borghq/borg-go/internal/mesh"
+	"github.com/borghq/borg-go/internal/providers"
+	"github.com/borghq/borg-go/internal/sessionimport"
 	_ "modernc.org/sqlite"
 )
 

@@ -368,11 +368,24 @@ func extractLinkHref(input, pattern string) string {
 }
 
 func extractVisibleText(input string) string {
+	// Strip standard non-visible blocks
 	withoutScripts := regexp.MustCompile(`(?is)<script[^>]*>.*?</script>`).ReplaceAllString(input, " ")
 	withoutStyles := regexp.MustCompile(`(?is)<style[^>]*>.*?</style>`).ReplaceAllString(withoutScripts, " ")
 	withoutNoscript := regexp.MustCompile(`(?is)<noscript[^>]*>.*?</noscript>`).ReplaceAllString(withoutStyles, " ")
-	withoutTags := regexp.MustCompile(`(?is)<[^>]+>`).ReplaceAllString(withoutNoscript, " ")
-	return decodeHTMLWhitespace(withoutTags)
+
+	// Phase 1 Fit Markdown: aggressively remove boilerplate nav/header/footer/sidebar elements
+	withoutNav := regexp.MustCompile(`(?is)<nav[^>]*>.*?</nav>`).ReplaceAllString(withoutNoscript, " ")
+	withoutHeader := regexp.MustCompile(`(?is)<header[^>]*>.*?</header>`).ReplaceAllString(withoutNav, " ")
+	withoutFooter := regexp.MustCompile(`(?is)<footer[^>]*>.*?</footer>`).ReplaceAllString(withoutHeader, " ")
+	withoutAside := regexp.MustCompile(`(?is)<aside[^>]*>.*?</aside>`).ReplaceAllString(withoutFooter, " ")
+
+	// Strip all remaining HTML tags
+	withoutTags := regexp.MustCompile(`(?is)<[^>]+>`).ReplaceAllString(withoutAside, " ")
+
+	// Clean up massive whitespace blocks resulting from tag stripping
+	collapsedSpaces := regexp.MustCompile(`\s+`).ReplaceAllString(withoutTags, " ")
+
+	return decodeHTMLWhitespace(collapsedSpaces)
 }
 
 func decodeHTMLWhitespace(input string) string {

@@ -5083,9 +5083,3 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 - Assimalated Maestro logic (`AgentDiscovery`, `ContextGroomer`, `DirectorNotes`) natively into `@borg/core`.
 - Updated `TODO.md` to check off A2A protocol implementation, dashboard verifications, and multi-model chatroom progress.
 - **Broader Harness Catalog Alignment**: Expanded the TypeScript supervisor catalog, council CLI registry, compiled CLI harness list, and Go sidecar harness registry so borg now tracks `borg`, `aider`, `cursor`, `copilot`, `qwen`, `superai-cli`, `codebuff`, `codemachine`, and `factory-droid` more consistently across session catalog and `/api/cli/harnesses` surfaces, while keeping non-borg parity claims explicitly limited to install/runtime metadata.
-
-## [v1.0.0-alpha.36] - 2026-03-07
-
-### Added
-- **Phase 1 Quality Gates:** Implemented a Garbage Filter in `internal/sync/bobbybookmarks.go` that intercepts and skips incoming entries containing known slop patterns (e.g., "Automated Discovery", "Heuristic Mapping") prior to SQLite insertion.
-- **Flight Recorder Telemetry:** Created `internal/flightrecorder/recorder.go` to provide structured JSON logging (model, provider, confidence, timestamp) for extraction runs, satisfying the requirement to combat "Comprehension Debt".

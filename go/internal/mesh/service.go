@@ -12,6 +12,8 @@ import (
 
 	"github.com/borghq/borg-go/internal/config"
 	"github.com/borghq/borg-go/internal/interop"
+	"github.com/borghq/borg-go/internal/config"
+	"github.com/borghq/borg-go/internal/interop"
 )
 
 var (
