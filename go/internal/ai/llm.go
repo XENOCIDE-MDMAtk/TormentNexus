@@ -390,6 +390,7 @@ var ProviderPriority = []struct {
 	Factory      func(apiKey string) Provider
 }{
 	{"ANTHROPIC_API_KEY", "anthropic", "claude-sonnet-4-20250514", func(k string) Provider { return &AnthropicProvider{APIKey: k} }},
+	{"GOOGLE_AI_STUDIO_API_KEY", "google-ai-studio", "gemini-2.5-flash", func(k string) Provider { return &GeminiProvider{APIKey: k} }},
 	{"GOOGLE_API_KEY", "google", "gemini-2.5-flash", func(k string) Provider { return &GeminiProvider{APIKey: k} }},
 	{"GEMINI_API_KEY", "google", "gemini-2.5-flash", func(k string) Provider { return &GeminiProvider{APIKey: k} }},
 	{"OPENAI_API_KEY", "openai", "gpt-4o", func(k string) Provider { return &OpenAIProvider{APIKey: k} }},

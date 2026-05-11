@@ -12,8 +12,8 @@ import (
 )
 
 type VectorStore struct {
-	db *sql.DB
-	mu sync.RWMutex
+	db                *sql.DB
+	mu                sync.RWMutex
 	stmtUpsertTool    *sql.Stmt
 	stmtUpsertEmbed   *sql.Stmt
 	stmtGetEmbed      *sql.Stmt
@@ -45,21 +45,33 @@ func Open(path string) (*VectorStore, error) {
 func (vs *VectorStore) prepare() error {
 	var err error
 	vs.stmtUpsertTool, err = vs.db.Prepare(`INSERT INTO tools (id, server_name, tool_name, description, schema_json, category, tags, source, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET description=excluded.description, schema_json=excluded.schema_json, category=excluded.category, tags=excluded.tags, version=excluded.version, updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')`)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	vs.stmtUpsertEmbed, err = vs.db.Prepare(`INSERT INTO tool_embeddings (tool_id, model_name, dimension, vector, content_src) VALUES (?, ?, ?, ?, ?) ON CONFLICT(tool_id, model_name) DO UPDATE SET vector=excluded.vector, dimension=excluded.dimension`)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	vs.stmtGetEmbed, err = vs.db.Prepare(`SELECT vector, dimension FROM tool_embeddings WHERE tool_id = ? AND model_name = ?`)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	vs.stmtAllEmbeddings, err = vs.db.Prepare(`SELECT e.tool_id, e.vector, e.dimension, t.server_name, t.tool_name, t.description, t.schema_json, t.category, t.tags, t.source, t.version FROM tool_embeddings e JOIN tools t ON t.id = e.tool_id WHERE e.model_name = ?`)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	vs.stmtRecordUsage, err = vs.db.Prepare(`INSERT INTO tool_usage (tool_id, select_count, success_rate, last_used_at) VALUES (?, 1, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now')) ON CONFLICT(tool_id) DO UPDATE SET select_count = select_count + 1, success_rate = (success_rate * (select_count - 1) + excluded.success_rate) / select_count, last_used_at = strftime('%Y-%m-%dT%H:%M:%fZ','now')`)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func (vs *VectorStore) Close() error {
 	for _, s := range []*sql.Stmt{vs.stmtUpsertTool, vs.stmtUpsertEmbed, vs.stmtGetEmbed, vs.stmtAllEmbeddings, vs.stmtRecordUsage} {
-		if s != nil { s.Close() }
+		if s != nil {
+			s.Close()
+		}
 	}
 	return vs.db.Close()
 }
@@ -77,8 +89,12 @@ func (vs *VectorStore) GetTool(id string) (*ToolRecord, error) {
 	var t ToolRecord
 	var cAt, uAt string
 	err := vs.db.QueryRow(`SELECT id, server_name, tool_name, description, schema_json, category, tags, source, version, created_at, updated_at FROM tools WHERE id = ?`, id).Scan(&t.ID, &t.ServerName, &t.ToolName, &t.Description, &t.SchemaJSON, &t.Category, &t.Tags, &t.Source, &t.Version, &cAt, &uAt)
-	if err == sql.ErrNoRows { return nil, nil }
-	if err != nil { return nil, err }
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
 	t.CreatedAt, _ = time.Parse(time.RFC3339, cAt)
 	t.UpdatedAt, _ = time.Parse(time.RFC3339, uAt)
 	return &t, nil
@@ -111,8 +127,12 @@ func (vs *VectorStore) GetEmbedding(toolID, modelName string) ([]float32, error)
 	var blob []byte
 	var dim int
 	err := vs.stmtGetEmbed.QueryRow(toolID, modelName).Scan(&blob, &dim)
-	if err == sql.ErrNoRows { return nil, nil }
-	if err != nil { return nil, err }
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
 	return decodeVec(blob, dim), nil
 }
 
@@ -120,9 +140,13 @@ func (vs *VectorStore) Search(q SearchQuery) ([]SearchResult, error) {
 	vs.mu.RLock()
 	defer vs.mu.RUnlock()
 	topK := q.TopK
-	if topK <= 0 { topK = 10 }
+	if topK <= 0 {
+		topK = 10
+	}
 	minScore := q.MinScore
-	if minScore <= 0 { minScore = 0.3 }
+	if minScore <= 0 {
+		minScore = 0.3
+	}
 	if len(q.QueryVec) > 0 {
 		return vs.semanticSearch(q.QueryVec, q.Categories, topK, minScore)
 	}
@@ -131,7 +155,9 @@ func (vs *VectorStore) Search(q SearchQuery) ([]SearchResult, error) {
 
 func (vs *VectorStore) semanticSearch(queryVec []float32, categories []string, topK int, minScore float64) ([]SearchResult, error) {
 	rows, err := vs.stmtAllEmbeddings.Query("all-MiniLM-L6-v2")
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	defer rows.Close()
 	type scored struct {
 		tool    ToolRecord
@@ -151,9 +177,14 @@ func (vs *VectorStore) semanticSearch(queryVec []float32, categories []string, t
 		if len(categories) > 0 {
 			found := false
 			for _, c := range categories {
-				if strings.EqualFold(t.Category, c) { found = true; break }
+				if strings.EqualFold(t.Category, c) {
+					found = true
+					break
+				}
 			}
-			if !found { continue }
+			if !found {
+				continue
+			}
 		}
 		vec := decodeVec(blob, dim)
 		sc := cosineSim(queryVec, vec)
@@ -164,14 +195,18 @@ func (vs *VectorStore) semanticSearch(queryVec []float32, categories []string, t
 	sort.Slice(results, func(i, j int) bool { return results[i].score > results[j].score })
 	// Usage boost
 	ids := make([]string, 0, len(results))
-	for i := range results { ids = append(ids, results[i].tool.ID) }
+	for i := range results {
+		ids = append(ids, results[i].tool.ID)
+	}
 	usage := vs.loadUsage(ids)
 	for i := range results {
 		if u, ok := usage[results[i].tool.ID]; ok && u > 0 {
 			results[i].boosted = true
 		}
 	}
-	if len(results) > topK { results = results[:topK] }
+	if len(results) > topK {
+		results = results[:topK]
+	}
 	out := make([]SearchResult, len(results))
 	for i, r := range results {
 		out[i] = SearchResult{Tool: r.tool, Score: r.score, Rank: i + 1, Boosted: r.boosted}
@@ -185,19 +220,26 @@ func (vs *VectorStore) keywordSearch(query string, categories []string, topK int
 	catClause := ""
 	if len(categories) > 0 {
 		ph := make([]string, len(categories))
-		for i, c := range categories { ph[i] = "?"; args = append(args, c) }
+		for i, c := range categories {
+			ph[i] = "?"
+			args = append(args, c)
+		}
 		catClause = " AND category IN (" + strings.Join(ph, ",") + ")"
 	}
 	args = append(args, topK)
 	rows, err := vs.db.Query("SELECT id, server_name, tool_name, description, schema_json, category, tags, source, version FROM tools WHERE (LOWER(description) LIKE ? OR LOWER(tool_name) LIKE ?)"+catClause+" ORDER BY updated_at DESC LIMIT ?", args...)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	defer rows.Close()
 	var out []SearchResult
 	rank := 0
 	for rows.Next() {
 		rank++
 		var t ToolRecord
-		if rows.Scan(&t.ID, &t.ServerName, &t.ToolName, &t.Description, &t.SchemaJSON, &t.Category, &t.Tags, &t.Source, &t.Version) != nil { continue }
+		if rows.Scan(&t.ID, &t.ServerName, &t.ToolName, &t.Description, &t.SchemaJSON, &t.Category, &t.Tags, &t.Source, &t.Version) != nil {
+			continue
+		}
 		out = append(out, SearchResult{Tool: t, Score: 1.0 / float64(rank), Rank: rank})
 	}
 	return out, nil
@@ -207,25 +249,36 @@ func (vs *VectorStore) RecordUsage(toolID string, success bool) error {
 	vs.mu.Lock()
 	defer vs.mu.Unlock()
 	sr := 0.0
-	if success { sr = 1.0 }
+	if success {
+		sr = 1.0
+	}
 	_, err := vs.stmtRecordUsage.Exec(toolID, sr)
 	return err
 }
 
 func (vs *VectorStore) loadUsage(toolIDs []string) map[string]int {
-	if len(toolIDs) == 0 { return nil }
+	if len(toolIDs) == 0 {
+		return nil
+	}
 	ph := make([]string, len(toolIDs))
 	args := make([]interface{}, len(toolIDs))
-	for i, id := range toolIDs { ph[i] = "?"; args[i] = id }
+	for i, id := range toolIDs {
+		ph[i] = "?"
+		args[i] = id
+	}
 	q := "SELECT tool_id, select_count FROM tool_usage WHERE tool_id IN (" + strings.Join(ph, ",") + ")"
 	rows, err := vs.db.Query(q, args...)
-	if err != nil { return nil }
+	if err != nil {
+		return nil
+	}
 	defer rows.Close()
 	m := make(map[string]int)
 	for rows.Next() {
 		var id string
 		var c int
-		if rows.Scan(&id, &c) == nil { m[id] = c }
+		if rows.Scan(&id, &c) == nil {
+			m[id] = c
+		}
 	}
 	return m
 }

@@ -54,7 +54,7 @@ func (a *Aggregator) ListTools(ctx context.Context) ([]ToolEntry, error) {
 			if err != nil {
 				continue
 			}
-			
+
 			var listResult struct {
 				Tools []struct {
 					Name        string      `json:"name"`
@@ -62,17 +62,17 @@ func (a *Aggregator) ListTools(ctx context.Context) ([]ToolEntry, error) {
 					InputSchema interface{} `json:"inputSchema"`
 				} `json:"tools"`
 			}
-			
+
 			if err := json.Unmarshal(resultBytes, &listResult); err == nil {
 				for _, t := range listResult.Tools {
 					allTools = append(allTools, ToolEntry{
-						Name:               fmt.Sprintf("%s__%s", name, t.Name),
-						OriginalName:       t.Name,
-						Description:        t.Description,
-						Server:             name,
-						ServerDisplayName:  name,
-						AdvertisedName:     fmt.Sprintf("%s__%s", name, t.Name),
-						InputSchema:        t.InputSchema,
+						Name:              fmt.Sprintf("%s__%s", name, t.Name),
+						OriginalName:      t.Name,
+						Description:       t.Description,
+						Server:            name,
+						ServerDisplayName: name,
+						AdvertisedName:    fmt.Sprintf("%s__%s", name, t.Name),
+						InputSchema:       t.InputSchema,
 					})
 				}
 			}

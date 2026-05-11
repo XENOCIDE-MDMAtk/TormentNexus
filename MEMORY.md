@@ -221,3 +221,76 @@
 **Implication**: The Go sidecar now maintains its own live semantic index of the project, further reducing its dependency on the TypeScript control plane.
 
 *Update this file whenever a major systemic pattern, recurring bug, or deep architectural quirk is discovered.*
+
+### 9. tRPC Type Recursion Limit (Discovered 2026-04-29)
+**Observation**: The appRouter has 67+ procedures. When `@trpc/react-query` tries to infer `AppRouter` types for the React client, TypeScript hits its internal type recursion depth limit and collapses to error strings like `"The property 'useContext' in your router collides with a built-in method"`.
+**Resolution**: Use `createTRPCReact<any>()` instead of `createTRPCReact<AppRouter>()`. Type safety comes from the server-side router definition. A dynamic `require('@trpc/react-query')` is needed because pnpm strict isolation means `@trpc/react-query` isn't accessible from `packages/ui/node_modules`.
+
+### 10. Turbo v2 Requires `extends` in All Package turbo.json (Discovered 2026-04-29)
+**Observation**: Turbo v2.8.x requires `"extends": ["//"]` in every non-root `turbo.json`. Without it, the build fails with "add extends key here".
+**Resolution**: Add `"extends": ["//"]` to all package-level turbo.json files.
+
+### 11. Duplicate VS Code Extension Package (Discovered 2026-04-29)
+**Observation**: `apps/vscode` and `packages/vscode` had the same package name (`borg-vscode-extension`), causing Turbo workspace collision.
+**Resolution**: Removed `packages/vscode` (stale, alpha.34). `apps/vscode` is canonical (alpha.36+).
+
+### 12. CLI Version Read Path (Discovered 2026-04-29)
+**Observation**: The CLI `getVersion()` tried to read `VERSION.md` from `../../../..VERSION.md` relative to `__dirname` in compiled output. The compiled output is at `packages/cli/dist/cli/src/index.js`, so the path resolved to `packages/cli/VERSION` (wrong).
+**Resolution**: Changed to `../../../../../VERSION` (5 levels up) and filename to `VERSION` (not `VERSION.md`).
+
+### 13. @borg/* Stub Package Architecture (Discovered 2026-04-29)
+**Observation**: The core package imports from 8 `@borg/*` packages that don't have real implementations. TypeScript compilation and Node runtime both fail without them.
+**Resolution**: Created stub packages in `packages/` with three layers:
+  - `src/index.ts` — TS type stubs (for `tsc --noEmit` via `exports.types` condition)
+  - `dist/index.js` — ESM runtime stubs (for Node via `exports.import` condition)
+  - `dist/index.d.ts` — Type declarations (fallback resolution)
+  Key insight: `@borg/types` must export real zod schemas (tRPC `.input()` calls `'~standard' in schema`). `@borg/ai` must export real classes for `extends` (NormalizedQuotaService extends QuotaService). All others can be `undefined` stubs.
+  The `exports` field in package.json must have both `import` and `types` conditions pointing to the correct files. Without `exports`, tsc resolves incorrectly (230 errors).
+**Implication**: As real implementations are built, each stub can be replaced incrementally. The zod schemas in `@borg/types` are already functional and used by tRPC routers.
+
+### 14. Dashboard Utility Stubs Must Match Usage Patterns (Discovered 2026-04-29)
+**Observation**: Auto-generated stubs returning `(() => ({})) as any` crash Next.js build when pages call `.map()` on the result or access properties like `.topTools`.
+**Resolution**: Utility functions must return the correct base type: arrays for anything used with `.map()`, objects for property access, strings for display, numbers for timestamps. The heuristic: function names containing "rows/records/sections/items/list/groups" → `[]`, "label/title/hint/message" → `''`, everything else → `{}`.
+**Implication**: When replacing stubs with real implementations, the return type contracts are already implicitly defined by page usage.
+
+### 15. Next.js useSearchParams Requires Suspense Boundary (Discovered 2026-04-29)
+**Observation**: Pages using `useSearchParams()` from `next/navigation` fail during static prerendering with "useSearchParams() should be wrapped in a suspense boundary".
+**Resolution**: Wrap the default export in a `<Suspense>` boundary. Pattern: `export default function PageWrapper() { return <Suspense fallback={...}><Page /></Suspense>; }` then rename the original to `function Page()`.
+
+### 16. tRPC Service Dependency Chain (Discovered 2026-04-29)
+**Observation**: 8 tRPC routers crash with `Cannot read properties of undefined` when MCP services aren't initialized. Root cause: `getMcpServer()` returns `{}` when server isn't ready, then getters like `getSuggestionService()` return `undefined`, and calling methods on `undefined` crashes.
+**Resolution**: Wrap service calls in try/catch with safe defaults: `try { return getService()?.method() ?? []; } catch { return []; }`
+**Implication**: When running with `--no-mcp`, all routers should return empty/safe defaults instead of 500 errors.
+
+### 17. Server Startup Takes ~45 Seconds (Discovered 2026-04-29)
+**Observation**: `borg start --no-mcp` takes ~45 seconds to fully bind port 4000. The MCPServer imports 53+ phases before Express starts listening.
+**Implication**: CLI health checks and tests must wait at least 50 seconds before testing endpoints. The `borg status` command uses `AbortSignal.timeout(3000)` which may not be enough during startup.
+
+### 18. Commander.js Global --json Doesn't Merge to Subcommands (Discovered 2026-04-29)
+**Observation**: When `--json` is registered as a global option on the program AND as a subcommand option, the subcommand `opts` object is empty `{}`. The global option consumes the flag.
+**Resolution**: Use `cmd.optsWithGlobals()` in the action handler: `async (opts, cmd) => { const allOpts = cmd ? cmd.optsWithGlobals() : opts; const isJson = allOpts.json === true; }`
+
+### 19. Turbopack Cache Corruption (Discovered 2026-04-29)
+**Observation**: Next.js 16 Turbopack crashes with `range start index 1607525553 out of range for slice of length 468465` in static_sorted_file.rs. The `.next/` cache gets corrupted.
+**Resolution**: Delete `apps/web/.next/` and rebuild. Set `turbopack.root` in `next.config.js` to the monorepo root.
+**Implication**: If the dashboard fails to start, first try clearing `.next/`.
+
+### 20. Dashboard tRPC Proxy Port Mismatch (Discovered 2026-04-30)
+**Observation**: The Next.js dashboard's tRPC API route (`apps/web/src/app/api/trpc/[trpc]/route.ts`) defaulted to `http://127.0.0.1:3001/trpc` (MCP WebSocket port) instead of `http://127.0.0.1:4000/trpc` (tRPC server). All dashboard data queries returned 502 errors.
+**Resolution**: Changed `DEFAULT_UPSTREAM_TRPC_URL` from port 3001 to 4000. Can also be overridden via `BORG_TRPC_UPSTREAM` env var.
+**Implication**: This was the root cause of empty dashboard data. The proxy is the only way the dashboard reaches the TS server.
+
+### 21. Lightweight MCP Init Without Full Discovery (Discovered 2026-04-30)
+**Observation**: When `--no-mcp` is used, `global.mcpServerInstance` is never set, causing ALL tRPC routers to return empty objects from `getMcpServer()`. Session supervisor, memory manager, and other services are unavailable.
+**Resolution**: Added a lightweight init path that creates MCPServer with `skipAutoDrive: true, skipStdio: true` and sets `global.mcpServerInstance`. This gives routers their dependencies without the 45-second discovery phase.
+**Implication**: Next server restart with `--no-mcp` will have functional tRPC routers (sessions, memory, agents) even without MCP tool discovery.
+
+### 22. MCP Inventory Known When Persisted Data Exists (Discovered 2026-04-30)
+**Observation**: `startupStatus` showed `inventoryReady: false` even though the database had 135 persisted servers and 1302 tools. The `inventoryKnown` check required `aggregatorStatus.initialized` which is only set during full MCP startup.
+**Resolution**: Added `|| persistedServerCount > 0` to the `inventoryKnown` condition in `startupStatus.ts`.
+**Implication**: `borg health` will now correctly report inventory as ready when data exists in the database.
+
+### 23. CLI Provider Auto-Detection (Discovered 2026-04-30)
+**Observation**: 8 API keys were available in environment variables (OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, GEMINI_API_KEY, XAI_API_KEY, DEEPSEEK_API_KEY, MISTRAL_API_KEY, OPENROUTER_API_KEY) but `borg provider list` showed "No providers configured".
+**Resolution**: Added environment variable scanning as fallback when no providers are explicitly configured. Shows provider name, "● Available" status, and the env var source.
+**Implication**: Users see their available providers immediately without explicit configuration.

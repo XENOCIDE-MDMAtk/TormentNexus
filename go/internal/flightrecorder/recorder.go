@@ -23,13 +23,16 @@ type Receipt struct {
 type Recorder struct {
 	mu      sync.Mutex
 	logPath string
+	initErr error
 }
 
 func NewRecorder(workspaceRoot string) *Recorder {
 	dir := filepath.Join(workspaceRoot, ".borg", "flight_records")
-	os.MkdirAll(dir, 0755)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return &Recorder{initErr: err}
+	}
 
-	filename := fmt.Sprintf("session_%d.jsonl", time.Now().Unix())
+	filename := fmt.Sprintf("session_%d_%d.jsonl", time.Now().UnixNano(), os.Getpid())
 	return &Recorder{
 		logPath: filepath.Join(dir, filename),
 	}
@@ -38,6 +41,9 @@ func NewRecorder(workspaceRoot string) *Recorder {
 func (r *Recorder) Record(receipt Receipt) error {
 	if r == nil {
 		return nil
+	}
+	if r.initErr != nil {
+		return r.initErr
 	}
 
 	r.mu.Lock()

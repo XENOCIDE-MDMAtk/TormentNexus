@@ -3,6 +3,8 @@ package httpapi
 import (
 	"context"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/borghq/borg-go/internal/config"
@@ -53,8 +55,8 @@ func (s *Server) buildStartupStatus(ctx context.Context) (StartupStatus, error) 
 		return StartupStatus{}, err
 	}
 
-	upstreamReady, upstreamBase := s.checkUpstreamProcedure(ctx, "health", nil)
-	supervisorReady, supervisorBase := s.checkUpstreamProcedure(ctx, "session.catalog", nil)
+	upstreamReady, upstreamBase := s.checkUpstreamProcedure(ctx, "startupStatus", nil)
+	supervisorReady, supervisorBase := s.checkUpstreamProcedure(ctx, "session.list", nil)
 	importedStats := s.importedSessionMaintenanceStats(ctx)
 
 	blockingReasons := make([]StartupBlockingReason, 0, 4)
@@ -152,6 +154,9 @@ func (s *Server) importedSessionMaintenanceStats(ctx context.Context) ImportedSe
 	if archivedRecords, err := s.loadArchivedImportedSessionRecords(); err == nil && len(archivedRecords) > 0 {
 		return archivedImportedSessionMaintenanceStats(archivedRecords)
 	}
+
+	// Ensure .borg/imported_sessions exists
+	_ = os.MkdirAll(filepath.Join(s.cfg.WorkspaceRoot, ".borg", "imported_sessions"), 0755)
 
 	candidates, err := s.scanValidatedImportSources()
 	if err != nil {

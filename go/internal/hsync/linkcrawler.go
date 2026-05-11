@@ -68,6 +68,8 @@ func CrawlPendingLinks(ctx context.Context, dbPath string, opts LinkCrawlerOptio
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
+	db.Exec("PRAGMA journal_mode=WAL")
+	db.Exec("PRAGMA busy_timeout=5000")
 	defer db.Close()
 
 	links, err := selectPendingLinks(ctx, db, limit)

@@ -104,3 +104,45 @@ func (s *SkillStore) GetSkill(id string) (*Skill, error) {
 		Path:        filePath,
 	}, nil
 }
+
+func (s *SkillStore) ListLoadedSkills() []string {
+	// For now, in Go, "loaded" just means "exists"
+	ids, _ := s.ListSkills()
+	return ids
+}
+
+func (s *SkillStore) LoadSkill(id string) error {
+	// For now, in Go, loading is a no-op if it exists
+	_, err := s.GetSkill(id)
+	return err
+}
+
+func (s *SkillStore) UnloadSkill(id string) bool {
+	// For now, in Go, we don't actually "unload" from memory
+	return true
+}
+
+func (s *SkillStore) SearchSkills(query string) ([]Skill, error) {
+	ids, err := s.ListSkills()
+	if err != nil {
+		return nil, err
+	}
+
+	var results []Skill
+	query = strings.ToLower(query)
+
+	for _, id := range ids {
+		skill, err := s.GetSkill(id)
+		if err != nil {
+			continue
+		}
+
+		if strings.Contains(strings.ToLower(skill.Name), query) ||
+			strings.Contains(strings.ToLower(skill.Description), query) ||
+			strings.Contains(strings.ToLower(skill.Content), query) {
+			results = append(results, *skill)
+		}
+	}
+
+	return results, nil
+}

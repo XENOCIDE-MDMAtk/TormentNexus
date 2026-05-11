@@ -1,9 +1,14 @@
 package httpapi
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 	"strings"
+	"time"
+
+	"github.com/borghq/borg-go/internal/mcp"
 )
 
 func (s *Server) handleMCPStatus(w http.ResponseWriter, r *http.Request) {
@@ -159,7 +164,8 @@ func (s *Server) handleMCPSearchTools(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		bridge := map[string]any{
-			"fallback":  "go-local-mcp",
+			"fallback": "go-local-mcp",
+
 			"procedure": "mcp.searchTools",
 			"reason":    "upstream unavailable; local MCP inventory cache is empty",
 		}
@@ -180,14 +186,16 @@ func (s *Server) handleMCPSearchTools(w http.ResponseWriter, r *http.Request) {
 		"bridge": map[string]any{
 			"fallback":  "go-local-mcp",
 			"procedure": "mcp.searchTools",
-			"reason":    "upstream unavailable; using local MCP tool search results",
+			"reason":    "upstream unavailable; using local MCP inventory cache",
 		},
 	})
 }
 
 func (s *Server) handleMCPRuntimeServers(w http.ResponseWriter, r *http.Request) {
 	var result any
-	upstreamBase, err := s.callUpstreamJSON(r.Context(), "mcp.listServers", nil, &result)
+	ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+	defer cancel()
+	upstreamBase, err := s.callUpstreamJSON(ctx, "mcp.listServers", nil, &result)
 	if err == nil {
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
@@ -287,5 +295,110 @@ func (s *Server) handleMCPPredictTools(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusServiceUnavailable, map[string]any{
 		"success": false,
 		"error":   err.Error(),
+	})
+}
+
+func (s *Server) handleMCPSync(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]any{"success": false, "error": "method not allowed"})
+		return
+	}
+
+	homeDir, _ := os.UserHomeDir()
+	cwd, _ := os.Getwd()
+	appData := os.Getenv("APPDATA")
+
+	targets := mcp.ResolveClientTargets(homeDir, appData, cwd)
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"success": true,
+		"data": map[string]any{
+			"targets": targets,
+		},
+	})
+}
+
+// handleMCPServersList returns a combined view of runtime + configured servers.
+func (s *Server) handleMCPServersList(w http.ResponseWriter, r *http.Request) {
+	var result any
+	ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+	defer cancel()
+	upstreamBase, err := s.callUpstreamJSON(ctx, "mcp.listServers", nil, &result)
+	if err == nil {
+		writeJSON(w, http.StatusOK, map[string]any{
+			"success": true,
+			"data":    result,
+			"bridge": map[string]any{
+				"upstreamBase": upstreamBase,
+				"procedure":    "mcp.listServers",
+			},
+		})
+		return
+	}
+
+	view, _ := s.localMCPInventoryView()
+	_, cliSummary, _ := s.localMCPSummary(r.Context())
+
+	type serverEntry struct {
+		Name      string `json:"name"`
+		Status    string `json:"status"`
+		ToolCount int    `json:"toolCount"`
+	}
+
+	var servers []serverEntry
+	seen := make(map[string]bool)
+
+	if view != nil {
+		for name, srv := range view.PersistedOverlayRecords {
+			if seen[name] {
+				continue
+			}
+			seen[name] = true
+			status := "configured"
+			if srv.RuntimeConnected {
+				status = "connected"
+			}
+			servers = append(servers, serverEntry{
+				Name:      srv.Name,
+				Status:    status,
+				ToolCount: srv.ToolCount,
+			})
+		}
+		for name, srv := range view.LiveOverlayRecords {
+			if seen[name] {
+				continue
+			}
+			seen[name] = true
+			status := "configured"
+			if srv.RuntimeConnected {
+				status = "connected"
+			}
+			servers = append(servers, serverEntry{
+				Name:      srv.Name,
+				Status:    status,
+				ToolCount: srv.ToolCount,
+			})
+		}
+	}
+
+	for _, h := range cliSummary.InstalledHarnesses {
+		if seen[h.ID] {
+			continue
+		}
+		seen[h.ID] = true
+		servers = append(servers, serverEntry{
+			Name:   h.ID,
+			Status: "available",
+		})
+	}
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"success": true,
+		"data":    servers,
+		"bridge": map[string]any{
+			"fallback":  "go-local-mcp",
+			"procedure": "mcp.listServers",
+			"reason":    "upstream unavailable; using local MCP inventory",
+		},
 	})
 }

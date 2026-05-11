@@ -17,9 +17,13 @@ func NewToolRouter(store *VectorStore) *ToolRouter {
 }
 
 func (r *ToolRouter) RouteForPrompt(queryText string, queryVec []float32, topK int) ([]llm.ToolSchema, []SearchResult, error) {
-	if topK <= 0 { topK = 10 }
+	if topK <= 0 {
+		topK = 10
+	}
 	results, err := r.store.Search(SearchQuery{QueryText: queryText, QueryVec: queryVec, TopK: topK, MinScore: 0.3})
-	if err != nil { return nil, nil, fmt.Errorf("search: %w", err) }
+	if err != nil {
+		return nil, nil, fmt.Errorf("search: %w", err)
+	}
 	schemas := make([]llm.ToolSchema, 0, len(results))
 	for _, res := range results {
 		var params map[string]interface{}
@@ -39,19 +43,27 @@ func (r *ToolRouter) SelectTool(toolName string, candidates []SearchResult) (*To
 		}
 	}
 	tool, err := r.store.GetTool(toolName)
-	if err != nil || tool == nil { return nil, fmt.Errorf("tool %q not found", toolName) }
+	if err != nil || tool == nil {
+		return nil, fmt.Errorf("tool %q not found", toolName)
+	}
 	return tool, nil
 }
 
 func (r *ToolRouter) FormatToolSummary(results []SearchResult) string {
-	if len(results) == 0 { return "No tools matched." }
+	if len(results) == 0 {
+		return "No tools matched."
+	}
 	var sb strings.Builder
 	sb.WriteString(fmt.Sprintf("Routed %d tools:\n", len(results)))
 	for _, res := range results {
 		boost := ""
-		if res.Boosted { boost = " [boosted]" }
+		if res.Boosted {
+			boost = " [boosted]"
+		}
 		desc := res.Tool.Description
-		if len(desc) > 80 { desc = desc[:77] + "..." }
+		if len(desc) > 80 {
+			desc = desc[:77] + "..."
+		}
 		sb.WriteString(fmt.Sprintf("  %d. %s/%s (score=%.3f%s) - %s\n", res.Rank, res.Tool.ServerName, res.Tool.ToolName, res.Score, boost, desc))
 	}
 	return sb.String()

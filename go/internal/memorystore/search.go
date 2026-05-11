@@ -39,6 +39,8 @@ func Search(workspaceRoot string, query string, limit int) ([]SearchResult, erro
 	if err != nil {
 		return nil, err
 	}
+	db.Exec("PRAGMA journal_mode=WAL")
+	db.Exec("PRAGMA busy_timeout=5000")
 	defer db.Close()
 
 	queryStr := fmt.Sprintf("%%%s%%", query)

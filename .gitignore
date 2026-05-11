@@ -231,3 +231,19 @@ docs/sessions/*.json
 audit-*.jsonl
 screenshot*.png
 .borg/skills/
+
+# Runtime data
+metamcp.db
+*.db-journal
+*.db-wal
+tmp_*.ts
+tmp_*.tsx
+tmp_*.js
+
+# Stale submodule checkout dirs
+borg/research/
+hyperingest/
+hypermcp/
+hypermem/
+hyperharness/
+jules-autopilot/

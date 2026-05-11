@@ -16,8 +16,12 @@ import (
 	"regexp"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 )
+
+// nextChunkSeq ensures unique chunk IDs even within the same millisecond.
+var nextChunkSeq atomic.Int64
 
 // ContextSource identifies the origin of a context chunk.
 type ContextSource string
@@ -165,7 +169,7 @@ func (ch *ContextHarvester) Harvest(source ContextSource, content string, metada
 	harvested := make([]*ContextChunk, 0, len(textChunks))
 	for _, text := range textChunks {
 		chunk := &ContextChunk{
-			ID:             fmt.Sprintf("ctx_%d_%s", time.Now().UnixMilli(), randomSuffix(6)),
+			ID:             fmt.Sprintf("ctx_%d_%d_%s", time.Now().UnixMilli(), nextChunkSeq.Add(1), randomSuffix(6)),
 			Source:         source,
 			Content:        text,
 			RelevanceScore: 1.0,
@@ -517,8 +521,6 @@ func randomSuffix(n int) string {
 	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
 	b := make([]byte, n)
 	for i := range b {
-		b[i] = chars[time.Now().UnixNano()%int64(len(chars))]
-		// Quick way to get some variety
 		b[i] = chars[(time.Now().UnixNano()+int64(i)*7)%int64(len(chars))]
 	}
 	return string(b)

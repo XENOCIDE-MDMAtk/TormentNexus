@@ -1069,6 +1069,44 @@ export const mcpRouter = t.router({
         }
     }),
 
+    /** Connect to a configured MCP server */
+    connectServer: adminProcedure.input(z.object({
+        name: z.string().min(1),
+    })).mutation(async ({ input }) => {
+        const aggregator = getMcpAggregator();
+        if (!aggregator) throw new Error('MCP Aggregator not initialized');
+
+        // Find server config from the JSONC config
+        const config = await loadBorgMcpConfig();
+        const serverConfig = config.mcpServers?.[input.name];
+        if (!serverConfig) {
+            throw new Error(`Server '${input.name}' not found in configuration. Use mcp.listServers to see available servers.`);
+        }
+
+        await (aggregator as any).connectToServer(input.name, {
+            command: serverConfig.command ?? 'npx',
+            args: serverConfig.args ?? [],
+            env: serverConfig.env ?? {},
+            enabled: true,
+        });
+        return { success: true, name: input.name };
+    }),
+
+    /** Disconnect a running MCP server */
+    disconnectServer: adminProcedure.input(z.object({
+        name: z.string().min(1),
+    })).mutation(async ({ input }) => {
+        const aggregator = getMcpAggregator();
+        if (!aggregator) throw new Error('MCP Aggregator not initialized');
+
+        const client = (aggregator as any).clients?.get(input.name);
+        if (client) {
+            await client.close();
+            (aggregator as any).clients?.delete(input.name);
+        }
+        return { success: true, name: input.name };
+    }),
+
     /** Add a new downstream MCP server */
     addServer: adminProcedure.input(z.object({
         name: z.string().min(1),

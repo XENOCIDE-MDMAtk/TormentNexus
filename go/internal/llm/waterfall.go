@@ -90,19 +90,6 @@ func NewWaterfallRouter(configs []TierConfig) *WaterfallRouter {
 	return &WaterfallRouter{providers: providers}
 }
 
-
-// classifyComplexity checks URL strings to determine model routing tier
-func classifyComplexity(content string) int {
-	lower := strings.ToLower(content)
-	if strings.Contains(lower, "reddit.com") || strings.Contains(lower, "ycombinator.com") || strings.Contains(lower, "twitter.com") {
-		return 1 // Low
-	}
-	if strings.Contains(lower, "github.com") || strings.Contains(lower, "gitlab.com") {
-		return 3 // High
-	}
-	return 2 // Medium
-}
-
 func (r *WaterfallRouter) Chat(ctx context.Context, req ChatRequest) (*ChatResponse, error) {
 	r.totalRequests.Add(1)
 	exclude := make(map[string]bool)

@@ -181,7 +181,7 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
     const advertisedServerCount = Math.max(persistedServerCount, configuredServerCount);
     const advertisedToolCount = Math.max(persistedToolCount, Number(configSyncStatus?.lastToolCount ?? 0));
     const advertisedAlwaysOnServerCount = persistedAlwaysOnServerCount;
-    const inventoryKnown = Boolean(configSyncStatus?.lastCompletedAt || aggregatorStatus?.initialized);
+    const inventoryKnown = Boolean(configSyncStatus?.lastCompletedAt || aggregatorStatus?.initialized || persistedServerCount > 0);
     const inventoryReady = inventoryKnown && (
         configuredServerCount === 0
         || persistedServerCount > 0

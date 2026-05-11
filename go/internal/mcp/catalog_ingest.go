@@ -142,7 +142,7 @@ func BuildBaselineRecipe(displayName, transport, installMethod, repositoryUrl st
 		"args":    []string{"-y", strings.ToLower(strings.ReplaceAll(displayName, " ", "-"))},
 		"env":     map[string]string{},
 	}
-	
+
 	confidence := 20
 	explanation := "Baseline Configurator fallback recipe generated from catalog metadata."
 
@@ -154,10 +154,10 @@ func BuildBaselineRecipe(displayName, transport, installMethod, repositoryUrl st
 // ---------------------------------------------------------------------------
 
 type GlamaServer struct {
-	ID          string   `json:"id"`
-	Slug        string   `json:"slug"`
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
+	ID          string `json:"id"`
+	Slug        string `json:"slug"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 	Repository  struct {
 		URL   string `json:"url"`
 		Owner string `json:"owner"`
@@ -189,8 +189,8 @@ func NewGlamaAiAdapter() *GlamaAiAdapter {
 
 func (a *GlamaAiAdapter) Ingest(ctx context.Context, db *sql.DB) (IngestResult, error) {
 	result := IngestResult{
-		Source:  a.name,
-		Errors:  []string{},
+		Source: a.name,
+		Errors: []string{},
 	}
 
 	client := &http.Client{Timeout: 15 * time.Second}
@@ -207,7 +207,7 @@ func (a *GlamaAiAdapter) Ingest(ctx context.Context, db *sql.DB) (IngestResult, 
 
 	for _, s := range payload.Servers {
 		canonicalId := a.buildCanonicalId(s)
-		
+
 		// Upsert logic here
 		// We'll need a shared repository or just execute the query
 		serverUuid, err := upsertPublishedCatalogServer(db, map[string]any{
@@ -273,7 +273,7 @@ func upsertPublishedCatalogServer(db *sql.DB, data map[string]any) (string, erro
 	// Check if already exists by canonical_id
 	var uuid string
 	err := db.QueryRow("SELECT uuid FROM published_mcp_servers WHERE canonical_id = ?", data["canonical_id"]).Scan(&uuid)
-	
+
 	now := time.Now().UTC().Format(time.RFC3339)
 
 	if err == sql.ErrNoRows {
@@ -304,7 +304,7 @@ func upsertPublishedCatalogServer(db *sql.DB, data map[string]any) (string, erro
 		data["repository_url"], data["homepage_url"], data["icon_url"], data["transport"],
 		data["install_method"], data["auth_model"], data["stars"], now, uuid,
 	)
-	
+
 	return uuid, err
 }
 

@@ -1,5 +1,3 @@
-// Borg MCP configuration
-// This file is Borg-owned and may include cached server metadata under mcpServers.<name>._meta.
 {
   "mcpServers": {
     "borg-supervisor": {
@@ -7,20 +5,9 @@
       "args": [
         "C:\\Users\\hyper\\workspace\\borg\\packages\\borg-supervisor\\dist\\index.js"
       ],
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-9818fd31769a868ea3a71cd1",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:06.464Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "NODE_ENV"
+      ]
     },
     "mcp-supermemory-ai": {
       "command": "npx",
@@ -29,17 +16,7 @@
         "mcp-remote@latest",
         "https://mcp.supermemory.ai/mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-381da3da80093da1392d1761",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:06.609Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "core": {
       "args": [],
@@ -62,17 +39,7 @@
         "-y",
         "@wonderwhy-er/desktop-commander@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-5440bf8721ea3ae550edebfa",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:06.965Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "filesystem-with-morph": {
       "command": "npx",
@@ -80,20 +47,9 @@
         "-y",
         "@morphllm/morphmcp@latest"
       ],
-      "env": {
-        "MORPH_API_KEY": "YOUR_MORPH_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-c3b22fe7992c6517be79f79b",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:07.110Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "MORPH_API_KEY"
+      ]
     },
     "ripgrep": {
       "command": "npx",
@@ -101,17 +57,7 @@
         "-y",
         "mcp-ripgrep@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-33165223a0a3c347557831c7",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:07.254Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "deepcontext": {
       "command": "npx",
@@ -119,17 +65,7 @@
         "-y",
         "@wildcard-ai/deepcontext@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-78096ae0084b659ff69efc99",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:07.381Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "probe": {
       "command": "npx",
@@ -138,17 +74,7 @@
         "@probelabs/probe@latest",
         "mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-ba9c736f19e7f60b7f6764ad",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:07.526Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "codex-mcp-server": {
       "command": "npx",
@@ -156,17 +82,7 @@
         "-y",
         "codex-mcp-server@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-018cd2555fdb6431983d2dbd",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:07.700Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "gemini-mcp": {
       "command": "npx",
@@ -176,34 +92,14 @@
         "--api-key",
         "YOUR_GEMINI_KEY_HERE"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-03a271db216947b76e02f0f6",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:07.869Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "windows-mcp": {
       "command": "uvx",
       "args": [
         "windows-mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-24f032bc483c077896d7cb3c",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:08.046Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "ast-grep-mcp": {
       "command": "uvx",
@@ -212,17 +108,7 @@
         "git+https://github.com/ast-grep/ast-grep-mcp",
         "ast-grep-server"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-8359d395ce54460dcfa58800",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:08.251Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "codemod": {
       "command": "npx",
@@ -230,17 +116,7 @@
         "codemod@latest",
         "mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-62f91ae1fd0f7807a4672319",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:08.398Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "task-master-ai": {
       "command": "npx",
@@ -248,30 +124,19 @@
         "-y",
         "task-master-ai"
       ],
-      "env": {
-        "TASK_MASTER_TOOLS": "all",
-        "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_KEY_HERE",
-        "PERPLEXITY_API_KEY": "YOUR_PERPLEXITY_KEY_HERE",
-        "OPENAI_API_KEY": "YOUR_OPENAI_KEY_HERE",
-        "GOOGLE_API_KEY": "YOUR_GOOGLE_KEY_HERE",
-        "MISTRAL_API_KEY": "YOUR_MISTRAL_KEY_HERE",
-        "GROQ_API_KEY": "YOUR_GROQ_KEY_HERE",
-        "OPENROUTER_API_KEY": "YOUR_OPENROUTER_KEY_HERE",
-        "XAI_API_KEY": "YOUR_XAI_KEY_HERE",
-        "AZURE_OPENAI_API_KEY": "YOUR_AZURE_KEY_HERE",
-        "OLLAMA_API_KEY": "YOUR_OLLAMA_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-a3ed859a3c0c16ef1c87875a",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:08.543Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "TASK_MASTER_TOOLS",
+        "ANTHROPIC_API_KEY",
+        "PERPLEXITY_API_KEY",
+        "OPENAI_API_KEY",
+        "GOOGLE_API_KEY",
+        "MISTRAL_API_KEY",
+        "GROQ_API_KEY",
+        "OPENROUTER_API_KEY",
+        "XAI_API_KEY",
+        "AZURE_OPENAI_API_KEY",
+        "OLLAMA_API_KEY"
+      ]
     },
     "ultra-mcp": {
       "command": "npx",
@@ -279,17 +144,7 @@
         "-y",
         "ultra-mcp@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-f988f2a2c5d1584599aa4b12",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:08.683Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "pal": {
       "command": "uvx",
@@ -298,26 +153,15 @@
         "git+https://github.com/BeehiveInnovations/pal-mcp-server.git",
         "pal-mcp-server"
       ],
-      "env": {
-        "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_KEY_HERE",
-        "GEMINI_API_KEY": "YOUR_GEMINI_KEY_HERE",
-        "GOOGLE_API_KEY": "YOUR_GOOGLE_KEY_HERE",
-        "GROK_API_KEY": "YOUR_GROK_KEY_HERE",
-        "OPENAI_API_KEY": "YOUR_OPENAI_KEY_HERE",
-        "OPENROUTER_API_KEY": "YOUR_OPENROUTER_KEY_HERE",
-        "XAI_API_KEY": "YOUR_XAI_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-a1a38b5bae5866d7d998a983",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:08.881Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "ANTHROPIC_API_KEY",
+        "GEMINI_API_KEY",
+        "GOOGLE_API_KEY",
+        "GROK_API_KEY",
+        "OPENAI_API_KEY",
+        "OPENROUTER_API_KEY",
+        "XAI_API_KEY"
+      ]
     },
     "thoughtbox": {
       "command": "npx",
@@ -325,20 +169,9 @@
         "-y",
         "@kastalien-research/thoughtbox@latest"
       ],
-      "env": {
-        "DISABLE_THOUGHT_LOGGING": "false"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-d9dd689c80732a769c7e80dd",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.063Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "DISABLE_THOUGHT_LOGGING"
+      ]
     },
     "vibe-check-mcp": {
       "command": "npx",
@@ -348,41 +181,20 @@
         "start",
         "--stdio"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-c4c86a9591cfbe4a9135fa6f",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.209Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "vibe-coder-mcp": {
       "command": "npx",
       "args": [
         "-y",
-        "vibe-coder-mcp@latest"
+        "vibe-coder-mcp"
       ],
-      "env": {
-        "OPENROUTER_API_KEY": "YOUR_OPENROUTER_KEY_HERE",
-        "VIBE_PROJECT_ROOT": "YOUR_PROJECT_ROOT_HERE",
-        "LOG_LEVEL": "info",
-        "NODE_ENV": "production"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-10968cd0ab9dc8c4feb2da82",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.336Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "OPENROUTER_API_KEY",
+        "VIBE_PROJECT_ROOT",
+        "LOG_LEVEL",
+        "NODE_ENV"
+      ]
     },
     "mindsdb": {
       "args": [],
@@ -405,20 +217,9 @@
         "-y",
         "tavily-mcp@latest"
       ],
-      "env": {
-        "TAVILY_API_KEY": "YOUR_TAVILY_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-ad50def59e086d0efb1acdc3",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.661Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "TAVILY_API_KEY"
+      ]
     },
     "exa": {
       "args": [],
@@ -444,17 +245,7 @@
         "-y",
         "chrome-devtools-mcp@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-6715690dc54ce31d8ca2c5ee",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.920Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "playwright-extension": {
       "command": "npx",
@@ -463,18 +254,7 @@
         "@playwright/mcp@latest",
         "--extension"
       ],
-      "env": {},
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-f743ab942c55c14dc5bf6887",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:10.100Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "browser-use": {
       "command": "uvx",
@@ -482,17 +262,7 @@
         "browser-use",
         "--mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-035549a413ab32579a2a59f1",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:10.351Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "browsermcp": {
       "command": "npx",
@@ -500,34 +270,14 @@
         "-y",
         "@browsermcp/mcp@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-ce604f3ff6f4b1fc716ef07e",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:10.488Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "fetch": {
       "command": "uvx",
       "args": [
         "mcp-server-fetch"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-e7d3799ecc09f5cbc446aa0a",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:10.622Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "fetcher": {
       "command": "npx",
@@ -535,17 +285,7 @@
         "-y",
         "fetcher-mcp@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-89008e294b51090a98a32c9d",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:10.759Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "firecrawl-mcp": {
       "command": "npx",
@@ -553,20 +293,9 @@
         "-y",
         "firecrawl-mcp@latest"
       ],
-      "env": {
-        "FIRECRAWL_API_KEY": "YOUR_FIRECRAWL_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-ef6754d227817dd4d281a574",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:10.889Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "FIRECRAWL_API_KEY"
+      ]
     },
     "filesystem": {
       "command": "npx",
@@ -575,17 +304,7 @@
         "@modelcontextprotocol/server-filesystem@latest",
         "C:\\Users\\hyper\\workspace\\"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-cbf61858f3260072d96d9b1d",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:11.038Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "github": {
       "args": [],
@@ -612,17 +331,7 @@
         "--dsn",
         "postgres://user:password@localhost:5432/dbname"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-b455cabaf1368b94f2da13f6",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:11.456Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "supabase": {
       "args": [],
@@ -647,17 +356,7 @@
         "--database",
         "sqlite.db"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-9845b7998eadb9b1ba1e7865",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:11.926Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "robertpelloni.com": {
       "args": [],
@@ -698,20 +397,9 @@
         "-y",
         "octagon-deep-research-mcp@latest"
       ],
-      "env": {
-        "OCTAGON_API_KEY": "YOUR_OCTAGON_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-15515abdf3d01ac2cdcce31f",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.402Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "OCTAGON_API_KEY"
+      ]
     },
     "notebooklm": {
       "command": "npx",
@@ -719,17 +407,7 @@
         "-y",
         "@roomi-fields/notebooklm-mcp@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-3a74eb58101dbfe3235ee82e",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.533Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "arxiv-mcp-server": {
       "command": "uvx",
@@ -738,17 +416,7 @@
         "--storage-path",
         "YOUR_STORAGE_PATH_HERE"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-6702c1a5f044944382ed15aa",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.677Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "paper_search_server": {
       "command": "uvx",
@@ -757,20 +425,9 @@
         "-m",
         "paper_search_mcp.server"
       ],
-      "env": {
-        "SEMANTIC_SCHOLAR_API_KEY": "YOUR_SEMANTIC_SCHOLAR_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-a0db2e024f3a0f8abbe21e3a",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.803Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "SEMANTIC_SCHOLAR_API_KEY"
+      ]
     },
     "mem0": {
       "command": "npx",
@@ -778,29 +435,18 @@
         "-y",
         "@mem0/mcp-server@latest"
       ],
-      "env": {
-        "MEM0_API_KEY": "YOUR_MEM0_KEY_HERE",
-        "TRANSPORT": "stdio",
-        "LLM_PROVIDER": "openai",
-        "LLM_BASE_URL": "https://api.openai.com/v1",
-        "LLM_API_KEY": "YOUR_OPENAI_KEY_HERE",
-        "LLM_CHOICE": "gpt-4o-mini",
-        "EMBEDDING_MODEL_CHOICE": "text-embedding-3-small",
-        "DATABASE_URL": "http://localhost:6333",
-        "VECTOR_STORE": "qdrant",
-        "QDRANT_URL": "http://localhost:6333"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-a9aff9e0737a5d4a1e546966",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.959Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "MEM0_API_KEY",
+        "TRANSPORT",
+        "LLM_PROVIDER",
+        "LLM_BASE_URL",
+        "LLM_API_KEY",
+        "LLM_CHOICE",
+        "EMBEDDING_MODEL_CHOICE",
+        "DATABASE_URL",
+        "VECTOR_STORE",
+        "QDRANT_URL"
+      ]
     },
     "conport": {
       "command": "uvx",
@@ -811,34 +457,14 @@
         "--mode",
         "stdio"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-0888c523ab84e3dc73d60eaa",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.099Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "ChunkHound": {
       "command": "chunkhound",
       "args": [
         "mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-1c32adc9347712bee02ea8f5",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.300Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "semgrepstream": {
       "args": [],
@@ -860,20 +486,9 @@
       "args": [
         "mcp"
       ],
-      "env": {
-        "SEMGREP_APP_TOKEN": "YOUR_SEMGREP_TOKEN_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-d4d70e72310a016cd32f3f66",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.571Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "SEMGREP_APP_TOKEN"
+      ]
     },
     "basic-memory": {
       "command": "uvx",
@@ -881,17 +496,7 @@
         "basic-memory",
         "mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-73959117f901deb9b8db7aa5",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.706Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "byterover-mcp": {
       "args": [],
@@ -921,17 +526,7 @@
         "--ssl",
         "false"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-6aa26744262da646e27f014a",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.968Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "cipher": {
       "command": "npx",
@@ -941,30 +536,19 @@
         "--mode",
         "mcp"
       ],
-      "env": {
-        "MCP_SERVER_MODE": "aggregator",
-        "USE_ASK_CIPHER": "true",
-        "OPENAI_API_KEY": "YOUR_OPENAI_KEY_HERE",
-        "GEMINI_API_KEY": "YOUR_GEMINI_KEY_HERE",
-        "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_KEY_HERE",
-        "OPENROUTER_API_KEY": "YOUR_OPENROUTER_KEY_HERE",
-        "VECTOR_STORE_TYPE": "qdrant",
-        "VECTOR_STORE_URL": "http://localhost:6333",
-        "VECTOR_STORE_API_KEY": "YOUR_VECTOR_STORE_KEY_HERE",
-        "DEBUG": "cipher:*",
-        "MCP_LOG_LEVEL": "debug"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-c806cd9c716cfbfdb4763c71",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.098Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "MCP_SERVER_MODE",
+        "USE_ASK_CIPHER",
+        "OPENAI_API_KEY",
+        "GEMINI_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "OPENROUTER_API_KEY",
+        "VECTOR_STORE_TYPE",
+        "VECTOR_STORE_URL",
+        "VECTOR_STORE_API_KEY",
+        "DEBUG",
+        "MCP_LOG_LEVEL"
+      ]
     },
     "sentry": {
       "command": "npx",
@@ -973,17 +557,7 @@
         "mcp-remote@latest",
         "https://mcp.sentry.dev/mcp"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-0cf6855c1a3c323bfb9d788f",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.223Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "postman-api-mcp": {
       "command": "npx",
@@ -991,20 +565,9 @@
         "-y",
         "@postman/postman-mcp-server@latest"
       ],
-      "env": {
-        "POSTMAN_API_KEY": "YOUR_POSTMAN_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-27476622191d4b149a6e354f",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.414Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "POSTMAN_API_KEY"
+      ]
     },
     "chrome-devtools-webmcp": {
       "command": "npx",
@@ -1012,17 +575,7 @@
         "-y",
         "@mcp-b/chrome-devtools-mcp@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-a05e6808cbbd1aa5031e5d21",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.541Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "playwright": {
       "command": "npx",
@@ -1030,17 +583,7 @@
         "-y",
         "@executeautomation/playwright-mcp-server@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-7827e8eb2cb3b95f4d0ffac3",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.675Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "puppeteer-mcp-server": {
       "command": "npx",
@@ -1048,37 +591,16 @@
         "-y",
         "puppeteer-mcp-server@latest"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-b1f7c29595b3542e16c9d2c5",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.813Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "mcp-server-browser-use": {
       "command": "uvx",
       "args": [
         "mcp-server-browser-use@latest"
       ],
-      "env": {
-        "MCP_BROWSER_HEADLESS": "true"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-6c32c4bd7f65c44f6ce4461c",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:14.962Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "MCP_BROWSER_HEADLESS"
+      ]
     },
     "browserbase": {
       "command": "npx",
@@ -1086,47 +608,17 @@
         "-y",
         "@browserbasehq/mcp-server-browserbase"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-9d800b766e83995152db4ec4",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.101Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "yahoo-finance-server": {
       "command": "yahoo-finance-server",
       "args": [],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-e02f34133e6c003c1e1b2902",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.248Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "mcp-yfinance-server": {
       "command": "mcp-yfinance-server",
       "args": [],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-b4fade169d77cab54dd1f240",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.452Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "alpaca": {
       "command": "uvx",
@@ -1134,17 +626,7 @@
         "alpaca-mcp-server",
         "serve"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-4de6702c739d8c9ed907f4c0",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.583Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "av": {
       "command": "uvx",
@@ -1152,17 +634,7 @@
         "av-mcp",
         "YOUR_AV_KEY_HERE"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-27a26bca625b223971909dd8",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.734Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "octagon": {
       "command": "npx",
@@ -1170,20 +642,9 @@
         "-y",
         "octagon-mcp@latest"
       ],
-      "env": {
-        "OCTAGON_API_KEY": "YOUR_OCTAGON_KEY_HERE"
-      },
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-0a2ea676524b9508ae85645d",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.867Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": [
+        "OCTAGON_API_KEY"
+      ]
     },
     "context7": {
       "command": "npx",
@@ -1193,32 +654,12 @@
         "--api-key",
         "YOUR_CONTEXT7_KEY_HERE"
       ],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-0472116c93c00c7ca34dc790",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:15.996Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "imagesorcery-mcp": {
       "command": "imagesorcery-mcp",
       "args": [],
-      "description": null,
-      "type": "STDIO",
-      "_meta": {
-        "uuid": "local-f12b5a3ef6c8f29486a7a7ea",
-        "status": "ready",
-        "metadataSource": "local-binary",
-        "toolCount": 0,
-        "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:16.122Z",
-        "crashCount": 0,
-        "maxAttempts": 0
-      }
+      "env": []
     },
     "robertpelloni-com": {
       "args": [],
@@ -1240,6 +681,35 @@
       "args": [
         "-y",
         "prism-mcp-server"
+      ],
+      "env": []
+    },
+    "test_stdio_import": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "env": []
+    },
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "ide-assistant"
+      ],
+      "env": []
+    },
+    "hypercode-supervisor": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\hyper\\workspace\\hypercode\\packages\\hypercode-supervisor\\dist\\index.js"
+      ],
+      "env": [
+        "NODE_ENV"
       ]
     }
   }

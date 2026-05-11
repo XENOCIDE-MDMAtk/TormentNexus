@@ -102,6 +102,165 @@ func HandleRead(ctx context.Context, args map[string]interface{}) (ToolResponse,
 	return ok(content)
 }
 
+func HandleGrep(ctx context.Context, args map[string]interface{}) (ToolResponse, error) {
+	pattern, _ := getString(args, "pattern", "query", "regex")
+	path, _ := getString(args, "dir_path", "path", "directory")
+	if pattern == "" {
+		return err("pattern is required")
+	}
+	if path == "" {
+		path = "."
+	}
+
+	includePattern := getStringValue(args, "include_pattern")
+	
+	cmdArgs := []string{"--line-number", "--with-filename", "--no-heading"}
+	if includePattern != "" {
+		cmdArgs = append(cmdArgs, "-g", includePattern)
+	}
+	cmdArgs = append(cmdArgs, "--", pattern, path)
+
+	cmd := exec.CommandContext(ctx, "rg", cmdArgs...)
+	output, e := cmd.CombinedOutput()
+	outputStr := string(output)
+
+	if e != nil {
+		// rg returns exit code 1 if no matches found
+		if exitErr, okMatch := e.(*exec.ExitError); okMatch && exitErr.ExitCode() == 1 {
+			return ok("No matches found.")
+		}
+		return err(fmt.Sprintf("Grep Error: %v\n%s", e, outputStr))
+	}
+
+	return ok(strings.TrimSpace(outputStr))
+}
+
+func HandleGlob(ctx context.Context, args map[string]interface{}) (ToolResponse, error) {
+	pattern, _ := getString(args, "pattern", "glob")
+	path, _ := getString(args, "path", "dir_path", "directory")
+	if pattern == "" {
+		return err("pattern is required")
+	}
+	if path == "" {
+		path = "."
+	}
+
+	// Use ripgrep --files with glob if possible for performance
+	cmd := exec.CommandContext(ctx, "rg", "--files", "-g", pattern, path)
+	output, e := cmd.CombinedOutput()
+	outputStr := string(output)
+
+	if e == nil {
+		return ok(strings.TrimSpace(outputStr))
+	}
+
+	// Fallback to manual walk if rg fails or not found
+	var matches []string
+	filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
+		if err != nil {
+			return nil
+		}
+		if info.IsDir() {
+			return nil
+		}
+		
+		rel, _ := filepath.Rel(path, p)
+		matched, _ := filepath.Match(pattern, rel)
+		if matched {
+			matches = append(matches, rel)
+		}
+		return nil
+	})
+
+	if len(matches) == 0 {
+		return ok("No files matched.")
+	}
+
+	return ok(strings.Join(matches, "\n"))
+}
+
+func HandleApplyPatch(ctx context.Context, args map[string]interface{}) (ToolResponse, error) {
+	path, _ := getString(args, "file_path", "path")
+	patchContent, _ := getString(args, "patch", "diff")
+
+	if path == "" {
+		return err("file_path is required")
+	}
+	if patchContent == "" {
+		return err("patch is required")
+	}
+
+	tmpPatch := filepath.Join(os.TempDir(), fmt.Sprintf("patch-%d.diff", time.Now().UnixNano()))
+	if e := os.WriteFile(tmpPatch, []byte(patchContent), 0644); e != nil {
+		return err(fmt.Sprintf("Error writing temp patch: %v", e))
+	}
+	defer os.Remove(tmpPatch)
+
+	cmd := exec.CommandContext(ctx, "patch", "-u", path, "-i", tmpPatch)
+	output, e := cmd.CombinedOutput()
+	if e != nil {
+		return err(fmt.Sprintf("Patch Error: %v\n%s", e, string(output)))
+	}
+
+	return ok(fmt.Sprintf("Successfully applied patch to %s", path))
+}
+
+func HandleMultiEdit(ctx context.Context, args map[string]interface{}) (ToolResponse, error) {
+	path, _ := getString(args, "file_path", "path", "filePath")
+	if path == "" {
+		return err("file_path is required")
+	}
+
+	var editsRaw []interface{}
+	if v, okEdits := args["edits"].([]interface{}); okEdits {
+		editsRaw = v
+	} else if v, okOps := args["operations"].([]interface{}); okOps {
+		editsRaw = v
+	}
+	if len(editsRaw) == 0 {
+		return err("edits array is required")
+	}
+
+	data, e := os.ReadFile(path)
+	if e != nil {
+		return err(fmt.Sprintf("Error reading file: %v", e))
+	}
+
+	content := string(data)
+	results := []string{}
+
+	for i, editRaw := range editsRaw {
+		edit, ok := editRaw.(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		oldText, _ := getString(edit, "old_string", "oldText", "old_text", "find")
+		newText, _ := getString(edit, "new_string", "newText", "new_text", "replace")
+
+		if oldText == "" {
+			return err(fmt.Sprintf("Edit %d: old_string is required", i+1))
+		}
+
+		if !strings.Contains(content, oldText) {
+			return err(fmt.Sprintf("Edit %d: old_string not found in %s", i+1, path))
+		}
+
+		if getBool(edit, "replace_all", "replaceAll") {
+			content = strings.ReplaceAll(content, oldText, newText)
+		} else {
+			content = strings.Replace(content, oldText, newText, 1)
+		}
+		results = append(results, fmt.Sprintf("Edit %d applied", i+1))
+	}
+
+	if e := os.WriteFile(path, []byte(content), 0644); e != nil {
+		return err(fmt.Sprintf("Error writing file: %v", e))
+	}
+
+	return ok(fmt.Sprintf("Successfully applied %d edits to %s\n%s", len(results), path, strings.Join(results, "\n")))
+}
+
 func HandleWrite(ctx context.Context, args map[string]interface{}) (ToolResponse, error) {
 	path, _ := getString(args, "file_path", "path", "filePath", "AbsolutePath")
 	content, _ := getString(args, "content", "text", "body")

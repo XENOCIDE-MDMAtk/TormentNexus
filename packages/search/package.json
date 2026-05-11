@@ -1,0 +1,27 @@
+{
+    "name": "@borg/search",
+    "version": "0.90.8",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch --preserveWatchOutput",
+        "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
+    },
+    "dependencies": {
+        "@borg/adk": "workspace:*",
+        "@vscode/ripgrep": "^1.17.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "eslint": "^9.26.0",
+        "typescript": "^5.3.3"
+    }
+}

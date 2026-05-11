@@ -28,42 +28,42 @@ import (
 type MemoryKind string
 
 const (
-	KindFact        MemoryKind = "fact"
-	KindPreference  MemoryKind = "preference"
-	KindDecision    MemoryKind = "decision"
-	KindPattern     MemoryKind = "pattern"
-	KindSkill       MemoryKind = "skill"
-	KindError       MemoryKind = "error"
-	KindSolution    MemoryKind = "solution"
-	KindContext     MemoryKind = "context"
+	KindFact         MemoryKind = "fact"
+	KindPreference   MemoryKind = "preference"
+	KindDecision     MemoryKind = "decision"
+	KindPattern      MemoryKind = "pattern"
+	KindSkill        MemoryKind = "skill"
+	KindError        MemoryKind = "error"
+	KindSolution     MemoryKind = "solution"
+	KindContext      MemoryKind = "context"
 	KindConversation MemoryKind = "conversation"
-	KindProject     MemoryKind = "project"
+	KindProject      MemoryKind = "project"
 )
 
 type MemoryTier string
 
 const (
-	TierShortTerm  MemoryTier = "short"   // Current session, high detail
-	TierMediumTerm MemoryTier = "medium"  // Recent sessions, summarized
-	TierLongTerm   MemoryTier = "long"    // Permanent facts and patterns
+	TierShortTerm  MemoryTier = "short"  // Current session, high detail
+	TierMediumTerm MemoryTier = "medium" // Recent sessions, summarized
+	TierLongTerm   MemoryTier = "long"   // Permanent facts and patterns
 )
 
 type Memory struct {
-	ID           string            `json:"id"`
-	Kind         MemoryKind        `json:"kind"`
-	Tier         MemoryTier        `json:"tier"`
-	Content      string            `json:"content"`
-	Summary      string            `json:"summary,omitempty"`
-	Tags         []string          `json:"tags,omitempty"`
-	Source       string            `json:"source,omitempty"`
-	Project      string            `json:"project,omitempty"`
-	SessionID    string            `json:"sessionId,omitempty"`
-	Metadata     map[string]string `json:"metadata,omitempty"`
-	CreatedAt    time.Time         `json:"createdAt"`
-	AccessedAt   time.Time         `json:"accessedAt"`
-	AccessCount  int               `json:"accessCount"`
-	RelevanceScore float64         `json:"relevanceScore"`
-	Embedded     bool              `json:"embedded"` // True if vector embedding exists
+	ID             string            `json:"id"`
+	Kind           MemoryKind        `json:"kind"`
+	Tier           MemoryTier        `json:"tier"`
+	Content        string            `json:"content"`
+	Summary        string            `json:"summary,omitempty"`
+	Tags           []string          `json:"tags,omitempty"`
+	Source         string            `json:"source,omitempty"`
+	Project        string            `json:"project,omitempty"`
+	SessionID      string            `json:"sessionId,omitempty"`
+	Metadata       map[string]string `json:"metadata,omitempty"`
+	CreatedAt      time.Time         `json:"createdAt"`
+	AccessedAt     time.Time         `json:"accessedAt"`
+	AccessCount    int               `json:"accessCount"`
+	RelevanceScore float64           `json:"relevanceScore"`
+	Embedded       bool              `json:"embedded"` // True if vector embedding exists
 }
 
 type MemoryQuery struct {
@@ -93,13 +93,13 @@ func DefaultMemoryManagerConfig() MemoryManagerConfig {
 }
 
 type MemoryManager struct {
-	cfg     MemoryManagerConfig
-	mu      sync.RWMutex
-	memories map[string]*Memory
-	byKind  map[MemoryKind][]string  // kind → memory IDs
-	byTier  map[MemoryTier][]string  // tier → memory IDs
-	byTag   map[string][]string      // tag → memory IDs
-	byProject map[string][]string    // project → memory IDs
+	cfg       MemoryManagerConfig
+	mu        sync.RWMutex
+	memories  map[string]*Memory
+	byKind    map[MemoryKind][]string // kind → memory IDs
+	byTier    map[MemoryTier][]string // tier → memory IDs
+	byTag     map[string][]string     // tag → memory IDs
+	byProject map[string][]string     // project → memory IDs
 }
 
 func NewMemoryManager(cfg MemoryManagerConfig) *MemoryManager {
@@ -114,11 +114,11 @@ func NewMemoryManager(cfg MemoryManagerConfig) *MemoryManager {
 	}
 
 	mm := &MemoryManager{
-		cfg:      cfg,
-		memories: make(map[string]*Memory),
-		byKind:   make(map[MemoryKind][]string),
-		byTier:   make(map[MemoryTier][]string),
-		byTag:    make(map[string][]string),
+		cfg:       cfg,
+		memories:  make(map[string]*Memory),
+		byKind:    make(map[MemoryKind][]string),
+		byTier:    make(map[MemoryTier][]string),
+		byTag:     make(map[string][]string),
 		byProject: make(map[string][]string),
 	}
 

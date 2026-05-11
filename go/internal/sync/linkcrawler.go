@@ -16,6 +16,18 @@ import (
 	_ "modernc.org/sqlite"
 )
 
+var (
+	scriptTagRegex   = regexp.MustCompile(`(?is)<script[^>]*>.*?</script>`)
+	styleTagRegex    = regexp.MustCompile(`(?is)<style[^>]*>.*?</style>`)
+	noscriptTagRegex = regexp.MustCompile(`(?is)<noscript[^>]*>.*?</noscript>`)
+	navTagRegex      = regexp.MustCompile(`(?is)<nav[^>]*>.*?</nav>`)
+	headerTagRegex   = regexp.MustCompile(`(?is)<header[^>]*>.*?</header>`)
+	footerTagRegex   = regexp.MustCompile(`(?is)<footer[^>]*>.*?</footer>`)
+	asideTagRegex    = regexp.MustCompile(`(?is)<aside[^>]*>.*?</aside>`)
+	htmlTagRegex     = regexp.MustCompile(`(?is)<[^>]+>`)
+	spaceRegex       = regexp.MustCompile(`\s+`)
+)
+
 const defaultOpenRouterFreeModel = "xiaomi/mimo-v2-flash:free"
 
 type LinkClassifier func(ctx context.Context, title, description, content string) ([]string, error)
@@ -369,21 +381,21 @@ func extractLinkHref(input, pattern string) string {
 
 func extractVisibleText(input string) string {
 	// Strip standard non-visible blocks
-	withoutScripts := regexp.MustCompile(`(?is)<script[^>]*>.*?</script>`).ReplaceAllString(input, " ")
-	withoutStyles := regexp.MustCompile(`(?is)<style[^>]*>.*?</style>`).ReplaceAllString(withoutScripts, " ")
-	withoutNoscript := regexp.MustCompile(`(?is)<noscript[^>]*>.*?</noscript>`).ReplaceAllString(withoutStyles, " ")
+	withoutScripts := scriptTagRegex.ReplaceAllString(input, " ")
+	withoutStyles := styleTagRegex.ReplaceAllString(withoutScripts, " ")
+	withoutNoscript := noscriptTagRegex.ReplaceAllString(withoutStyles, " ")
 
 	// Phase 1 Fit Markdown: aggressively remove boilerplate nav/header/footer/sidebar elements
-	withoutNav := regexp.MustCompile(`(?is)<nav[^>]*>.*?</nav>`).ReplaceAllString(withoutNoscript, " ")
-	withoutHeader := regexp.MustCompile(`(?is)<header[^>]*>.*?</header>`).ReplaceAllString(withoutNav, " ")
-	withoutFooter := regexp.MustCompile(`(?is)<footer[^>]*>.*?</footer>`).ReplaceAllString(withoutHeader, " ")
-	withoutAside := regexp.MustCompile(`(?is)<aside[^>]*>.*?</aside>`).ReplaceAllString(withoutFooter, " ")
+	withoutNav := navTagRegex.ReplaceAllString(withoutNoscript, " ")
+	withoutHeader := headerTagRegex.ReplaceAllString(withoutNav, " ")
+	withoutFooter := footerTagRegex.ReplaceAllString(withoutHeader, " ")
+	withoutAside := asideTagRegex.ReplaceAllString(withoutFooter, " ")
 
 	// Strip all remaining HTML tags
-	withoutTags := regexp.MustCompile(`(?is)<[^>]+>`).ReplaceAllString(withoutAside, " ")
+	withoutTags := htmlTagRegex.ReplaceAllString(withoutAside, " ")
 
 	// Clean up massive whitespace blocks resulting from tag stripping
-	collapsedSpaces := regexp.MustCompile(`\s+`).ReplaceAllString(withoutTags, " ")
+	collapsedSpaces := spaceRegex.ReplaceAllString(withoutTags, " ")
 
 	return decodeHTMLWhitespace(collapsedSpaces)
 }

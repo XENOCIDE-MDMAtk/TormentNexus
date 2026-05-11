@@ -44,7 +44,7 @@ func List(workspaceRoot string, tools []controlplane.Tool) []Definition {
 	}
 
 	borgTools := borgToolNames(workspaceRoot)
-	externalHarnessNote := "External harness; Borg currently tracks install/runtime metadata only, not a source-backed tool registry."
+	externalHarnessNote := "External harness; borg currently tracks install/runtime metadata only, not a source-backed tool registry."
 	metadataHarness := func(id, description, maturity, runtime string) Definition {
 		return Definition{
 			ID:                  id,
@@ -60,7 +60,7 @@ func List(workspaceRoot string, tools []controlplane.Tool) []Definition {
 	definitions := []Definition{
 		{
 			ID:                  "borg",
-			Description:         "Borg Go CLI harness",
+			Description:         "borg Go CLI harness",
 			Maturity:            "Experimental",
 			Primary:             true,
 			SubmodulePath:       "submodules/borg",
@@ -68,7 +68,7 @@ func List(workspaceRoot string, tools []controlplane.Tool) []Definition {
 			Runtime:             "Go / Cobra / TUI",
 			LaunchCommand:       "go run .",
 			Capabilities:        []string{"repl", "pipe", "borg-adapter", "tool-registry"},
-			ParityNotes:         "Borg can read Borg tool calls directly from the assimilated submodule source.",
+			ParityNotes:         "borg can read borg tool calls directly from the assimilated submodule source.",
 			ToolCallCount:       len(borgTools),
 			ToolCallNames:       borgTools,
 			ToolSource:          "submodules/borg/tools/*.go",

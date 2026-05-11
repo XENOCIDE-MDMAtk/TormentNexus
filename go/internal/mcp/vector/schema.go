@@ -77,7 +77,9 @@ CREATE TABLE IF NOT EXISTS tool_usage (
 
 func InitSchema(db *sql.DB) error {
 	for _, ddl := range []string{ddlTools, ddlEmbeddings, ddlUsage} {
-		if _, err := db.Exec(ddl); err != nil { return err }
+		if _, err := db.Exec(ddl); err != nil {
+			return err
+		}
 	}
 	return nil
 }

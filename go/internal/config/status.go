@@ -24,7 +24,7 @@ type Status struct {
 	ImportedInstructions PathStatus `json:"importedInstructions"`
 	SectionedMemoryStore PathStatus `json:"sectionedMemoryStore"`
 	LegacyMemoryStore    PathStatus `json:"legacyMemoryStore"`
-	borgSubmodule   PathStatus `json:"borgSubmodule"`
+	BorgSubmodule        PathStatus `json:"borgSubmodule"`
 }
 
 func Snapshot(cfg Config) Status {
@@ -35,13 +35,14 @@ func Snapshot(cfg Config) Status {
 		WorkspaceRoot:        buildPathStatus(cfg.WorkspaceRoot),
 		ConfigDir:            buildPathStatus(cfg.ConfigDir),
 		MainConfigDir:        buildPathStatus(cfg.MainConfigDir),
+		BorgConfigFile:       buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "borg.config.json")),
 		MCPConfigFile:        buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "mcp.jsonc")),
 		GoLockPath:           buildPathStatus(cfg.LockPath()),
 		MainLockPath:         buildPathStatus(cfg.MainLockPath()),
 		ImportedInstructions: buildPathStatus(cfg.ImportedInstructionsPath()),
 		SectionedMemoryStore: buildPathStatus(filepath.Join(cfg.WorkspaceRoot, ".borg", "sectioned_memory.json")),
 		LegacyMemoryStore:    buildPathStatus(filepath.Join(cfg.WorkspaceRoot, ".borg", "claude_mem.json")),
-		borgSubmodule:   buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "submodules", "borg")),
+		BorgSubmodule:        buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "submodules", "borg")),
 	}
 }
 
