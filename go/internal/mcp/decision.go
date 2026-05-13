@@ -28,7 +28,7 @@ package mcp
  *   - Strong observability for routing improvement
  *
  * ADDED: v1.0.0-alpha.32
- */
+*/
 
 import (
 	"context"
@@ -79,30 +79,30 @@ func DefaultDecisionConfig() DecisionConfig {
 
 type LoadedTool struct {
 	ToolEntry
-	LoadedAt    time.Time `json:"loadedAt"`
-	LastUsedAt  time.Time `json:"lastUsedAt"`
-	UseCount    int       `json:"useCount"`
-	BinaryLive  bool      `json:"binaryLive"` // true if server binary is actually running
-	AutoLoaded  bool      `json:"autoLoaded"` // true if loaded by auto-load, not explicit request
+	LoadedAt   time.Time `json:"loadedAt"`
+	LastUsedAt time.Time `json:"lastUsedAt"`
+	UseCount   int       `json:"useCount"`
+	BinaryLive bool      `json:"binaryLive"` // true if server binary is actually running
+	AutoLoaded bool      `json:"autoLoaded"` // true if loaded by auto-load, not explicit request
 }
 
 // ---------- Search Result ----------
 
 type UnifiedSearchResult struct {
-	Rank            int                    `json:"rank"`
-	Name            string                 `json:"name"`
-	OriginalName    string                 `json:"originalName"`
-	Server          string                 `json:"server"`
-	Description     string                 `json:"description"`
-	Score           float64                `json:"score"`
-	ScoreBreakdown  map[string]float64     `json:"scoreBreakdown,omitempty"`
-	MatchReason     string                 `json:"matchReason"`
-	IsLoaded        bool                   `json:"isLoaded"`
-	IsAlwaysOn      bool                   `json:"isAlwaysOn"`
-	RequiresBinary  bool                   `json:"requiresBinary"`
-	TypicalLatency  string                 `json:"typicalLatency,omitempty"`
-	ShortExample    string                 `json:"shortExample,omitempty"`
-	InputSchema     interface{}            `json:"inputSchema,omitempty"`
+	Rank           int                `json:"rank"`
+	Name           string             `json:"name"`
+	OriginalName   string             `json:"originalName"`
+	Server         string             `json:"server"`
+	Description    string             `json:"description"`
+	Score          float64            `json:"score"`
+	ScoreBreakdown map[string]float64 `json:"scoreBreakdown,omitempty"`
+	MatchReason    string             `json:"matchReason"`
+	IsLoaded       bool               `json:"isLoaded"`
+	IsAlwaysOn     bool               `json:"isAlwaysOn"`
+	RequiresBinary bool               `json:"requiresBinary"`
+	TypicalLatency string             `json:"typicalLatency,omitempty"`
+	ShortExample   string             `json:"shortExample,omitempty"`
+	InputSchema    interface{}        `json:"inputSchema,omitempty"`
 }
 
 // ---------- Observability Event ----------
@@ -123,14 +123,14 @@ type DecisionEvent struct {
 // ---------- Decision System ----------
 
 type DecisionSystem struct {
-	cfg      DecisionConfig
-	mu       sync.RWMutex
-	loaded   map[string]*LoadedTool // keyed by advertised name
-	known    []ToolEntry            // full catalog of known tools
-	events   []DecisionEvent        // circular buffer of observability events
-	agg      *Aggregator            // live MCP connections
-	catalog  []ToolEntry            // persisted catalog loaded from disk
-	eventIdx int                    // circular buffer write position
+	cfg       DecisionConfig
+	mu        sync.RWMutex
+	loaded    map[string]*LoadedTool // keyed by advertised name
+	known     []ToolEntry            // full catalog of known tools
+	events    []DecisionEvent        // circular buffer of observability events
+	agg       *Aggregator            // live MCP connections
+	catalog   []ToolEntry            // persisted catalog loaded from disk
+	eventIdx  int                    // circular buffer write position
 	maxEvents int
 }
 
@@ -239,27 +239,27 @@ func (ds *DecisionSystem) SearchAndCall(ctx context.Context, query string, argum
 		result, err := ds.CallTool(ctx, best.AdvertisedName, arguments)
 		if err != nil {
 			ds.recordEvent(DecisionEvent{
-				Type:      "call",
-				Query:     query,
-				ToolName:  best.AdvertisedName,
+				Type:       "call",
+				Query:      query,
+				ToolName:   best.AdvertisedName,
 				ServerName: best.Server,
-				Score:     best.Score,
-				Success:   false,
-				Latency:   time.Since(start),
-				Reason:    err.Error(),
+				Score:      best.Score,
+				Success:    false,
+				Latency:    time.Since(start),
+				Reason:     err.Error(),
 			})
 			return nil, err
 		}
 
 		ds.recordEvent(DecisionEvent{
-			Type:      "call",
-			Query:     query,
-			ToolName:  best.AdvertisedName,
+			Type:       "call",
+			Query:      query,
+			ToolName:   best.AdvertisedName,
 			ServerName: best.Server,
-			Score:     best.Score,
-			Success:   true,
-			Latency:   time.Since(start),
-			Reason:    "auto-selected (high confidence)",
+			Score:      best.Score,
+			Success:    true,
+			Latency:    time.Since(start),
+			Reason:     "auto-selected (high confidence)",
 		})
 
 		return result, nil
@@ -289,11 +289,11 @@ func (ds *DecisionSystem) LoadTool(ctx context.Context, advertisedName string) (
 		lt.LastUsedAt = time.Now()
 		lt.UseCount++
 		ds.recordEventLocked(DecisionEvent{
-			Type:      "load",
-			ToolName:  advertisedName,
-			Success:   true,
-			Latency:   time.Since(start),
-			Reason:    "already loaded",
+			Type:     "load",
+			ToolName: advertisedName,
+			Success:  true,
+			Latency:  time.Since(start),
+			Reason:   "already loaded",
 		})
 		return lt, nil
 	}
@@ -318,11 +318,11 @@ func (ds *DecisionSystem) LoadTool(ctx context.Context, advertisedName string) (
 	}
 	if found == nil {
 		ds.recordEventLocked(DecisionEvent{
-			Type:      "load",
-			ToolName:  advertisedName,
-			Success:   false,
-			Latency:   time.Since(start),
-			Reason:    "tool not found in catalog",
+			Type:     "load",
+			ToolName: advertisedName,
+			Success:  false,
+			Latency:  time.Since(start),
+			Reason:   "tool not found in catalog",
 		})
 		return nil, fmt.Errorf("tool %q not found in catalog", advertisedName)
 	}
@@ -341,11 +341,11 @@ func (ds *DecisionSystem) LoadTool(ctx context.Context, advertisedName string) (
 	ds.loaded[advertisedName] = lt
 
 	ds.recordEventLocked(DecisionEvent{
-		Type:      "load",
-		ToolName:  advertisedName,
+		Type:       "load",
+		ToolName:   advertisedName,
 		ServerName: found.Server,
-		Success:   true,
-		Latency:   time.Since(start),
+		Success:    true,
+		Latency:    time.Since(start),
 	})
 
 	return lt, nil
@@ -354,12 +354,12 @@ func (ds *DecisionSystem) LoadTool(ctx context.Context, advertisedName string) (
 // ---------- Meta-Tool: call_tool ----------
 
 type CallResult struct {
-	ToolName    string      `json:"toolName"`
-	Server      string      `json:"server"`
-	Result      interface{} `json:"result"`
-	IsError     bool        `json:"isError,omitempty"`
-	Duration    string      `json:"duration"`
-	AutoLoaded  bool        `json:"autoLoaded"`
+	ToolName   string      `json:"toolName"`
+	Server     string      `json:"server"`
+	Result     interface{} `json:"result"`
+	IsError    bool        `json:"isError,omitempty"`
+	Duration   string      `json:"duration"`
+	AutoLoaded bool        `json:"autoLoaded"`
 }
 
 func (ds *DecisionSystem) CallTool(ctx context.Context, advertisedName string, arguments map[string]interface{}) (*CallResult, error) {
@@ -479,10 +479,10 @@ func (ds *DecisionSystem) UnloadTool(advertisedName string) error {
 	delete(ds.loaded, advertisedName)
 
 	ds.recordEventLocked(DecisionEvent{
-		Type:      "unload",
-		ToolName:  advertisedName,
-		Success:   true,
-		Reason:    "explicit unload",
+		Type:     "unload",
+		ToolName: advertisedName,
+		Success:  true,
+		Reason:   "explicit unload",
 	})
 
 	return nil
@@ -670,9 +670,9 @@ func (ds *DecisionSystem) evictIfNeededLocked() {
 				break
 			}
 			ds.recordEventLocked(DecisionEvent{
-				Type:      "evict",
-				ToolName:  k,
-				Reason:    "idle eviction (LRU)",
+				Type:     "evict",
+				ToolName: k,
+				Reason:   "idle eviction (LRU)",
 			})
 			delete(ds.loaded, k)
 		}
@@ -693,9 +693,9 @@ func (ds *DecisionSystem) evictLRULocked() {
 	}
 	if oldest != "" {
 		ds.recordEventLocked(DecisionEvent{
-			Type:      "evict",
-			ToolName:  oldest,
-			Reason:    "hard cap eviction (LRU)",
+			Type:     "evict",
+			ToolName: oldest,
+			Reason:   "hard cap eviction (LRU)",
 		})
 		delete(ds.loaded, oldest)
 	}
@@ -817,90 +817,107 @@ func BuiltinTools() []ToolEntry {
 	return []ToolEntry{
 		{Name: "bash", OriginalName: "bash", Server: "borg", AdvertisedName: "borg__bash",
 			Description: "Execute a bash command in the working directory. Returns stdout, stderr, and exit code.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "read_file", OriginalName: "read_file", Server: "borg", AdvertisedName: "borg__read_file",
 			Description: "Read the contents of a file. Supports text files with offset/limit for large files.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "write_file", OriginalName: "write_file", Server: "borg", AdvertisedName: "borg__write_file",
 			Description: "Write content to a file. Creates the file and parent directories if needed.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "edit_file", OriginalName: "edit_file", Server: "borg", AdvertisedName: "borg__edit_file",
 			Description: "Make precise edits to a file using exact text replacement. Multiple disjoint edits in one call.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "search_files", OriginalName: "search_files", Server: "borg", AdvertisedName: "borg__search_files",
 			Description: "Search file contents for a regex pattern. Returns matching lines with file paths and line numbers.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "list_directory", OriginalName: "list_directory", Server: "borg", AdvertisedName: "borg__list_directory",
 			Description: "List directory contents sorted alphabetically. Returns entries with type indicators.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "find_files", OriginalName: "find_files", Server: "borg", AdvertisedName: "borg__find_files",
 			Description: "Search for files by glob pattern. Returns matching file paths relative to the search directory.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 
 		// Codex-compatible aliases
 		{Name: "shell", OriginalName: "shell", Server: "borg", AdvertisedName: "borg__shell",
 			Description: "Execute a shell command. Codex-compatible alias for bash.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "codex_apply_patch", OriginalName: "apply_patch", Server: "borg", AdvertisedName: "borg__apply_patch",
 			Description: "Apply a unified diff patch to a file. Codex-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 
 		// Claude Code-compatible aliases
 		{Name: "cat", OriginalName: "cat", Server: "borg", AdvertisedName: "borg__cat",
 			Description: "Display file contents. Claude Code-compatible alias for read_file.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "sed", OriginalName: "sed", Server: "borg", AdvertisedName: "borg__sed",
 			Description: "Stream editor for file transformations. Claude Code-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "grep", OriginalName: "grep", Server: "borg", AdvertisedName: "borg__grep",
 			Description: "Search file contents for patterns. Claude Code-compatible alias for search_files.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "ls", OriginalName: "ls", Server: "borg", AdvertisedName: "borg__ls",
 			Description: "List directory contents. Claude Code-compatible alias for list_directory.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "find", OriginalName: "find", Server: "borg", AdvertisedName: "borg__find",
 			Description: "Find files by pattern. Claude Code-compatible alias for find_files.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 
 		// Gemini CLI-compatible
 		{Name: "run_command", OriginalName: "run_command", Server: "borg", AdvertisedName: "borg__run_command",
 			Description: "Execute a command and return output. Gemini CLI-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "read_many_files", OriginalName: "read_many_files", Server: "borg", AdvertisedName: "borg__read_many_files",
 			Description: "Read multiple files at once. Gemini CLI-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 
 		// Copilot CLI-compatible
 		{Name: "execute_command", OriginalName: "execute_command", Server: "borg", AdvertisedName: "borg__execute_command",
 			Description: "Execute a shell command with optional timeout. Copilot CLI-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "get_file_content", OriginalName: "get_file_content", Server: "borg", AdvertisedName: "borg__get_file_content",
 			Description: "Get the content of a file. Copilot CLI-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 
 		// Cursor-compatible
 		{Name: "codebase_search", OriginalName: "codebase_search", Server: "borg", AdvertisedName: "borg__codebase_search",
 			Description: "Semantic code search across the codebase. Cursor-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "read_file_block", OriginalName: "read_file_block", Server: "borg", AdvertisedName: "borg__read_file_block",
 			Description: "Read a specific line range from a file. Cursor-compatible.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 
 		// Meta-tools (the permanent decision system surface)
 		{Name: "search_tools", OriginalName: "search_tools", Server: "borg", AdvertisedName: "borg__search_tools",
 			Description: "Search the tool catalog by keyword. Returns ranked, compact results with match reasons.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "call_tool", OriginalName: "call_tool", Server: "borg", AdvertisedName: "borg__call_tool",
 			Description: "Call any tool by name. Auto-loads if not yet loaded. Combined search-and-call.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "load_tool", OriginalName: "load_tool", Server: "borg", AdvertisedName: "borg__load_tool",
 			Description: "Load a tool into the active working set. Required before calling tools not yet loaded.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "list_loaded_tools", OriginalName: "list_loaded_tools", Server: "borg", AdvertisedName: "borg__list_loaded_tools",
 			Description: "List all currently loaded tools with usage stats.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
 		{Name: "unload_tool", OriginalName: "unload_tool", Server: "borg", AdvertisedName: "borg__unload_tool",
 			Description: "Unload a tool from the active working set to free context.",
-			AlwaysOn: true},
+			AlwaysOn:    true},
+
+		// Repograph-native tools
+		{Name: "repograph_build", OriginalName: "repograph_build", Server: "borg", AdvertisedName: "borg__repograph_build",
+			Description: "Build or rebuild the repository dependency graph. Triggers a full scan of source files.",
+			AlwaysOn:    true},
+		{Name: "repograph_get", OriginalName: "repograph_get", Server: "borg", AdvertisedName: "borg__repograph_get",
+			Description: "Get the current repository graph structure and statistics.",
+			AlwaysOn:    true},
+		{Name: "repograph_find_references", OriginalName: "repograph_find_references", Server: "borg", AdvertisedName: "borg__repograph_find_references",
+			Description: "Find all references to a specific code symbol (function, type, interface) in the repository.",
+			AlwaysOn:    true},
+		{Name: "repograph_find_dependents", OriginalName: "repograph_find_dependents", Server: "borg", AdvertisedName: "borg__repograph_find_dependents",
+			Description: "Find all files that depend on or import a given source file.",
+			AlwaysOn:    true},
+		{Name: "repograph_search", OriginalName: "repograph_search", Server: "borg", AdvertisedName: "borg__repograph_search",
+			Description: "Search for symbols across the repository using the native Go repograph engine.",
+			AlwaysOn:    true},
 	}
 }

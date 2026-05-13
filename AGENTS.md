@@ -95,11 +95,17 @@ node scripts/build_startup.mjs --profile=go-primary
 ```
 
 ### Runtime Ports
+
 | Service | Port | URL |
 |---|---|---|
-| tRPC/REST API | 4000 | `http://0.0.0.0:4000/trpc` |
+| tRPC/REST API | 4100 | `http://0.0.0.0:4100/trpc` |
 | MCP WebSocket | 3001 | `ws://localhost:3001` |
 | Next.js Dashboard | 3000 | `http://localhost:3000/dashboard` |
+| Go Sidecar | 4300 | `http://127.0.0.1:4300/api/index` |
+
+> **Service Discovery**: All ports are configurable via environment variables (`BORG_GO_PORT`, `BORG_TRPC_UPSTREAM`, `BORG_BRIDGE_PORT`, `BORG_DASHBOARD_PORT`). See `go/internal/config/discovery.go`.
+>
+> **Dashboard Proxy**: The Next.js app proxies `/api/go/*` to the Go sidecar at port 4300. See `apps/web/src/app/api/go/[...path]/route.ts`.
 
 ---
 
@@ -122,12 +128,12 @@ borg/
 ├── apps/web/                # Next.js 16 dashboard (311 .ts/.tsx, 91 pages)
 ├── apps/maestro/            # Electron/Wails visual orchestrator (submodule)
 ├── apps/cloud-orchestrator/ # Jules autopilot wrapper (submodule)
-├── go/                      # Go-native server bridge (139 .go)
+├── go/                      # Go-native server bridge (140+ .go)
 │   ├── cmd/borg/       # Go binary entrypoint
-│   ├── internal/httpapi/    # HTTP handlers (~40 route families)
-│   ├── internal/mcp/        # MCP inventory, ranking, catalog
+│   ├── internal/httpapi/    # HTTP handlers (~45 route families)
+│   ├── internal/mcp/        # MCP inventory, ranking, catalog, decision system
 │   ├── internal/hsync/      # BobbyBookmarks, LinkCrawler, suggestions
-│   └── internal/orchestration/ # Council, swarm, squad logic
+│   └── internal/orchestration/ # Council, swarm, squad, pair orchestrator
 ├── submodules/
 │   ├── hyperharness/        # LLM harness submodule
 │   └── prism-mcp/           # Prism MCP reference
@@ -198,3 +204,4 @@ git submodule update --remote --merge
 ---
 
 *For model-specific quirks, refer to `CLAUDE.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md`.*
+>>>>>>> main

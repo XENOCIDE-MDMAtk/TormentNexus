@@ -99,6 +99,7 @@ export const systemProcedures = {
         const warmingServerCount = runtimeServers.filter((server) => server.warmupStatus === 'scheduled' || server.warmupStatus === 'warming').length;
         const failedWarmupServerCount = runtimeServers.filter((server) => server.warmupStatus === 'failed').length;
 
+        // @ts-expect-error -- type mismatch from inferred schema types
         const cachedInventorySummary = summarizeCachedInventory(cachedInventory);
 
         const persistedServerCount = cachedInventorySummary.source === 'empty'

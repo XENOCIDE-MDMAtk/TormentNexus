@@ -9,10 +9,10 @@ import (
 // RankedTool wraps a ToolEntry with an assigned relevance score
 type RankedTool struct {
 	ToolEntry
-	Score          float64                    `json:"score"`
-	ScoreBreakdown map[string]float64         `json:"scoreBreakdown"`
-	MatchReason    string                     `json:"matchReason"`
-	Rank           int                        `json:"rank"`
+	Score          float64            `json:"score"`
+	ScoreBreakdown map[string]float64 `json:"scoreBreakdown"`
+	MatchReason    string             `json:"matchReason"`
+	Rank           int                `json:"rank"`
 }
 
 // Tokenize converts a string into a slice of lowercased, alphanumeric tokens
@@ -31,7 +31,7 @@ func Tokenize(text string) []string {
 	return tokens
 }
 
-// CalculateBM25Score provides a lightweight, heuristic-based scoring model 
+// CalculateBM25Score provides a lightweight, heuristic-based scoring model
 // simulating the Node.js TypeScript TF-IDF and semantic weighting algorithms
 // used by the Borg Control Plane.
 func CalculateBM25Score(queryTokens []string, tool ToolEntry) (float64, map[string]float64, string) {
@@ -45,7 +45,7 @@ func CalculateBM25Score(queryTokens []string, tool ToolEntry) (float64, map[stri
 
 	nameTokens := Tokenize(tool.Name)
 	descTokens := Tokenize(tool.Description)
-	
+
 	// Weights
 	const weightName = 10.0
 	const weightDesc = 3.0

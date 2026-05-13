@@ -355,6 +355,8 @@ func (s *Server) localConfigList() ([]map[string]any, error) {
 	if err != nil {
 		return nil, err
 	}
+	db.Exec("PRAGMA journal_mode=WAL")
+	db.Exec("PRAGMA busy_timeout=5000")
 	defer db.Close()
 
 	rows, err := db.Query(`SELECT id, value FROM config ORDER BY id`)
@@ -382,6 +384,8 @@ func (s *Server) localConfigValue(key string) (any, error) {
 	if err != nil {
 		return nil, err
 	}
+	db.Exec("PRAGMA journal_mode=WAL")
+	db.Exec("PRAGMA busy_timeout=5000")
 	defer db.Close()
 
 	row := db.QueryRow(`SELECT value FROM config WHERE id = ? LIMIT 1`, key)

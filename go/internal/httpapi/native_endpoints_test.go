@@ -185,3 +185,42 @@ func TestNativeSessionExportEndpoint(t *testing.T) {
 		t.Fatalf("expected export-manifest.json to exist: %v", err)
 	}
 }
+
+func TestSystemOverviewHandlerReturnsGoNativeData(t *testing.T) {
+	server, _ := newNativeTestServer(t)
+	req := httptest.NewRequest(http.MethodGet, "/api/system/overview", nil)
+	rec := httptest.NewRecorder()
+	server.handleSystemOverview(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", rec.Code, rec.Body.String())
+	}
+
+	var resp map[string]any
+	if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("invalid JSON: %v", err)
+	}
+	if success, _ := resp["success"].(bool); !success {
+		t.Fatalf("expected success=true")
+	}
+	data, _ := resp["data"].(map[string]any)
+	if data == nil {
+		t.Fatal("expected data object")
+	}
+	// MCP status should always be present
+	mcpStatus, _ := data["mcpStatus"].(map[string]any)
+	if mcpStatus == nil {
+		t.Fatal("expected mcpStatus object")
+	}
+	// Sessions should be present (Go-local)
+	sessions, _ := data["sessions"].(map[string]any)
+	if sessions == nil {
+		t.Fatal("expected sessions object")
+	}
+	// Health should contain goSidecar
+	health, _ := data["health"].(map[string]any)
+	goSidecar, _ := health["goSidecar"].(map[string]any)
+	if goSidecar == nil {
+		t.Fatal("expected health.goSidecar object")
+	}
+}

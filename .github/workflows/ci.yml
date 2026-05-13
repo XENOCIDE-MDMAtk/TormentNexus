@@ -188,7 +188,7 @@ jobs:
       
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.28.0
           
       - uses: actions/setup-node@v4
         with:
@@ -208,7 +208,7 @@ jobs:
       
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.28.0
           
       - uses: actions/setup-node@v4
         with:
@@ -228,7 +228,7 @@ jobs:
       
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.28.0
           
       - uses: actions/setup-node@v4
         with:
@@ -241,7 +241,7 @@ jobs:
         run: pnpm run test:ci
         
       - name: Upload coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: always()
         with:
           fail_ci_if_error: false
@@ -255,7 +255,7 @@ jobs:
       
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.28.0
           
       - uses: actions/setup-node@v4
         with:
@@ -268,7 +268,7 @@ jobs:
         run: pnpm run build
         
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dist
           path: |
@@ -284,7 +284,7 @@ jobs:
       
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.28.0
           
       - uses: actions/setup-node@v4
         with:

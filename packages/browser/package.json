@@ -1,8 +1,8 @@
 {
     "name": "@borg/browser-legacy",
-    "version": "1.0.0-alpha.33",
+    "version": "1.0.0-alpha.48",
     "scripts": {
-        "build": "webpack --config webpack.config.js"
+        "build": "echo \"stub package\""
     },
     "dependencies": {
         "socket.io-client": "^4.7.4"

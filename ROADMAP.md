@@ -295,3 +295,25 @@ Do not prioritize these ahead of core convergence:
 - broad P2P claims
 - major rewrites without measured need
 - large net-new surfaces while core ones remain rough
+
+8. **Agent Communication Protocols [P3]**
+   - *Implementation:* Integrate A2A discovery for URL processing delegation.
+   - *Implementation:* Integrate AG-UI generative UI for Kinetic HUD.
+
+9. **Graph/RAG/Vector Intelligence [P1]**
+   - *Implementation:* Build tag co-occurrence graph. Use DuckDB VSS for semantic search over existing dataset.
+
+10. **Security & Guardrails [P2]**
+    - *Implementation:* SafeExec execution blocking, PII masking, "AI Receipts" logging.
+
+11. **Observability & Telemetry [P1]**
+    - *Implementation:* Add OTEL spans to all extraction steps. Add session recording for JSON-RPC payloads.
+
+12. **Model Intelligence & Cost Optimization [P0]**
+    - *Implementation:* Tiered routing: Simple URLs (SLM) vs Complex URLs (Frontier). Auto-demote on ELO drop.
+
+13. **Browser Automation [P2]**
+    - *Implementation:* Accessibility Tree extraction for SPAs to achieve 90% token reduction vs DOM parsing.
+
+14. **CI/CD & Git Workflows [P3]**
+    - *Implementation:* Version DB schema via Git. Autonomous self-healing queues for low-quality extractions.

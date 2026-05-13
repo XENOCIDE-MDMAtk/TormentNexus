@@ -16,7 +16,6 @@ package projects
 import (
 	"fmt"
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"sort"

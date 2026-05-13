@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/borghq/borg-go/internal/interop"
-	"github.com/borghq/borg-go/internal/interop"
 )
 
 type SessionBootstrapPayload struct {

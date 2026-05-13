@@ -1,5 +1,5 @@
 {
-  "nextId": 8,
+  "nextId": 12,
   "tasks": [
     {
       "id": "1",
@@ -62,25 +62,73 @@
       "id": "6",
       "subject": "Rename all Borg references back to borg",
       "description": "Find all references to Borg, borg, @borg, robertpelloni, etc. and rename to borg equivalents. This includes package names, imports, URLs, display strings, config, docs, folder names, etc.",
-      "status": "in_progress",
+      "status": "completed",
       "activeForm": "Renaming Borg to borg across codebase",
       "metadata": {},
       "blocks": [],
       "blockedBy": [],
       "createdAt": 1777049567748,
-      "updatedAt": 1777049979496
+      "updatedAt": 1777054821790
     },
     {
       "id": "7",
       "subject": "Rebuild, verify, and push",
       "description": "After rename, rebuild core + CLI, verify server starts, push to both remotes",
-      "status": "pending",
+      "status": "completed",
       "activeForm": "Rebuilding and verifying",
       "metadata": {},
       "blocks": [],
       "blockedBy": [],
       "createdAt": 1777049573070,
-      "updatedAt": 1777049573070
+      "updatedAt": 1777054826248
+    },
+    {
+      "id": "8",
+      "subject": "Create LLMClient interface with waterfall routing (NIM → OpenRouter → LM Studio)",
+      "description": "Build internal/llm/ package with:\n- LLMClient interface with Chat/ChatStream methods\n- TierConfig struct for each provider (NVIDIA NIM, OpenRouter, LM Studio)\n- WaterfallRouter that cascades on 429/5xx\n- Request/Response types\n- Unit tests",
+      "status": "completed",
+      "activeForm": "Building LLM waterfall router",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1777121466186,
+      "updatedAt": 1777121671548
+    },
+    {
+      "id": "9",
+      "subject": "Create MCP progressive tool routing with vector semantic search",
+      "description": "Build internal/mcp/vector/ package with:\n- SQLite + sqlite-vec schema for MCP tool catalog with embeddings\n- ToolSchema struct with vector column\n- Cosine similarity search returning top-K tools\n- Router that feeds filtered schemas to LLM for deterministic selection\n- Integration with existing mcp/decision.go",
+      "status": "completed",
+      "activeForm": "Building MCP progressive tool routing",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1777121480934,
+      "updatedAt": 1777121934118
+    },
+    {
+      "id": "10",
+      "subject": "Create dual-tier memory architecture (L1 Scratchpad + L2 Vault)",
+      "description": "Build internal/vault/ package with:\n- L1 SessionScratchpad (in-memory SQLite, ephemeral)\n- L2 Vault (on-disk SQLite with vector extension)\n- Dual-format commits: \"raw\" transcripts + \"heuristic\" summaries\n- Bridge: L2→L1 semantic context injection on session init\n- Full schema DDL, migration, CRUD operations\n- Unit tests",
+      "status": "completed",
+      "activeForm": "Building dual-tier memory architecture",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1777121491721,
+      "updatedAt": 1777122244263
+    },
+    {
+      "id": "11",
+      "subject": "Verify Go build compiles and all tests pass",
+      "description": "Run go build ./... and go test ./internal/llm/... ./internal/mcp/vector/... ./internal/vault/... and fix any compilation errors",
+      "status": "completed",
+      "activeForm": "Verifying build and tests",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1777121497120,
+      "updatedAt": 1777123739896
     }
   ]
 }

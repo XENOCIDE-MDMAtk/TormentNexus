@@ -1,17 +1,9 @@
 {
-<<<<<<< HEAD:archive/ts-legacy/packages/vscode/package.json
-    "name": "hypercode-vscode-extension",
-    "displayName": "HyperCode Plugin",
-    "version": "1.0.0-alpha.32",
-    "description": "Connect VS Code to HyperCode Hub for AI agent orchestration, memory management, and tool invocation",
-    "publisher": "hypercode",
-=======
     "name": "borg-vscode-extension",
-    "displayName": "borg Plugin",
-    "version": "1.0.0-alpha.1",
-    "description": "Connect VS Code to borg Hub for AI agent orchestration, memory management, and tool invocation",
+    "displayName": "Borg Plugin",
+    "version": "0.90.7",
+    "description": "Connect VS Code to Borg Hub for AI agent orchestration, memory management, and tool invocation",
     "publisher": "borg",
->>>>>>> origin/dependabot/cargo/packages/zed-extension/cargo-64b2a50fd2:packages/vscode/package.json
     "engines": {
         "vscode": "^1.85.0"
     },
@@ -37,86 +29,80 @@
         "commands": [
             {
                 "command": "borg.connect",
-                "title": "borg: Connect to Core"
+                "title": "Borg: Connect to Core"
             },
             {
                 "command": "borg.disconnect",
-                "title": "borg: Disconnect from Core"
+                "title": "Borg: Disconnect from Core"
             },
             {
                 "command": "borg.showStatus",
-                "title": "borg: Show Hub Status"
+                "title": "Borg: Show Hub Status"
             },
             {
                 "command": "borg.runAgent",
-                "title": "borg: Run Agent"
+                "title": "Borg: Run Agent"
             },
             {
                 "command": "borg.searchMemory",
-                "title": "borg: Search Memory"
+                "title": "Borg: Search Memory"
             },
             {
                 "command": "borg.ingestUrl",
-                "title": "borg: Ingest URL to Knowledge"
+                "title": "Borg: Ingest URL to Knowledge"
             },
             {
                 "command": "borg.ingestSelectionToRag",
-                "title": "borg: Ingest Selection to RAG"
+                "title": "Borg: Ingest Selection to RAG"
             },
             {
                 "command": "borg.rememberSelection",
-                "title": "borg: Remember Selection"
+                "title": "Borg: Remember Selection"
             },
             {
                 "command": "borg.listTools",
-                "title": "borg: List Tools"
+                "title": "Borg: List Tools"
             },
             {
                 "command": "borg.invokeTool",
-                "title": "borg: Invoke Tool"
+                "title": "Borg: Invoke Tool"
             },
             {
                 "command": "borg.openDashboard",
-                "title": "borg: Open Dashboard"
+                "title": "Borg: Open Dashboard"
             },
             {
                 "command": "borg.showLogs",
-                "title": "borg: Show Logs"
+                "title": "Borg: Show Logs"
             },
             {
                 "command": "borg.startDebate",
-                "title": "borg: Start Council Debate"
+                "title": "Borg: Start Council Debate"
             },
             {
                 "command": "borg.viewAnalytics",
-                "title": "borg: View Supervisor Analytics"
+                "title": "Borg: View Supervisor Analytics"
             },
             {
                 "command": "borg.listDebateTemplates",
-                "title": "borg: List Debate Templates"
+                "title": "Borg: List Debate Templates"
             },
             {
                 "command": "borg.architectMode",
-                "title": "borg: Architect Mode (Two-Model)"
+                "title": "Borg: Architect Mode (Two-Model)"
             }
         ],
         "viewsContainers": {
             "activitybar": [
                 {
-<<<<<<< HEAD:archive/ts-legacy/packages/vscode/package.json
-                    "id": "HyperCodeSidebar",
-                    "title": "HyperCode",
-                    "icon": "resources/hypercode.svg"
-=======
                     "id": "BorgSidebar",
-                    "title": "borg",
+                    "title": "Borg",
                     "icon": "resources/borg.svg"
->>>>>>> origin/dependabot/cargo/packages/zed-extension/cargo-64b2a50fd2:packages/vscode/package.json
                 }
             ]
         },
         "views": {
-            "HyperCodeSidebar": [
+            "BorgSidebar": [
                 {
                     "type": "webview",
                     "id": "borg.dispatchView",
@@ -125,12 +111,12 @@
             ]
         },
         "configuration": {
-            "title": "borg",
+            "title": "Borg",
             "properties": {
                 "borg.coreUrl": {
                     "type": "string",
                     "default": "ws://localhost:3001",
-                    "description": "URL of the borg Core WebSocket server"
+                    "description": "URL of the Borg Core WebSocket server"
                 },
                 "borg.apiKey": {
                     "type": "string",
@@ -140,7 +126,7 @@
                 "borg.dashboardUrl": {
                     "type": "string",
                     "default": "http://localhost:3000",
-                    "description": "Base URL of the borg web dashboard used for deep links from the VS Code extension"
+                    "description": "Base URL of the Borg web dashboard used for deep links from the VS Code extension"
                 },
                 "borg.autoConnect": {
                     "type": "boolean",
@@ -154,12 +140,12 @@
                 {
                     "command": "borg.ingestSelectionToRag",
                     "when": "editorHasSelection",
-                    "group": "borg@1"
+                    "group": "Borg@1"
                 },
                 {
                     "command": "borg.rememberSelection",
                     "when": "editorHasSelection",
-                    "group": "borg@2"
+                    "group": "Borg@2"
                 }
             ]
         }
@@ -178,9 +164,9 @@
         "@types/ws": "^8.5.10",
         "@typescript-eslint/eslint-plugin": "^6.13.1",
         "@typescript-eslint/parser": "^6.13.1",
-        "eslint": "^8.54.0",
+        "eslint": "^9.26.0",
         "tsup": "^8.0.2",
-        "typescript": "^5.9.3",
+        "typescript": "^5.3.3",
         "vsce": "^2.15.0"
     },
     "dependencies": {

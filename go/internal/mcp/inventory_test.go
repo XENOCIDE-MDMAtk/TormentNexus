@@ -67,11 +67,7 @@ func TestLoadInventoryFromConfigAndDatabase(t *testing.T) {
 		t.Fatalf("failed to write mcp.json: %v", err)
 	}
 
-	dbDir := filepath.Join(workspace, "packages", "core")
-	if err := os.MkdirAll(dbDir, 0o755); err != nil {
-		t.Fatalf("failed to create db dir: %v", err)
-	}
-	db, err := sql.Open("sqlite", filepath.Join(dbDir, "metamcp.db"))
+	db, err := sql.Open("sqlite", filepath.Join(workspace, "metamcp.db"))
 	if err != nil {
 		t.Fatalf("failed to open sqlite db: %v", err)
 	}

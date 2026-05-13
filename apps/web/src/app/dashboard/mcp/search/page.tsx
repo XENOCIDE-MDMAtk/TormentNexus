@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button, Card, CardContent, CardHeader, CardTitle } from "@borg/ui";
 import { Loader2, Search, Zap, Code, Layers, ExternalLink, Activity, Database, ArrowDownToLine, Sparkles, Trash2, SlidersHorizontal, History } from "lucide-react";
@@ -187,7 +187,15 @@ function formatRelativeTimestamp(timestamp: number | null): string {
     return `${deltaHours}h ago`;
 }
 
-export default function SearchDashboard() {
+export default function SearchDashboardPage() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center h-screen"><Loader2 className="h-8 w-8 animate-spin text-zinc-400" /></div>}>
+            <SearchDashboard />
+        </Suspense>
+    );
+}
+
+function SearchDashboard() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();

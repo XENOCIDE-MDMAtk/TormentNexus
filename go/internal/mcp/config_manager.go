@@ -33,9 +33,9 @@ type McpConfig struct {
 }
 
 type ConfigManager struct {
-	mu      sync.RWMutex
-	path    string
-	config  McpConfig
+	mu     sync.RWMutex
+	path   string
+	config McpConfig
 }
 
 func NewConfigManager(mainConfigDir string) *ConfigManager {
@@ -64,7 +64,7 @@ func (cm *ConfigManager) Load() error {
 
 	// Simple JSONC to JSON (strip comments)
 	cleanJSON := cm.stripComments(string(data))
-	
+
 	var config McpConfig
 	if err := json.Unmarshal([]byte(cleanJSON), &config); err != nil {
 		return fmt.Errorf("failed to parse mcp.jsonc: %w", err)
@@ -92,7 +92,7 @@ func (cm *ConfigManager) Save() error {
 func (cm *ConfigManager) GetServers() map[string]McpServerConfig {
 	cm.mu.RLock()
 	defer cm.mu.RUnlock()
-	
+
 	copy := make(map[string]McpServerConfig)
 	for k, v := range cm.config.McpServers {
 		copy[k] = v

@@ -33,6 +33,12 @@ func (r *Registry) registerAll() {
 	r.handlers["write_file"] = HandleWrite
 	r.handlers["edit_file"] = HandleEdit
 	r.handlers["str_replace_editor"] = HandleEdit
+	r.handlers["grep_search"] = HandleGrep
+	r.handlers["search_files"] = HandleGrep
+	r.handlers["glob"] = HandleGlob
+	r.handlers["find_files"] = HandleGlob
+	r.handlers["apply_patch"] = HandleApplyPatch
+	r.handlers["multi_edit"] = HandleMultiEdit
 	r.handlers["bash"] = HandleBash
 	r.handlers["ls"] = HandleLS
 	r.handlers["list_directory"] = HandleLS
@@ -45,16 +51,24 @@ func (r *Registry) registerAll() {
 	r.handlers["Bash"] = HandleBash
 	r.handlers["LS"] = HandleLS
 	r.handlers["WebFetch"] = HandleWebFetch
+	r.handlers["Glob"] = HandleGlob
+	r.handlers["Grep"] = HandleGrep
+	r.handlers["MultiEdit"] = HandleMultiEdit
 
 	// Codex Aliases
 	r.handlers["shell"] = HandleBash
 	r.handlers["create_file"] = HandleWrite
 	r.handlers["view_file"] = HandleRead
+	r.handlers["apply_diff"] = HandleApplyPatch
+	r.handlers["search_files_codex"] = HandleGrep
 
 	// OpenCode / Pi Aliases
 	r.handlers["read"] = HandleRead
 	r.handlers["write"] = HandleWrite
 	r.handlers["edit"] = HandleEdit
+	r.handlers["grep"] = HandleGrep
+	r.handlers["ls"] = HandleLS
+	r.handlers["glob_pi"] = HandleGlob
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {

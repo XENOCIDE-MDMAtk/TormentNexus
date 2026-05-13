@@ -35,8 +35,8 @@ func ListMarketplace(repoRoot string, filter string) ([]MarketplaceEntry, error)
 	filter = strings.ToLower(filter)
 	filtered := []MarketplaceEntry{}
 	for _, entry := range allEntries {
-		if strings.Contains(strings.ToLower(entry.Name), filter) || 
-		   strings.Contains(strings.ToLower(entry.Description), filter) {
+		if strings.Contains(strings.ToLower(entry.Name), filter) ||
+			strings.Contains(strings.ToLower(entry.Description), filter) {
 			filtered = append(filtered, entry)
 		}
 	}

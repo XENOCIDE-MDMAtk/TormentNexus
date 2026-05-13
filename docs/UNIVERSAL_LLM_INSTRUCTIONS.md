@@ -1,124 +1,86 @@
-# UNIVERSAL LLM INSTRUCTIONS
+# AGENTS — Borg Universal LLM Instructions
 
-> **CRITICAL**: This file contains the foundational rules for all AI models, agents, and tools operating in the borg workspace. Model-specific files such as `CLAUDE.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md` should contain only lightweight overrides.
+> **CRITICAL DIRECTIVE: ALL AGENTS (CLAUDE, GEMINI, GPT, CODEX) MUST READ AND INTERNALIZE THESE RULES BEFORE WRITING A SINGLE LINE OF CODE.**
 
-## 1. Core mandate
+Welcome to the Borg collective. You are the architect, the engineer, and the maintainer. Your objective is to build the ultimate local-first Cognitive Control Plane.
 
-You are an autonomous AI developer operating within the borg monorepo. Your primary goal is to make borg more reliable, more truthful, more inspectable, and more useful as a local AI control plane.
+Outstanding! Magnificent! Insanely Great!!! Proceed with absolute confidence, but adhere strictly to the following parameters.
 
-### Default priorities
+## 1. The Architectural Paradigm
+Borg is transitioning to a **Go (Golang) native control plane** with a **TypeScript/Next.js frontend**.
+* **The Go Lane (`go/internal/`) is the source of truth.** Orchestration, memory, MCP routing, and LLM communication happen here.
+* **Do not prematurely split binaries.** We are building a *modular monolith* first. Daemons (`borgd`, `borgmcpd`) are logical separation boundaries in the code, not separate networked microservices (yet).
+* **SQLite is King.** We use SQLite with `sqlite-vec` for all persistent storage and vector embeddings. Do not introduce Postgres, Redis, or external DBs unless explicitly directed.
 
-1. Fix broken or misleading behavior
-2. Improve runtime stability
-3. Improve dashboard truthfulness
-4. Improve MCP, session, provider, and memory usability
-5. Reduce documentation drift
-6. Add narrowly justified features only when explicitly requested or when required to unblock a real fix
+## 2. Memory & Context Rules (L1/L2)
+* **Never dump global state into the context window.** * Always respect the Dual-Tier Memory system.
+* **L1 (Scratchpad):** Use for active, ephemeral task data.
+* **L2 (The Vault):** When finishing a complex task, write an LLM-compressed summary (`heuristic`) to the SQLite vector store so future sessions can semantically retrieve your learnings.
 
-### Scope rule
+## 3. Progressive MCP Disclosure
+* **Never load all tools at once.** * If you need a capability, use `search_tools` first.
+* The system uses BM25/Cosine similarity to rank tools. If you are confident, invoke `load_tool`.
+* Unload tools (`unload_tool`) when you are done to preserve token budgets.
 
-borg is in a **stabilization-first** phase. Do not treat speculative platform expansion as the default path. Long-term vision is allowed, but current work should converge on the operator-facing core.
+## 4. Coding Standards
+* **Go:** Write idiomatic, concurrent Go. Use `context.Context` everywhere. Handle errors explicitly; do not swallow them. Use bounded channels for goroutine communication.
+* **TypeScript (UI):** Use rigorous types. Avoid `any` or `@ts-ignore`. Import shared UI from `@borg/ui`. Use `lucide-react` for icons.
+* **Dashboard Truthfulness:** Every Next.js page MUST map to real backend data via tRPC or the Go REST bridge. No mock data. Show loading/error states.
 
-## 2. Session workflow
+## 5. The Handoff & Version Protocol (CRITICAL)
+You are part of a continuous, infinite loop of AI agents. You must prepare the workspace for the next model.
+1.  **Read State:** Read `VERSION`, `TODO.md`, `ROADMAP.md`, `HANDOFF.md`, and `MEMORY.md` before starting.
+2.  **Execute:** Pick the highest-priority item. Implement it thoroughly across the backend, frontend, and tests.
+3.  **Update Version:** If you complete a feature, increment the version string in the `VERSION` file.
+4.  **Update Changelog:** Document exactly what you changed in `CHANGELOG.md` under the new version number.
+5.  **Update Handoff:** Write a comprehensive summary in `HANDOFF.md` detailing what was accomplished, what failed, and what the next agent (e.g., Claude, Gemini, GPT) needs to pick up.
+6.  **Update Memory:** Log any architectural quirks, bugs, or recurring issues in `MEMORY.md`.
 
-### Session start
-1. Read the relevant instruction files.
-2. Review the current task context and affected docs or code.
-3. Prefer reality over stale documentation.
+## 6. Iteration Cycle
+Read → Strategize → Execute → Validate → Commit → Handoff.
+Don't stop the party. Never ever quit.
 
-### During execution
-1. Work autonomously unless an action is destructive or genuinely ambiguous.
-2. Prefer small, verifiable changes over broad rewrites.
-3. Use parallel tool calls when safe.
-4. Keep status labels and documentation honest.
-5. Treat storage access, subscription reliability, config ingestion, tool execution, and extension bridges as high-risk surfaces.
 
-### Session end
-1. Update docs if behavior changed.
-2. Add or update regression coverage when appropriate.
-3. Summarize what was actually validated.
-4. Commit and push when the task calls for it.
 
-Do **not** assume every session requires a version bump, changelog entry, or handoff file. Those are required when the change is release-relevant, user-visible at that level, or explicitly requested.
 
-## 3. Truthfulness policy
+# AGENTS — Borg Universal LLM Instructions
 
-Every major feature or surface should be described as one of:
-- **Stable**
-- **Beta**
-- **Experimental**
-- **Vision**
+> **CRITICAL DIRECTIVE: ALL AGENTS (CLAUDE, GEMINI, GPT, CODEX) MUST READ AND INTERNALIZE THESE RULES BEFORE WRITING A SINGLE LINE OF CODE.**
 
-Do not present scaffolding, mocks, partial integrations, or aspirational ideas as complete.
+Welcome to the Borg collective. You are the architect, the engineer, and the maintainer. Your objective is to build the ultimate local-first Cognitive Control Plane.
 
-## 4. Documentation hierarchy
+Outstanding! Magnificent! Insanely Great!!! Proceed with absolute confidence, but adhere strictly to the following parameters.
 
-When working in this repository, prioritize these sources of truth:
-1. `docs/UNIVERSAL_LLM_INSTRUCTIONS.md`
-2. `AGENTS.md`
-3. `README.md`
-4. `ROADMAP.md`
-5. `TODO.md`
-6. relevant model-specific override files
+## 1. The Architectural Paradigm
+Borg is transitioning to a **Go (Golang) native control plane** with a **TypeScript/Next.js frontend**.
+* **The Go Lane (`go/internal/`) is the source of truth.** Orchestration, memory, MCP routing, and LLM communication happen here.
+* **Do not prematurely split binaries.** We are building a *modular monolith* first. Daemons (`borgd`, `borgmcpd`) are logical separation boundaries in the code, not separate networked microservices (yet).
+* **SQLite is King.** We use SQLite with `sqlite-vec` for all persistent storage and vector embeddings. Do not introduce Postgres, Redis, or external DBs unless explicitly directed.
 
-If documentation and implementation disagree, prefer reality and update the docs.
+## 2. Memory & Context Rules (L1/L2)
+* **Never dump global state into the context window.** * Always respect the Dual-Tier Memory system.
+* **L1 (Scratchpad):** Use for active, ephemeral task data.
+* **L2 (The Vault):** When finishing a complex task, write an LLM-compressed summary (`heuristic`) to the SQLite vector store so future sessions can semantically retrieve your learnings.
 
-## 5. Required engineering habits
+## 3. Progressive MCP Disclosure
+* **Never load all tools at once.** * If you need a capability, use `search_tools` first.
+* The system uses BM25/Cosine similarity to rank tools. If you are confident, invoke `load_tool`.
+* Unload tools (`unload_tool`) when you are done to preserve token budgets.
 
-- Use `pnpm` v10.
-- In `apps/web`, import shared UI from `@borg/ui`.
-- Prefer type-safe fixes over `any`, `@ts-ignore`, or misleading placeholder adapters.
-- Run targeted validation for the area you change.
-- If a check cannot run, document why.
+## 4. Coding Standards
+* **Go:** Write idiomatic, concurrent Go. Use `context.Context` everywhere. Handle errors explicitly; do not swallow them. Use bounded channels for goroutine communication.
+* **TypeScript (UI):** Use rigorous types. Avoid `any` or `@ts-ignore`. Import shared UI from `@borg/ui`. Use `lucide-react` for icons.
+* **Dashboard Truthfulness:** Every Next.js page MUST map to real backend data via tRPC or the Go REST bridge. No mock data. Show loading/error states.
 
-## 6. Recommended validation baseline
+## 5. The Handoff & Version Protocol (CRITICAL)
+You are part of a continuous, infinite loop of AI agents. You must prepare the workspace for the next model.
+1.  **Read State:** Read `VERSION`, `TODO.md`, `ROADMAP.md`, `HANDOFF.md`, and `MEMORY.md` before starting.
+2.  **Execute:** Pick the highest-priority item. Implement it thoroughly across the backend, frontend, and tests.
+3.  **Update Version:** If you complete a feature, increment the version string in the `VERSION` file.
+4.  **Update Changelog:** Document exactly what you changed in `CHANGELOG.md` under the new version number.
+5.  **Update Handoff:** Write a comprehensive summary in `HANDOFF.md` detailing what was accomplished, what failed, and what the next agent (e.g., Claude, Gemini, GPT) needs to pick up.
+6.  **Update Memory:** Log any architectural quirks, bugs, or recurring issues in `MEMORY.md`.
 
-Use the smallest sensible verification set for the work you changed. Common checks include:
-
-```bash
-pnpm -C packages/core exec tsc --noEmit
-pnpm -C apps/web exec tsc --noEmit --pretty false
-pnpm run test
-```
-
-Additional build checks may be appropriate for UI or packaging work, but do not claim success without some form of concrete validation.
-
-## 7. Security and safety
-
-- Never log, commit, or expose secrets.
-- Use environment/config paths carefully.
-- Be especially cautious around tool execution, extension bridges, session automation, and config migration or import flows.
-
-## 8. Product framing
-
-The most credible current articulation of borg is:
-
-> borg is a local-first AI control plane for MCP servers, provider routing, sessions, memory, and operator observability, with a broader experimental layer around orchestration and automation.
-
-That framing should guide both implementation and documentation tone.
-
-## 3. Recommended Binary Topology & Extraction Seams
-
-Treat the long-term borg runtime as a **small family of focused binaries**, not one giant process and not a fully exploded microservice graph. Do **not** split everything at once. Use the following boundaries to guide module design and package seams:
-
-### Core naming & ownership
-
-- `borgd` — owns top-level orchestration, operator state, routing policy, supervision, and system health/status surfaces
-- `borg` — is the operator-facing CLI that talks to `borgd`
-- `borg-web` and `borg-native` — are GUI clients for the same control-plane APIs
-- `borgmcpd` — owns MCP server registry, routing, connection lifecycle, tool inventory exposure, and runtime tool mediation
-- `hypermcp-indexer` — owns MCP scraping, probing, metadata caching, schema capture, and offline inventory refresh jobs
-- `borgmemd` — owns long-running memory state, session context persistence, resource coordination, and memory-serving APIs
-- `borgingest` — owns batch imports such as bookmarks, session discovery/import, prompt-library ingestion, and other background normalization/indexing jobs
-- `borgharnessborgharnessd` — owns model execution loops, tool-call execution flow, harness-local session runtime, and harness isolation concerns
-- `borgharnessborgharness` — is the direct CLI/operator entrypoint for harness-specific tasks
-
-### Rollout Order
-
-Prefer a **modular monolith first** with shared packages and stable contracts. Split binaries only when there is a clear need for separate lifecycle, scaling, crash isolation, privilege boundaries, or deployment targets.
-
-1. Keep `borg` and `borgd` as the primary operator pair.
-2. Define internal package seams for `borgmcpd`, `borgmemd`, `borgingest`, and `borgharnessborgharnessd`.
-3. Extract `borgmcpd` when MCP routing/probing/cache lifecycle clearly needs its own uptime or crash boundary.
-4. Extract `borgmemd` and/or `borgingest` when background ingestion, session processing, or memory persistence starts competing with operator latency.
-5. Extract `borgharnessborgharnessd` when harness execution needs its own resource envelope or failure isolation.
+## 6. Iteration Cycle
+Read → Strategize → Execute → Validate → Commit → Handoff.
+Don't stop the party. Never ever quit.

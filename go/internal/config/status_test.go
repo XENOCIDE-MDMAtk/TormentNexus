@@ -37,11 +37,9 @@ func TestSnapshotReportsKeyPaths(t *testing.T) {
 	if !status.WorkspaceRoot.Exists {
 		t.Fatalf("expected workspace root to exist")
 	}
-	if !status.borgSubmodule.Exists {
+	if !status.BorgSubmodule.Exists {
 		t.Fatalf("expected borg submodule path to exist")
 	}
-	if !status.BorgConfigFile.Exists || !status.MCPConfigFile.Exists {
-		t.Fatalf("expected repo config files to exist, got borg=%+v mcp=%+v", status.BorgConfigFile, status.MCPConfigFile)
 	if !status.BorgConfigFile.Exists || !status.MCPConfigFile.Exists {
 		t.Fatalf("expected repo config files to exist, got borg=%+v mcp=%+v", status.BorgConfigFile, status.MCPConfigFile)
 	}

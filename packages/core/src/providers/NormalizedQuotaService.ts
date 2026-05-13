@@ -19,7 +19,7 @@ export class NormalizedQuotaService extends QuotaService {
     private readonly registry: ProviderRegistry;
     private readonly balanceService: ProviderBalanceService;
     private readonly providerUsage: UsageRecord[] = [];
-    private configState: QuotaConfig = {
+    protected configState: QuotaConfig = {
         dailyBudgetUsd: 5,
         monthlyBudgetUsd: 100,
         providerLimits: {},
@@ -33,7 +33,7 @@ export class NormalizedQuotaService extends QuotaService {
         this.refreshAuthStates();
     }
 
-    public override setConfig(config: QuotaConfig) {
+    public setConfig(config: QuotaConfig) {
         this.configState = {
             ...this.configState,
             ...config,
@@ -65,7 +65,7 @@ export class NormalizedQuotaService extends QuotaService {
         }
     }
 
-    public override trackUsage(modelId: string, inputTokens: number, outputTokens: number) {
+    public trackUsage(modelId: string, inputTokens: number, outputTokens: number) {
         const model = this.registry.getModel(modelId);
         const provider = model?.provider ?? 'unknown';
         const inputPrice = model?.inputPrice ?? 0;
@@ -94,18 +94,18 @@ export class NormalizedQuotaService extends QuotaService {
         }
     }
 
-    public override getSessionTotal(): number {
+    public getSessionTotal(): number {
         return this.providerUsage.reduce((total, entry) => total + entry.costUsd, 0);
     }
 
-    public override getDailyTotal(): number {
+    public getDailyTotal(): number {
         const today = new Date().setHours(0, 0, 0, 0);
         return this.providerUsage
             .filter((entry) => entry.timestamp >= today)
             .reduce((total, entry) => total + entry.costUsd, 0);
     }
 
-    public override getUsageByModel() {
+    public getUsageByModel() {
         const byProvider = new Map<string, { cost: number; requests: number }>();
         for (const entry of this.providerUsage) {
             const current = byProvider.get(entry.provider) ?? { cost: 0, requests: 0 };
@@ -121,11 +121,11 @@ export class NormalizedQuotaService extends QuotaService {
         }));
     }
 
-    public override isBudgetExceeded(): boolean {
+    public isBudgetExceeded(): boolean {
         return this.getDailyTotal() >= this.configState.dailyBudgetUsd;
     }
 
-    public override getReport() {
+    public getReport() {
         return {
             session: this.getSessionTotal(),
             daily: this.getDailyTotal(),

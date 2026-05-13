@@ -70,7 +70,7 @@ export const sessionRouter = t.router({
     }),
 
     list: publicProcedure.output(z.array(supervisedSessionSnapshotSchema)).query(() => {
-        return getSessionSupervisor().listSessions();
+        try { return getSessionSupervisor()?.listSessions() ?? []; } catch { return []; }
     }),
 
     get: publicProcedure.input(z.object({

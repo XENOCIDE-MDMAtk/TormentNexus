@@ -232,6 +232,8 @@ func loadLiveInventory(workspaceRoot, mainConfigDir string) (*Inventory, error) 
 	dbPath := filepath.Join(workspaceRoot, "metamcp.db")
 	db, err := sql.Open("sqlite", dbPath)
 	if err == nil {
+		db.Exec("PRAGMA journal_mode=WAL")
+		db.Exec("PRAGMA busy_timeout=5000")
 		defer db.Close()
 		dbToolCountBefore := len(inventory.Tools)
 

@@ -1,0 +1,256 @@
+{
+  "version": 1,
+  "files": {
+    "apps\\web\\src\\app\\dashboard\\layout.tsx": {
+      "latest": {
+        "commit": "9036bec64",
+        "timestamp": "2026-04-29T17:55:33.474Z",
+        "mi": 60.5,
+        "cognitive": 0,
+        "nesting": 1,
+        "lines": 16,
+        "maxCyclomatic": 1,
+        "entropy": 3.56
+      },
+      "history": [
+        {
+          "commit": "9036bec64",
+          "timestamp": "2026-04-29T17:55:33.474Z",
+          "mi": 60.5,
+          "cognitive": 0,
+          "nesting": 1,
+          "lines": 16,
+          "maxCyclomatic": 1,
+          "entropy": 3.56
+        }
+      ],
+      "trend": "stable"
+    },
+    "apps\\web\\src\\components\\Sidebar.tsx": {
+      "latest": {
+        "commit": "9036bec64",
+        "timestamp": "2026-04-29T17:55:41.957Z",
+        "mi": 5.8,
+        "cognitive": 334,
+        "nesting": 7,
+        "lines": 859,
+        "maxCyclomatic": 188,
+        "entropy": 7.1
+      },
+      "history": [
+        {
+          "commit": "9036bec64",
+          "timestamp": "2026-04-29T17:55:41.957Z",
+          "mi": 5.8,
+          "cognitive": 334,
+          "nesting": 7,
+          "lines": 859,
+          "maxCyclomatic": 188,
+          "entropy": 7.1
+        }
+      ],
+      "trend": "stable"
+    },
+    "apps\\web\\src\\components\\mcp\\nav-config.ts": {
+      "latest": {
+        "commit": "9036bec64",
+        "timestamp": "2026-04-29T17:56:01.069Z",
+        "mi": 22.7,
+        "cognitive": 0,
+        "nesting": 0,
+        "lines": 244,
+        "maxCyclomatic": 1,
+        "entropy": 3.81
+      },
+      "history": [
+        {
+          "commit": "9036bec64",
+          "timestamp": "2026-04-29T17:56:01.069Z",
+          "mi": 22.7,
+          "cognitive": 0,
+          "nesting": 0,
+          "lines": 244,
+          "maxCyclomatic": 1,
+          "entropy": 3.81
+        }
+      ],
+      "trend": "stable"
+    },
+    "apps\\web\\src\\app\\dashboard\\page.tsx": {
+      "latest": {
+        "commit": "9036bec64",
+        "timestamp": "2026-04-29T17:56:15.307Z",
+        "mi": 79.7,
+        "cognitive": 0,
+        "nesting": 1,
+        "lines": 4,
+        "maxCyclomatic": 1,
+        "entropy": 2.92
+      },
+      "history": [
+        {
+          "commit": "9036bec64",
+          "timestamp": "2026-04-29T17:56:15.307Z",
+          "mi": 79.7,
+          "cognitive": 0,
+          "nesting": 1,
+          "lines": 4,
+          "maxCyclomatic": 1,
+          "entropy": 2.92
+        }
+      ],
+      "trend": "stable"
+    },
+    "apps\\web\\next.config.js": {
+      "latest": {
+        "commit": "9036bec64",
+        "timestamp": "2026-04-29T17:56:47.255Z",
+        "mi": 71.5,
+        "cognitive": 0,
+        "nesting": 0,
+        "lines": 14,
+        "maxCyclomatic": 1,
+        "entropy": 3.83
+      },
+      "history": [
+        {
+          "commit": "9036bec64",
+          "timestamp": "2026-04-29T17:56:47.255Z",
+          "mi": 71.5,
+          "cognitive": 0,
+          "nesting": 0,
+          "lines": 14,
+          "maxCyclomatic": 1,
+          "entropy": 3.83
+        }
+      ],
+      "trend": "stable"
+    },
+    "packages\\cli\\src\\commands\\start.ts": {
+      "latest": {
+        "commit": "9036bec64",
+        "timestamp": "2026-04-29T19:36:07.983Z",
+        "mi": 20.4,
+        "cognitive": 123,
+        "nesting": 6,
+        "lines": 329,
+        "maxCyclomatic": 28,
+        "entropy": 6.9
+      },
+      "history": [
+        {
+          "commit": "9036bec64",
+          "timestamp": "2026-04-29T19:36:07.983Z",
+          "mi": 20.4,
+          "cognitive": 123,
+          "nesting": 6,
+          "lines": 329,
+          "maxCyclomatic": 28,
+          "entropy": 6.9
+        }
+      ],
+      "trend": "stable"
+    },
+    "scripts\\trpc-audit.mjs": {
+      "latest": {
+        "commit": "b82dee00c",
+        "timestamp": "2026-04-29T20:41:33.906Z",
+        "mi": 41.5,
+        "cognitive": 7,
+        "nesting": 3,
+        "lines": 67,
+        "maxCyclomatic": 1,
+        "entropy": 3.58
+      },
+      "history": [
+        {
+          "commit": "b82dee00c",
+          "timestamp": "2026-04-29T20:41:33.906Z",
+          "mi": 41.5,
+          "cognitive": 7,
+          "nesting": 3,
+          "lines": 67,
+          "maxCyclomatic": 1,
+          "entropy": 3.58
+        }
+      ],
+      "trend": "stable"
+    },
+    "packages\\cli\\src\\commands\\config.ts": {
+      "latest": {
+        "commit": "b82dee00c",
+        "timestamp": "2026-04-29T22:18:25.458Z",
+        "mi": 30.4,
+        "cognitive": 72,
+        "nesting": 6,
+        "lines": 167,
+        "maxCyclomatic": 34,
+        "entropy": 6.63
+      },
+      "history": [
+        {
+          "commit": "b82dee00c",
+          "timestamp": "2026-04-29T22:18:25.458Z",
+          "mi": 30.4,
+          "cognitive": 72,
+          "nesting": 6,
+          "lines": 167,
+          "maxCyclomatic": 34,
+          "entropy": 6.63
+        }
+      ],
+      "trend": "stable"
+    },
+    "packages\\cli\\src\\commands\\session.ts": {
+      "latest": {
+        "commit": "b82dee00c",
+        "timestamp": "2026-04-29T22:56:37.075Z",
+        "mi": 32.6,
+        "cognitive": 35,
+        "nesting": 4,
+        "lines": 141,
+        "maxCyclomatic": 26,
+        "entropy": 6.83
+      },
+      "history": [
+        {
+          "commit": "b82dee00c",
+          "timestamp": "2026-04-29T22:56:37.075Z",
+          "mi": 32.6,
+          "cognitive": 35,
+          "nesting": 4,
+          "lines": 141,
+          "maxCyclomatic": 26,
+          "entropy": 6.83
+        }
+      ],
+      "trend": "stable"
+    },
+    "packages\\core\\src\\lib\\trpc-core.ts": {
+      "latest": {
+        "commit": "683897b3c",
+        "timestamp": "2026-04-29T23:36:56.554Z",
+        "mi": 11.2,
+        "cognitive": 18,
+        "nesting": 4,
+        "lines": 702,
+        "maxCyclomatic": 4,
+        "entropy": 6.87
+      },
+      "history": [
+        {
+          "commit": "683897b3c",
+          "timestamp": "2026-04-29T23:36:56.554Z",
+          "mi": 11.2,
+          "cognitive": 18,
+          "nesting": 4,
+          "lines": 702,
+          "maxCyclomatic": 4,
+          "entropy": 6.87
+        }
+      ],
+      "trend": "stable"
+    }
+  },
+  "capturedAt": "2026-04-29T23:37:02.234Z"
+}

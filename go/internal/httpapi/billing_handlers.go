@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/borghq/borg-go/internal/providers"
-	"github.com/borghq/borg-go/internal/providers"
 )
 
 func (s *Server) handleBillingStatus(w http.ResponseWriter, r *http.Request) {

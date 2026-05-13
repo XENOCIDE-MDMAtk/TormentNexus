@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/borghq/borg-go/internal/config"
-	"github.com/borghq/borg-go/internal/config"
 )
 
 func TestCapabilitiesIncludesLocalAndUpstreamNodes(t *testing.T) {

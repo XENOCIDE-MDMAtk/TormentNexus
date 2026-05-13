@@ -58,20 +58,20 @@ type AdvertiseConfig struct {
 
 func DefaultAdvertiseConfig() AdvertiseConfig {
 	return AdvertiseConfig{
-		MinScore:       15.0,
-		MaxAds:         5,
-		Cooldown:       30 * time.Second,
-		HistoryWindow:  5 * time.Minute,
+		MinScore:      15.0,
+		MaxAds:        5,
+		Cooldown:      30 * time.Second,
+		HistoryWindow: 5 * time.Minute,
 	}
 }
 
 // PreemptiveAdvertiser watches conversations and suggests relevant tools.
 type PreemptiveAdvertiser struct {
-	cfg       AdvertiseConfig
-	ds        *DecisionSystem
-	mu        sync.Mutex
-	history   []ConversationMessage
-	injected  map[string]time.Time // tool name → last injection time
+	cfg      AdvertiseConfig
+	ds       *DecisionSystem
+	mu       sync.Mutex
+	history  []ConversationMessage
+	injected map[string]time.Time // tool name → last injection time
 }
 
 // NewPreemptiveAdvertiser creates a new advertiser bound to a decision system.

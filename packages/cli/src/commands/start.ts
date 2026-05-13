@@ -12,363 +12,480 @@
  *   borg start --config ./my.json # Use custom config file
  */
 
-import { closeSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import net from 'node:net';
-import { homedir } from 'node:os';
-import { isAbsolute, join, resolve, sep } from 'node:path';
+import {
+	closeSync,
+	mkdirSync,
+	openSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
+import net from "node:net";
+import { homedir } from "node:os";
+import { isAbsolute, join, resolve, sep } from "node:path";
 
-import type { Command } from 'commander';
+import type { Command } from "commander";
+
+/** Read version from nearest ancestor VERSION file */
+async function getVersion(): Promise<string> {
+	try {
+		let dir = process.cwd();
+		for (let i = 0; i < 20; i++) {
+			try {
+				return readFileSync(resolve(dir, "VERSION"), "utf8").trim();
+			} catch {}
+			const parent = resolve(dir, "..");
+			if (parent === dir) break;
+			dir = parent;
+		}
+	} catch {}
+	return "dev";
+}
 
 export interface BorgStartLockRecord {
-  instanceId: string;
-  pid: number;
-  port: number;
-  host: string;
-  createdAt: string;
+	instanceId: string;
+	pid: number;
+	port: number;
+	host: string;
+	createdAt: string;
 }
 
 export interface BorgStartLockHandle {
-  port: number;
-  lockPath: string;
-  clearedStaleLock: boolean;
-  reusedStalePort: boolean;
-  release: () => Promise<void>;
-  releaseSync: () => void;
+	port: number;
+	lockPath: string;
+	clearedStaleLock: boolean;
+	reusedStalePort: boolean;
+	release: () => Promise<void>;
+	releaseSync: () => void;
 }
 
 export interface BorgStartLifecycleHandlers {
-  cleanup: () => void;
-  handleSigint: () => void;
-  handleSigterm: () => void;
-  handleUncaughtException: (error: unknown) => void;
-  handleUnhandledRejection: (reason: unknown) => void;
+	cleanup: () => void;
+	handleSigint: () => void;
+	handleSigterm: () => void;
+	handleUncaughtException: (error: unknown) => void;
+	handleUnhandledRejection: (reason: unknown) => void;
 }
 
 interface CreateLockLifecycleHandlersDeps {
-  exit?: (code: number) => void;
-  logError?: (message?: unknown, ...optionalParams: unknown[]) => void;
+	exit?: (code: number) => void;
+	logError?: (message?: unknown, ...optionalParams: unknown[]) => void;
 }
 
 interface AcquireSingleInstanceLockOptions {
-  dataDir: string;
-  requestedPort: number;
-  explicitPort: boolean;
-  host: string;
+	dataDir: string;
+	requestedPort: number;
+	explicitPort: boolean;
+	host: string;
 }
 
 interface AcquireSingleInstanceLockDeps {
-  now?: () => Date;
-  getPid?: () => number;
-  isProcessRunning?: (pid: number) => boolean;
-  isPortFree?: (port: number) => Promise<boolean>;
+	now?: () => Date;
+	getPid?: () => number;
+	isProcessRunning?: (pid: number) => boolean;
+	isPortFree?: (port: number) => Promise<boolean>;
 }
 
 type CoreRuntimeModule = {
-  startOrchestrator?: (options?: {
-    host?: string;
-    trpcPort?: number;
-    startSupervisor?: boolean;
-    startMcp?: boolean;
-    autoDrive?: boolean;
-  }) => Promise<{
-    host: string;
-    trpcPort: number;
-    bridgePort: number | null;
-  }>;
+	startOrchestrator?: (options?: {
+		host?: string;
+		trpcPort?: number;
+		startSupervisor?: boolean;
+		startMcp?: boolean;
+		autoDrive?: boolean;
+	}) => Promise<{
+		host: string;
+		trpcPort: number;
+		bridgePort: number | null;
+	}>;
 };
 
-export function resolveDataDir(dataDir: string, homeDirectory: string = homedir()): string {
-  if (dataDir === '~') {
-    return homeDirectory;
-  }
+export function resolveDataDir(
+	dataDir: string,
+	homeDirectory: string = homedir(),
+): string {
+	if (dataDir === "~") {
+		return homeDirectory;
+	}
 
-  if (dataDir.startsWith('~/') || dataDir.startsWith('~\\') || dataDir.startsWith(`~${sep}`)) {
-    return resolve(homeDirectory, dataDir.slice(2));
-  }
+	if (
+		dataDir.startsWith("~/") ||
+		dataDir.startsWith("~\\") ||
+		dataDir.startsWith(`~${sep}`)
+	) {
+		return resolve(homeDirectory, dataDir.slice(2));
+	}
 
-  return isAbsolute(dataDir) ? dataDir : resolve(dataDir);
+	return isAbsolute(dataDir) ? dataDir : resolve(dataDir);
 }
 
 export function isProcessRunning(pid: number): boolean {
-  try {
-    process.kill(pid, 0);
-    return true;
-  } catch (error) {
-    return (error as NodeJS.ErrnoException).code === 'EPERM';
-  }
+	try {
+		process.kill(pid, 0);
+		return true;
+	} catch (error) {
+		return (error as NodeJS.ErrnoException).code === "EPERM";
+	}
 }
 
 export async function isPortFree(port: number): Promise<boolean> {
-  return await new Promise((resolvePort) => {
-    const server = net.createServer();
+	return await new Promise((resolvePort) => {
+		const server = net.createServer();
 
-    server.once('error', () => {
-      resolvePort(false);
-    });
+		server.once("error", () => {
+			resolvePort(false);
+		});
 
-    server.once('listening', () => {
-      server.close(() => resolvePort(true));
-    });
+		server.once("listening", () => {
+			server.close(() => resolvePort(true));
+		});
 
-    server.listen(port);
-  });
+		server.listen(port);
+	});
 }
 
 function readStartLock(lockPath: string): BorgStartLockRecord | null {
-  try {
-    const parsed = JSON.parse(readFileSync(lockPath, 'utf8')) as Partial<BorgStartLockRecord>;
-    if (
-      typeof parsed.instanceId !== 'string'
-      || typeof parsed.pid !== 'number'
-      || typeof parsed.port !== 'number'
-      || typeof parsed.host !== 'string'
-      || typeof parsed.createdAt !== 'string'
-    ) {
-      return null;
-    }
+	try {
+		const parsed = JSON.parse(
+			readFileSync(lockPath, "utf8"),
+		) as Partial<BorgStartLockRecord>;
+		if (
+			typeof parsed.instanceId !== "string" ||
+			typeof parsed.pid !== "number" ||
+			typeof parsed.port !== "number" ||
+			typeof parsed.host !== "string" ||
+			typeof parsed.createdAt !== "string"
+		) {
+			return null;
+		}
 
-    return parsed as BorgStartLockRecord;
-  } catch {
-    return null;
-  }
+		return parsed as BorgStartLockRecord;
+	} catch {
+		return null;
+	}
 }
 
 function writeStartLock(lockPath: string, record: BorgStartLockRecord): void {
-  const fd = openSync(lockPath, 'wx');
-  try {
-    writeFileSync(fd, `${JSON.stringify(record, null, 2)}\n`, 'utf8');
-  } finally {
-    closeSync(fd);
-  }
+	const fd = openSync(lockPath, "wx");
+	try {
+		writeFileSync(fd, `${JSON.stringify(record, null, 2)}\n`, "utf8");
+	} finally {
+		closeSync(fd);
+	}
 }
 
 export async function acquireSingleInstanceLock(
-  options: AcquireSingleInstanceLockOptions,
-  deps: AcquireSingleInstanceLockDeps = {},
+	options: AcquireSingleInstanceLockOptions,
+	deps: AcquireSingleInstanceLockDeps = {},
 ): Promise<BorgStartLockHandle> {
-  const now = deps.now ?? (() => new Date());
-  const getPid = deps.getPid ?? (() => process.pid);
-  const checkProcessRunning = deps.isProcessRunning ?? isProcessRunning;
-  const checkPortFree = deps.isPortFree ?? isPortFree;
+	const now = deps.now ?? (() => new Date());
+	const getPid = deps.getPid ?? (() => process.pid);
+	const checkProcessRunning = deps.isProcessRunning ?? isProcessRunning;
+	const checkPortFree = deps.isPortFree ?? isPortFree;
 
-  const resolvedDataDir = resolveDataDir(options.dataDir);
-  const lockPath = join(resolvedDataDir, 'lock');
-  mkdirSync(resolvedDataDir, { recursive: true });
+	const resolvedDataDir = resolveDataDir(options.dataDir);
+	const lockPath = join(resolvedDataDir, "lock");
+	mkdirSync(resolvedDataDir, { recursive: true });
 
-  const pid = getPid();
-  const instanceId = `borg-${pid}-${now().getTime()}`;
-  let selectedPort = options.requestedPort;
-  let clearedStaleLock = false;
-  let reusedStalePort = false;
+	const pid = getPid();
+	const instanceId = `borg-${pid}-${now().getTime()}`;
+	let selectedPort = options.requestedPort;
+	let clearedStaleLock = false;
+	let reusedStalePort = false;
 
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    try {
-      writeStartLock(lockPath, {
-        instanceId,
-        pid,
-        port: selectedPort,
-        host: options.host,
-        createdAt: now().toISOString(),
-      });
+	for (let attempt = 0; attempt < 2; attempt += 1) {
+		try {
+			writeStartLock(lockPath, {
+				instanceId,
+				pid,
+				port: selectedPort,
+				host: options.host,
+				createdAt: now().toISOString(),
+			});
 
-      const releaseSync = () => {
-        const current = readStartLock(lockPath);
-        if (current?.instanceId === instanceId) {
-          rmSync(lockPath, { force: true });
-        }
-      };
+			const releaseSync = () => {
+				const current = readStartLock(lockPath);
+				if (current?.instanceId === instanceId) {
+					rmSync(lockPath, { force: true });
+				}
+			};
 
-      return {
-        port: selectedPort,
-        lockPath,
-        clearedStaleLock,
-        reusedStalePort,
-        release: async () => {
-          releaseSync();
-        },
-        releaseSync,
-      };
-    } catch (error) {
-      const fsError = error as NodeJS.ErrnoException;
-      if (fsError.code !== 'EEXIST') {
-        throw error;
-      }
+			return {
+				port: selectedPort,
+				lockPath,
+				clearedStaleLock,
+				reusedStalePort,
+				release: async () => {
+					releaseSync();
+				},
+				releaseSync,
+			};
+		} catch (error) {
+			const fsError = error as NodeJS.ErrnoException;
+			if (fsError.code !== "EEXIST") {
+				throw error;
+			}
 
-      const existingLock = readStartLock(lockPath);
-      if (existingLock && checkProcessRunning(existingLock.pid)) {
-        const lockedPortIsFree = existingLock.port > 0
-          ? await checkPortFree(existingLock.port)
-          : false;
+			const existingLock = readStartLock(lockPath);
+			if (existingLock && checkProcessRunning(existingLock.pid)) {
+				const lockedPortIsFree =
+					existingLock.port > 0
+						? await checkPortFree(existingLock.port)
+						: false;
 
-        if (!lockedPortIsFree) {
-          throw new Error(
-            `Borg is already running (PID ${existingLock.pid}) on port ${existingLock.port}. `
-            + `Stop that process before starting another instance, or remove ${lockPath} if it is incorrect.`,
-          );
-        }
-      }
+				if (!lockedPortIsFree) {
+					throw new Error(
+						`Borg is already running (PID ${existingLock.pid}) on port ${existingLock.port}. ` +
+							`Stop that process before starting another instance, or remove ${lockPath} if it is incorrect.`,
+					);
+				}
+			}
 
-      clearedStaleLock = true;
-      if (!options.explicitPort && existingLock?.port && existingLock.port > 0) {
-        const stalePortIsFree = await checkPortFree(existingLock.port);
-        if (stalePortIsFree) {
-          selectedPort = existingLock.port;
-          reusedStalePort = true;
-        }
-      }
+			clearedStaleLock = true;
+			if (
+				!options.explicitPort &&
+				existingLock?.port &&
+				existingLock.port > 0
+			) {
+				const stalePortIsFree = await checkPortFree(existingLock.port);
+				if (stalePortIsFree) {
+					selectedPort = existingLock.port;
+					reusedStalePort = true;
+				}
+			}
 
-      rmSync(lockPath, { force: true });
-    }
-  }
+			rmSync(lockPath, { force: true });
+		}
+	}
 
-  throw new Error(`Unable to acquire Borg startup lock at ${lockPath}`);
+	throw new Error(`Unable to acquire Borg startup lock at ${lockPath}`);
 }
 
 export async function startCoreRuntime(
-  options: {
-    host: string;
-    port: number;
-    mcp: boolean;
-    supervisor?: boolean;
-    autoDrive?: boolean;
-  },
-  loadCore: () => Promise<CoreRuntimeModule> = async () => await import('@borg/core'),
+	options: {
+		host: string;
+		port: number;
+		mcp: boolean;
+		supervisor?: boolean;
+		autoDrive?: boolean;
+	},
+	loadCore: () => Promise<CoreRuntimeModule> = async () =>
+		await import("@borg/core"),
 ) {
-  const core = await loadCore();
+	const core = await loadCore();
 
-  if (typeof core.startOrchestrator !== 'function') {
-    throw new Error('Core orchestrator entrypoint is unavailable');
-  }
+	if (typeof core.startOrchestrator !== "function") {
+		throw new Error("Core orchestrator entrypoint is unavailable");
+	}
 
-  return await core.startOrchestrator({
-    host: options.host,
-    trpcPort: options.port,
-    startMcp: options.mcp,
-    startSupervisor: options.supervisor ?? false,
-    autoDrive: options.autoDrive ?? false,
-  });
+	return await core.startOrchestrator({
+		host: options.host,
+		trpcPort: options.port,
+		startMcp: options.mcp,
+		startSupervisor: options.supervisor ?? false,
+		autoDrive: options.autoDrive ?? false,
+	});
 }
 
 export function createLockLifecycleHandlers(
-  lockHandle: BorgStartLockHandle,
-  deps: CreateLockLifecycleHandlersDeps = {},
+	lockHandle: BorgStartLockHandle,
+	deps: CreateLockLifecycleHandlersDeps = {},
 ): BorgStartLifecycleHandlers {
-  const exit = deps.exit ?? ((code: number) => process.exit(code));
-  const logError = deps.logError ?? ((message?: unknown, ...optionalParams: unknown[]) => console.error(message, ...optionalParams));
+	const exit = deps.exit ?? ((code: number) => process.exit(code));
+	const logError =
+		deps.logError ??
+		((message?: unknown, ...optionalParams: unknown[]) =>
+			console.error(message, ...optionalParams));
 
-  const cleanup = () => {
-    lockHandle.releaseSync();
-  };
+	const cleanup = () => {
+		lockHandle.releaseSync();
+	};
 
-  return {
-    cleanup,
-    handleSigint: () => {
-      cleanup();
-      exit(130);
-    },
-    handleSigterm: () => {
-      cleanup();
-      exit(143);
-    },
-    handleUncaughtException: (error: unknown) => {
-      cleanup();
-      logError(error instanceof Error ? error.stack ?? error.message : String(error));
-      exit(1);
-    },
-    handleUnhandledRejection: (reason: unknown) => {
-      cleanup();
-      logError(reason instanceof Error ? reason.stack ?? reason.message : String(reason));
-      exit(1);
-    },
-  };
+	return {
+		cleanup,
+		handleSigint: () => {
+			cleanup();
+			exit(130);
+		},
+		handleSigterm: () => {
+			cleanup();
+			exit(143);
+		},
+  async handleUncaughtException(error: unknown) {
+    this.cleanup();
+    const chalk = (await import('chalk')).default;
+    const msg = error instanceof Error ? (error.stack ?? error.message) : String(error);
+    console.error(chalk.red(`\n  ✗ Uncaught Exception: ${msg}`));
+    process.exit(1);
+  },
+  async handleUnhandledRejection(reason: unknown) {
+    this.cleanup();
+    const chalk = (await import('chalk')).default;
+    const msg = reason instanceof Error ? (reason.stack ?? reason.message) : String(reason);
+    console.error(chalk.red(`\n  ✗ Unhandled Rejection: ${msg}`));
+    process.exit(1);
+  },
+	};
 }
 
 export function registerStartCommand(program: Command): void {
-  program
-    .command('start')
-    .description('Start the Borg AIOS backend server (Express/tRPC/WebSocket/MCP)')
-    .option('-p, --port <number>', 'tRPC control-plane port', '4000')
-    .option('-H, --host <address>', 'Server host address', '0.0.0.0')
-    .option('--no-mcp', 'Disable the MCP server endpoint')
-    .option('--supervisor', 'Enable Borg supervisor startup')
-    .option('--auto-drive', 'Enable Director auto-drive after startup')
-    .option('--no-dashboard', 'Disable serving the WebUI dashboard')
-    .option('-c, --config <path>', 'Path to config file')
-    .option('-d, --data-dir <path>', 'Data directory for Borg state', '~/.borg')
-    .option('--daemon', 'Run as background daemon')
-    .addHelpText('after', `
+	program
+		.command("start")
+		.description(
+			"Start the Borg AIOS backend server (Express/tRPC/WebSocket/MCP)",
+		)
+		.option("-p, --port <number>", "tRPC control-plane port", "4100")
+		.option("-H, --host <address>", "Server host address", "0.0.0.0")
+		.option("--no-mcp", "Disable the MCP server endpoint")
+		.option("--supervisor", "Enable Borg supervisor startup")
+		.option("--auto-drive", "Enable Director auto-drive after startup")
+		.option("--no-dashboard", "Disable serving the WebUI dashboard")
+		.option("-c, --config <path>", "Path to config file")
+		.option("-d, --data-dir <path>", "Data directory for Borg state", "~/.borg")
+		.option("--daemon", "Run as background daemon")
+		.addHelpText(
+			"after",
+			`
 Examples:
-  $ borg start                     Start with defaults (tRPC on port 4000)
+  $ borg start                     Start with defaults (tRPC on port 4100)
   $ borg start -p 8080             Start on port 8080
   $ borg start --no-mcp            Start without MCP server
   $ borg start --auto-drive        Start the Director after boot completes
   $ borg start --daemon            Run as background service
   $ borg start --host 127.0.0.1    Bind to localhost only
-    `)
-    .action(async (opts) => {
-      const chalk = (await import('chalk')).default;
-      const requestedPort = parseInt(opts.port, 10);
-      const host = opts.host;
-      const explicitPort = process.argv.includes('--port') || process.argv.includes('-p');
-      let lockHandle: BorgStartLockHandle | null = null;
+    `,
+		)
+		.action(async (opts) => {
+			const chalk = (await import("chalk")).default;
+			const requestedPort = parseInt(opts.port, 10);
+			const host = opts.host;
+			const explicitPort =
+				process.argv.includes("--port") || process.argv.includes("-p");
+			let lockHandle: BorgStartLockHandle | null = null;
 
-      console.log(chalk.bold.cyan('\n  ⬡ Borg AIOS v2.5.0'));
-      console.log(chalk.dim('  The Neural Operating System\n'));
+			console.log(chalk.bold.cyan(`\n  ⬡ Borg AIOS v${await getVersion()}`));
+			console.log(chalk.dim("  The Neural Operating System\n"));
 
-      try {
-        lockHandle = await acquireSingleInstanceLock({
-          dataDir: opts.dataDir,
-          requestedPort,
-          explicitPort,
-          host,
-        });
+			try {
+				lockHandle = await acquireSingleInstanceLock({
+					dataDir: opts.dataDir,
+					requestedPort,
+					explicitPort,
+					host,
+				});
 
-        const port = lockHandle.port;
-  const lifecycle = createLockLifecycleHandlers(lockHandle);
+				const port = lockHandle.port;
+				const lifecycle = createLockLifecycleHandlers(lockHandle);
 
-        console.log(chalk.yellow('  Starting server...'));
-        console.log(chalk.dim(`  Host: ${host}:${port}`));
-        console.log(chalk.dim(`  MCP:  ${opts.mcp ? 'enabled' : 'disabled'}`));
-        console.log(chalk.dim(`  Supervisor: ${opts.supervisor ? 'enabled' : 'disabled'}`));
-        console.log(chalk.dim(`  Auto-Drive: ${opts.autoDrive ? 'enabled' : 'disabled'}`));
-        console.log(chalk.dim(`  Dashboard: ${opts.dashboard ? 'enabled' : 'disabled'}`));
-        console.log(chalk.dim(`  Lock: ${lockHandle.lockPath}`));
-        if (lockHandle.clearedStaleLock) {
-          console.log(chalk.yellow(`  ↺ Cleared stale Borg lock${lockHandle.reusedStalePort ? ` and reused port ${port}` : ''}`));
-        }
-        console.log('');
+				console.log(chalk.yellow("  Starting server..."));
+				console.log(chalk.dim(`  Host: ${host}:${port}`));
+				console.log(chalk.dim(`  MCP:  ${opts.mcp ? "enabled" : "disabled"}`));
+				console.log(
+					chalk.dim(
+						`  Supervisor: ${opts.supervisor ? "enabled" : "disabled"}`,
+					),
+				);
+				console.log(
+					chalk.dim(`  Auto-Drive: ${opts.autoDrive ? "enabled" : "disabled"}`),
+				);
+				console.log(
+					chalk.dim(`  Dashboard: ${opts.dashboard ? "enabled" : "disabled"}`),
+				);
+				console.log(chalk.dim(`  Lock: ${lockHandle.lockPath}`));
+				if (lockHandle.clearedStaleLock) {
+					console.log(
+						chalk.yellow(
+							`  ↺ Cleared stale Borg lock${lockHandle.reusedStalePort ? ` and reused port ${port}` : ""}`,
+						),
+					);
+				}
+				console.log("");
 
-        const runtime = await startCoreRuntime({
-          host,
-          port,
-          mcp: Boolean(opts.mcp),
-          supervisor: Boolean(opts.supervisor),
-          autoDrive: Boolean(opts.autoDrive),
-        });
+				const runtime = await startCoreRuntime({
+					host,
+					port,
+					mcp: Boolean(opts.mcp),
+					supervisor: Boolean(opts.supervisor),
+					autoDrive: Boolean(opts.autoDrive),
+				});
 
-        console.log(chalk.dim('  Core loaded: orchestrator started'));
-        console.log(chalk.green(`  ✓ tRPC control plane running at http://${runtime.host}:${runtime.trpcPort}/trpc`));
-        if (opts.mcp) {
-          console.log(chalk.green(`  ✓ MCP bridge ready at ws://127.0.0.1:${runtime.bridgePort ?? 3001} (+ HTTP health on /health)`));
-        }
-        if (opts.supervisor) {
-          console.log(chalk.green('  ✓ Supervisor startup enabled for this run'));
-        }
-        if (opts.dashboard) {
-          console.log(chalk.green('  ✓ Dashboard proxy can now reach Core via the web app runtime'));
-        }
-        console.log(chalk.dim('\n  Press Ctrl+C to stop\n'));
+				console.log(chalk.dim("  Core loaded: orchestrator started"));
 
-        process.once('exit', lifecycle.cleanup);
-        process.once('SIGINT', lifecycle.handleSigint);
-        process.once('SIGTERM', lifecycle.handleSigterm);
-        process.once('uncaughtException', lifecycle.handleUncaughtException);
-        process.once('unhandledRejection', lifecycle.handleUnhandledRejection);
-      } catch (err: unknown) {
-        lockHandle?.releaseSync();
-        const msg = err instanceof Error ? err.message : String(err);
-        console.error(chalk.red(`  ✗ Failed to start: ${msg}`));
-        process.exit(1);
-      }
-    });
+				// Detect available providers from environment
+				const providerEnvMap: Record<string, string> = {
+					OPENAI_API_KEY: 'OpenAI',
+					ANTHROPIC_API_KEY: 'Anthropic',
+					GOOGLE_API_KEY: 'Google',
+					GEMINI_API_KEY: 'Gemini',
+					XAI_API_KEY: 'xAI',
+					DEEPSEEK_API_KEY: 'DeepSeek',
+					MISTRAL_API_KEY: 'Mistral',
+					OPENROUTER_API_KEY: 'OpenRouter',
+				};
+				const detectedProviders = Object.entries(providerEnvMap)
+					.filter(([env]) => process.env[env])
+					.map(([, name]) => name);
+				if (detectedProviders.length > 0) {
+					console.log(chalk.dim(`  Providers: ${detectedProviders.join(', ')}`));
+				}
+
+				console.log(
+					chalk.green(
+						`  ✓ tRPC control plane running at http://${runtime.host}:${runtime.trpcPort}/trpc`,
+					),
+				);
+				if (opts.mcp) {
+					console.log(
+						chalk.green(
+							`  ✓ MCP bridge ready at ws://127.0.0.1:${runtime.bridgePort ?? 3001} (+ HTTP health on /health)`,
+						),
+					);
+				}
+				if (opts.supervisor) {
+					console.log(
+						chalk.green("  ✓ Supervisor startup enabled for this run"),
+					);
+				}
+				if (opts.dashboard) {
+					console.log(
+						chalk.green(
+							"  ✓ Dashboard proxy can now reach Core via the web app runtime",
+						),
+					);
+				}
+				console.log(chalk.dim("\n  Press Ctrl+C to stop\n"));
+
+				// Launch Go sidecar if available
+				try {
+					const { existsSync } = await import('fs');
+					const { resolve } = await import('path');
+					const goBin = resolve(process.cwd(), 'go', 'borg.exe');
+					if (existsSync(goBin)) {
+						const { spawn } = await import('child_process');
+						const goProc = spawn(goBin, ['serve', '--port', '4300'], {
+							stdio: 'ignore',
+							detached: true,
+							env: { ...process.env, BORG_WORKSPACE: process.cwd() },
+						});
+						goProc.unref();
+						console.log(chalk.green('  ✓ Go sidecar launched on port 4300'));
+					}
+				} catch (e: any) {
+					// Go sidecar is optional
+					console.log(chalk.dim('  Go sidecar: not available (optional)'));
+					}
+
+				process.once("exit", lifecycle.cleanup);
+				process.once("SIGINT", lifecycle.handleSigint);
+				process.once("SIGTERM", lifecycle.handleSigterm);
+				process.once("uncaughtException", lifecycle.handleUncaughtException);
+				process.once("unhandledRejection", lifecycle.handleUnhandledRejection);
+			} catch (err: unknown) {
+				lockHandle?.releaseSync();
+				const msg =
+					err instanceof Error ? `${err.message}\n${err.stack}` : String(err);
+				console.error(chalk.red(`  ✗ Failed to start: ${msg}`));
+				process.exit(1);
+			}
+		});
 }
