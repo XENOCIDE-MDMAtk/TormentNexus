@@ -250,6 +250,10 @@ function runWorkspaceBuild() {
     }
   }
 
+  // Exclude borg-extension from workspace turbo build — its nested pnpm
+  // workspace needs a separate install step. Non-blocking for dashboard startup.
+  turboArgs.push(`--filter=!borg-extension`);
+
   const result = runPnpm(
     turboArgs,
     {

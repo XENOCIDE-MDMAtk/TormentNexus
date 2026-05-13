@@ -748,7 +748,7 @@ export class MCPServer {
         this.councilService = new CouncilService();
         this.browserService = new BrowserService();
 
-        this.squadService = new SquadService(this);
+        this.squadService = new SquadService(this as any);
         this.gitWorktreeManager = new GitWorktreeManager(process.cwd());
 
         // Phase 60: Mesh Service

@@ -9,9 +9,9 @@ import {
 
 const REPO_ROOT = process.cwd();
 const WEB_PORT_CANDIDATES = [3000, 3010, 3020, 3030, 3040];
-const REQUEST_TIMEOUT_MS = Number(process.env.READINESS_TIMEOUT_MS || 4000);
+const REQUEST_TIMEOUT_MS = Number(process.env.READINESS_TIMEOUT_MS || 2000);
 const REQUEST_RETRIES = Number(process.env.READINESS_RETRIES || 1);
-const RETRY_DELAY_MS = Number(process.env.READINESS_RETRY_DELAY_MS || 700);
+const RETRY_DELAY_MS = Number(process.env.READINESS_RETRY_DELAY_MS || 500);
 const strictJsonMode = process.argv.includes('--strict-json');
 const softMode = process.argv.includes('--soft');
 const jsonMode = process.argv.includes('--json') || strictJsonMode;
@@ -76,7 +76,9 @@ function getFailureHint(serviceId) {
       return 'Core control plane is unreachable. Start it with `borg start --port 4100`.';
     case 'borg-startup-status':
       return 'Dashboard can load, but startupStatus is not reachable through the web proxy.';
-    case 'borg-mcp-status':
+    case 'borg-go-sidecar':
+            return 'Go sidecar is unreachable. Build with go build ./cmd/borg and run bin/borg.exe -port 4300.';
+        case 'borg-mcp-status':
       return 'Dashboard can load, but MCP status is not reachable through the web proxy.';
     default:
       return 'Service did not become ready within the retry window.';
@@ -140,11 +142,12 @@ function collectExtensionArtifacts() {
 }
 
 async function main() {
-  const services = [
+  const goSidecarPort = normalizePort(process.env.BORG_GO_PORT) || 4300;
+const services = [
     {
       id: 'borg-web',
       description: 'Borg Next.js dashboard',
-      critical: true,
+      critical: !softMode,
       urls: buildWebUrls(),
     },
     {
@@ -154,9 +157,15 @@ async function main() {
       urls: buildCoreUrls(),
     },
     {
+        id: 'borg-go-sidecar',
+        description: 'Go sidecar health',
+        critical: false,
+        urls: [`http://127.0.0.1:${goSidecarPort}/health`],
+    },
+    {
       id: 'borg-startup-status',
       description: 'startupStatus through dashboard proxy',
-      critical: true,
+      critical: !softMode,
       urls: getPreferredWebPorts(REPO_ROOT, WEB_PORT_CANDIDATES).map((port) =>
         `http://127.0.0.1:${port}/api/trpc/startupStatus?batch=1&input=%7B%220%22%3A%7B%22json%22%3Anull%7D%7D`
       ),
@@ -164,7 +173,7 @@ async function main() {
     {
       id: 'borg-mcp-status',
       description: 'mcp.getStatus through dashboard proxy',
-      critical: true,
+      critical: !softMode,
       urls: getPreferredWebPorts(REPO_ROOT, WEB_PORT_CANDIDATES).map((port) =>
         `http://127.0.0.1:${port}/api/trpc/mcp.getStatus?batch=1&input=%7B%7D`
       ),

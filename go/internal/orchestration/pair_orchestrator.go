@@ -341,3 +341,15 @@ func (p *PairOrchestrator) getResult(success bool) *PairSessionResult {
 		State:       string(p.State),
 	}
 }
+
+// GetStatus returns a thread-safe snapshot of the orchestrator's current state.
+func (p *PairOrchestrator) GetStatus() map[string]interface{} {
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+	return map[string]interface{}{
+		"state":   p.State,
+		"task":    p.Task,
+		"history": p.History,
+		"squad":   p.Squad,
+	}
+}

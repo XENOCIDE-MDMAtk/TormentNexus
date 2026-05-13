@@ -273,6 +273,8 @@ func SyncBobbyBookmarks(ctx context.Context, dbPath string, baseURL string, perP
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
+	db.Exec("PRAGMA journal_mode=WAL")
+	db.Exec("PRAGMA busy_timeout=5000")
 	defer db.Close()
 
 	client := &http.Client{Timeout: 15 * time.Second}
@@ -414,6 +416,8 @@ func SyncBobbyBookmarksFromText(ctx context.Context, destDbPath string, textFile
 	if err != nil {
 		return nil, fmt.Errorf("failed to open destination database: %w", err)
 	}
+	db.Exec("PRAGMA journal_mode=WAL")
+	db.Exec("PRAGMA busy_timeout=5000")
 	defer db.Close()
 
 	tx, err := db.Begin()
@@ -450,12 +454,16 @@ func SyncBobbyBookmarksLocal(ctx context.Context, destDbPath string, sourceDbPat
 	if err != nil {
 		return nil, fmt.Errorf("failed to open source database: %w", err)
 	}
+	sourceDb.Exec("PRAGMA journal_mode=WAL")
+	sourceDb.Exec("PRAGMA busy_timeout=5000")
 	defer sourceDb.Close()
 
 	destDb, err := sql.Open("sqlite", destDbPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open destination database: %w", err)
 	}
+	destDb.Exec("PRAGMA journal_mode=WAL")
+	destDb.Exec("PRAGMA busy_timeout=5000")
 	defer destDb.Close()
 
 	rows, err := sourceDb.QueryContext(ctx, "SELECT id, url, short_description, long_description, tags, research_level FROM bookmarks")

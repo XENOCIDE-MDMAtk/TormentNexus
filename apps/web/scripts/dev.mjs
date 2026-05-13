@@ -66,7 +66,7 @@ writePortMarker();
 const child = spawn(process.execPath, [nextBin, 'dev', '--port', port], {
     stdio: 'inherit',
     cwd: webDir,
-    env: { ...process.env },
+    env: { ...process.env, NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE: process.env.NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE ?? '1' },
 });
 
 child.on('exit', async (code) => {

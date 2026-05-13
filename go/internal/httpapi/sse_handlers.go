@@ -110,12 +110,3 @@ func (s *Server) handleSSEHistory(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func intParam(r *http.Request, name string, defaultVal int) int {
-	val := r.URL.Query().Get(name)
-	if val == "" {
-		return defaultVal
-	}
-	var n int
-	fmt.Sscanf(val, "%d", &n)
-	return n
-}

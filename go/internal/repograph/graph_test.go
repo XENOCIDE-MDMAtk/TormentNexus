@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -352,5 +353,87 @@ func TestRepoGraphFindReferences(t *testing.T) {
 	refs := rgs.FindReferences("MyFunc")
 	if len(refs) == 0 {
 		t.Error("Failed to find references for MyFunc")
+	}
+}
+
+func TestRepoGraphDynamicGoModuleDetection(t *testing.T) {
+	tempDir := t.TempDir()
+
+	// Create a go.mod with a custom module path
+	goMod := "module custom.io/my-project\n\ngo 1.22\n"
+	if err := os.WriteFile(filepath.Join(tempDir, "go.mod"), []byte(goMod), 0644); err != nil {
+		t.Fatal(err)
+	}
+
+	// Create a Go file importing from the custom module
+	goContent := `package main
+
+import (
+	"fmt"
+	"custom.io/my-project/internal/config"
+	"github.com/external/dep"
+)
+
+func main() {
+	fmt.Println("hello")
+}
+`
+	if err := os.WriteFile(filepath.Join(tempDir, "main.go"), []byte(goContent), 0644); err != nil {
+		t.Fatal(err)
+	}
+
+	rgs := NewRepoGraphService(tempDir)
+	graph, err := rgs.Build(context.Background())
+	if err != nil {
+		t.Fatalf("Build failed: %v", err)
+	}
+
+	// Verify module detection
+	modulePath := rgs.detectGoModule()
+	if modulePath != "custom.io/my-project" {
+		t.Errorf("expected module path 'custom.io/my-project', got %q", modulePath)
+	}
+
+	// Check that stdlib imports are categorized correctly
+	hasStdlib := false
+	hasExternal := false
+	for _, edge := range graph.Edges {
+		if edge.To == "import:std/fmt" {
+			hasStdlib = true
+		}
+		if strings.HasPrefix(edge.To, "import:github/") {
+			hasExternal = true
+		}
+	}
+	if !hasStdlib {
+		t.Error("expected stdlib import edge for fmt")
+	}
+	if !hasExternal {
+		t.Error("expected external import edge for github.com/external/dep")
+	}
+}
+
+func TestRepoGraphExternalImportCategorization(t *testing.T) {
+	rgs := NewRepoGraphService(t.TempDir())
+
+	tests := []struct {
+		importPath string
+		expected   string
+	}{
+		{"github.com/some/repo", "import:github/some/repo"},
+		{"gitlab.com/group/project", "import:gitlab/group/project"},
+		{"golang.org/x/text", "import:golang-x/text"},
+		{"cloud.google.com/go/storage", "import:gcp/go/storage"},
+		{"k8s.io/client-go", "import:k8s/client-go"},
+		{"gopkg.in/yaml.v3", "import:gopkg/yaml.v3"},
+		{"go.uber.org/zap", "import:uber/zap"},
+		{"some-unknown.host/pkg", "import:external/some-unknown.host/pkg"},
+	}
+
+	for _, tt := range tests {
+		result := rgs.categorizeExternalImport(tt.importPath)
+		if result != tt.expected {
+			t.Errorf("categorizeExternalImport(%q) = %q, want %q", tt.importPath, result, tt.expected)
+		}
 	}
 }

@@ -4,6 +4,9 @@
   "tasks": {
     "build": {
       "cache": false
+    },
+    "clean:bundle": {
+      "cache": false
     }
   }
 }

@@ -1,64 +1,62 @@
 package httpapi
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/borghq/borg-go/internal/orchestration"
 )
 
-func (s *Server) handleAgentPairRun(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handlePairSessionRun(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		writeJSON(w, http.StatusMethodNotAllowed, map[string]any{"success": false, "error": "method not allowed"})
 		return
 	}
 
-	var payload struct {
-		Task  string                       `json:"task"`
-		Squad []orchestration.SquadMember `json:"squad,omitempty"`
+	var req struct {
+		Task    string                        `json:"task"`
+		Squad   []orchestration.SquadMember   `json:"squad,omitempty"`
+		Options map[string]any                `json:"options,omitempty"`
 	}
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "invalid JSON body"})
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "invalid JSON"})
 		return
 	}
 
-	// Try upstream first
-	var result any
-	upstreamBase, err := s.callUpstreamJSON(r.Context(), "agent.runPairSession", payload, &result)
-	if err == nil {
-		writeJSON(w, http.StatusOK, map[string]any{
-			"success": true,
-			"data":    result,
-			"bridge": map[string]any{
-				"upstreamBase": upstreamBase,
-				"procedure":    "agent.runPairSession",
-			},
-		})
-		return
+	if req.Squad != nil {
+		s.pairOrchestrator.SetupSquad(req.Squad)
 	}
 
-	// Fallback to local Go pair orchestrator
-	if len(payload.Squad) > 0 {
-		s.pairOrchestrator.SetupSquad(payload.Squad)
-	} else {
-		s.pairOrchestrator.SetupFrontierSquad()
-	}
+	ctx, cancel := context.WithTimeout(r.Context(), 10*time.Minute)
+	defer cancel()
 
-	pairResult, fallbackErr := s.pairOrchestrator.RunTask(r.Context(), payload.Task)
-	if fallbackErr != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]any{
-			"success": false,
-			"error":   fallbackErr.Error(),
-		})
+	result, err := s.pairOrchestrator.RunTask(ctx, req.Task)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error(), "partialResult": result})
 		return
 	}
 
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
-		"data":    pairResult,
-		"bridge": map[string]any{
-			"fallback":  "go-local-pair-orchestrator",
-			"procedure": "agent.runPairSession",
-		},
+		"data":    result,
 	})
+}
+
+func (s *Server) handlePairSessionStatus(w http.ResponseWriter, r *http.Request) {
+	writeJSON(w, http.StatusOK, map[string]any{
+		"success": true,
+		"data":    s.pairOrchestrator.GetStatus(),
+	})
+}
+
+func (s *Server) handlePairSessionRotate(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]any{"success": false, "error": "method not allowed"})
+		return
+	}
+
+	s.pairOrchestrator.RotateRoles()
+	writeJSON(w, http.StatusOK, map[string]any{"success": true, "squad": s.pairOrchestrator.Squad})
 }

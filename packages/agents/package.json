@@ -1,14 +1,32 @@
 {
     "name": "@borg/agents",
-    "version": "1.0.0-alpha.54",
+    "version": "1.0.0-alpha.55",
     "private": true,
     "main": "dist/index.js",
     "types": "src/index.ts",
     "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "types": "./src/index.ts"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
         }
+    },
+    "scripts": {
+        "build": "node build.mjs",
+        "dev": "tsc --watch --preserveWatchOutput",
+        "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
+    },
+    "dependencies": {
+        "@borg/adk": "workspace:*",
+        "@borg/ai": "workspace:*",
+        "@modelcontextprotocol/sdk": "^1.27.1",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "eslint": "^9.26.0",
+        "typescript": "^5.3.3"
     }
 }

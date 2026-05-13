@@ -19,7 +19,7 @@ export class NormalizedQuotaService extends QuotaService {
     private readonly registry: ProviderRegistry;
     private readonly balanceService: ProviderBalanceService;
     private readonly providerUsage: UsageRecord[] = [];
-    private configState: QuotaConfig = {
+    protected configState: QuotaConfig = {
         dailyBudgetUsd: 5,
         monthlyBudgetUsd: 100,
         providerLimits: {},

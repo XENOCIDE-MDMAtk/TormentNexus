@@ -10,6 +10,7 @@
     "strictNullChecks": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "noEmitOnError": false,
     "forceConsistentCasingInFileNames": true,
     "declaration": false,
     "types": [

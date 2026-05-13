@@ -9,31 +9,42 @@ import (
 	"time"
 )
 
+// SkillLoaded extends SkillInfo with usage tracking
 type SkillLoaded struct {
 	SkillInfo
 	LoadedAt   time.Time `json:"loadedAt"`
 	LastUsedAt time.Time `json:"lastUsedAt"`
 	UseCount   int       `json:"useCount"`
+	AutoLoaded bool      `json:"autoLoaded"`
 }
 
 type SkillDecisionConfig struct {
-	SoftCap                 int
-	HardCap                 int
-	HighConfidenceThreshold float64
+	// SoftCap is the soft limit on loaded skill metadata entries.
+	SoftCap int `json:"softCap"`
+	// HardCap is the hard limit; triggers aggressive LRU eviction.
+	HardCap int `json:"hardCap"`
+	// HighConfidenceThreshold: scores above this trigger silent auto-load.
+	HighConfidenceThreshold float64 `json:"highConfidenceThreshold"`
+	// SearchResultLimit: max results returned from search.
+	SearchResultLimit int `json:"searchResultLimit"`
+	// IdleTimeout: skills idle longer than this are candidates for eviction.
+	IdleTimeout time.Duration `json:"idleTimeout"`
 }
 
 func DefaultSkillDecisionConfig() SkillDecisionConfig {
 	return SkillDecisionConfig{
 		SoftCap:                 10,
 		HardCap:                 20,
-		HighConfidenceThreshold: 7.0, // BM25-style heuristic
+		HighConfidenceThreshold: 7.0,
+		SearchResultLimit:       5,
+		IdleTimeout:             30 * time.Minute,
 	}
 }
 
 type SkillDecisionSystem struct {
 	cfg      SkillDecisionConfig
 	mu       sync.RWMutex
-	loaded   map[string]*SkillLoaded
+	loaded   map[string]*SkillLoaded // keyed by ID
 	registry *SkillRegistry
 }
 
@@ -59,21 +70,21 @@ func (ds *SkillDecisionSystem) SearchAndLoad(ctx context.Context, query string) 
 	// Auto-load high confidence results
 	for _, r := range ranked {
 		if r.Score >= ds.cfg.HighConfidenceThreshold {
-			_ = ds.LoadSkill(r.ID)
+			_ = ds.LoadSkill(ctx, r.ID, true)
 		}
 	}
 
 	return ranked, nil
 }
 
-func (ds *SkillDecisionSystem) LoadSkill(id string) error {
+func (ds *SkillDecisionSystem) LoadSkill(ctx context.Context, id string, autoLoaded bool) error {
 	ds.mu.Lock()
 	defer ds.mu.Unlock()
 
-	return ds.loadSkillLocked(id)
+	return ds.loadSkillLocked(id, autoLoaded)
 }
 
-func (ds *SkillDecisionSystem) loadSkillLocked(id string) error {
+func (ds *SkillDecisionSystem) loadSkillLocked(id string, autoLoaded bool) error {
 	id = strings.ToLower(id)
 	if sl, ok := ds.loaded[id]; ok {
 		sl.LastUsedAt = time.Now()
@@ -87,8 +98,8 @@ func (ds *SkillDecisionSystem) loadSkillLocked(id string) error {
 	}
 
 	// Evict if needed
-	if len(ds.loaded) >= ds.cfg.HardCap {
-		ds.evictLRU()
+	for len(ds.loaded) >= ds.cfg.HardCap {
+		ds.evictLRULocked()
 	}
 
 	ds.loaded[id] = &SkillLoaded{
@@ -96,12 +107,52 @@ func (ds *SkillDecisionSystem) loadSkillLocked(id string) error {
 		LoadedAt:   time.Now(),
 		LastUsedAt: time.Now(),
 		UseCount:   1,
+		AutoLoaded: autoLoaded,
 	}
 
 	return nil
 }
 
-func (ds *SkillDecisionSystem) evictLRU() {
+// RefreshAlwaysOn loads all skills marked as AlwaysOn into the active set.
+func (ds *SkillDecisionSystem) RefreshAlwaysOn() {
+	all := ds.registry.List()
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	for _, s := range all {
+		if s.AlwaysOn {
+			_ = ds.loadSkillLocked(s.ID, false)
+		}
+	}
+}
+
+func (ds *SkillDecisionSystem) ListLoadedSkills() []SkillLoaded {
+	ds.mu.RLock()
+	defer ds.mu.RUnlock()
+
+	var result []SkillLoaded
+	for _, sl := range ds.loaded {
+		result = append(result, *sl)
+	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].LastUsedAt.After(result[j].LastUsedAt)
+	})
+	return result
+}
+
+func (ds *SkillDecisionSystem) UnloadSkill(id string) bool {
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	id = strings.ToLower(id)
+	_, existed := ds.loaded[id]
+	if existed {
+		delete(ds.loaded, id)
+	}
+	return existed
+}
+
+func (ds *SkillDecisionSystem) evictLRULocked() {
 	var oldest string
 	var oldestTime time.Time
 
@@ -120,41 +171,20 @@ func (ds *SkillDecisionSystem) evictLRU() {
 	}
 }
 
-// RefreshAlwaysOn loads all skills marked as AlwaysOn into the active set.
-func (ds *SkillDecisionSystem) RefreshAlwaysOn() {
-	all := ds.registry.List()
+func (ds *SkillDecisionSystem) EvictIdle() int {
 	ds.mu.Lock()
 	defer ds.mu.Unlock()
 
-	for _, s := range all {
-		if s.AlwaysOn {
-			_ = ds.loadSkillLocked(s.ID)
+	now := time.Now()
+	evicted := 0
+	for id, sl := range ds.loaded {
+		if sl.AlwaysOn {
+			continue
+		}
+		if now.Sub(sl.LastUsedAt) > ds.cfg.IdleTimeout {
+			delete(ds.loaded, id)
+			evicted++
 		}
 	}
-}
-
-func (ds *SkillDecisionSystem) ListLoadedSkills() []SkillInfo {
-	ds.mu.RLock()
-	defer ds.mu.RUnlock()
-
-	var result []SkillInfo
-	for _, sl := range ds.loaded {
-		result = append(result, sl.SkillInfo)
-	}
-	sort.Slice(result, func(i, j int) bool {
-		return result[i].Name < result[j].Name
-	})
-	return result
-}
-
-func (ds *SkillDecisionSystem) UnloadSkill(id string) bool {
-	ds.mu.Lock()
-	defer ds.mu.Unlock()
-
-	id = strings.ToLower(id)
-	_, existed := ds.loaded[id]
-	if existed {
-		delete(ds.loaded, id)
-	}
-	return existed
+	return evicted
 }

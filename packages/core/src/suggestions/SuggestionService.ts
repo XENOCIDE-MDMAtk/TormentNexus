@@ -103,7 +103,7 @@ export class SuggestionService {
         // Conversational Nudge
         if (this.director) {
             // Fire and forget
-            this.director.broadcast(`💡 **Suggestion**: I found a potential improvement: **"${title}"**.\n${description}\n*(Check Dashboard to Approve)*`);
+            this.director.broadcast('suggestion', `💡 **Suggestion**: I found a potential improvement: **"${title}"**.\n${description}\n*(Check Dashboard to Approve)*`);
         }
 
         return suggestion;

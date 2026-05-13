@@ -13,6 +13,7 @@ package orchestration
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 	"time"
 )
@@ -24,7 +25,7 @@ const (
 	TaskResponse     A2AMessageType = "TASK_RESPONSE"
 	TaskNegotiation  A2AMessageType = "TASK_NEGOTIATION"
 	CapabilityReport A2AMessageType = "CAPABILITY_REPORT"
-	ConsensusVote    A2AMessageType = "CONSENSUS_VOTE"
+	ConsensusVoteMsg A2AMessageType = "CONSENSUS_VOTE"
 	StateUpdate      A2AMessageType = "STATE_UPDATE"
 	Handoff          A2AMessageType = "HANDOFF"
 	DebateProposal   A2AMessageType = "DEBATE_PROPOSAL"
@@ -96,12 +97,12 @@ func (b *A2ABroker) startHeartbeatMonitor() {
 		b.mu.Lock()
 		for id, lastSeen := range b.heartbeats {
 			if now-lastSeen > 30000 { // 30 seconds
-				fmt.Printf("[Go A2A] Agent %s timed out. Pruning.\n", id)
+				log.Printf("[Go A2A] Agent %s timed out after %dms. Pruned.", id, now-lastSeen)
 				if ch, ok := b.agents[id]; ok {
 					close(ch)
 					delete(b.agents, id)
-					delete(b.heartbeats, id)
-				}
+					}
+			delete(b.heartbeats, id)
 			}
 		}
 		b.mu.Unlock()
@@ -166,7 +167,7 @@ func (b *A2ABroker) RouteMessage(msg A2AMessage) {
 	}
 
 	b.mu.Lock()
-	if msg.Sender != "MCP_TOOL" && msg.Sender != "DASHBOARD" {
+	if msg.Sender != "MCP_TOOL" && msg.Sender != "DASHBOARD" && msg.Sender != "BROKER" {
 		b.heartbeats[msg.Sender] = nowMillis()
 	}
 

@@ -407,7 +407,7 @@ initializeSchema(sqlite);
 export const db = drizzle(sqlite, { schema });
 
 // Export the raw sqlite instance for code that needs direct DB access
-export const sqliteInstance: Database = sqlite;
+export const sqliteInstance: InstanceType<typeof Database> = sqlite;
 
 // Export the schema for convenience
 export { schema };
