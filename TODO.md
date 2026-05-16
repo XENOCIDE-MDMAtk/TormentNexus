@@ -15512,14 +15512,3 @@ When in doubt, choose the task that makes borg:
 2. more understandable,
 3. more inspectable,
 4. more honest.
-
-## AI Hypervisor Enterprise (Nexus) - Master Blueprint Tasks
-
-- [ ] **Architectural Synthesis**: Integrate Borg, Pi-mono, Hyperharness, and Bobbybookmarks.
-- [ ] **Production Memory**: Upgrade local SQLite/LanceDB to pgvector/PostgreSQL for L2.
-- [ ] **Governance**: Implement SSO/SAML (Auth0/Okta) and RBAC in Control Plane.
-- [ ] **Security**: Add Audit Logging ledger and PII scrubbing (DLP) layer.
-- [ ] **Fleet Management**: Implement vLLM Pod Orchestration for private GPU clusters.
-- [ ] **Sandboxed Execution**: Containerize harnesses (Aider, Claude Code) for isolated task execution.
-- [ ] **Organizational Memory**: Implement shared team-based L2 memory with background indexing.
-- [ ] **Slim Binaries**: Port core LiteLLM/Hermes logic to slim Go binaries.
