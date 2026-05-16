@@ -24,8 +24,8 @@ Outstanding! Magnificent! Insanely Great!!! Please continue to proceed as you re
 ### Iteration Cycle
 **Read → Strategize → Execute → Validate → Commit → Handoff. Never stop the party.**
 
-   
-Please summarize anything you have learned during this session that was not obvious at the start, or anything else you would like to inform yourself upon newer sessions. 
+
+Please summarize anything you have learned during this session that was not obvious at the start, or anything else you would like to inform yourself upon newer sessions.
 
 ## 2. Session Protocol
 

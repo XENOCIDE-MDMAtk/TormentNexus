@@ -4510,7 +4510,7 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 
 ## [2.7.46] - 2026-03-01
 ### Added
-- **Phase 86: Swarm Adaptive Rate Limiting**: 
+- **Phase 86: Swarm Adaptive Rate Limiting**:
 - Added `RateLimiter.ts` employing a token bucket algorithm to pace Mesh network API requests based on estimated tokens per minute (TPM) and requests per minute (RPM).
 - Integrated adaptive backoff into `SwarmOrchestrator` to catch provider 429s and pause execution gracefully. Added pulsing "THROTTLED" status to Swarm Dashboard.
 
@@ -4608,14 +4608,14 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 ### Added
 - **Phase 76: Deep Ecosystem Integration (Open-WebUI)**:
   - Added `external/open-webui` as the 7th submodule, integrating the robust conversational interface natively into the workspace.
-  - **Frontend Sync**: Scaffolded `/dashboard/webui` Next.js page, embedding the interface into Borg's primary navigation system (`nav-config.ts`), marking it as a top-level native integration tab. 
-  - **Frontend Sync**: Scaffolded `/dashboard/webui` Next.js page, embedding the interface into borg's primary navigation system (`nav-config.ts`), marking it as a top-level native integration tab. 
+  - **Frontend Sync**: Scaffolded `/dashboard/webui` Next.js page, embedding the interface into Borg's primary navigation system (`nav-config.ts`), marking it as a top-level native integration tab.
+  - **Frontend Sync**: Scaffolded `/dashboard/webui` Next.js page, embedding the interface into borg's primary navigation system (`nav-config.ts`), marking it as a top-level native integration tab.
   - **Backend Sync**: Created `openWebUIRouter.ts` and exposed it via the main `AppRouter`, proxying native tooling and swarm capabilities into the WebUI backend architecture.
 
 - **Phase 6: React Native Mobile App (Native PWA Shell)**:
-  - Initialized an Expo React Native wrapper project via `npx create-expo-app` in `apps/mobile`. 
-  - Wired `react-native-webview` with dynamic screen padding to natively mount the Borg web dashboard onto iOS and Android platforms. 
-  - Wired `react-native-webview` with dynamic screen padding to natively mount the borg web dashboard onto iOS and Android platforms. 
+  - Initialized an Expo React Native wrapper project via `npx create-expo-app` in `apps/mobile`.
+  - Wired `react-native-webview` with dynamic screen padding to natively mount the Borg web dashboard onto iOS and Android platforms.
+  - Wired `react-native-webview` with dynamic screen padding to natively mount the borg web dashboard onto iOS and Android platforms.
 
 ### Changed
 - **Version Bump**: Incremented version to 2.7.34 to mark the completion of the baseline submodule integrations and mobile scaffolding.
@@ -4690,7 +4690,7 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 - **Phase 64 Release Readiness**: Eliminated broad `@ts-ignore` usage in the persistence and UI layer for frontend parity and robustness.
 - **Type Safety Pass**: Removed 50+ `@ts-ignore` directives from `apps/web` and `packages/ui`.
 - **TRPC Router Typing**: Fixed generic TS inference errors in `appRouter` affecting `healerRouter` and `auditRouter`. Rewired all `SecurityPage`TRPC calls to correct `policies.*` and `audit.log` endpoints instead of previous untyped endpoints.
-- **Strict Compliance**: Both `packages/core` and `packages/ui` now successfully compile under `tsc --noEmit` locally with zero fallback mocks or stubs. 
+- **Strict Compliance**: Both `packages/core` and `packages/ui` now successfully compile under `tsc --noEmit` locally with zero fallback mocks or stubs.
 - **Browser Extension Bridge**: Implemented fuzzy text matching and validated the end-to-end local MCP click action logic in `@borg/browser-extension-pkg` background execution worker.
 - **Browser Extension Bridge**: Implemented fuzzy text matching and validated the end-to-end local MCP click action logic in `@borg/browser-extension-pkg` background execution worker.
 
