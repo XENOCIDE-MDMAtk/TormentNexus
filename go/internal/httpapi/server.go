@@ -959,6 +959,8 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/skills/unload", s.handleSkillUnload)
 	s.mux.HandleFunc("/api/skills/list-loaded", s.handleSkillListLoaded)
 	s.mux.HandleFunc("/api/skills/summary", s.handleSkillsSummary)
+	s.mux.HandleFunc("/api/skills/predict", s.handleSkillPredict)
+	s.mux.HandleFunc("/api/skills/predict", s.handleSkillPredict)
 	s.mux.HandleFunc("/api/tools", s.handleToolsList)
 	s.mux.HandleFunc("/api/tools/by-server", s.handleToolsByServer)
 	s.mux.HandleFunc("/api/tools/search", s.handleToolsSearch)

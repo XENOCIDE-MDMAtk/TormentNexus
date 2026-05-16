@@ -1,9 +1,9 @@
-
 import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@borg/ai';
 import type { MCPServer } from '../MCPServer.js';
 import path from 'path';
 import fs from 'fs';
 import { EventEmitter } from 'events';
+import { ShellService } from './ShellService.js';
 
 export interface Diagnosis {
     errorType: string;
@@ -26,6 +26,7 @@ export interface HealRecord {
     error: string;
     fix: FixPlan;
     success: boolean;
+    attempts: number;
 }
 
 interface LlmTextResponse {
@@ -48,11 +49,6 @@ function extractJsonObject(text: string): string {
     return text.trim();
 }
 
-/**
- * Reason: LLM providers in this codebase can return either `{ text }`, `{ content }`, or a raw string.
- * What: Normalizes heterogeneous provider responses into a single string extraction path.
- * Why: Avoids repeated unsafe casts and keeps JSON parsing behavior consistent across healer flows.
- */
 function extractLlmText(response: unknown): string {
     if (typeof response === 'string') {
         return response;
@@ -74,64 +70,74 @@ function extractLlmText(response: unknown): string {
 export class HealerService extends EventEmitter {
     private llm: LLMService;
     private server: MCPServer;
+    private shell: ShellService;
     private history: HealRecord[] = [];
 
     public getHistory() {
         return this.history;
     }
 
-    constructor(llm: LLMService, server: MCPServer) {
+    constructor(llm: LLMService, server: MCPServer, shell: ShellService) {
         super();
         this.llm = llm;
         this.server = server;
+        this.shell = shell;
     }
 
-    public async autoHeal(errorLog: string): Promise<{ success: boolean; file?: string; fix?: string }> {
-        console.log("[HealerService] 🚑 Auto-healing initialized...");
+    public async healAndVerify(error: Error | string, context?: string, maxAttempts: number = 3): Promise<boolean> {
+        let currentError = error;
+        let currentContext = context;
+        let attempts = 0;
 
-        // 1. Diagnose
-        const diagnosis = await this.analyzeError(errorLog);
-        console.log("[HealerService] 🔍 Diagnosis:", diagnosis);
+        console.log(`[HealerService] 🚑 Starting autonomous healing loop (Max Attempts: ${maxAttempts})`);
 
-        if (!diagnosis.file || !diagnosis.suggestedFix) {
-            console.log("[HealerService] 🤷 Could not identify file or fix.");
-            return { success: false };
+        while (attempts < maxAttempts) {
+            attempts++;
+            console.log(`[HealerService] 🔄 Attempt ${attempts}/${maxAttempts}`);
+
+            const diagnosis = await this.analyzeError(currentError, currentContext);
+            console.log(`[HealerService] 🔍 Diagnosis: ${diagnosis.description} (Confidence: ${diagnosis.confidence})`);
+
+            if (diagnosis.confidence < 0.6) {
+                console.warn("[HealerService] ⚠️ Confidence too low to proceed with auto-fix.");
+                break;
+            }
+
+            if (!diagnosis.file) {
+                console.warn("[HealerService] ⚠️ No culprit file identified.");
+                break;
+            }
+
+            try {
+                const plan = await this.generateFix(diagnosis);
+                console.log(`[HealerService] 🛠️ Fix Plan Generated: ${plan.explanation}`);
+
+                const applied = await this.applyFix(plan);
+                if (!applied) {
+                    console.error("[HealerService] ❌ Failed to write fix to disk.");
+                    break;
+                }
+
+                console.log("[HealerService] 🧪 Verifying fix...");
+                const verificationResult = await this.verifyFix(diagnosis.file);
+
+                if (verificationResult.success) {
+                    console.log("[HealerService] ✅ Fix verified successfully!");
+                    this.recordHistory(currentError, plan, true, attempts);
+                    return true;
+                } else {
+                    console.warn(`[HealerService] ❌ Verification failed: ${verificationResult.error}`);
+                    currentError = verificationResult.error || "Verification failed";
+                    currentContext = `Attempted fix: ${plan.explanation}. But verification failed with: ${verificationResult.error}`;
+                }
+            } catch (e) {
+                console.error("[HealerService] ❌ Error during healing step:", e);
+                break;
+            }
         }
 
-        // 2. Locate File
-        const filePath = path.isAbsolute(diagnosis.file)
-            ? diagnosis.file
-            : path.join(process.cwd(), diagnosis.file);
-
-        if (!fs.existsSync(filePath)) {
-            console.log(`[HealerService] ❌ File not found: ${filePath}`);
-            return { success: false };
-        }
-
-        // 3. Apply Fix
-        // Ask LLM to generate the FULL file content with the fix applied
-        const currentContent = await fs.readFileSync(filePath, 'utf-8');
-        const prompt = `
-        You are an Expert Linter and Fixer.
-        Original File Content:
-        \`\`\`typescript
-        ${currentContent}
-        \`\`\`
-
-        Diagnosis: ${diagnosis.description}
-        Suggested Fix: ${diagnosis.suggestedFix}
-
-        Output the COMPLETE, CORRECTED file content. Do not include markdown fences.
-        `;
-
-        const response = await this.llm.generateText('openrouter', DEFAULT_OPENROUTER_FREE_MODEL, 'You are a code fixer.', prompt);
-        const newContent = response.content.replace(/```typescript|```/g, '').trim();
-
-        // 4. Write
-        await fs.writeFileSync(filePath, newContent);
-        console.log(`[HealerService] 💉 Fix applied to ${filePath}`);
-
-        return { success: true, file: filePath, fix: diagnosis.suggestedFix };
+        console.error("[HealerService] ❌ Autonomous healing exhausted or failed.");
+        return false;
     }
 
     public async analyzeError(error: Error | string, context?: string): Promise<Diagnosis> {
@@ -179,16 +185,15 @@ export class HealerService extends EventEmitter {
             throw new Error("Cannot generate fix without file path.");
         }
 
-        // 1. Read File Content
-        const fs = await import('fs/promises');
+        const filePath = path.isAbsolute(diagnosis.file) ? diagnosis.file : path.join(process.cwd(), diagnosis.file);
+
         let content = '';
         try {
-            content = await fs.readFile(diagnosis.file, 'utf-8');
+            content = await fs.promises.readFile(filePath, 'utf-8');
         } catch (e) {
-            throw new Error(`Failed to read file: ${diagnosis.file}`);
+            throw new Error(`Failed to read file: ${filePath}`);
         }
 
-        // 2. Generate Fix via LLM
         const prompt = `
         You are The Healer.
         Generate a fix for the following file based on the diagnosis.
@@ -209,11 +214,11 @@ export class HealerService extends EventEmitter {
         const response = await this.llm.generateText("openrouter", DEFAULT_OPENROUTER_FREE_MODEL, "You are a code repair agent. Return only JSON with 'explanation' and 'newContent'.", prompt, {});
 
         try {
-            const result = JSON.parse(extractLlmText(response));
+            const result = JSON.parse(extractJsonObject(extractLlmText(response)));
             return {
                 id: Math.random().toString(36).substring(7),
                 diagnosis,
-                filesToModify: [{ path: diagnosis.file, content: result.newContent }],
+                filesToModify: [{ path: filePath, content: result.newContent }],
                 explanation: result.explanation
             };
         } catch (e) {
@@ -223,10 +228,9 @@ export class HealerService extends EventEmitter {
     }
 
     public async applyFix(plan: FixPlan): Promise<boolean> {
-        const fs = await import('fs/promises');
         try {
             for (const file of plan.filesToModify) {
-                await fs.writeFile(file.path, file.content, 'utf-8');
+                await fs.promises.writeFile(file.path, file.content, 'utf-8');
             }
             return true;
         } catch (e) {
@@ -235,50 +239,35 @@ export class HealerService extends EventEmitter {
         }
     }
 
-    public async heal(error: Error | string, context?: string): Promise<boolean> {
-        console.log("🚑 Healer Activated...");
-        const diagnosis = await this.analyzeError(error, context);
-        console.log("📋 Diagnosis:", diagnosis);
+    private async verifyFix(culpritFile: string): Promise<{ success: boolean; error?: string }> {
+        const testFile = culpritFile.replace(/\.ts$/, '.test.ts');
+        const commands = [];
 
-        if (diagnosis.confidence < 0.8) {
-            console.warn("⚠️ Confidence too low for auto-heal.");
-            return false;
-        }
-
-        if (!diagnosis.file) {
-            console.warn("⚠️ No file identified to fix.");
-            return false;
+        if (fs.existsSync(testFile)) {
+            commands.push(`npx vitest run ${testFile}`);
+        } else {
+            commands.push(`npx tsc --noEmit ${culpritFile}`);
         }
 
         try {
-            const plan = await this.generateFix(diagnosis);
-            console.log("🛠️ Fix Generated:", plan.explanation);
-
-            const success = await this.applyFix(plan);
-
-            const historyItem = {
-                timestamp: Date.now(),
-                error: typeof error === 'string' ? error : error.message,
-                fix: plan,
-                success
-            };
-            this.history.push(historyItem);
-            this.emit('heal', historyItem);
-
-            return success;
-        } catch (e) {
-            console.error("❌ Healer Failed:", e);
-            const historyItem = {
-                timestamp: Date.now(),
-                error: typeof error === 'string' ? error : error.message,
-                fix: { id: 'failed', diagnosis, filesToModify: [], explanation: 'Fix generation failed' },
-                success: false
-            };
-            this.history.push(historyItem);
-            this.emit('heal', historyItem);
-            return false;
+            for (const cmd of commands) {
+                await this.shell.execute(cmd);
+            }
+            return { success: true };
+        } catch (e: any) {
+            return { success: false, error: e.message || String(e) };
         }
     }
 
-
+    private recordHistory(error: Error | string, fix: FixPlan, success: boolean, attempts: number) {
+        const item: HealRecord = {
+            timestamp: Date.now(),
+            error: typeof error === 'string' ? error : error.message,
+            fix,
+            success,
+            attempts
+        };
+        this.history.push(item);
+        this.emit('heal', item);
+    }
 }
