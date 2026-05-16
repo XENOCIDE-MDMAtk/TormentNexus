@@ -10,5 +10,9 @@
             "import": "./dist/index.js",
             "types": "./src/index.ts"
         }
+    },
+    "scripts": {
+        "build": "tsc",
+        "typecheck": "tsc --noEmit"
     }
 }

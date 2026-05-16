@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect, RefObject } from 'react';
 
 export function useResizeObserver(ref: RefObject<HTMLElement>) {

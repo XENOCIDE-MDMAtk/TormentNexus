@@ -15,11 +15,13 @@ export const searchObservationsInputSchema = z.object({
 });
 
 export const getRecentUserPromptsInputSchema = z.object({
+  role: z.string().optional(),
   limit: z.number().min(1).max(1000).default(50),
 });
 
 export const searchUserPromptsInputSchema = z.object({
   query: z.string(),
+  role: z.string().optional(),
   limit: z.number().min(1).max(1000).default(20),
 });
 

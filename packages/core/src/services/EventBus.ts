@@ -85,7 +85,7 @@ export class EventBus extends EventEmitter {
     /**
      * Async iterator for pattern-matched events.
      */
-    public async *on(pattern: string): AsyncIterableIterator<[string, any]> {
+    public async *events(pattern: string): AsyncIterableIterator<[string, any]> {
         const queue: Array<[string, any]> = [];
         let resolve: (() => void) | null = null;
 

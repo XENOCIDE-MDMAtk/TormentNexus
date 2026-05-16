@@ -197,7 +197,7 @@ export const agentRouter = t.router({
                     }
 
                     // Stream new events
-                    for await (const [event, data] of server.eventBus.on('swarm:*')) {
+                    for await (const [event, data] of server.eventBus.events('swarm:*')) {
                         yield { event, data, timestamp: Date.now() };
                     }
                 }
