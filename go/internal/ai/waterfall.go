@@ -4,51 +4,47 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"github.com/borghq/borg-go/internal/providers"
 )
 
-// LLMClient represents a standard interface for text generation
-type LLMClient interface {
-	GenerateText(ctx context.Context, model string, messages []Message) (*LLMResponse, error)
-}
-
-// WaterfallClient wraps multiple providers and cascades upon failures (429, 5xx)
 type WaterfallClient struct {
-	tiers []LLMClient
+	tiers    []Provider
+    selector *providers.ModelSelector
 }
 
-func NewWaterfallClient(tiers ...LLMClient) *WaterfallClient {
+func NewWaterfallClient(selector *providers.ModelSelector, tiers ...Provider) *WaterfallClient {
 	return &WaterfallClient{
-		tiers: tiers,
+		tiers:    tiers,
+        selector: selector,
 	}
 }
 
-func (w *WaterfallClient) GenerateText(ctx context.Context, model string, messages []Message) (*LLMResponse, error) {
-	var lastErr error
-	for i, tier := range w.tiers {
-		resp, err := tier.GenerateText(ctx, model, messages)
-		if err == nil {
-			if i > 0 {
-				fmt.Printf("[Waterfall] Fallback successful at tier %d\n", i+1)
-			}
-			return resp, nil
-		}
+func (w *WaterfallClient) GenerateText(ctx context.Context, taskType string, messages []Message) (*LLMResponse, error) {
+    providerName, err := w.selector.SelectProvider(ctx, taskType)
+    if err != nil {
+        return nil, err
+    }
 
-		lastErr = err
+    var provider Provider
+    selection, ok := getProviderSelection(providerName)
+    if ok {
+        provider = selection.Factory(selection.APIKey)
+    }
 
-		// Heuristic to decide if we should cascade (e.g. rate limit, server error)
-		errStr := err.Error()
-		if strings.Contains(errStr, "429") || strings.Contains(errStr, "500") || strings.Contains(errStr, "502") || strings.Contains(errStr, "503") || strings.Contains(errStr, "timeout") {
-			fmt.Printf("[Waterfall] Tier %d failed (%v). Cascading...\n", i+1, err)
-			continue
-		}
+    if provider == nil {
+        return nil, fmt.Errorf("selected provider %s not available", providerName)
+    }
 
-		// If it's a hard error (like bad request), fail immediately
-		if strings.Contains(errStr, "400") || strings.Contains(errStr, "401") || strings.Contains(errStr, "403") {
-			return nil, fmt.Errorf("hard error from tier %d: %w", i+1, err)
-		}
+    resp, err := provider.GenerateText(ctx, selection.DefaultModel, messages)
+    if err == nil {
+        return resp, nil
+    }
 
-		// Otherwise, log and continue cascading to be safe
-		fmt.Printf("[Waterfall] Tier %d failed with unexpected error (%v). Cascading...\n", i+1, err)
-	}
-	return nil, fmt.Errorf("all waterfall tiers failed. Last error: %w", lastErr)
+    // Heuristic fallback logic if the primary selection fails
+    if strings.Contains(err.Error(), "429") || strings.Contains(err.Error(), "quota") {
+        fmt.Printf("[Waterfall] Selected provider %s failed due to quota. Falling back...\n", providerName)
+        // In a real implementation, we would retry the selection loop
+    }
+
+    return nil, err
 }

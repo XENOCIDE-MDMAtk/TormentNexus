@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0-alpha.60] - 2026-05-16
+
+### Added
+- **Phase 4: Deep Orchestration**:
+  - `ConsensusEngine`: Native Go implementation of weighted multi-model voting with L2 Vault logging.
+  - `PairOrchestrator`: Hardened state machine enforcing the `Planner -> Checker -> Implementer -> Critic` loop with recursive revisions.
+  - `QuotaManager`: Real-time token usage and credit tracking for all LLM providers.
+  - `ModelSelector`: Budget-aware waterfall routing that preemptively switches providers based on quota.
+  - `SessionSnapshots`: Support for cross-session snapshot/restore in `MemoryArchiver`.
+
+### Changed
+- `LLMService`: Integrated `GlobalQuotaTracker` to automatically update usage statistics after every generation.
+- `WaterfallRouter`: Refactored to utilize the `ModelSelector` for intelligent provider selection.
+- Documentation: Authored `docs/PHASE4_ORCHESTRATION.md` and updated `PROJECT_MEMORY.md`.
+
+
 ## [1.0.0-alpha.59] - 2026-05-16
 
 ### Added

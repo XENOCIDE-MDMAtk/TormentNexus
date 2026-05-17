@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"github.com/borghq/borg-go/internal/codeexec"
 	"github.com/borghq/borg-go/internal/memorystore"
+	"github.com/borghq/borg-go/internal/ai"
 	"io"
 	"io/fs"
 	"math"
@@ -460,7 +461,7 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	server.skillStore = harnesses.NewSkillStore(cfg.MainConfigDir)
 	server.skillRegistry = skillregistry.NewSkillRegistry()
 	server.skillDecision = skillregistry.NewSkillDecisionSystem(skillregistry.DefaultSkillDecisionConfig(), server.skillRegistry)
-	server.pairOrchestrator = orchestration.NewPairOrchestrator()
+	server.pairOrchestrator = orchestration.NewPairOrchestrator(server.consensusEngine)
 	server.pairOrchestrator.SetupFrontierSquad()
 	server.directorNotes = orchestration.NewDirectorNotesManager()
 	server.expertManager = hsync.NewExpertManager(server.goDirector, server.mcpPredictor)
@@ -524,6 +525,7 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	server.fleetManager = orchestration.NewFleetManagerPlus(memoryVS, server.eventBus, server.supervisorManager)
 	server.a2aBroker.SetSignalProcessor(server.fleetManager)
 	server.quotaManager = providers.NewQuotaManager()
+	ai.GlobalQuotaTracker = server.quotaManager
 	server.modelSelector = providers.NewModelSelector(server.quotaManager)
 	server.toolRegistry = toolregistry.NewToolRegistry()
 	server.gitService = gitservice.NewGitService(cfg.WorkspaceRoot)

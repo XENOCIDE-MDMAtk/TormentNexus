@@ -18,18 +18,24 @@ type Message struct {
 }
 
 type LLMResponse struct {
-	Content string
-	Usage   struct {
-		InputTokens  int
-		OutputTokens int
-	}
-	Provider string
-	Model    string
+	Content  string `json:"content"`
+	Provider string `json:"provider"`
+	Model    string `json:"model"`
+	Usage    struct {
+		InputTokens  int `json:"input_tokens"`
+		OutputTokens int `json:"output_tokens"`
+	} `json:"usage"`
 }
 
 type Provider interface {
 	GenerateText(ctx context.Context, model string, messages []Message) (*LLMResponse, error)
 }
+
+type QuotaTracker interface {
+    UpdateUsage(provider string, tokens int64, cost float64)
+}
+
+var GlobalQuotaTracker QuotaTracker
 
 type OpenAIProvider struct {
 	APIKey  string
@@ -68,9 +74,7 @@ func (p *OpenAIProvider) GenerateText(ctx context.Context, model string, message
 
 	var payload struct {
 		Choices []struct {
-			Message struct {
-				Content string `json:"content"`
-			} `json:"message"`
+			Message Message `json:"message"`
 		} `json:"choices"`
 		Usage struct {
 			PromptTokens     int `json:"prompt_tokens"`
@@ -83,21 +87,22 @@ func (p *OpenAIProvider) GenerateText(ctx context.Context, model string, message
 	}
 
 	if len(payload.Choices) == 0 {
-		return nil, fmt.Errorf("no choices returned from OpenAI")
+		return nil, fmt.Errorf("no content returned from OpenAI")
 	}
 
-	return &LLMResponse{
+	res := &LLMResponse{
 		Content:  payload.Choices[0].Message.Content,
 		Provider: "openai",
 		Model:    model,
-		Usage: struct {
-			InputTokens  int
-			OutputTokens int
-		}{
-			InputTokens:  payload.Usage.PromptTokens,
-			OutputTokens: payload.Usage.CompletionTokens,
-		},
-	}, nil
+	}
+	res.Usage.InputTokens = payload.Usage.PromptTokens
+	res.Usage.OutputTokens = payload.Usage.CompletionTokens
+
+    if GlobalQuotaTracker != nil {
+        GlobalQuotaTracker.UpdateUsage("openai", int64(res.Usage.InputTokens + res.Usage.OutputTokens), 0.0)
+    }
+
+    return res, nil
 }
 
 type AnthropicProvider struct {
@@ -155,21 +160,21 @@ func (p *AnthropicProvider) GenerateText(ctx context.Context, model string, mess
 		return nil, fmt.Errorf("no content returned from Anthropic")
 	}
 
-	return &LLMResponse{
+	res := &LLMResponse{
 		Content:  payload.Content[0].Text,
 		Provider: "anthropic",
 		Model:    model,
-		Usage: struct {
-			InputTokens  int
-			OutputTokens int
-		}{
-			InputTokens:  payload.Usage.InputTokens,
-			OutputTokens: payload.Usage.OutputTokens,
-		},
-	}, nil
+	}
+	res.Usage.InputTokens = payload.Usage.InputTokens
+	res.Usage.OutputTokens = payload.Usage.OutputTokens
+
+    if GlobalQuotaTracker != nil {
+        GlobalQuotaTracker.UpdateUsage("anthropic", int64(res.Usage.InputTokens + res.Usage.OutputTokens), 0.0)
+    }
+
+    return res, nil
 }
 
-// GeminiProvider implements the Google Gemini (Generative AI) API
 type GeminiProvider struct {
 	APIKey  string
 	BaseURL string
@@ -180,7 +185,6 @@ func (p *GeminiProvider) GenerateText(ctx context.Context, model string, message
 		p.BaseURL = "https://generativelanguage.googleapis.com/v1beta"
 	}
 
-	// Convert messages to Gemini content format
 	contents := make([]map[string]interface{}, 0, len(messages))
 	var systemInstruction string
 	for _, msg := range messages {
@@ -250,27 +254,26 @@ func (p *GeminiProvider) GenerateText(ctx context.Context, model string, message
 		return nil, fmt.Errorf("no content returned from Gemini")
 	}
 
-	// Concatenate all parts
 	var sb strings.Builder
 	for _, part := range payload.Candidates[0].Content.Parts {
 		sb.WriteString(part.Text)
 	}
 
-	return &LLMResponse{
+	res := &LLMResponse{
 		Content:  sb.String(),
 		Provider: "google",
 		Model:    model,
-		Usage: struct {
-			InputTokens  int
-			OutputTokens int
-		}{
-			InputTokens:  payload.UsageMetadata.PromptTokenCount,
-			OutputTokens: payload.UsageMetadata.CandidatesTokenCount,
-		},
-	}, nil
+	}
+	res.Usage.InputTokens = payload.UsageMetadata.PromptTokenCount
+	res.Usage.OutputTokens = payload.UsageMetadata.CandidatesTokenCount
+
+    if GlobalQuotaTracker != nil {
+        GlobalQuotaTracker.UpdateUsage("google", int64(res.Usage.InputTokens + res.Usage.OutputTokens), 0.0)
+    }
+
+    return res, nil
 }
 
-// DeepSeekProvider uses OpenAI-compatible API at api.deepseek.com
 type DeepSeekProvider struct {
 	APIKey string
 }
@@ -288,7 +291,6 @@ func (p *DeepSeekProvider) GenerateText(ctx context.Context, model string, messa
 	return resp, nil
 }
 
-// OpenRouterProvider uses OpenAI-compatible API at openrouter.ai
 type OpenRouterProvider struct {
 	APIKey string
 }
@@ -306,7 +308,6 @@ func (p *OpenRouterProvider) GenerateText(ctx context.Context, model string, mes
 	return resp, nil
 }
 
-// LMStudioProvider uses local OpenAI-compatible API at localhost:1234
 type LMStudioProvider struct {
 	BaseURL string
 }
@@ -327,7 +328,6 @@ func (p *LMStudioProvider) GenerateText(ctx context.Context, model string, messa
 	return resp, nil
 }
 
-// OllamaProvider uses local API at localhost:11434
 type OllamaProvider struct {
 	BaseURL string
 }
@@ -368,21 +368,17 @@ func (p *OllamaProvider) GenerateText(ctx context.Context, model string, message
 		return nil, err
 	}
 
-	return &LLMResponse{
+	res := &LLMResponse{
 		Content:  payload.Message.Content,
 		Provider: "ollama",
 		Model:    model,
-		Usage: struct {
-			InputTokens  int
-			OutputTokens int
-		}{
-			InputTokens:  payload.PromptEvalCount,
-			OutputTokens: payload.EvalCount,
-		},
-	}, nil
+	}
+	res.Usage.InputTokens = payload.PromptEvalCount
+	res.Usage.OutputTokens = payload.EvalCount
+
+	return res, nil
 }
 
-// ProviderPriority defines the order for auto-routing
 var ProviderPriority = []struct {
 	EnvVar       string
 	ProviderName string
@@ -410,6 +406,7 @@ type providerSelection struct {
 
 func resolveProviderSelection() (providerSelection, bool) {
 	for _, entry := range ProviderPriority {
+		if entry.EnvVar == "" { continue }
 		if key := os.Getenv(entry.EnvVar); key != "" {
 			return providerSelection{
 				EnvVar:       entry.EnvVar,
@@ -423,18 +420,14 @@ func resolveProviderSelection() (providerSelection, bool) {
 	return providerSelection{}, false
 }
 
-// AutoRoute selects the best available provider based on environment variables.
-// Priority: Anthropic > Gemini > OpenAI > DeepSeek > OpenRouter
-// This acts as a lightweight fallback router when the main TypeScript Core is unavailable.
 func AutoRoute(ctx context.Context, messages []Message) (*LLMResponse, error) {
 	selection, ok := resolveProviderSelection()
 	if !ok {
-		return nil, fmt.Errorf("no LLM provider configured (set ANTHROPIC_API_KEY, GOOGLE_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY, DEEPSEEK_API_KEY, or OPENROUTER_API_KEY)")
+		return nil, fmt.Errorf("no LLM provider configured")
 	}
 	return selection.Factory(selection.APIKey).GenerateText(ctx, selection.DefaultModel, messages)
 }
 
-// AutoRouteWithModel selects the best provider and allows model override
 func AutoRouteWithModel(ctx context.Context, model string, messages []Message) (*LLMResponse, error) {
 	selection, ok := resolveProviderSelection()
 	if !ok {
@@ -446,12 +439,11 @@ func AutoRouteWithModel(ctx context.Context, model string, messages []Message) (
 	return selection.Factory(selection.APIKey).GenerateText(ctx, model, messages)
 }
 
-// ListConfiguredProviders returns which providers have API keys set
 func ListConfiguredProviders() []string {
 	var configured []string
 	seen := map[string]struct{}{}
 	for _, entry := range ProviderPriority {
-		if os.Getenv(entry.EnvVar) == "" {
+		if entry.EnvVar != "" && os.Getenv(entry.EnvVar) == "" {
 			continue
 		}
 		if _, ok := seen[entry.ProviderName]; ok {
