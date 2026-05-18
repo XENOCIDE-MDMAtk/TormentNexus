@@ -276,3 +276,6 @@ collection-claude-code-source-code-main/
 borg-mcp-server/
 archive/mcp-directory/
 apps/web/.next/
+.pi/
+archive/docs/
+archive/apps-mobile/
