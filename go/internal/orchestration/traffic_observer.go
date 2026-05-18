@@ -35,15 +35,16 @@ func (o *TrafficObserver) Observe(ctx context.Context, msg A2AMessage) {
 		}
 
 		entry := controlplane.L2VaultRecord{
-			ID:             fmt.Sprintf("fact-%d", time.Now().UnixNano()),
-			SessionID:      msg.Sender,
-			Type:           controlplane.MemoryLongTerm,
-			Content:        fact,
-			Importance:     0.8,
-			HeatScore:      100.0,
+			ID:            fmt.Sprintf("fact-%d", time.Now().UnixNano()),
+			SessionID:     msg.Sender,
+			Type:          controlplane.MemoryLongTerm,
+			Content:       fact,
+			Importance:    0.8,
+			HeatScore:     100.0,
 			LastAccessedAt: time.Now(),
-			CreatedAt:      time.Now(),
+			CreatedAt:     time.Now(),
 		}
+
 		_ = o.vault.Commit(ctx, entry)
 
 		if o.bus != nil {
@@ -63,7 +64,6 @@ func (o *TrafficObserver) extractFact(ctx context.Context, msg A2AMessage) (stri
 	}
 
 	prompt := fmt.Sprintf("Extract a single high-value technical fact or lesson learned from this message. Return ONLY the fact or empty string if none found: %s", content)
-
 	resp, err := ai.AutoRoute(ctx, []ai.Message{{Role: "user", Content: prompt}})
 	if err != nil {
 		return "", err

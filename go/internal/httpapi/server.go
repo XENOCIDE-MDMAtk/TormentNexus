@@ -522,7 +522,7 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	server.pairOrchestrator.SetEventBus(&eventBusAdapter{server.eventBus})
 	server.metricsService = metrics.NewMetricsService()
 	server.sessionManager = session.NewSessionManager(100)
-	server.fleetManager = orchestration.NewFleetManagerPlus(memoryVS, server.eventBus, server.supervisorManager)
+	server.fleetManager = orchestration.NewFleetManagerPlus(memoryVS, &eventBusAdapter{server.eventBus}, server.supervisorManager)
 	server.a2aBroker.SetSignalProcessor(server.fleetManager)
 	server.quotaManager = providers.NewQuotaManager()
 	ai.GlobalQuotaTracker = server.quotaManager

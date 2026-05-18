@@ -2,6 +2,7 @@ package orchestration
 
 import (
 	"context"
+
 	"github.com/borghq/borg-go/internal/session"
 	"github.com/borghq/borg-go/internal/controlplane"
 	"github.com/borghq/borg-go/internal/supervisor"
@@ -14,15 +15,21 @@ type FleetManagerPlus struct {
 }
 
 func NewFleetManagerPlus(vault controlplane.MemoryVault, bus any, sup *supervisor.Manager) *FleetManagerPlus {
-    // We use 'any' and cast it to our internal interface inside NewTrafficObserver if needed,
-    // or just pass it as is if it matches.
-    // For now, I'll use a local interface to match eventbus.EventBus.
+	// bus is expected to satisfy the string-based EmitEvent interface
+	// (e.g., httpapi.eventBusAdapter wrapping *eventbus.EventBus)
+	var observerBus interface {
+		EmitEvent(eventType string, source string, payload interface{})
+	}
+	if b, ok := bus.(interface {
+		EmitEvent(eventType string, source string, payload interface{})
+	}); ok {
+		observerBus = b
+	}
+
 	return &FleetManagerPlus{
 		FleetManager: session.NewFleetManager(),
 		supervisor:   sup,
-		observer:     NewTrafficObserver(vault, bus.(interface {
-            EmitEvent(string, string, any)
-        })),
+		observer:     NewTrafficObserver(vault, observerBus),
 	}
 }
 

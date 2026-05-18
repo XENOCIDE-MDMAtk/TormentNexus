@@ -5,13 +5,12 @@ import (
 )
 
 func TestPairOrchestratorInitialization(t *testing.T) {
-	p := NewPairOrchestrator()
+	ce := NewConsensusEngine(nil, nil)
+	p := NewPairOrchestrator(ce)
 	p.SetupFrontierSquad()
-
 	if len(p.Squad) != 4 {
 		t.Errorf("expected 4 squad members, got %d", len(p.Squad))
 	}
-
 	planner := p.getMemberName(Planner)
 	if planner == "Unknown" {
 		t.Errorf("failed to get planner name")
@@ -19,7 +18,8 @@ func TestPairOrchestratorInitialization(t *testing.T) {
 }
 
 func TestPairOrchestratorRoleRotation(t *testing.T) {
-	p := NewPairOrchestrator()
+	ce := NewConsensusEngine(nil, nil)
+	p := NewPairOrchestrator(ce)
 	p.SetupFrontierSquad()
 
 	// Capture initial roles
