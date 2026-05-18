@@ -610,7 +610,7 @@ export class MCPServer {
 
         this.autoTestService = new AutoTestService(process.cwd());
         this.sandboxService = new SandboxService();
-        this.healerService = new HealerService(this.llmService, this);
+        this.healerService = new HealerService(this.llmService, this, this.shellService);
         this.promptRegistry = new PromptRegistry();
         this.skillRegistry = new SkillRegistry([
             path.join(process.cwd(), 'packages', 'core', 'src', 'skills'),
@@ -1449,7 +1449,7 @@ export class MCPServer {
                 const error = args?.error as string;
                 const context = args?.context as string;
                 if (!error) throw new Error("Missing 'error' parameter");
-                const success = await this.healerService.heal(error, context);
+                const success = await this.healerService.healAndVerify(error, context);
                 result = { content: [{ type: "text", text: success ? "Healer successfully applied fix." : "Healer could not fix this error." }] };
             }
             // --- DARWIN TOOLS (Phase 34) ---
@@ -2294,7 +2294,7 @@ export class MCPServer {
             else if (name === "auto_heal") {
                 const error = args.error as string;
                 const context = args.context as string;
-                const success = await this.healerService.heal(error, context);
+                const success = await this.healerService.healAndVerify(error, context);
                 result = { content: [{ type: "text", text: success ? "Healer successfully fixed the error." : "Healer could not fix this error autonomously." }] };
             }
             else if (name === "get_project_context") {
@@ -4165,7 +4165,7 @@ ${env.tools.filter((tool) => tool.installed).map((tool) => `- **${tool.name}**: 
                             if (level === 'error') {
                                 this.auditService.log('BROWSER_ERROR', { url, error: content }, 'ERROR');
                                 // TRIGGER HEALER
-                                this.healerService.heal(content, `URL: ${url}, Timestamp: ${timestamp}`)
+                                this.healerService.healAndVerify(content, `URL: ${url}, Timestamp: ${timestamp}`)
                                     .catch(e => console.error("Healer Error:", e));
                             }
                         }

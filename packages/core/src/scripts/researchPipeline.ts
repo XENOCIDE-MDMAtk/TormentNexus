@@ -19,7 +19,7 @@ export async function runResearchPipeline(server: MCPServer) {
     const lines = content.split('\n');
     const linkRegex = /https?:\/\/[^\s)]+/g;
 
-    const memory = new MemoryManager();
+    const memory = new MemoryManager(process.cwd());
     const research = new ResearchService(server, memory);
 
     console.log(`[Pipeline] Starting research on ${lines.length} lines...`);
