@@ -567,6 +567,35 @@ func (s *Server) Handler() http.Handler {
 	return s.mux
 }
 
+// PreWarmCaches triggers background cache population for frequently
+// accessed endpoints so that the first dashboard request is fast.
+func (s *Server) PreWarmCaches() {
+	go func() {
+		// Warm the startup status cache
+		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+		defer cancel()
+		if status, err := s.buildStartupStatus(ctx); err == nil {
+			s.cacheService.SetTTL("startup:status", status, 5000)
+		}
+	}()
+	go func() {
+		// Warm the MCP status cache
+		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+		defer cancel()
+		if status, err := s.buildMCPStatus(ctx); err == nil {
+			s.cacheService.SetTTL("mcp:status", status, 10000)
+		}
+	}()
+	go func() {
+		// Warm the MCP servers cache
+		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+		defer cancel()
+		if servers, err := s.buildMCPServersList(ctx); err == nil {
+			s.cacheService.SetTTL("mcp:servers", servers, 10000)
+		}
+	}()
+}
+
 func (s *Server) ListenAndServe(ctx context.Context) error {
 	httpServer := &http.Server{
 		Addr:              s.cfg.Host + ":" + jsonNumber(s.cfg.Port),

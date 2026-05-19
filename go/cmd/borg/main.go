@@ -101,6 +101,7 @@ func runServe(args []string) int {
 		cfg.BaseURL(),
 		cfg.BaseURL(),
 	)
+	server.PreWarmCaches()
 	if err := server.ListenAndServe(ctx); err != nil {
 		log.Printf("server failed: %v", err)
 		return 1
