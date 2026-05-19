@@ -15,7 +15,7 @@ echo ""
 # ── 1. Build Go Sidecar ──────────────────────────
 if command -v go &>/dev/null; then
 	echo "[1/5] Building Go sidecar..."
-	(cd go && go build -ldflags "-X github.com/borghq/borg-go/internal/buildinfo.Version=${VER}" -buildvcs=false -o ../bin/borg ./cmd/borg 2>/dev/null) && echo "      ✓ bin/borg built" || echo "      [WARN] Go build failed"
+	(cd go && go build -ldflags "-s -w -X github.com/borghq/borg-go/internal/buildinfo.Version=${VER}" -buildvcs=false -o ../bin/borg ./cmd/borg 2>/dev/null) && echo "      ✓ bin/borg built" || echo "      [WARN] Go build failed"
 else
 	echo "[1/5] Go not found — skipping sidecar build."
 fi

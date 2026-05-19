@@ -17,7 +17,7 @@ if errorlevel 1 (
 )
 echo [1/5] Building Go sidecar...
 cd go
-go build -ldflags "-X github.com/borghq/borg-go/internal/buildinfo.Version=%VER%" -buildvcs=false -o ..\bin\borg.exe ./cmd/borg 2>nul
+go build -ldflags "-s -w -X github.com/borghq/borg-go/internal/buildinfo.Version=%VER%" -buildvcs=false -o ..\bin\borg.exe ./cmd/borg 2>nul
 if errorlevel 1 (
     echo [WARN] Go build failed - continuing without sidecar.
 ) else (
