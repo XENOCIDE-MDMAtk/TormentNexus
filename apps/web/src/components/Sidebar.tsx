@@ -581,7 +581,7 @@ export function Sidebar({ className }: SidebarProps) {
     };
 
     return (
-        <div className={cn("pb-12 w-72 border-r border-zinc-800 bg-zinc-950 hidden md:block", className)}>
+        <div className={cn("pb-12 w-72 border-r border-zinc-800 bg-zinc-950 block", className)}>
             <div className="space-y-4 py-4">
                 <div className="px-3 py-2 space-y-5 max-h-[calc(100vh-2rem)] overflow-auto">
                     <h2 className="mb-1 px-4 text-lg font-semibold tracking-tight text-white">

@@ -5,6 +5,7 @@ import { trpc } from '../../utils/trpc';
 import {
   DashboardHomeView,
   type DashboardFallbackSummary,
+  type DashboardHealerSummary,
   type DashboardProviderSummary,
   type DashboardServerSummary,
   type DashboardSessionSummary,
@@ -64,6 +65,16 @@ export function DashboardHomeClient() {
   const installArtifactsQuery = toolsClient?.detectInstallSurfaces?.useQuery
     ? toolsClient.detectInstallSurfaces.useQuery(undefined, { refetchInterval: 10000 })
     : ({ data: null, refetch: async () => undefined } as { data: null; refetch: () => Promise<unknown> });
+
+  // Healer status — fetch history and vault record count from the Go HealerService
+  const healerHistoryQuery = trpc.healer.getHistory.useQuery(undefined, {
+    refetchInterval: 5000,
+    retry: false,
+  });
+  const healerVaultQuery = trpc.healer.vaultRecords.useQuery({ limit: 1 }, {
+    refetchInterval: 10000,
+    retry: false,
+  });
 
   // Determine if tRPC core is reachable
   const trpcReachable =
@@ -226,6 +237,30 @@ export function DashboardHomeClient() {
     return [];
   }, [trpcReachable, sessionsQuery.data, goData.sessions]);
 
+  // ── Healer Status: derived from healer history and vault queries ──
+  const healerStatus = useMemo<DashboardHealerSummary>(() => {
+    const history = (healerHistoryQuery.data ?? []) as any[];
+    const vaultRecords = healerVaultQuery.data as any[] | undefined;
+    const activePathogens = history.filter((e: any) => !e.success).length;
+    const resolvedCount = history.filter((e: any) => e.success).length;
+    const total = activePathogens + resolvedCount;
+    const successRate = total > 0 ? Math.round((resolvedCount / total) * 100) : 100;
+    const lastSuccess = history.filter((e: any) => e.success);
+    const lastHealTime = lastSuccess.length > 0
+      ? new Date(lastSuccess[lastSuccess.length - 1]?.timestamp).toLocaleString()
+      : null;
+    const vaultRecordCount = Array.isArray(vaultRecords) ? vaultRecords.length : 0;
+    const isLive = healerHistoryQuery.isSuccess || healerVaultQuery.isSuccess;
+    return {
+      activePathogens,
+      resolvedCount,
+      successRate,
+      lastHealTime,
+      vaultRecordCount,
+      isLive,
+    };
+  }, [healerHistoryQuery.data, healerVaultQuery.data, healerHistoryQuery.isSuccess, healerVaultQuery.isSuccess]);
+
   return (
     <DashboardHomeView
       generatedAtLabel={
@@ -242,6 +277,7 @@ export function DashboardHomeClient() {
       providers={providers}
       fallbackChain={fallbackChain}
       sessions={sessions}
+      healerStatus={healerStatus}
       installSurfaceArtifacts={installArtifactsQuery.data ?? null}
       onStartSession={(sessionId) => {
         setPendingSessionActionId(sessionId);
