@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { trpc } from '@/utils/trpc';
-import { Card, CardHeader, CardTitle, CardContent, Button, Badge } from '@borg/ui';
+import { Card, CardHeader, CardTitle, CardContent, Button, Badge } from '@hypercode/ui';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import { Loader2, DollarSign, Activity, Settings, Key, Zap, AlertCircle, Database, Shield, ExternalLink, WalletCards } from 'lucide-react';
 import { toast } from 'sonner';
@@ -18,8 +18,8 @@ import {
     type BillingTaskRoutingRuleSummary,
     type BillingProviderQuotaSummary,
 } from './billing-portal-data';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@borg/ui';
-import { Input } from '@borg/ui';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@hypercode/ui';
+import { Input } from '@hypercode/ui';
 import {
     getBillingUsageSummary,
     getDefaultRoutingStrategy,
@@ -312,7 +312,7 @@ export default function ProviderAuthBillingMatrix() {
                                             </div>
                                         </div>
                                         <div className="text-[11px] text-zinc-500">
-                                            Changes apply to the next model-selection decision immediately, so you can tune cost vs quality without restarting Borg.
+                                            Changes apply to the next model-selection decision immediately, so you can tune cost vs quality without restarting Hypercode.
                                         </div>
                                     </div>
                                     {routingRules.map((rule) => (
@@ -519,7 +519,7 @@ export default function ProviderAuthBillingMatrix() {
                                 Provider Portals & Subscriptions
                             </CardTitle>
                             <p className="text-sm text-zinc-500 mt-2">
-                                Jump straight to API keys, usage dashboards, billing consoles, and plan-management pages for the providers Borg knows about.
+                                Jump straight to API keys, usage dashboards, billing consoles, and plan-management pages for the providers Hypercode knows about.
                             </p>
                         </CardHeader>
                         <CardContent className="p-6">

@@ -1,5 +1,5 @@
 {
-  "name": "@borg/agents",
+  "name": "@hypercode/agents",
   "version": "1.0.0-alpha.62",
   "private": true,
   "main": "dist/index.js",
@@ -17,8 +17,8 @@
     "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
   },
   "dependencies": {
-    "@borg/adk": "workspace:*",
-    "@borg/ai": "workspace:*",
+    "@hypercode/adk": "workspace:*",
+    "@hypercode/ai": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "zod": "^3.22.4"
   },

@@ -709,9 +709,9 @@ export class AgentMemoryService {
     }
 
     /**
-     * Record a structured observation inspired by the claude-mem observation pipeline.
+     * Record a structured observation inspired by the hypercode observation pipeline.
      * This is intentionally heuristic for now: it normalizes raw tool output into a typed,
-     * deduplicated working-memory record that Borg can search immediately.
+     * deduplicated working-memory record that Hypercode can search immediately.
      */
     async recordObservation(input: ObservationInput): Promise<Memory> {
         const namespace = input.namespace ?? 'project';

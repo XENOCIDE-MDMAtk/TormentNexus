@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/borghq/borg-go/internal/llm"
+	"github.com/hypercodehq/hypercode-go/internal/llm"
 )
 
 type ToolRouter struct {

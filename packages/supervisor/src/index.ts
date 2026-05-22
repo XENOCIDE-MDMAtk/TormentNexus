@@ -1,1 +1,1 @@
-// @borg/supervisor -- stub\nexport {};
+// @hypercode/supervisor -- stub\nexport {};

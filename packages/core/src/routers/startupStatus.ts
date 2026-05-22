@@ -4,11 +4,11 @@ import path from 'node:path';
 import type { RegisteredBridgeClient } from '../bridge/bridge-manifest.js';
 import type { ExecutionEnvironmentSummary } from '../services/execution-environment.js';
 
-let borgVersionPromise: Promise<string> | null = null;
+let hypercodeVersionPromise: Promise<string> | null = null;
 
-async function getBorgVersion(): Promise<string> {
-    if (!borgVersionPromise) {
-        borgVersionPromise = (async () => {
+async function getHypercodeVersion(): Promise<string> {
+    if (!hypercodeVersionPromise) {
+        hypercodeVersionPromise = (async () => {
             try {
                 const version = await readFile(path.join(process.cwd(), 'VERSION'), 'utf-8');
                 const trimmed = version.trim();
@@ -32,7 +32,7 @@ async function getBorgVersion(): Promise<string> {
         })();
     }
 
-    return borgVersionPromise;
+    return hypercodeVersionPromise;
 }
 
 type StartupStatusInput = {
@@ -253,8 +253,8 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
         blockingReasons.push({
             code: 'claude_mem_not_ready',
             detail: !claudeMemStoreExists
-                ? 'claude-mem store has not been created yet.'
-                : 'claude-mem default sections are still being seeded.',
+                ? 'hypercode store has not been created yet.'
+                : 'hypercode default sections are still being seeded.',
         });
     }
 
@@ -290,7 +290,7 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
         ? 'All startup checks passed.'
         : `Startup pending: ${blockingReasons.map((reason) => reason.detail).join(' ')}`;
 
-    const version = await getBorgVersion();
+    const version = await getHypercodeVersion();
 
     return {
         status: 'running',

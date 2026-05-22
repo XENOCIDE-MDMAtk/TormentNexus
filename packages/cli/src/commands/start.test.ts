@@ -19,7 +19,7 @@ afterEach(() => {
 });
 
 function createTempDir(): string {
-    const dir = mkdtempSync(join(tmpdir(), 'borg-start-lock-'));
+    const dir = mkdtempSync(join(tmpdir(), 'hypercode-start-lock-'));
     tempDirs.push(dir);
     return dir;
 }
@@ -126,7 +126,7 @@ describe('acquireSingleInstanceLock', () => {
         const dataDir = createTempDir();
         const stalePort = await getFreePort();
         writeFileSync(join(dataDir, 'lock'), JSON.stringify({
-            instanceId: 'borg-stale',
+            instanceId: 'hypercode-stale',
             pid: 999999,
             port: stalePort,
             host: '127.0.0.1',
@@ -151,7 +151,7 @@ describe('acquireSingleInstanceLock', () => {
         const dataDir = createTempDir();
         const stalePort = await getFreePort();
         writeFileSync(join(dataDir, 'lock'), JSON.stringify({
-            instanceId: 'borg-stale',
+            instanceId: 'hypercode-stale',
             pid: 999999,
             port: stalePort,
             host: '127.0.0.1',
@@ -175,7 +175,7 @@ describe('acquireSingleInstanceLock', () => {
     it('blocks startup when the lock belongs to a still-running process', async () => {
         const dataDir = createTempDir();
         writeFileSync(join(dataDir, 'lock'), JSON.stringify({
-            instanceId: 'borg-live',
+            instanceId: 'hypercode-live',
             pid: process.pid,
             port: 4100,
             host: '127.0.0.1',
@@ -190,7 +190,7 @@ describe('acquireSingleInstanceLock', () => {
         }, {
             isProcessRunning: () => true,
             isPortFree: async () => false,
-        })).rejects.toThrow('Borg is already running');
+        })).rejects.toThrow('Hypercode is already running');
     });
 
     it('releases the lock when startup crashes with an uncaught exception', async () => {
@@ -224,7 +224,7 @@ describe('acquireSingleInstanceLock', () => {
 
 describe('resolveDataDir', () => {
     it('expands the home-directory shorthand', () => {
-        const resolved = resolveDataDir('~/.borg', 'C:/tmp/home');
-        expect(resolved.replaceAll('\\', '/')).toBe('C:/tmp/home/.borg');
+        const resolved = resolveDataDir('~/.hypercode', 'C:/tmp/home');
+        expect(resolved.replaceAll('\\', '/')).toBe('C:/tmp/home/.hypercode');
     });
 });

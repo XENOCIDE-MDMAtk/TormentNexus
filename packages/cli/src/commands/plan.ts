@@ -1,5 +1,5 @@
 /**
- * `borg plan` — Plan mode and diff sandbox management
+ * `hypercode plan` — Plan mode and diff sandbox management
  */
 import type { Command } from 'commander';
 
@@ -154,7 +154,7 @@ export function registerPlanCommand(program: Command): void {
 
       console.log(chalk.bold.cyan(`\n  Plan Checkpoints (${checkpoints.length})\n`));
       if (checkpoints.length === 0) {
-        console.log(chalk.dim('  No checkpoints. Create one with `borg plan checkpoint`.\n'));
+        console.log(chalk.dim('  No checkpoints. Create one with `hypercode plan checkpoint`.\n'));
         return;
       }
 

@@ -1,5 +1,5 @@
 import { EventBus } from '../services/EventBus.js';
-import { a2aBroker } from '@borg/agents';
+import { a2aBroker } from '@hypercode/agents';
 
 export class NativeSidecarDaemon {
     private lastSeenTimestamp: number = 0;
@@ -9,7 +9,7 @@ export class NativeSidecarDaemon {
 
     constructor(
         private readonly eventBus: EventBus,
-        private readonly sidecarUrl: string = process.env.BORG_SIDECAR_URL || 'http://localhost:4300'
+        private readonly sidecarUrl: string = process.env.HYPERCODE_SIDECAR_URL || 'http://localhost:4300'
     ) {}
 
     async start() {

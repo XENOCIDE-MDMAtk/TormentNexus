@@ -76,7 +76,7 @@ export const appRouter = t.router({
     graph: graphRouter,
     workflow: workflowRouter,
     tests: testsRouter,
-    borgContext: contextRouter,
+    hypercodeContext: contextRouter,
     commands: commandsRouter,
     symbols: symbolsRouter,
     autoDev: autoDevRouter,

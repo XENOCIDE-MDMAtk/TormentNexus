@@ -2,8 +2,8 @@
 #    uv pip compile --no-strip-extras --constraint=requirements/common-constraints.txt --output-file=requirements/requirements-help.txt requirements/requirements-help.in
 aiohappyeyeballs==2.6.1
 aiohttp==3.13.5
-aiosignal==1.4.0
-aiosqlite==0.22.0
+hypercodeignal==1.4.0
+hypercodeqlite==0.22.0
 annotated-types==0.7.0
 anyio==4.12.0
 async-timeout==5.0.1

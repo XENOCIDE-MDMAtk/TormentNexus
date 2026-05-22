@@ -1,9 +1,9 @@
 {
-  "name": "@borg/cli",
+  "name": "@hypercode/cli",
   "version": "1.0.0-alpha.62",
   "type": "module",
   "bin": {
-    "borg": "./dist/cli/src/index.js"
+    "hypercode": "./dist/cli/src/index.js"
   },
   "scripts": {
     "build": "node build.mjs",
@@ -14,7 +14,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@borg/core": "workspace:*",
+    "@hypercode/core": "workspace:*",
     "@trpc/server": "^11.8.1",
     "chalk": "^5.4.0",
     "cli-table3": "^0.6.5",
@@ -27,7 +27,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@borg/tsconfig": "workspace:*",
+    "@hypercode/tsconfig": "workspace:*",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/ink-text-input": "^2.0.5",

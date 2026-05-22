@@ -2,7 +2,7 @@ import { eq, desc } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { db } from "../index.js";
 import { policiesTable } from "../mcp-admin-schema.js";
-import { CreatePolicySchema, UpdatePolicySchema, PolicySchema } from "../../types/metamcp/policies.zod.js";
+import { CreatePolicySchema, UpdatePolicySchema, PolicySchema } from "../../types/hypercode/policies.zod.js";
 import { z } from "zod";
 
 type Policy = z.infer<typeof PolicySchema>;

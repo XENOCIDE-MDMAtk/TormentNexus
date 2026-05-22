@@ -1,7 +1,7 @@
 /**
- * `borg status` - Show system status overview
+ * `hypercode status` - Show system status overview
  *
- * Queries the running Borg AIOS server for real status data.
+ * Queries the running Hypercode server for real status data.
  * Falls back to a static overview if the server isn't reachable.
  */
 
@@ -47,7 +47,7 @@ async function getRealStatus(host: string): Promise<StatusData | null> {
   const configuredProviders = providerKeys.filter(k => process.env[k]).length;
 
   return {
-    version: health.name === '@borg/core' ? 'running' : 'unknown',
+    version: health.name === '@hypercode/core' ? 'running' : 'unknown',
     server: {
       status: health.status ?? 'unknown',
       uptime: health.uptime ?? 0,
@@ -77,14 +77,14 @@ function formatUptime(seconds: number): string {
 export function registerStatusCommand(program: Command): void {
   program
     .command('status')
-    .description('Show Borg AIOS system status (server, MCP, sessions, memory, providers)')
+    .description('Show Hypercode system status (server, MCP, sessions, memory, providers)')
     .option('--json', 'Output as JSON')
     .option('-p, --port <number>', 'Server port', String(DEFAULT_PORT))
     .addHelpText('after', `
 Examples:
-  $ borg status          Show full system overview
-  $ borg status --json   Machine-readable JSON output
-  $ borg status -p 4100  Query server on port 4100
+  $ hypercode status          Show full system overview
+  $ hypercode status --json   Machine-readable JSON output
+  $ hypercode status -p 4100  Query server on port 4100
     `)
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
@@ -118,7 +118,7 @@ Examples:
         return;
       }
 
-      console.log(chalk.bold.cyan(`\n  ⬡ Borg AIOS v${version} — Status\n`));
+      console.log(chalk.bold.cyan(`\n  ⬡ Hypercode v${version} — Status\n`));
 
       const table = new Table({
         chars: { mid: '', 'left-mid': '', 'mid-mid': '', 'right-mid': '' },
@@ -136,7 +136,7 @@ Examples:
         try {
           const fs = await import('fs');
           const path = await import('path');
-          const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+          const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
           const pidFiles = fs.readdirSync(pidDir).filter(f => f.endsWith('.pid'));
           fleetTotal = pidFiles.length;
           for (const pf of pidFiles) {
@@ -175,7 +175,7 @@ Examples:
           ['Go Sidecar', real?.goSidecar ? chalk.green('● Running') : chalk.dim('○ Stopped'), `http://127.0.0.1:4300${real?.goSidecar ? ' | ' + real.goSidecar.version : ''}`],
         );
         console.log(table.toString());
-        console.log(chalk.dim(`\n  Use ${chalk.cyan('`borg start`')} to launch the server\n`));
+        console.log(chalk.dim(`\n  Use ${chalk.cyan('`hypercode start`')} to launch the server\n`));
       }
     });
 }

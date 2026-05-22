@@ -3,13 +3,13 @@
  * CLI integration test — verifies every CLI command works against a running server
  */
 const { execSync } = require('child_process');
-const BORG = 'node packages/cli/dist/cli/src/index.js';
+const HYPERCODE = 'node packages/cli/dist/cli/src/index.js';
 
 let passed = 0, failed = 0;
 
 function test(name, cmd, expectFn, timeout = 10000) {
   try {
-    const out = execSync(`${BORG} ${cmd}`, { timeout, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    const out = execSync(`${HYPERCODE} ${cmd}`, { timeout, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
     if (expectFn(out)) {
       console.log(`  ✓ ${name}`);
       passed++;
@@ -25,14 +25,14 @@ function test(name, cmd, expectFn, timeout = 10000) {
 }
 
 (async () => {
-  console.log(`\n  Borg CLI Integration Test (v1.0.0-alpha.40)\n`);
+  console.log(`\n  Hypercode CLI Integration Test (v1.0.0-alpha.40)\n`);
 
   test('status shows version', 'status', o => o.includes('1.0.0-alpha'));
   test('status shows server running', 'status', o => o.includes('Running'));
   test('status shows Go sidecar', 'status', o => o.includes('Go Sidecar'));
 
   test('about shows version', 'about', o => o.includes('1.0.0-alpha'));
-  test('about shows codename', 'about', o => o.includes('AIOS'));
+  test('about shows codename', 'about', o => o.includes('HYPERCODE'));
 
   test('config show', 'config show', o => o.includes('Configuration'));
   test('config get', 'config get nonexistent.key', o => o.includes('undefined'));
@@ -66,7 +66,7 @@ function test(name, cmd, expectFn, timeout = 10000) {
   test('provider test', 'provider test openai', o => o.includes('openai') || o.includes('authenticated'), 15000);
 
   test('doctor', 'doctor', o => o.includes('Doctor') || o.includes('checks'), 15000);
-  test('info', 'info', o => o.includes('Borg') || o.includes('System'));
+  test('info', 'info', o => o.includes('Hypercode') || o.includes('System'));
   test('cloud providers', 'cloud providers', o => o.includes('Cloud') || o.includes('Provider'));
   test('cloud stats', 'cloud stats', o => o.includes('Cloud') || o.includes('Providers'));
   test('billing status', 'billing status', o => o.includes('Billing') || o.includes('active'));

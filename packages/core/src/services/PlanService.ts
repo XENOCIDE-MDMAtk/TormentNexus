@@ -406,7 +406,7 @@ export class PlanService {
     constructor(options: PlanServiceOptions) {
         this.options = {
             rootPath: options.rootPath,
-            sandboxDir: options.sandboxDir || path.join(options.rootPath, '.borg', 'sandbox'),
+            sandboxDir: options.sandboxDir || path.join(options.rootPath, '.hypercode', 'sandbox'),
             autoCheckpoint: options.autoCheckpoint ?? true,
             maxCheckpoints: options.maxCheckpoints ?? 20,
         };

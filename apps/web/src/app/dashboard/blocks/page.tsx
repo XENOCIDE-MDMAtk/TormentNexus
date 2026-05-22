@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ExternalLink, Box, KeyRound, Radio, RefreshCw, CheckCircle2, ShieldCheck, Layers, Sparkles, Terminal } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
 
 const BLOCKS_KEY_STORAGE = "blocks-workspace-api-key";
 

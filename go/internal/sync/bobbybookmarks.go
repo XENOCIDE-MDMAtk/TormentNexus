@@ -101,7 +101,7 @@ func SyncBobbyBookmarks(ctx context.Context, dbPath string, baseURL string, perP
 			break
 		}
 		req.Header.Set("Accept", "application/json")
-		req.Header.Set("User-Agent", "Borg/BobbyBookmarks-Go-Adapter")
+		req.Header.Set("User-Agent", "Hypercode/BobbyBookmarks-Go-Adapter")
 
 		resp, err := client.Do(req)
 		if err != nil {

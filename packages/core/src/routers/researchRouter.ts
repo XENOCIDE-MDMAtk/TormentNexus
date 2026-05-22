@@ -4,7 +4,7 @@ import { t, publicProcedure, getResearchService, getDeepResearchService } from '
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const MASTER_INDEX_PATH = path.join(process.cwd(), 'BORG_MASTER_INDEX.jsonc');
+const MASTER_INDEX_PATH = path.join(process.cwd(), 'HYPERCODE_MASTER_INDEX.jsonc');
 const INGESTION_STATUS_PATH = path.join(process.cwd(), 'scripts', 'ingestion-status.json');
 
 const isMissingFileError = (error: unknown): boolean =>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { t, getMcpServer } from '../lib/trpc-core.js';
-import { resolveOrchestratorBase } from '../lib/borg-orchestrator.js';
+import { resolveOrchestratorBase } from '../lib/hypercode-orchestrator.js';
 
 interface SupervisorTaskRuntime {
     status?: 'pending' | 'active' | 'completed' | 'failed' | string;
@@ -39,11 +39,11 @@ export const supervisorRouter = t.router({
                     return {
                         success: true,
                         sessionId: sessionData.id,
-                        message: "Goal successfully delegated to Borg Orchestrator."
+                        message: "Goal successfully delegated to Hypercode Orchestrator."
                     };
                 }
             } catch (e: any) {
-                console.warn(`[Supervisor] Borg Orchestrator unavailable (${e.message}). Falling back to native supervisor.`);
+                console.warn(`[Supervisor] Hypercode Orchestrator unavailable (${e.message}). Falling back to native supervisor.`);
             }
         }
 

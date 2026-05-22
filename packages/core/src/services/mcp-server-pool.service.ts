@@ -2,7 +2,7 @@ import { ServerParameters } from "../types/mcp-admin/index.js";
 
 import { configService } from "./config.service.js";
 import { autoReconnectService } from "./auto-reconnect.service.js";
-import { ConnectedClient, connectMetaMcpClient } from "./mcp-client.service.js";
+import { ConnectedClient, connecthypercodeClient } from "./mcp-client.service.js";
 import { serverErrorTracker } from "./server-error-tracker.service.js";
 import { formatOptionalSqliteFailure, isSqliteUnavailableError } from "../db/sqliteAvailability.js";
 
@@ -79,8 +79,8 @@ export class McpServerPool {
 
     private constructor(defaultIdleCount: number = 1) {
         this.defaultIdleCount = defaultIdleCount;
-        this.lazySessionMode = process.env.BORG_MCP_LAZY_SESSIONS !== 'false';
-        this.singleActiveServerMode = process.env.BORG_MCP_SINGLE_ACTIVE_SERVER !== 'false';
+        this.lazySessionMode = process.env.HYPERCODE_MCP_LAZY_SESSIONS !== 'false';
+        this.singleActiveServerMode = process.env.HYPERCODE_MCP_SINGLE_ACTIVE_SERVER !== 'false';
         this.recordLifecycleEvent({
             type: 'mode-updated',
             reasonCode: 'mode-initialized',
@@ -313,7 +313,7 @@ export class McpServerPool {
             `Creating new connection for server ${params.name} (${params.uuid}) with namespace: ${namespaceUuid || "none"}`,
         );
 
-        const connectedClient = await connectMetaMcpClient(
+        const connectedClient = await connecthypercodeClient(
             params,
             (exitCode, signal) => {
                 console.log(

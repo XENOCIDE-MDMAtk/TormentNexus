@@ -14,7 +14,7 @@ func ExecuteCodeMode(scriptBundle string, language string) (string, error) {
 
 	switch language {
 	case "typescript", "ts":
-		tmpFile := filepath.Join(tmpDir, "borg_codemode.ts")
+		tmpFile := filepath.Join(tmpDir, "hypercode_codemode.ts")
 		if err := os.WriteFile(tmpFile, []byte(scriptBundle), 0644); err != nil {
 			return "", err
 		}
@@ -30,7 +30,7 @@ func ExecuteCodeMode(scriptBundle string, language string) (string, error) {
 		return string(output), nil
 
 	case "bash", "sh", "pwsh":
-		tmpFile := filepath.Join(tmpDir, "borg_codemode.sh")
+		tmpFile := filepath.Join(tmpDir, "hypercode_codemode.sh")
 		if err := os.WriteFile(tmpFile, []byte(scriptBundle), 0644); err != nil {
 			return "", err
 		}

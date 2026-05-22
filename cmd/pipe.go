@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/robertpelloni/borg/agent"
+	"github.com/robertpelloni/hypercode/agent"
 	"github.com/spf13/cobra"
 )
 

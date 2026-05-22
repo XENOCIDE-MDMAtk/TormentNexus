@@ -69,13 +69,13 @@ describe('health page helpers', () => {
         expect(getMcpRouterMetric({ ready: false, status: 'degraded', summary: { bad: true } } as any, false)).toEqual({
             status: 'Degraded',
             color: 'text-amber-500',
-            detail: 'Live startup telemetry is unavailable while Borg serves a compat-fallback router snapshot.',
+            detail: 'Live startup telemetry is unavailable while Hypercode serves a compat-fallback router snapshot.',
         });
 
         expect(getEventBusMetric({ ready: false, status: 'degraded', summary: ['bad'] } as any)).toEqual({
             status: 'Degraded',
             color: 'text-amber-500',
-            detail: 'Live startup telemetry is unavailable while Borg serves a compat-fallback snapshot.',
+            detail: 'Live startup telemetry is unavailable while Hypercode serves a compat-fallback snapshot.',
         });
     });
 });

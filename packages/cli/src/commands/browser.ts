@@ -1,5 +1,5 @@
 /**
- * `borg browser` — Browser automation control
+ * `hypercode browser` — Browser automation control
  */
 import type { Command } from 'commander';
 

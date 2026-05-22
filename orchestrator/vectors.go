@@ -7,7 +7,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/robertpelloni/borg/agents"
+	"github.com/robertpelloni/hypercode/agents"
 )
 
 // VectorDB handles the "Jules Autopilot" requirement directly over SQLite natively

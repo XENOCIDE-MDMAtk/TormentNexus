@@ -1,7 +1,7 @@
 
 'use client';
 
-import { PromptLibrary } from "@borg/ui";
+import { PromptLibrary } from "@hypercode/ui";
 
 export default function PromptsPage() {
     return (

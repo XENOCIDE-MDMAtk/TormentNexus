@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 REM ==============================================
-REM  HyperCode AIOS - TypeScript Core + Dashboard
+REM  HyperCode HYPERCODE - TypeScript Core + Dashboard
 REM  Starts the TS control plane and Next.js web UI
 REM ==============================================
 

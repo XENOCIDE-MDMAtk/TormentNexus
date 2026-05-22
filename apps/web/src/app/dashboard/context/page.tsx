@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, Button, Badge, ScrollArea } from "@borg/ui";
+import { Card, CardContent, CardHeader, CardTitle, Button, Badge, ScrollArea } from "@hypercode/ui";
 import { Layers, Plus, Trash2, Loader2, RefreshCw, FileText, Code2, Copy, Check } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -16,33 +16,33 @@ export default function ContextDashboard() {
     const [copied, setCopied] = useState(false);
 
     const utils = trpc.useUtils();
-    const filesQuery = trpc.borgContext.list.useQuery();
-    const promptQuery = trpc.borgContext.getPrompt.useQuery();
+    const filesQuery = trpc.hypercodeContext.list.useQuery();
+    const promptQuery = trpc.hypercodeContext.getPrompt.useQuery();
 
-    const addMutation = trpc.borgContext.add.useMutation({
+    const addMutation = trpc.hypercodeContext.add.useMutation({
         onSuccess: async () => {
             toast.success('File added to context');
             setNewFile('');
-            await utils.borgContext.list.invalidate();
-            await utils.borgContext.getPrompt.invalidate();
+            await utils.hypercodeContext.list.invalidate();
+            await utils.hypercodeContext.getPrompt.invalidate();
         },
         onError: err => toast.error(`Failed to add: ${err.message}`),
     });
 
-    const removeMutation = trpc.borgContext.remove.useMutation({
+    const removeMutation = trpc.hypercodeContext.remove.useMutation({
         onSuccess: async () => {
             toast.success('File removed from context');
-            await utils.borgContext.list.invalidate();
-            await utils.borgContext.getPrompt.invalidate();
+            await utils.hypercodeContext.list.invalidate();
+            await utils.hypercodeContext.getPrompt.invalidate();
         },
         onError: err => toast.error(`Failed to remove: ${err.message}`),
     });
 
-    const clearMutation = trpc.borgContext.clear.useMutation({
+    const clearMutation = trpc.hypercodeContext.clear.useMutation({
         onSuccess: async () => {
             toast.success('Context cleared');
-            await utils.borgContext.list.invalidate();
-            await utils.borgContext.getPrompt.invalidate();
+            await utils.hypercodeContext.list.invalidate();
+            await utils.hypercodeContext.getPrompt.invalidate();
         },
         onError: err => toast.error(`Failed to clear: ${err.message}`),
     });
@@ -73,7 +73,7 @@ export default function ContextDashboard() {
                         Context Manager
                     </h1>
                     <p className="text-zinc-500 mt-2">
-                        Manage the set of files that are injected into the Borg context prompt for active AI sessions.
+                        Manage the set of files that are injected into the Hypercode context prompt for active AI sessions.
                     </p>
                 </div>
                 <Button

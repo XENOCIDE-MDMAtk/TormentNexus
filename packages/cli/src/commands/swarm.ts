@@ -1,5 +1,5 @@
 /**
- * `borg swarm` — Multi-model swarm orchestration
+ * `hypercode swarm` — Multi-model swarm orchestration
  * Coordinate multiple AI models for debate, consensus, and task decomposition
  */
 import type { Command } from 'commander';
@@ -72,7 +72,7 @@ export function registerSwarmCommand(program: Command): void {
 
       console.log(chalk.bold.cyan(`\n  Swarm Missions (${missions.length})\n`));
       if (missions.length === 0) {
-        console.log(chalk.dim('  No missions. Start one with `borg swarm start`.\n'));
+        console.log(chalk.dim('  No missions. Start one with `hypercode swarm start`.\n'));
         return;
       }
 

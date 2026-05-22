@@ -57,14 +57,14 @@ As Gemini, you act in a dual capacity depending on the scale and nature of the t
 
 When analyzing future system architectures, adhere to this recommended target layout:
 
-- `borg` / `borgd` for the core control plane.
+- `hypercode` / `hypercoded` for the core control plane.
 - `hypermcpd` plus `hypermcp-indexer` for MCP routing and metadata work.
 - `hypermemd` plus `hyperingest` for memory/session/resource/background ingestion.
 - `hyperharness` / `hyperharnessd` for harness execution surfaces.
-- `borg-web` and `borg-native` as client applications.
+- `hypercode-web` and `hypercode-native` as client applications.
 
 ### Ownership Assumptions
-- `borgd` owns orchestration and operator-facing state.
+- `hypercoded` owns orchestration and operator-facing state.
 - `hypermcpd` owns MCP lifecycle, routing, and inventory exposure.
 - `hypermcp-indexer` owns scrape/probe/cache refresh jobs.
 - `hypermemd` owns memory/session/resource persistence and serving.
@@ -82,7 +82,7 @@ When analyzing future system architectures, adhere to this recommended target la
 
 ### Build Verification
 ```bash
-cd go && go build -buildvcs=false ./cmd/borg
+cd go && go build -buildvcs=false ./cmd/hypercode
 cd .. && pnpm -C packages/core exec tsc --noEmit
 ```
 

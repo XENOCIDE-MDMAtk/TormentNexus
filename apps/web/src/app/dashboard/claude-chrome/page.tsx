@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ExternalLink, Globe, KeyRound, Radio, RefreshCw, CheckCircle2, ShieldCheck, Activity, Sparkles, Terminal } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
 
 const CLAUDE_CHROME_KEY_STORAGE = "claude-chrome-extension-key";
 
@@ -123,7 +123,7 @@ export default function ClaudeChromePage() {
           </CardHeader>
           <CardContent>
             <div className="text-xl font-bold text-emerald-400">CONNECTED</div>
-            <div className="text-[10px] text-zinc-500 mt-1">Borg WS Bridge listening</div>
+            <div className="text-[10px] text-zinc-500 mt-1">Hypercode WS Bridge listening</div>
           </CardContent>
         </Card>
 
@@ -176,7 +176,7 @@ export default function ClaudeChromePage() {
               <h2 className="text-lg font-bold text-white">Extension Pairing Secret</h2>
             </div>
             <p className="text-xs text-zinc-400">
-              Configure the pairing secret shared between this Borg session and your Chrome extension.
+              Configure the pairing secret shared between this Hypercode session and your Chrome extension.
             </p>
             <div className="flex flex-col gap-3">
               <div className="text-xs text-zinc-400">

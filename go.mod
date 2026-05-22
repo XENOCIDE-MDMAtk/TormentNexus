@@ -1,4 +1,4 @@
-module github.com/robertpelloni/borg
+module github.com/robertpelloni/hypercode
 
 go 1.25.0
 

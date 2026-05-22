@@ -21,7 +21,7 @@ const fatalLines = lines.filter(
     line.toLowerCase().includes('out of memory')
 );
 if (fatalLines.length > 0) {
-  console.error('[@borg/cli] Fatal build errors:\n' + fatalLines.join('\n'));
+  console.error('[@hypercode/cli] Fatal build errors:\n' + fatalLines.join('\n'));
 }
 
 process.exit(0);

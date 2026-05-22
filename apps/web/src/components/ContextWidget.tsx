@@ -7,19 +7,19 @@ export function ContextWidget() {
     const [filePath, setFilePath] = useState('');
     const utils = trpc.useContext();
 
-    const { data: rawFiles, isLoading } = trpc.borgContext.list.useQuery();
+    const { data: rawFiles, isLoading } = trpc.hypercodeContext.list.useQuery();
     const files = rawFiles as string[] | undefined;
-    const addMutation = trpc.borgContext.add.useMutation({
+    const addMutation = trpc.hypercodeContext.add.useMutation({
         onSuccess: () => {
-            utils.borgContext.list.invalidate();
+            utils.hypercodeContext.list.invalidate();
             setFilePath('');
         }
     });
-    const removeMutation = trpc.borgContext.remove.useMutation({
-        onSuccess: () => utils.borgContext.list.invalidate()
+    const removeMutation = trpc.hypercodeContext.remove.useMutation({
+        onSuccess: () => utils.hypercodeContext.list.invalidate()
     });
-    const clearMutation = trpc.borgContext.clear.useMutation({
-        onSuccess: () => utils.borgContext.list.invalidate()
+    const clearMutation = trpc.hypercodeContext.clear.useMutation({
+        onSuccess: () => utils.hypercodeContext.list.invalidate()
     });
 
     const handleAdd = () => {

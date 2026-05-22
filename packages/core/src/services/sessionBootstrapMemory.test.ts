@@ -5,7 +5,7 @@ import { buildSessionBootstrapPrompt } from './sessionBootstrapMemory.js';
 describe('sessionBootstrapMemory', () => {
     it('builds a compact memory bootstrap prompt from summaries and observations', () => {
         const payload = buildSessionBootstrapPrompt({
-            activeGoal: 'Finish native claude-mem start injection',
+            activeGoal: 'Finish native hypercode start injection',
             lastObjective: 'Reuse recent findings instead of re-discovering them',
             toolAdvertisementLines: [
                 'search_tools — semantically search downstream tools for the current topic',
@@ -26,7 +26,7 @@ describe('sessionBootstrapMemory', () => {
         expect(payload.summaryCount).toBe(1);
         expect(payload.observationCount).toBe(1);
         expect(payload.toolAdvertisementCount).toBe(2);
-        expect(payload.prompt).toContain('Current goal: Finish native claude-mem start injection');
+        expect(payload.prompt).toContain('Current goal: Finish native hypercode start injection');
         expect(payload.prompt).toContain('Suggested tools for the current topic:');
         expect(payload.prompt).toContain('search_tools');
         expect(payload.prompt).toContain('Recent session summaries:');

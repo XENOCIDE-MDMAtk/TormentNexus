@@ -1,4 +1,4 @@
-import { IAgent, LLMService } from "@borg/ai";
+import { IAgent, LLMService } from "@hypercode/ai";
 import { PromptRegistry } from "../prompts/PromptRegistry.js";
 import { ClaudeAgent } from "./ClaudeAgent.js";
 
@@ -9,7 +9,7 @@ export class MetaArchitectAgent extends ClaudeAgent {
 
     // Override send to inject specialized system prompt
     async send(message: string, context?: any): Promise<string> {
-        let systemPrompt = `You are the META-ARCHITECT of the Borg System.
+        let systemPrompt = `You are the META-ARCHITECT of the Hypercode System.
 Your purpose is SELF-EVOLUTION. You verify modifications to the system itself.
 - You analyze code structure for cleanliness, modularity, and safety.
 - You design new tools and capabilities.

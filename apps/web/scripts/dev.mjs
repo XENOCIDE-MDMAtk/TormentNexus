@@ -21,7 +21,7 @@ function readOption(flagNames, fallback) {
 const port = readOption(['--port', '-p'], process.env.PORT || '3000');
 const host = readOption(['--host', '--hostname', '-H'], process.env.HOSTNAME || 'localhost');
 const lockPath = resolve(webDir, '.next', 'dev', 'lock');
-const portMarkerPath = resolve(webDir, '.borg-dev-port.json');
+const portMarkerPath = resolve(webDir, '.hypercode-dev-port.json');
 
 function writePortMarker() {
     mkdirSync(dirname(portMarkerPath), { recursive: true });

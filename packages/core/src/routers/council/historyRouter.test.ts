@@ -31,7 +31,7 @@ describe('historyRouter degraded debate history handling', () => {
 
   it('returns a concise TRPC error when status cannot read debate history', async () => {
     mockDebateHistory.getRecordCount.mockRejectedValueOnce(
-      new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+      new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
     );
 
     const { historyRouter } = await import('./historyRouter.js');
@@ -44,7 +44,7 @@ describe('historyRouter degraded debate history handling', () => {
 
   it('returns a concise TRPC error when list cannot query debate records', async () => {
     mockDebateHistory.queryDebates.mockRejectedValueOnce(
-      new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+      new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
     );
 
     const { historyRouter } = await import('./historyRouter.js');
@@ -57,7 +57,7 @@ describe('historyRouter degraded debate history handling', () => {
 
   it('returns a concise TRPC error when stats cannot aggregate debate history', async () => {
     mockDebateHistory.getStats.mockRejectedValueOnce(
-      new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+      new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
     );
 
     const { historyRouter } = await import('./historyRouter.js');

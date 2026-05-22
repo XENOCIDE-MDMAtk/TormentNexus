@@ -1,5 +1,5 @@
 /**
- * `borg git` — Git repository status and integration
+ * `hypercode git` — Git repository status and integration
  */
 import type { Command } from 'commander';
 

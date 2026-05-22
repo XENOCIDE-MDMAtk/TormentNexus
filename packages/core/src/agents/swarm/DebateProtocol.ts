@@ -111,7 +111,7 @@ export class DebateProtocol extends EventEmitter {
 
         try {
             if (!this.councilUrl) {
-                throw new Error('No Borg Orchestrator base configured.');
+                throw new Error('No Hypercode Orchestrator base configured.');
             }
             const supervisorName = this.modelToSupervisor(model);
             const systemPrompt = this.buildSystemPrompt(profile);
@@ -174,7 +174,7 @@ export class DebateProtocol extends EventEmitter {
 
         try {
             if (!this.councilUrl) {
-                throw new Error('No Borg Orchestrator base configured.');
+                throw new Error('No Hypercode Orchestrator base configured.');
             }
             const judgeSupervisor = this.modelToSupervisor(this.config.judgeModel);
             const res = await fetch(`${this.councilUrl}/api/supervisors/${judgeSupervisor}/chat`, {

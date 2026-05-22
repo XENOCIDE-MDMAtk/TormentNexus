@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/borghq/borg-go/internal/providers"
+	"github.com/hypercodehq/hypercode-go/internal/providers"
 )
 
 type WaterfallClient struct {

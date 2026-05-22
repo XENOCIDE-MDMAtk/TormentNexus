@@ -4,7 +4,7 @@ class DatabaseService {
   constructor() {}
 
   getDb(): import('better-sqlite3').Database {
-    // In Borg, we use Drizzle 'db' for ORM and 'sqliteInstance' for raw sqlite.
+    // In Hypercode, we use Drizzle 'db' for ORM and 'sqliteInstance' for raw sqlite.
     return sqliteInstance;
   }
 

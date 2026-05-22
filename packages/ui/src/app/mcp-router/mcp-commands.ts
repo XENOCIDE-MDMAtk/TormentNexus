@@ -1,7 +1,7 @@
 /**
- * AIOS MCP Router - CLI Integration
+ * HYPERCODE MCP Router - CLI Integration
  *
- * Integrates MCP Router CLI commands into the main aios CLI
+ * Integrates MCP Router CLI commands into the main hypercode CLI
  */
 
 import { spawn } from 'child_process';

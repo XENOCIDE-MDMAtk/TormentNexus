@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/borghq/borg-go/internal/controlplane"
+	"github.com/hypercodehq/hypercode-go/internal/controlplane"
 )
 
 type Manager struct {

@@ -1,19 +1,19 @@
 [PROJECT_MEMORY]
 
-### 1. Core Identity: Nexus & HyperCode
-The project has stabilized under a dual-brand **AI Hypervisor** architecture:
-- **Nexus (The Kernel):** The underlying coordination engine written in Go. It manages the "Operating System" layer for AI, including active memory, semantic tool routing, and multi-model orchestration.
-- **HyperCode (The Product):** The flagship developer-facing autonomous coding runtime and observation dashboard powered by the Nexus kernel.
-- **The Philosophy:** Treats AI models as ephemeral **compute resources** and tools as **peripheral drivers**. Nexus serves as the deterministic management layer that optimizes context windows, minimizes cost, and ensures execution reliability.
+### 1. Core Identity: Hypercode & HyperCode
+The project has stabilized under a dual-brand **AI Hypercode** architecture:
+- **Hypercode (The Kernel):** The underlying coordination engine written in Go. It manages the "Operating System" layer for AI, including active memory, semantic tool routing, and multi-model orchestration.
+- **HyperCode (The Product):** The flagship developer-facing autonomous coding runtime and observation dashboard powered by the Hypercode kernel.
+- **The Philosophy:** Treats AI models as ephemeral **compute resources** and tools as **peripheral drivers**. Hypercode serves as the deterministic management layer that optimizes context windows, minimizes cost, and ensures execution reliability.
 
 ### 2. Architectural Paradigm: The Modular Monolith
 The system enforces a strict "Source of Truth" hierarchy:
-- **Nexus Kernel (Go):** Absolute authority for orchestration, L1/L2 memory, high-performance BM25/Cosine ranking, and Model Context Protocol (MCP) synchronization. All logic resides in \`go/internal/\`.
+- **Hypercode Kernel (Go):** Absolute authority for orchestration, L1/L2 memory, high-performance BM25/Cosine ranking, and Model Context Protocol (MCP) synchronization. All logic resides in \`go/internal/\`.
 - **Control Plane (TypeScript/Next.js):** The "Observation Deck" responsible for visual state representation, dashboard visualization, and high-level agent session management. It bridges requests to the Go sidecar via tRPC and REST APIs.
 - **Database:** Standardized on **SQLite with sqlite-vec**. No external dependencies (Postgres, Redis) are permitted to maintain a "local-first," portable footprint.
 
 ### 3. Active Memory Substrate: Biological Tiering
-Nexus implements a tiered memory system designed to mimic biological relevance:
+Hypercode implements a tiered memory system designed to mimic biological relevance:
 - **Tiers:** L1 (Working Scratchpad/Ephemeral), L2 (Long-Term Vault/Persistent), and L3 (Cold Archive).
 - **Heat-Based Tiering (0-100):** Every memory tracks its "temperature." Functional utility (access or success) increases Heat.
 - **Exponential Decay:** Heat decays over time with a 24-hour half-life ($\approx$ 0.0288 per hour) to keep the working context lean.
@@ -21,7 +21,7 @@ Nexus implements a tiered memory system designed to mimic biological relevance:
 - **Outcome Feedback:** The kernel records tool execution success/failure to reinforce the heat of relevant context, enabling the system to "learn" from its execution history.
 
 ### 4. Progressive Disclosure: Context Hygiene
-To prevent "Context Blowout" and minimize token usage, Nexus employs semantic asset discovery:
+To prevent "Context Blowout" and minimize token usage, Hypercode employs semantic asset discovery:
 - **Ranked Discovery:** Tools and "Skills" (runbooks) are ranked using BM25 and Cosine similarity against the \`activeGoal\`.
 - **Pre-loading:** High-confidence assets are silently auto-loaded into the model's context before explicit requests.
 - **Token Budgeting:** Strict soft caps are enforced for the L1 Scratchpad to ensure model stability and responsiveness.
@@ -46,11 +46,11 @@ The kernel supports managing multiple concurrent HyperCode sessions:
 ## 1. Dynamic Tool Discovery & Registry (ToolRAG)
 **The Problem:** The MCP ecosystem has over 25,000 tools. Static loading exhausts the LLM context window (imposing a 32% token overhead penalty).
 **The Converging Solution:** "RAG but for tools." Embed tool names only and fetch full JSON schemas strictly on-demand.
-*   **Borg Implementation:** Build `borg-tool-registry` to index all discovered MCP servers, embed schemas using SQLite Vector Search, and inject only the 3-5 most relevant tools per query.
+*   **Hypercode Implementation:** Build `hypercode-tool-registry` to index all discovered MCP servers, embed schemas using SQLite Vector Search, and inject only the 3-5 most relevant tools per query.
 
 ### 3. Core Architectural Patterns
 - **Kernel/Control Plane Split:**
-    - **Kernel:** Deterministic execution, memory, and routing (being migrated toward `go/` and `@nexus/kernel`).
+    - **Kernel:** Deterministic execution, memory, and routing (being migrated toward `go/` and `@hypercode/kernel`).
     - **Control Plane:** Dashboards, session management, and operator UI (`apps/web`, `packages/core`).
 - **Active Memory Substrate:**
     - **Heat-Based Tiering:** Entries have a `heat_score` (0-100). Utility increases heat; time causes exponential decay (24h half-life).
@@ -75,15 +75,15 @@ The kernel supports managing multiple concurrent HyperCode sessions:
 ### 6. Roadmap: The Autonomy Path
 The next immediate milestones involve:
 1.  **Autonomous Healer:** Multi-turn fix-verify-retry loop (Implemented).
-2.  **Fleet Management:** Extending Nexus to manage multiple concurrent "HyperCode" sessions with shared organizational memory.
+2.  **Fleet Management:** Extending Hypercode to manage multiple concurrent "HyperCode" sessions with shared organizational memory.
 3.  **Assimilation:** Systematically migrating high-performance logic (ranking, sync, memory) from TypeScript into the native Go kernel.
 
-### 1. Identity & Vision: The AI Hypervisor
-The project has evolved from its origin as "Borg" into a dual-brand architectural vision:
-- **Nexus:** The underlying coordination kernel or "AI Hypervisor." It manages active memory, tool routing, and orchestration.
-- **HyperCode:** The flagship, autonomous developer-facing coding product powered by the Nexus kernel.
+### 1. Identity & Vision: The AI Hypercode
+The project has evolved from its origin as "Hypercode" into a dual-brand architectural vision:
+- **Hypercode:** The underlying coordination kernel or "AI Hypercode." It manages active memory, tool routing, and orchestration.
+- **HyperCode:** The flagship, autonomous developer-facing coding product powered by the Hypercode kernel.
 
-The "AI Hypervisor" model treats AI models as compute resources and tools as peripheral drivers, with Nexus acting as the management layer that optimizes model selection, context management, and execution loops.
+The "AI Hypercode" model treats AI models as compute resources and tools as peripheral drivers, with Hypercode acting as the management layer that optimizes model selection, context management, and execution loops.
 
 ### 2. Current State (v1.0.0-alpha.56)
 The project is currently in the transition between **Phase 1 (Active Memory)** and **Phase 2 (Autonomy Loop)**.
@@ -92,7 +92,7 @@ The project is currently in the transition between **Phase 1 (Active Memory)** a
 
 ### 3. Core Architectural Patterns
 - **Kernel/Control Plane Split:**
-    - **Kernel:** Deterministic execution, memory, and routing (being migrated toward `go/` and `@nexus/kernel`).
+    - **Kernel:** Deterministic execution, memory, and routing (being migrated toward `go/` and `@hypercode/kernel`).
     - **Control Plane:** Dashboards, session management, and operator UI (`apps/web`, `packages/core`).
 - **Active Memory Substrate:**
     - **Heat-Based Tiering:** Entries have a `heat_score` (0-100). Utility increases heat; time causes exponential decay (24h half-life).
@@ -100,7 +100,7 @@ The project is currently in the transition between **Phase 1 (Active Memory)** a
 - **Provider Routing:**
     - Uses a waterfall fallback system. If one model/provider quota is exhausted, it automatically falls back to the next best available resource.
 - **Progressive Tool Disclosure:**
-    - Instead of flooding context with all tools, Nexus uses semantic ranking to disclose only relevant tools based on the active goal.
+    - Instead of flooding context with all tools, Hypercode uses semantic ranking to disclose only relevant tools based on the active goal.
 
 ### 4. Monorepo Structure & Module Roles
 - **`packages/core`:** The central hub ("Brain") of the TypeScript control plane. It hosts tRPC routers, session logic, and bridges to the Go sidecar.
@@ -117,7 +117,7 @@ The project is currently in the transition between **Phase 1 (Active Memory)** a
 ### 6. Roadmap: The Autonomy Path
 The next immediate milestones involve:
 1.  **The Healer Loop:** Implementing the full `execute-fix-verify-retry` autonomous cycle within the `HealerReactor`.
-2.  **Fleet Management:** Extending Nexus to manage multiple concurrent "HyperCode" sessions with shared organizational memory.
+2.  **Fleet Management:** Extending Hypercode to manage multiple concurrent "HyperCode" sessions with shared organizational memory.
 3.  **Assimilation:** Systematically migrating high-performance logic (ranking, sync, memory) from TypeScript into the native Go kernel.
 
 ### 7. Governance & Intelligence
@@ -126,14 +126,14 @@ The next immediate milestones involve:
 
 ---
 *Last updated: Session v1.0.0-alpha.56*
-# AI Hypervisor (Nexus) - Comprehensive Architectural Memory
+# AI Hypercode (Hypercode) - Comprehensive Architectural Memory
 
 This document summarizes the foundational architecture, established patterns, and strategic decisions of the project as of version **1.0.0-alpha.56**.
 
-## 1. Strategic Identity: Nexus & HyperCode
-The project has successfully pivoted from "Borg" to a dual-brand infrastructure model:
-*   **Nexus (The Kernel/Hypervisor):** The underlying coordination runtime and "AI Hypervisor." It treats LLMs as "guest operating systems" and manages the low-level memory, routing, and execution buses.
-*   **HyperCode (The Product):** The user-facing, local-first autonomous coding environment powered by the Nexus kernel.
+## 1. Strategic Identity: Hypercode & HyperCode
+The project has successfully pivoted from "Hypercode" to a dual-brand infrastructure model:
+*   **Hypercode (The Kernel/Hypercode):** The underlying coordination runtime and "AI Hypercode." It treats LLMs as "guest operating systems" and manages the low-level memory, routing, and execution buses.
+*   **HyperCode (The Product):** The user-facing, local-first autonomous coding environment powered by the Hypercode kernel.
 
 ## 2. Active Tiered Memory Substrate (Implemented Phase 1)
 *   **Heat Scoring (0-100):** Every memory entry tracks utility. Heat increases on access and decays exponentially (24-hour half-life).

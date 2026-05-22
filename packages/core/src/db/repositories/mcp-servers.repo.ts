@@ -32,11 +32,11 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import { StdioClient } from "../../mcp/StdioClient.js";
 import { getDiscoveryPreflightFailure } from "../../mcp/discoveryPreflight.js";
 import {
-    BorgMcpServerDiscoveryMetadata,
-    BorgMcpJsonConfig,
-    BorgMcpToolMetadata,
-    loadBorgMcpConfig,
-    writeBorgMcpConfig,
+    HypercodeMcpServerDiscoveryMetadata,
+    HypercodeMcpJsonConfig,
+    HypercodeMcpToolMetadata,
+    loadHypercodeMcpConfig,
+    writeHypercodeMcpConfig,
 } from "../../mcp/mcpJsonConfig.js";
 import {
     buildBaseServerMetadata,
@@ -77,8 +77,8 @@ type McpServerRow = typeof mcpServersTable.$inferSelect;
 type McpServerInsert = typeof mcpServersTable.$inferInsert;
 
 type DiscoveryResult = {
-    metadata: BorgMcpServerDiscoveryMetadata;
-    tools: BorgMcpToolMetadata[];
+    metadata: HypercodeMcpServerDiscoveryMetadata;
+    tools: HypercodeMcpToolMetadata[];
     decision: 'cache-forced' | 'cache-reusable' | 'cache-cooldown' | 'binary-fresh' | 'binary-coalesced';
 };
 
@@ -130,7 +130,7 @@ function handleDatabaseError(
 
 export class McpServersRepository {
     private readonly inFlightDiscoveries = new Map<string, Promise<DiscoveryResult>>();
-    private readonly binaryDiscoveryCooldownMs = parseBinaryDiscoveryCooldownMs(process.env.BORG_MCP_BINARY_DISCOVERY_COOLDOWN_MS);
+    private readonly binaryDiscoveryCooldownMs = parseBinaryDiscoveryCooldownMs(process.env.HYPERCODE_MCP_BINARY_DISCOVERY_COOLDOWN_MS);
 
     private async injectSecrets(servers: DatabaseMcpServer[]): Promise<DatabaseMcpServer[]> {
         try {
@@ -357,7 +357,7 @@ export class McpServersRepository {
         strategy: Exclude<MetadataReloadStrategy, 'skip'> = 'binary',
     ): Promise<{
         server: DatabaseMcpServer;
-        metadata: BorgMcpServerDiscoveryMetadata;
+        metadata: HypercodeMcpServerDiscoveryMetadata;
         toolCount: number;
         reloadDecision: DiscoveryResult['decision'];
     }> {
@@ -387,7 +387,7 @@ export class McpServersRepository {
 
     async clearMetadataCache(
         serverUuid: string,
-    ): Promise<{ server: DatabaseMcpServer; metadata: BorgMcpServerDiscoveryMetadata; toolCount: number }> {
+    ): Promise<{ server: DatabaseMcpServer; metadata: HypercodeMcpServerDiscoveryMetadata; toolCount: number }> {
         const server = await this.findByUuid(serverUuid);
         if (!server) {
             throw new Error(`MCP Server with UUID ${serverUuid} not found.`);
@@ -396,7 +396,7 @@ export class McpServersRepository {
         await toolsRepository.deleteObsoleteTools(server.uuid, []);
 
         const clearedAt = new Date().toISOString();
-        const metadata: BorgMcpServerDiscoveryMetadata = {
+        const metadata: HypercodeMcpServerDiscoveryMetadata = {
             ...buildBaseServerMetadata(server),
             status: 'pending',
             metadataVersion: 2,
@@ -465,21 +465,21 @@ export class McpServersRepository {
         return updatedServer;
     }
 
-    public async exportToolCache(metadataOverrides: Record<string, BorgMcpServerDiscoveryMetadata> = {}): Promise<void> {
+    public async exportToolCache(metadataOverrides: Record<string, HypercodeMcpServerDiscoveryMetadata> = {}): Promise<void> {
         try {
             const [allServers, allTools, existingConfig] = await Promise.all([
                 this.findAll(),
                 toolsRepository.findAll(),
-                loadBorgMcpConfig(),
+                loadHypercodeMcpConfig(),
             ]);
 
             // Create a unified cache of both manual (mcp.jsonc) and DB servers
-            const jsonOutput: BorgMcpJsonConfig = {
+            const jsonOutput: HypercodeMcpJsonConfig = {
                 ...existingConfig,
                 mcpServers: { ...existingConfig.mcpServers },
             };
 
-            const toolsByServerUuid = new Map<string, BorgMcpToolMetadata[]>();
+            const toolsByServerUuid = new Map<string, HypercodeMcpToolMetadata[]>();
             for (const tool of allTools) {
                 const toolList = toolsByServerUuid.get(tool.mcp_server_uuid) ?? [];
                 toolList.push({
@@ -559,7 +559,7 @@ export class McpServersRepository {
         }
     }
 
-    private async persistDiscoveredTools(serverUuid: string, tools: BorgMcpToolMetadata[]): Promise<void> {
+    private async persistDiscoveredTools(serverUuid: string, tools: HypercodeMcpToolMetadata[]): Promise<void> {
         await toolsRepository.syncTools({
             mcpServerUuid: serverUuid,
             tools: tools.map((tool) => ({
@@ -585,7 +585,7 @@ export class McpServersRepository {
         return options?.skipDiscovery ? 'skip' : 'auto';
     }
 
-    private shouldPersistDiscoveredTools(metadata: BorgMcpServerDiscoveryMetadata): boolean {
+    private shouldPersistDiscoveredTools(metadata: HypercodeMcpServerDiscoveryMetadata): boolean {
         return metadata.status === 'ready';
     }
 
@@ -598,7 +598,7 @@ export class McpServersRepository {
             return undefined;
         }
 
-        const config = await loadBorgMcpConfig();
+        const config = await loadHypercodeMcpConfig();
         const cachedMetadata = config.mcpServers?.[server.name]?._meta;
 
         if (strategy === 'cache') {
@@ -647,7 +647,7 @@ export class McpServersRepository {
 
     private shouldThrottleBinaryReload(
         strategy: MetadataReloadStrategy,
-        cachedMetadata: BorgMcpServerDiscoveryMetadata | undefined,
+        cachedMetadata: HypercodeMcpServerDiscoveryMetadata | undefined,
         server: DatabaseMcpServer,
     ): boolean {
         if (strategy !== 'auto' && strategy !== 'binary') {
@@ -740,7 +740,7 @@ export class McpServersRepository {
                         server,
                         'failed',
                         new Date().toISOString(),
-                        'STDIO server is missing a command, so Borg could not discover tools.',
+                        'STDIO server is missing a command, so Hypercode could not discover tools.',
                     ),
                     tools: [],
                     decision: 'binary-fresh',
@@ -753,7 +753,7 @@ export class McpServersRepository {
                         server,
                         'failed',
                         new Date().toISOString(),
-                        `${server.type} server is missing a URL, so Borg could not discover tools.`,
+                        `${server.type} server is missing a URL, so Hypercode could not discover tools.`,
                     ),
                     tools: [],
                     decision: 'binary-fresh',
@@ -870,7 +870,7 @@ export class McpServersRepository {
             }
 
             client = new Client(
-                { name: `borg-discovery-${server.name}`, version: '1.0.0' },
+                { name: `hypercode-discovery-${server.name}`, version: '1.0.0' },
                 { capabilities: {} },
             );
 

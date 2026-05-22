@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	foundationorchestration "github.com/robertpelloni/borg/foundation/orchestration"
+	foundationorchestration "github.com/robertpelloni/hypercode/foundation/orchestration"
 )
 
 // Orchestrator manages multiple sub-agents (Maestro/Codemachine parity)

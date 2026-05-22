@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@borg/ui";
-import { Button } from "@borg/ui";
-import { Input } from "@borg/ui";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@borg/ui";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
+import { Input } from "@hypercode/ui";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@hypercode/ui";
 import { FileText, Search, RefreshCcw } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';

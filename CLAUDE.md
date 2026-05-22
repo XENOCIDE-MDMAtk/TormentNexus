@@ -41,14 +41,14 @@ As Claude, you focus on deep feature execution, visual elegance, type safety, an
 ## 3. Binary-Topology Layout Context
 
 Adhere to the recommended target layout for future architecture:
-- `borg` / `borgd` for the core control plane.
+- `hypercode` / `hypercoded` for the core control plane.
 - `hypermcpd` plus `hypermcp-indexer` for MCP routing and metadata work.
 - `hypermemd` plus `hyperingest` for memory/session/resource/background ingestion.
 - `hyperharness` / `hyperharnessd` for harness execution surfaces.
-- `borg-web` and `borg-native` as client applications.
+- `hypercode-web` and `hypercode-native` as client applications.
 
 ### Ownership Assumptions
-- `borgd` owns orchestration, supervision, and operator-facing control-plane truth.
+- `hypercoded` owns orchestration, supervision, and operator-facing control-plane truth.
 - `hypermcpd` owns MCP registry, routing, and tool mediation.
 - `hypermemd` owns long-running memory/session/resource state.
 - `hyperingest` owns batch imports and normalization work.

@@ -1,6 +1,6 @@
 import path from "path";
-import { Director } from "@borg/agents";
-import type { IMCPServer } from "@borg/adk";
+import { Director } from "@hypercode/agents";
+import type { IMCPServer } from "@hypercode/adk";
 
 interface ServerWithCouncil {
     council: unknown;
@@ -92,7 +92,7 @@ export class SquadService {
     private worktreesDir: string;
 
     constructor(private server: IMCPServer & { modelSelector?: any; permissionManager?: any; directorConfig?: any; }) {
-        this.worktreesDir = path.join(process.cwd(), '.borg', 'worktrees');
+        this.worktreesDir = path.join(process.cwd(), '.hypercode', 'worktrees');
     }
 
     /**

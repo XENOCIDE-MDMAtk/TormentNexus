@@ -40,7 +40,7 @@ describe('ensureBackgroundCoreRunning', () => {
 
         await expect(ensureBackgroundCoreRunning(
             {
-                cliEntryPath: 'C:/borg/packages/cli/dist/index.js',
+                cliEntryPath: 'C:/hypercode/packages/cli/dist/index.js',
             },
             {
                 fetchImpl: vi.fn().mockResolvedValue({ ok: true }) as any,
@@ -51,13 +51,13 @@ describe('ensureBackgroundCoreRunning', () => {
         expect(spawnImpl).not.toHaveBeenCalled();
     });
 
-    it('spawns Borg CLI start in detached mode when the bridge is offline', async () => {
+    it('spawns Hypercode CLI start in detached mode when the bridge is offline', async () => {
         const unref = vi.fn();
         const spawnImpl = vi.fn().mockReturnValue({ pid: 4321, unref });
 
         await expect(ensureBackgroundCoreRunning(
             {
-                cliEntryPath: 'C:/borg/packages/cli/dist/index.js',
+                cliEntryPath: 'C:/hypercode/packages/cli/dist/index.js',
                 waitForReady: false,
                 host: '127.0.0.1',
             },
@@ -68,11 +68,11 @@ describe('ensureBackgroundCoreRunning', () => {
         )).resolves.toEqual({
             status: 'spawned',
             pid: 4321,
-            cliEntryPath: 'C:/borg/packages/cli/dist/index.js',
+            cliEntryPath: 'C:/hypercode/packages/cli/dist/index.js',
         });
 
         expect(spawnImpl).toHaveBeenCalledWith(process.execPath, [
-            'C:/borg/packages/cli/dist/index.js',
+            'C:/hypercode/packages/cli/dist/index.js',
             'start',
             '--host',
             '127.0.0.1',
@@ -106,7 +106,7 @@ describe('ensureBackgroundCoreRunning', () => {
 
         await expect(ensureBackgroundCoreRunning(
             {
-                cliEntryPath: 'C:/borg/packages/cli/dist/index.js',
+                cliEntryPath: 'C:/hypercode/packages/cli/dist/index.js',
                 startupTimeoutMs: 5,
                 pollIntervalMs: 1,
             },
@@ -118,7 +118,7 @@ describe('ensureBackgroundCoreRunning', () => {
         )).resolves.toEqual({
             status: 'warming',
             pid: 999,
-            cliEntryPath: 'C:/borg/packages/cli/dist/index.js',
+            cliEntryPath: 'C:/hypercode/packages/cli/dist/index.js',
         });
     });
 });

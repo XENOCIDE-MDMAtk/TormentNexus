@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/borg/config"
-	"github.com/robertpelloni/borg/llm"
+	"github.com/robertpelloni/hypercode/config"
+	"github.com/robertpelloni/hypercode/llm"
 )
 
 type ProviderStatus struct {

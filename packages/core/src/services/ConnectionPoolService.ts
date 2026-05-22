@@ -46,7 +46,7 @@ interface AcquireWaiter<T> {
  * - Graceful drain with waiter rejection
  * - EventEmitter: `connectionCreated`, `connectionAcquired`, `connectionReleased`
  *
- * Used by the Borg control plane for managing reusable connections to
+ * Used by the Hypercode control plane for managing reusable connections to
  * databases, MCP server stdio transports, and external services.
  */
 export class ConnectionPool<T> extends EventEmitter {
@@ -220,7 +220,7 @@ export class ConnectionPool<T> extends EventEmitter {
 /**
  * Static registry of named connection pools.
  *
- * Allows services across the Borg control plane to register, retrieve,
+ * Allows services across the Hypercode control plane to register, retrieve,
  * and manage pools by name without passing pool instances directly.
  */
 export class ConnectionPoolManager {

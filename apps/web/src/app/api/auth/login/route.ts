@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         }
 
         const response = NextResponse.json({ ok: true, user: result.user });
-        response.cookies.set('borg_session', randomUUID(), {
+        response.cookies.set('hypercode_session', randomUUID(), {
             httpOnly: true,
             sameSite: 'lax',
             secure: false,

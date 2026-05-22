@@ -1,14 +1,14 @@
 
 'use client';
 
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
-import { Badge } from "@borg/ui";
-import { ScrollArea } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
+import { Badge } from "@hypercode/ui";
+import { ScrollArea } from "@hypercode/ui";
 import { useState, useEffect } from "react";
 import { Loader2, MessageSquare, Gavel, User, Play, RefreshCw, ChevronRight } from "lucide-react";
-import { Input } from "@borg/ui";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@borg/ui";
+import { Input } from "@hypercode/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@hypercode/ui";
 import { trpc } from "@/utils/trpc";
 import { DebateVisualizer } from "@/components/council/DebateVisualizer";
 import { normalizeCouncilSessions, type CouncilSessionRow } from './council-page-normalizers';

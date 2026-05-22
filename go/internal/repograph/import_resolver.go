@@ -43,7 +43,7 @@ func (rgs *RepoGraphService) resolveGoImport(importPath string) string {
 }
 
 // detectGoModule reads the go.mod file to determine the module path.
-// Falls back to "github.com/borghq/borg-go" if go.mod is not found.
+// Falls back to "github.com/hypercodehq/hypercode-go" if go.mod is not found.
 func (rgs *RepoGraphService) detectGoModule() string {
 	rgs.goModuleMu.Do(func() {
 		candidates := []string{
@@ -64,7 +64,7 @@ func (rgs *RepoGraphService) detectGoModule() string {
 			}
 		}
 		// Fallback
-		rgs.goModule = "github.com/borghq/borg-go"
+		rgs.goModule = "github.com/hypercodehq/hypercode-go"
 	})
 	return rgs.goModule
 }

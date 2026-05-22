@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const GO_SIDECAR_BASE = process.env.BORG_GO_SIDECAR_URL || 'http://127.0.0.1:4300';
+const GO_SIDECAR_BASE = process.env.HYPERCODE_GO_SIDECAR_URL || 'http://127.0.0.1:4300';
 
 /**
  * Go sidecar reverse proxy.

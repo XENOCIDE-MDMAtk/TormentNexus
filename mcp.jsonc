@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "borg-supervisor": {
+    "hypercode-supervisor": {
       "command": "node",
       "args": [
-        "C:\\Users\\hyper\\workspace\\borg\\packages\\borg-supervisor\\dist\\index.js"
+        "C:\\Users\\hyper\\workspace\\hypercode\\packages\\hypercode-supervisor\\dist\\index.js"
       ],
       "env": [
         "NODE_ENV"
@@ -695,7 +695,7 @@
     "serena": {
       "command": "uvx",
       "args": [
-        "--from git+https://github.com/oraios/serena",
+        "--from git+https://github.com/orhypercode/serena",
         "serena",
         "start-mcp-server",
         "--context",

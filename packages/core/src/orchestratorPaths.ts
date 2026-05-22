@@ -29,7 +29,7 @@ export function resolveSupervisorEntryPath(startDir: string = process.cwd()): st
   ].filter((value, index, array): value is string => Boolean(value) && array.indexOf(value) === index);
 
   for (const root of candidateRoots) {
-    const candidate = path.join(root, 'packages', 'borg-supervisor', 'dist', 'index.js');
+    const candidate = path.join(root, 'packages', 'hypercode-supervisor', 'dist', 'index.js');
     if (fs.existsSync(candidate)) {
       return candidate;
     }

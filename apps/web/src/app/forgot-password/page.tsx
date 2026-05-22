@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-import { Button, Input } from '@borg/ui';
+import { Button, Input } from '@hypercode/ui';
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState('');

@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/borg/foundation/adapters"
+	"github.com/robertpelloni/hypercode/foundation/adapters"
 )
 
 // Client represents a Model Context Protocol client.

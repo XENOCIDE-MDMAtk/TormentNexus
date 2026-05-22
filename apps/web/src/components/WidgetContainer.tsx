@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 const WIDGET_HELP: Record<string, { tooltip: string; docLink?: string }> = {
     'help': { tooltip: 'Quick reference guide for all dashboard features', docLink: '#help' },
     'suggestions': { tooltip: 'AI-generated proactive recommendations based on your context', docLink: '#suggestions' },
-    'connection': { tooltip: 'Real-time connection status to the Borg orchestrator service', docLink: '#connection' },
+    'connection': { tooltip: 'Real-time connection status to the Hypercode orchestrator service', docLink: '#connection' },
     'indexing': { tooltip: 'Progress of deep code intelligence indexing across your codebase', docLink: '#indexing' },
     'ingestion': { tooltip: 'Data ingestion pipeline status and memory statistics', docLink: '#ingestion' },
     'healer': { tooltip: 'Self-healing events: automatic error detection and repair log', docLink: '#healer' },

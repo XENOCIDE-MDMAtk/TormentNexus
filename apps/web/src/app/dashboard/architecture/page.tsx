@@ -22,11 +22,11 @@ export default function ArchitecturePage() {
   
 /packages
   /core             # Core Agentic Framework (MCPServer, Director, Memory)
-  /cli              # CLI functionality (borg start, borg doctor)
+  /cli              # CLI functionality (hypercode start, hypercode doctor)
   /vscode           # VS Code Extension (Editor Interface)
   
 /dockers
-  /borg-server      # Containerized Deployment
+  /hypercode-server      # Containerized Deployment
   
 /docs               # Documentation & Research
 `}

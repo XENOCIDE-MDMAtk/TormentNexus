@@ -34,7 +34,7 @@ export class AuditService extends EventEmitter {
     private retentionDays: number;
     private static readonly AUTO_FLUSH_SIZE = 100;
 
-    constructor(logDir: string = '.borg/audit', retentionDays: number = 30) {
+    constructor(logDir: string = '.hypercode/audit', retentionDays: number = 30) {
         super();
         this.logDir = path.isAbsolute(logDir) ? logDir : path.join(process.cwd(), logDir);
         this.retentionDays = retentionDays;

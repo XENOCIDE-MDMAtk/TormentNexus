@@ -19,9 +19,9 @@ export class ConfigManager {
 
     constructor() {
         // Use user home or workspace root? 
-        // MCPServer uses process.cwd()/.borg/skills
-        // Let's use process.cwd()/.borg/config.json
-        this.configPath = path.join(process.cwd(), '.borg', 'config.json');
+        // MCPServer uses process.cwd()/.hypercode/skills
+        // Let's use process.cwd()/.hypercode/config.json
+        this.configPath = path.join(process.cwd(), '.hypercode', 'config.json');
     }
 
     loadConfig(): ConfigData | null {

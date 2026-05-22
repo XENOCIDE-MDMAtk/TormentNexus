@@ -142,7 +142,7 @@ export class NativeSessionMetaTools {
             }
 
             if (!this.toolContextResolver) {
-                return createTextResult('Tool context resolver is not available in this Borg session.', true);
+                return createTextResult('Tool context resolver is not available in this Hypercode session.', true);
             }
 
             const payload = this.toolContextResolver({

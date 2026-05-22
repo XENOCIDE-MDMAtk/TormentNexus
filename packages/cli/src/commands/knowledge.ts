@@ -1,5 +1,5 @@
 /**
- * `borg knowledge` — Knowledge graph and resources
+ * `hypercode knowledge` — Knowledge graph and resources
  */
 import type { Command } from 'commander';
 

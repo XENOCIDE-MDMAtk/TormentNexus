@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { ComponentType, FormEvent } from 'react';
-import { Button, Card, CardContent, CardHeader, CardTitle } from '@borg/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@hypercode/ui';
 import { trpc } from '@/utils/trpc';
 import { buildBulkImportServers } from '@/lib/mcp-import';
 import { toast } from 'sonner';
@@ -381,7 +381,7 @@ function AddServerForm({ onDone }: { onDone: () => void }): React.JSX.Element {
             <CardHeader className="flex flex-row items-start justify-between">
                 <div>
                     <CardTitle className="text-white text-base">Add downstream MCP server</CardTitle>
-                    <p className="text-sm text-zinc-500 mt-1">Register another MCP endpoint under Borg’s aggregated router.</p>
+                    <p className="text-sm text-zinc-500 mt-1">Register another MCP endpoint under Hypercode’s aggregated router.</p>
                 </div>
                 <Button
                     variant="ghost"
@@ -511,7 +511,7 @@ function AddServerForm({ onDone }: { onDone: () => void }): React.JSX.Element {
                         <Button
                             type="submit"
                             disabled={createMutation.isPending}
-                            title="Register this downstream MCP server in Borg"
+                            title="Register this downstream MCP server in Hypercode"
                             aria-label="Add downstream MCP server"
                             className="bg-blue-600 hover:bg-blue-500 text-white"
                         >
@@ -608,7 +608,7 @@ function BulkImportForm({ onDone, existingServerNames }: { onDone: () => void; e
             <CardHeader className="flex flex-row items-start justify-between">
                 <div>
                     <CardTitle className="text-white text-base">Bulk import MCP config</CardTitle>
-                    <p className="text-sm text-zinc-500 mt-1">Import existing client configs and fold them into Borg’s router.</p>
+                    <p className="text-sm text-zinc-500 mt-1">Import existing client configs and fold them into Hypercode’s router.</p>
                 </div>
                 <Button
                     variant="ghost"
@@ -696,7 +696,7 @@ function BulkImportForm({ onDone, existingServerNames }: { onDone: () => void; e
                         <Button
                             type="submit"
                             disabled={importMutation.isPending || Boolean(preview?.error)}
-                            title="Import all valid server definitions from this config into Borg"
+                            title="Import all valid server definitions from this config into Hypercode"
                             aria-label="Import MCP server configuration"
                             className="bg-purple-600 hover:bg-purple-500 text-white"
                         >
@@ -780,7 +780,7 @@ export default function MCPDashboard(): React.JSX.Element {
     async function handleDeleteServer(uuid: string, serverName: string) {
         const confirmed = typeof window === 'undefined'
             ? true
-            : window.confirm(`Delete MCP server '${serverName}'? This removes the server from Borg configuration.`);
+            : window.confirm(`Delete MCP server '${serverName}'? This removes the server from Hypercode configuration.`);
         if (!confirmed) {
             return;
         }
@@ -941,7 +941,7 @@ export default function MCPDashboard(): React.JSX.Element {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-white">MCP Router Control Plane</h1>
                     <p className="text-zinc-500 mt-2 max-w-3xl">
-                        Borg should read like the ultimate MCP aggregator/router first: one operator surface, many downstream servers, semantic search and grouping, lifecycle control, traffic visibility, and client config sync.
+                        Hypercode should read like the ultimate MCP aggregator/router first: one operator surface, many downstream servers, semantic search and grouping, lifecycle control, traffic visibility, and client config sync.
                     </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -1041,7 +1041,7 @@ export default function MCPDashboard(): React.JSX.Element {
                     <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                         <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-4">
                             <div className="flex items-center gap-2 text-sm font-semibold text-white"><Server className="h-4 w-4 text-blue-400" /> Aggregation</div>
-                            <p className="mt-2 text-sm text-zinc-500">One Borg endpoint should make many downstream MCP servers feel like a coherent control plane, not a pile of loose wires.</p>
+                            <p className="mt-2 text-sm text-zinc-500">One Hypercode endpoint should make many downstream MCP servers feel like a coherent control plane, not a pile of loose wires.</p>
                         </div>
                         <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-4">
                             <div className="flex items-center gap-2 text-sm font-semibold text-white"><Search className="h-4 w-4 text-cyan-400" /> Semantic grouping</div>
@@ -1145,7 +1145,7 @@ export default function MCPDashboard(): React.JSX.Element {
                                         </span>
                                     ) : localCompatActive ? (
                                         <span>
-                                            Local compat fallback is active for {discoverySummary.localCompatCount} managed server{discoverySummary.localCompatCount === 1 ? '' : 's'}, so Borg is surfacing config-backed records with stable local IDs and action links while live core telemetry is unavailable.
+                                            Local compat fallback is active for {discoverySummary.localCompatCount} managed server{discoverySummary.localCompatCount === 1 ? '' : 's'}, so Hypercode is surfacing config-backed records with stable local IDs and action links while live core telemetry is unavailable.
                                         </span>
                                     ) : discoverySummary.staleReadyCount > 0 ? (
                                         <span>
@@ -1252,7 +1252,7 @@ export default function MCPDashboard(): React.JSX.Element {
                                                     Ready cache looks stale
                                                 </div>
                                                 <p className="mt-1 text-rose-100/90">
-                                                    This server is marked ready, but Borg has zero cached tools for it. That usually means an older discovery failure got cached as success. Run a binary refresh to repair it.
+                                                    This server is marked ready, but Hypercode has zero cached tools for it. That usually means an older discovery failure got cached as success. Run a binary refresh to repair it.
                                                 </p>
                                             </div>
                                         ) : null}
@@ -1262,7 +1262,7 @@ export default function MCPDashboard(): React.JSX.Element {
                                                     <div className="text-[11px] uppercase tracking-[0.24em] text-cyan-300">Server actions live here</div>
                                                     <p className="mt-1 text-xs text-zinc-400">
                                                         {isLocalCompatServer
-                                                            ? 'This server is being surfaced through local compat fallback, so these controls act on the Borg-managed local config record while upstream core telemetry is unavailable.'
+                                                            ? 'This server is being surfaced through local compat fallback, so these controls act on the Hypercode-managed local config record while upstream core telemetry is unavailable.'
                                                             : 'Keep the operator controls anchored on every server card so inspection, edits, cache warm-up, health tests, and logs stay one click away.'}
                                                     </p>
                                                 </div>
@@ -1448,7 +1448,7 @@ export default function MCPDashboard(): React.JSX.Element {
                                                             size="sm"
                                                             onClick={() => void handleDeleteServer(serverUuid, server.name)}
                                                             disabled={deleteServerMutation.isPending}
-                                                            title={`Delete ${server.name} from Borg configuration`}
+                                                            title={`Delete ${server.name} from Hypercode configuration`}
                                                             aria-label={`Delete ${server.name}`}
                                                             className="border-red-500/30 text-red-200 hover:bg-red-500/10"
                                                         >

@@ -1,5 +1,5 @@
 /**
- * `borg context` — Context harvesting and management
+ * `hypercode context` — Context harvesting and management
  */
 import type { Command } from 'commander';
 
@@ -18,7 +18,7 @@ export function registerContextCommand(program: Command): void {
       const chalk = (await import('chalk')).default;
 
       try {
-        const res = await fetch(`${TS_URL}/borgContext.harvest`, {
+        const res = await fetch(`${TS_URL}/hypercodeContext.harvest`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ json: {} }),
@@ -46,7 +46,7 @@ export function registerContextCommand(program: Command): void {
 
       let stats: any = {};
       try {
-        const res = await fetch(`${TS_URL}/borgContext.getHarvestStats`, { signal: AbortSignal.timeout(5000) });
+        const res = await fetch(`${TS_URL}/hypercodeContext.getHarvestStats`, { signal: AbortSignal.timeout(5000) });
         if (res.ok) stats = (await res.json())?.result?.data ?? {};
       } catch {}
 
@@ -73,7 +73,7 @@ export function registerContextCommand(program: Command): void {
 
       let chunks: any[] = [];
       try {
-        const res = await fetch(`${TS_URL}/borgContext.getHarvestedContext`, { signal: AbortSignal.timeout(5000) });
+        const res = await fetch(`${TS_URL}/hypercodeContext.getHarvestedContext`, { signal: AbortSignal.timeout(5000) });
         if (res.ok) chunks = (await res.json())?.result?.data ?? [];
       } catch {}
 
@@ -84,7 +84,7 @@ export function registerContextCommand(program: Command): void {
 
       console.log(chalk.bold.cyan(`\n  Harvested Context (${chunks.length})\n`));
       if (chunks.length === 0) {
-        console.log(chalk.dim('  No context harvested. Run `borg context harvest` first.\n'));
+        console.log(chalk.dim('  No context harvested. Run `hypercode context harvest` first.\n'));
         return;
       }
 
@@ -104,7 +104,7 @@ export function registerContextCommand(program: Command): void {
 
       let prompt: string = '';
       try {
-        const res = await fetch(`${TS_URL}/borgContext.getPrompt`, { signal: AbortSignal.timeout(5000) });
+        const res = await fetch(`${TS_URL}/hypercodeContext.getPrompt`, { signal: AbortSignal.timeout(5000) });
         if (res.ok) prompt = (await res.json())?.result?.data ?? '';
       } catch {}
 
@@ -124,7 +124,7 @@ export function registerContextCommand(program: Command): void {
     .action(async () => {
       const chalk = (await import('chalk')).default;
       try {
-        await fetch(`${TS_URL}/borgContext.clear`, {
+        await fetch(`${TS_URL}/hypercodeContext.clear`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ json: {} }),

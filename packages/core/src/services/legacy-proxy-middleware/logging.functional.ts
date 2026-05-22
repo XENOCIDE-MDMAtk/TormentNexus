@@ -1,1 +1,1 @@
-export * from "../metamcp-middleware/logging.functional.js";
+export * from "../hypercode-middleware/logging.functional.js";

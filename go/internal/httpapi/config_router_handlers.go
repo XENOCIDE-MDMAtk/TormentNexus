@@ -37,7 +37,7 @@ func (s *Server) handleConfigList(w http.ResponseWriter, r *http.Request) {
 		"bridge": map[string]any{
 			"fallback":  "go-local-config-db",
 			"procedure": "config.list",
-			"reason":    "upstream unavailable; using local metamcp config table",
+			"reason":    "upstream unavailable; using local hypercode config table",
 		},
 	})
 }
@@ -74,7 +74,7 @@ func (s *Server) handleConfigGet(w http.ResponseWriter, r *http.Request) {
 		"bridge": map[string]any{
 			"fallback":  "go-local-config-db",
 			"procedure": "config.get",
-			"reason":    "upstream unavailable; using local metamcp config value",
+			"reason":    "upstream unavailable; using local hypercode config value",
 		},
 	})
 }
@@ -173,7 +173,7 @@ func (s *Server) handleConfigGetSessionLifetime(w http.ResponseWriter, r *http.R
 			"bridge": map[string]any{
 				"fallback":  "go-local-config-db",
 				"procedure": "config.getSessionLifetime",
-				"reason":    "upstream unavailable; using local metamcp session lifetime config",
+				"reason":    "upstream unavailable; using local hypercode session lifetime config",
 			},
 		})
 		return
@@ -186,7 +186,7 @@ func (s *Server) handleConfigGetSessionLifetime(w http.ResponseWriter, r *http.R
 		"bridge": map[string]any{
 			"fallback":  "go-local-config-db",
 			"procedure": "config.getSessionLifetime",
-			"reason":    "upstream unavailable; using local metamcp session lifetime config",
+			"reason":    "upstream unavailable; using local hypercode session lifetime config",
 		},
 	})
 }
@@ -322,7 +322,7 @@ func (s *Server) handleConfigBooleanFallback(w http.ResponseWriter, r *http.Requ
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
 		"data":    value,
-		"bridge":  map[string]any{"fallback": "go-local-config-db", "procedure": procedure, "reason": "upstream unavailable; using local metamcp config value"},
+		"bridge":  map[string]any{"fallback": "go-local-config-db", "procedure": procedure, "reason": "upstream unavailable; using local hypercode config value"},
 	})
 }
 
@@ -346,12 +346,12 @@ func (s *Server) handleConfigScalarFallback(w http.ResponseWriter, r *http.Reque
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
 		"data":    value,
-		"bridge":  map[string]any{"fallback": "go-local-config-db", "procedure": procedure, "reason": "upstream unavailable; using local metamcp config value"},
+		"bridge":  map[string]any{"fallback": "go-local-config-db", "procedure": procedure, "reason": "upstream unavailable; using local hypercode config value"},
 	})
 }
 
 func (s *Server) localConfigList() ([]map[string]any, error) {
-	db, err := sql.Open("sqlite", s.localMetaMCPDBPath())
+	db, err := sql.Open("sqlite", s.localHypercodeDBPath())
 	if err != nil {
 		return nil, err
 	}
@@ -380,7 +380,7 @@ func (s *Server) localConfigList() ([]map[string]any, error) {
 }
 
 func (s *Server) localConfigValue(key string) (any, error) {
-	db, err := sql.Open("sqlite", s.localMetaMCPDBPath())
+	db, err := sql.Open("sqlite", s.localHypercodeDBPath())
 	if err != nil {
 		return nil, err
 	}

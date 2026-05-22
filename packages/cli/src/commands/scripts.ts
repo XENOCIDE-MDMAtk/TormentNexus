@@ -1,5 +1,5 @@
 /**
- * `borg scripts` — Manage saved automation scripts
+ * `hypercode scripts` — Manage saved automation scripts
  */
 import type { Command } from 'commander';
 
@@ -30,7 +30,7 @@ export function registerScriptsCommand(program: Command): void {
 
       console.log(chalk.bold.cyan(`\n  Saved Scripts (${scriptList.length})\n`));
       if (scriptList.length === 0) {
-        console.log(chalk.dim('  No scripts saved. Create one with `borg scripts create`.\n'));
+        console.log(chalk.dim('  No scripts saved. Create one with `hypercode scripts create`.\n'));
         return;
       }
 

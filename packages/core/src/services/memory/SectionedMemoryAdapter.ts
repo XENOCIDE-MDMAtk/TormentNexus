@@ -1,7 +1,7 @@
 /**
- * SectionedMemoryAdapter – IMemoryProvider backed by a Borg-managed sectioned store.
+ * SectionedMemoryAdapter – IMemoryProvider backed by a Hypercode-managed sectioned store.
  *
- * This provider persists structured project context in a single Borg-owned JSON
+ * This provider persists structured project context in a single Hypercode-owned JSON
  * snapshot so it can participate in the redundant memory pipeline alongside the
  * JSON provider and future vector/database stores.
  */
@@ -48,8 +48,8 @@ export class SectionedMemoryAdapter implements IMemoryProvider {
     private initialized = false;
 
     constructor(workspaceRoot: string) {
-        this.storePath = path.join(workspaceRoot, '.borg', 'sectioned_memory.json');
-        this.legacyStorePath = path.join(workspaceRoot, '.borg', LEGACY_STORE_FILE);
+        this.storePath = path.join(workspaceRoot, '.hypercode', 'sectioned_memory.json');
+        this.legacyStorePath = path.join(workspaceRoot, '.hypercode', LEGACY_STORE_FILE);
     }
 
     async init(): Promise<void> {

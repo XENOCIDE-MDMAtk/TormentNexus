@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent, Badge, Button, ScrollArea } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent, Badge, Button, ScrollArea } from "@hypercode/ui";
 import { Terminal, Play, Loader2, ChevronRight, Search, Trash2 } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -80,7 +80,7 @@ export default function CommandDashboard() {
                     Command Center
                 </h1>
                 <p className="text-zinc-500 mt-2">
-                    Execute slash commands and inspect available command handlers registered with Borg Core.
+                    Execute slash commands and inspect available command handlers registered with Hypercode Core.
                 </p>
             </div>
 

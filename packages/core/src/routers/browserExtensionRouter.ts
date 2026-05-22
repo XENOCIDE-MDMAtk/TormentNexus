@@ -132,7 +132,7 @@ function extractMetaFromHtml(html: string): Record<string, string> {
 export const browserExtensionRouter = t.router({
     /**
      * Save a web page as a memory. Called by the browser extension when the
-     * user clicks "Save to Borg" or highlights text.
+     * user clicks "Save to Hypercode" or highlights text.
      */
     saveMemory: adminProcedure
         .input(SaveMemoryInputSchema)

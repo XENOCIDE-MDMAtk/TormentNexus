@@ -1,5 +1,5 @@
 {
-  "name": "@borg/tsconfig",
+  "name": "@hypercode/tsconfig",
   "version": "1.0.0-alpha.62",
   "private": true,
   "main": "src/index.ts",

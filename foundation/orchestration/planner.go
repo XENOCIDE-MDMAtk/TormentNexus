@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/borg/foundation/adapters"
-	foundationrepomap "github.com/robertpelloni/borg/foundation/repomap"
+	"github.com/robertpelloni/hypercode/foundation/adapters"
+	foundationrepomap "github.com/robertpelloni/hypercode/foundation/repomap"
 )
 
 type PlanRequest struct {

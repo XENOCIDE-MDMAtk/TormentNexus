@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
-import { createReconnectPolicy, getReconnectDelayMs, resolveCoreWsUrl, shouldRetryReconnect } from '@borg/ui';
+import { createReconnectPolicy, getReconnectDelayMs, resolveCoreWsUrl, shouldRetryReconnect } from '@hypercode/ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function MirrorView() {

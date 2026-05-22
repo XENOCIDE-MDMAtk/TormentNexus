@@ -377,7 +377,7 @@ export const billingRouter = t.router({
      * available at all).  Returns entries in reverse-chronological order.
      *
      * The billing dashboard "Recent Fallback Decisions" card consumes this to let
-     * operators understand why Borg substituted a different provider/model than
+     * operators understand why Hypercode substituted a different provider/model than
      * configured.
      */
     getFallbackHistory: publicProcedure

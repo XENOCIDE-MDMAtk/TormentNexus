@@ -1,5 +1,5 @@
 import { db } from "../index.js";
-import { workflowsTable } from "../metamcp-schema.js";
+import { workflowsTable } from "../hypercode-schema.js";
 import { eq, desc } from "drizzle-orm";
 import crypto from "crypto";
 

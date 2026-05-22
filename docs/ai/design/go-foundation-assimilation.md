@@ -4,7 +4,7 @@
 Build a **Go-native harness core** that uses:
 - Go for runtime, orchestration, session control, and TUI integration.
 - exact tool-contract manifests for model-facing compatibility,
-- Borg/Borg as the default control-plane substrate,
+- Hypercode/Hypercode as the default control-plane substrate,
 - optional adapters for upstream-compatible behavior,
 - a modular architecture that allows truthfully staged parity.
 
@@ -26,7 +26,7 @@ flowchart TD
     Harness --> Sessions[Session + Branching + Compaction]
     Harness --> Compat[Exact Tool Contract Registry]
     Harness --> Adapters[Assimilation Adapters]
-    Harness --> HC[Borg Control Plane]
+    Harness --> HC[Hypercode Control Plane]
 
     Agent --> Context[Context Engine]
     Agent --> Tools[Native Tools]
@@ -106,23 +106,23 @@ Responsibilities:
 - reduce placeholder orchestration logic in higher-level packages
 
 ### 6. `foundation/adapters`
-Purpose: define and exercise the integration seam between the Go harness and Borg/Borg.
+Purpose: define and exercise the integration seam between the Go harness and Hypercode/Hypercode.
 
 Responsibilities:
-- expose Borg memory/context status cleanly to the harness
+- expose Hypercode memory/context status cleanly to the harness
 - expose provider configuration/status cleanly to the harness
 - expose early provider-route selection seams before full control-plane delegation
 - expose MCP configuration visibility without duplicating MCP control-plane logic
 - expose early MCP execution/routing seams before full control-plane delegation
-- discover adjacent Borg workspaces where available
+- discover adjacent Hypercode workspaces where available
 - provide a stable adapter boundary before deeper provider/MCP routing integration
 - supply reusable execution helpers for top-level CLI and HTTP surfaces
 - support migration of provider- and MCP-related orchestration entrypoints onto shared adapter logic
 
-### 7. Borg integration boundary
-Borg should be treated as an external-but-local substrate.
+### 7. Hypercode integration boundary
+Hypercode should be treated as an external-but-local substrate.
 
-Responsibilities retained by Borg:
+Responsibilities retained by Hypercode:
 - provider routing and failover
 - MCP aggregation and server lifecycle
 - imported session and memory discovery
@@ -135,7 +135,7 @@ Responsibilities owned by the new harness:
 - agent loop behavior
 - session interaction model
 - coding-agent specialization
-- adapter consumption and presentation of Borg/Borg state
+- adapter consumption and presentation of Hypercode/Hypercode state
 - migration of top-level HTTP/CLI surfaces onto foundation-backed execution paths
 
 ## Key Design Principles
@@ -150,7 +150,7 @@ This now applies both to the foundation packages and to the top-level Go agent/t
 
 ### Principle 3: Native first, bridge second, never lie
 Every imported feature should be labeled as:
-- bridged via Borg or another substrate,
+- bridged via Hypercode or another substrate,
 - specified but not yet implemented,
 - native,
 - or verified.
@@ -167,7 +167,7 @@ We should avoid creating a dependency graph where the new harness cannot stand w
 Define exact tool and event contracts before rewriting behavior.
 
 ### Phase B: bridged parity
-Route through Borg/Borg or local adapters where native parity is not ready.
+Route through Hypercode/Hypercode or local adapters where native parity is not ready.
 
 ### Phase C: native replacement
 Replace bridged implementations one capability family at a time.
@@ -196,7 +196,7 @@ Add contract and snapshot tests for each feature family.
 ## Recommended Next Technical Moves
 1. Continue routing existing top-level placeholder command and orchestration surfaces to the new `foundation/pi` runtime.
 2. Deepen `foundation/repomap` from lightweight graph groundwork toward fuller graph/LSP-aware ranking and port richer edit engines.
-3. Expand `foundation/adapters` from status/config seams into real Borg-backed provider routing and richer MCP execution adapters.
+3. Expand `foundation/adapters` from status/config seams into real Hypercode-backed provider routing and richer MCP execution adapters.
 4. Continue migrating higher-level director/orchestrator logic onto `foundation/orchestration` primitives.
 5. Expand verified snapshot-style contract tests for tool outputs plus CLI/HTTP behaviors.
 6. Add verification, delegation, and background session services.

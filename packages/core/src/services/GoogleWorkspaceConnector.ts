@@ -1,7 +1,7 @@
 // Google Workspace connector — stores indexed chunks via the memory subsystem
 
 /**
- * GoogleWorkspaceConnector — Connects the Borg memory subsystem to Google Docs,
+ * GoogleWorkspaceConnector — Connects the Hypercode memory subsystem to Google Docs,
  * Gmail, and Google Drive for seamless RAG (Retrieval-Augmented Generation).
  *
  * Architecture:

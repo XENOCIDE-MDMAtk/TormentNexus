@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ExternalLink, FileCode, KeyRound, Radio, RefreshCw, CheckCircle2, ShieldCheck, BarChart3, Sparkles, Terminal } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
 
 const CODEX_KEY_STORAGE = "openai-codex-api-key";
 

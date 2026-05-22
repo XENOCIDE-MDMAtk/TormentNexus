@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { t, publicProcedure, adminProcedure } from '../lib/trpc-core.js';
 import { logsRepository } from '../db/repositories/index.js';
-import { GetLogsRequestSchema } from '../types/metamcp/logs.zod.js';
+import { GetLogsRequestSchema } from '../types/hypercode/logs.zod.js';
 import { rethrowSqliteUnavailableAsTrpc } from './sqliteTrpc.js';
 import { isSqliteUnavailableError } from '../db/sqliteAvailability.js';
 import { TRPCError } from '@trpc/server';

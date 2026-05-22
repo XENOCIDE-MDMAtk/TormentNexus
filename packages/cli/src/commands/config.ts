@@ -1,13 +1,13 @@
 /**
- * `borg config` - Configuration management
+ * `hypercode config` - Configuration management
  *
- * View, set, and manage Borg AIOS configuration including
+ * View, set, and manage Hypercode HYPERCODE configuration including
  * all subsystem settings, secrets, and environment variables.
  *
  * @example
- *   borg config show                # Show current config
- *   borg config set server.port 8080
- *   borg config secrets             # Manage secrets
+ *   hypercode config show                # Show current config
+ *   hypercode config set server.port 8080
+ *   hypercode config secrets             # Manage secrets
  */
 
 import type { Command } from "commander";
@@ -17,12 +17,12 @@ export function registerConfigCommand(program: Command): void {
 		.command("config")
 		.alias("cfg")
 		.description(
-			"Config — view and manage Borg configuration, secrets, and environment variables",
+			"Config — view and manage Hypercode configuration, secrets, and environment variables",
 		);
 
 	config
 		.command("show")
-		.description("Display the current Borg configuration")
+		.description("Display the current Hypercode configuration")
 		.option("--json", "Output as raw JSON")
 		.option(
 			"--section <section>",
@@ -87,7 +87,7 @@ export function registerConfigCommand(program: Command): void {
 					checkIntervalMs: 60000,
 				},
 				logLevel: "info",
-				dataDir: "~/.borg",
+				dataDir: "~/.hypercode",
 			};
 
 			// Merge server config if available
@@ -104,7 +104,7 @@ export function registerConfigCommand(program: Command): void {
 			}
 
 			const chalk = (await import("chalk")).default;
-			console.log(chalk.bold.cyan("\n  Borg Configuration\n"));
+			console.log(chalk.bold.cyan("\n  Hypercode Configuration\n"));
 			const printConfig = (obj: Record<string, unknown>, prefix = "  ") => {
 				for (const [key, val] of Object.entries(obj)) {
 					if (typeof val === "object" && val !== null && !Array.isArray(val)) {
@@ -133,11 +133,11 @@ export function registerConfigCommand(program: Command): void {
 			"after",
 			`
 Examples:
-  $ borg config set server.port 8080
-  $ borg config set mcp.toonFormat true
-  $ borg config set memory.primaryBackend sqlite
-  $ borg config set director.enabled true
-  $ borg config set logLevel debug
+  $ hypercode config set server.port 8080
+  $ hypercode config set mcp.toonFormat true
+  $ hypercode config set memory.primaryBackend sqlite
+  $ hypercode config set director.enabled true
+  $ hypercode config set logLevel debug
     `,
 		)
 		.action(async (key, value) => {
@@ -146,7 +146,7 @@ Examples:
 			const { resolve, dirname } = await import("path");
 			const { homedir } = await import("os");
 
-			const configDir = process.env.BORG_CONFIG_DIR || resolve(homedir(), ".borg");
+			const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), ".hypercode");
 			const configPath = resolve(configDir, "config.jsonc");
 
 			let config: Record<string, any> = {};
@@ -184,7 +184,7 @@ Examples:
 			const { homedir } = await import("os");
 			const chalk = (await import("chalk")).default;
 
-			const configDir = process.env.BORG_CONFIG_DIR || resolve(homedir(), ".borg");
+			const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), ".hypercode");
 			const configPath = resolve(configDir, "config.jsonc");
 
 			let config: Record<string, any> = {};
@@ -223,13 +223,13 @@ Examples:
 		.addHelpText(
 			"after",
 			`
-Secrets are stored encrypted in ~/.borg/secrets.enc
+Secrets are stored encrypted in ~/.hypercode/secrets.enc
 
 Examples:
-  $ borg config secrets --list
-  $ borg config secrets --set OPENAI_API_KEY
-  $ borg config secrets --delete GITHUB_TOKEN
-  $ borg config secrets --env
+  $ hypercode config secrets --list
+  $ hypercode config secrets --set OPENAI_API_KEY
+  $ hypercode config secrets --delete GITHUB_TOKEN
+  $ hypercode config secrets --env
     `,
 		)
 		.action(async (opts) => {
@@ -255,7 +255,7 @@ Examples:
 				const { readFileSync, writeFileSync, mkdirSync } = await import("fs");
 				const { resolve, dirname } = await import("path");
 				const { homedir } = await import("os");
-				const configDir = process.env.BORG_CONFIG_DIR || resolve(homedir(), ".borg");
+				const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), ".hypercode");
 				const configPath = resolve(configDir, "config.jsonc");
 				let config: Record<string, any> = {};
 				try {
@@ -291,10 +291,10 @@ Examples:
 	config
 		.command("init")
 		.description(
-			"Initialize Borg configuration in current directory or globally",
+			"Initialize Hypercode configuration in current directory or globally",
 		)
-		.option("--global", "Initialize global config at ~/.borg/")
-		.option("--local", "Initialize local .borg/ config in current directory")
+		.option("--global", "Initialize global config at ~/.hypercode/")
+		.option("--local", "Initialize local .hypercode/ config in current directory")
 		.action(async (opts) => {
 			const chalk = (await import("chalk")).default;
 			const { mkdirSync, existsSync, writeFileSync } = await import("fs");
@@ -302,8 +302,8 @@ Examples:
 			const { homedir } = await import("os");
 			const home = homedir();
 
-			const scope = opts.global ? "global (~/.borg/)" : "local (.borg/)";
-			const baseDir = opts.global ? resolve(home, ".borg") : resolve(process.cwd(), ".borg");
+			const scope = opts.global ? "global (~/.hypercode/)" : "local (.hypercode/)";
+			const baseDir = opts.global ? resolve(home, ".hypercode") : resolve(process.cwd(), ".hypercode");
 
 			// Create directory
 			mkdirSync(baseDir, { recursive: true });

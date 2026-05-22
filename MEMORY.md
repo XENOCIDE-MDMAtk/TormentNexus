@@ -6,20 +6,20 @@
 
 ### 1. The Great Config Split (Fixed in 1.0.0-alpha.1)
 **Observation**: Historically, `mcp.jsonc` in the user directory was intended to act as the sole source of truth. However, as SQLite was introduced, a destructive cycle emerged where `McpConfigService.syncWithDatabase()` would wipe out DB tools (and their `always_on` status) if `mcp.jsonc` lacked `_meta.tools`.
-**Resolution**: We completely decoupled the manual config from the database. The system now exports a unified `.borg/mcp-cache.json` which the lightweight `stdioLoader` reads. DB tools are no longer destroyed by an empty JSON configuration.
+**Resolution**: We completely decoupled the manual config from the database. The system now exports a unified `.hypercode/mcp-cache.json` which the lightweight `stdioLoader` reads. DB tools are no longer destroyed by an empty JSON configuration.
 
 ### 2. The `always_on` Advertising Filter
 **Observation**: `getDirectModeTools()` in `MCPServer.ts` enforces an "ULTRA-STREAMLINED ADVERTISING" filter. It ONLY returns tools marked `always_on`. If no tools have this flag, it defaults to returning *only* the internal meta-tools (`search_tools`, `load_tool`, etc.).
 **Implication**: This is intended behavior to keep LLM context clean. Models are expected to use `search_tools` and `load_tool` to dynamically fetch what they need.
 
 ### 3. Config Directory Resolution
-**Observation**: `getBorgConfigDir()` historically hardcoded `os.homedir() + '/.borg'`. 
-**Resolution**: It now dynamically respects `process.env.BORG_CONFIG_DIR`, and falls back to checking `process.cwd()/mcp.jsonc` before defaulting to the user's home directory. This allows local repository configurations to be authoritative during development.
-**Observation**: `getBorgConfigDir()` historically hardcoded `os.homedir() + '/.borg'`. 
-**Resolution**: It now dynamically respects `process.env.BORG_CONFIG_DIR`, and falls back to checking `process.cwd()/mcp.jsonc` before defaulting to the user's home directory. This allows local repository configurations to be authoritative during development.
+**Observation**: `getHypercodeConfigDir()` historically hardcoded `os.homedir() + '/.hypercode'`. 
+**Resolution**: It now dynamically respects `process.env.HYPERCODE_CONFIG_DIR`, and falls back to checking `process.cwd()/mcp.jsonc` before defaulting to the user's home directory. This allows local repository configurations to be authoritative during development.
+**Observation**: `getHypercodeConfigDir()` historically hardcoded `os.homedir() + '/.hypercode'`. 
+**Resolution**: It now dynamically respects `process.env.HYPERCODE_CONFIG_DIR`, and falls back to checking `process.cwd()/mcp.jsonc` before defaulting to the user's home directory. This allows local repository configurations to be authoritative during development.
 
 ### 4. Binary Extraction Strategy
-**Observation**: The project has aggressive plans to split into distinct daemons (`borgd`, `borgmcpd`, etc.).
+**Observation**: The project has aggressive plans to split into distinct daemons (`hypercoded`, `hypercodemcpd`, etc.).
 **Implication**: DO NOT split these prematurely. Follow the modular-monolith-first rule defined in `UNIVERSAL_LLM_INSTRUCTIONS.md`. Treat the Go workspaces as experimental bridges for now.
 
 ### 5. better-sqlite3 and Node 24 (Fixed 2026-04-08)
@@ -36,7 +36,7 @@
 **Resolution**: Added REST API bridge routes in `orchestrator.ts` that serve the same data as the tRPC router, so the dashboard's native-control-plane fetch path works cleanly.
 
 ### 8. Worktree Complexity
-**Observation**: The project uses git worktrees with the submodule structure at `.git/modules/borg`. The actual working directory (`borg-push`) can become detached from `main`.
+**Observation**: The project uses git worktrees with the submodule structure at `.git/modules/hypercode`. The actual working directory (`hypercode-push`) can become detached from `main`.
 **Resolution**: Manually update the worktree HEAD file to point to `refs/heads/main`. Don't try to use `git checkout main` across worktrees.
 
 ### 9. Go Sidecar Version Injection (Added 2026-04-08)
@@ -76,7 +76,7 @@
 **Implication**: The Go sidecar can fulfill many critical developer tasks autonomously even if the TypeScript server is restarting or unreachable.
 
 ### 16. Package Build Dependency in Monorepo (Added 2026-04-08)
-**Observation**: Adding new files and exports to sub-packages (like `@borg/agents`) requires an explicit build of those packages before the main control plane (`@borg/core`) or CLI can see the changes, especially if they depend on built artifacts or have strict type checking.
+**Observation**: Adding new files and exports to sub-packages (like `@hypercode/agents`) requires an explicit build of those packages before the main control plane (`@hypercode/core`) or CLI can see the changes, especially if they depend on built artifacts or have strict type checking.
 **Resolution**: Run `pnpm build` in the affected sub-packages before building the consumer.
 **Implication**: Automated build scripts should handle package topological sorting or ensure all dependencies are built.
 
@@ -123,10 +123,10 @@
 ### 25. Standard Tool Visibility Fix (Added 2026-04-08)
 **Observation**: The "Ultra-Streamlined Advertising" filter was too aggressive, hiding basic standard library tools (bash, filesystem) from models. This forced a manual discovery turn that most agents (like pi) weren't prepared for.
 **Resolution**: Modified `getDirectModeTools` to treat standard library and tool parity aliases as `alwaysOn` by default.
-**Implication**: Borg is now immediately useful as an MCP server for any host agent, as basic coding capabilities are advertised upfront.
+**Implication**: Hypercode is now immediately useful as an MCP server for any host agent, as basic coding capabilities are advertised upfront.
 
 ### 26. Directory Clutter Reduction (Added 2026-04-08)
-**Observation**: The nested hash-based directory structure for session archives was creating thousands of nearly-empty subdirectories, making the `.borg` folder difficult to manage.
+**Observation**: The nested hash-based directory structure for session archives was creating thousands of nearly-empty subdirectories, making the `.hypercode` folder difficult to manage.
 **Resolution**: Flattened the archive structure in `ImportedSessionStore` to store all session files in a single `sessions/` directory.
 **Implication**: Improved filesystem performance and much cleaner project directory structure.
 
@@ -142,7 +142,7 @@
 
 ### 29. Go Native Skill Management (Added 2026-04-08)
 **Observation**: The Go sidecar previously relied on the Node server to list and save skills, creating a dependency for "Total Autonomy".
-**Resolution**: Implemented `SkillStore` in Go. It natively reads and writes `.md` runbooks with frontmatter metadata in the `.borg/skills` directory.
+**Resolution**: Implemented `SkillStore` in Go. It natively reads and writes `.md` runbooks with frontmatter metadata in the `.hypercode/skills` directory.
 **Implication**: The Go sidecar can now independently manage the system's operational knowledge base.
 
 ### 30. Monorepo Build Sequencing (Added 2026-04-08)
@@ -173,7 +173,7 @@
 ### 35. Automated Browser Memory Ingestion (Added 2026-04-08)
 **Observation**: Manually clicking "Sync to Memory" in the extension is a friction point that leads to missing context.
 **Resolution**: Implemented a `MutationObserver` in the extension's `MemoryCaptureService`. It now watches for new DOM nodes matching AI message patterns and automatically schedules a capture.
-**Implication**: Conversations from web chat interfaces now flow into the Borg memory bank in near real-time without user intervention.
+**Implication**: Conversations from web chat interfaces now flow into the Hypercode memory bank in near real-time without user intervention.
 
 ### 36. Persistent A2A Audit Logs (Added 2026-04-08)
 **Observation**: Live A2A traffic in the dashboard is transient and lost on page refresh, making long-term debugging difficult.
@@ -231,22 +231,22 @@
 **Resolution**: Add `"extends": ["//"]` to all package-level turbo.json files.
 
 ### 11. Duplicate VS Code Extension Package (Discovered 2026-04-29)
-**Observation**: `apps/vscode` and `packages/vscode` had the same package name (`borg-vscode-extension`), causing Turbo workspace collision.
+**Observation**: `apps/vscode` and `packages/vscode` had the same package name (`hypercode-vscode-extension`), causing Turbo workspace collision.
 **Resolution**: Removed `packages/vscode` (stale, alpha.34). `apps/vscode` is canonical (alpha.36+).
 
 ### 12. CLI Version Read Path (Discovered 2026-04-29)
 **Observation**: The CLI `getVersion()` tried to read `VERSION.md` from `../../../..VERSION.md` relative to `__dirname` in compiled output. The compiled output is at `packages/cli/dist/cli/src/index.js`, so the path resolved to `packages/cli/VERSION` (wrong).
 **Resolution**: Changed to `../../../../../VERSION` (5 levels up) and filename to `VERSION` (not `VERSION.md`).
 
-### 13. @borg/* Stub Package Architecture (Discovered 2026-04-29)
-**Observation**: The core package imports from 8 `@borg/*` packages that don't have real implementations. TypeScript compilation and Node runtime both fail without them.
+### 13. @hypercode/* Stub Package Architecture (Discovered 2026-04-29)
+**Observation**: The core package imports from 8 `@hypercode/*` packages that don't have real implementations. TypeScript compilation and Node runtime both fail without them.
 **Resolution**: Created stub packages in `packages/` with three layers:
   - `src/index.ts` — TS type stubs (for `tsc --noEmit` via `exports.types` condition)
   - `dist/index.js` — ESM runtime stubs (for Node via `exports.import` condition)
   - `dist/index.d.ts` — Type declarations (fallback resolution)
-  Key insight: `@borg/types` must export real zod schemas (tRPC `.input()` calls `'~standard' in schema`). `@borg/ai` must export real classes for `extends` (NormalizedQuotaService extends QuotaService). All others can be `undefined` stubs.
+  Key insight: `@hypercode/types` must export real zod schemas (tRPC `.input()` calls `'~standard' in schema`). `@hypercode/ai` must export real classes for `extends` (NormalizedQuotaService extends QuotaService). All others can be `undefined` stubs.
   The `exports` field in package.json must have both `import` and `types` conditions pointing to the correct files. Without `exports`, tsc resolves incorrectly (230 errors).
-**Implication**: As real implementations are built, each stub can be replaced incrementally. The zod schemas in `@borg/types` are already functional and used by tRPC routers.
+**Implication**: As real implementations are built, each stub can be replaced incrementally. The zod schemas in `@hypercode/types` are already functional and used by tRPC routers.
 
 ### 14. Dashboard Utility Stubs Must Match Usage Patterns (Discovered 2026-04-29)
 **Observation**: Auto-generated stubs returning `(() => ({})) as any` crash Next.js build when pages call `.map()` on the result or access properties like `.topTools`.
@@ -263,8 +263,8 @@
 **Implication**: When running with `--no-mcp`, all routers should return empty/safe defaults instead of 500 errors.
 
 ### 17. Server Startup Takes ~45 Seconds (Discovered 2026-04-29)
-**Observation**: `borg start --no-mcp` takes ~45 seconds to fully bind port 4000. The MCPServer imports 53+ phases before Express starts listening.
-**Implication**: CLI health checks and tests must wait at least 50 seconds before testing endpoints. The `borg status` command uses `AbortSignal.timeout(3000)` which may not be enough during startup.
+**Observation**: `hypercode start --no-mcp` takes ~45 seconds to fully bind port 4000. The MCPServer imports 53+ phases before Express starts listening.
+**Implication**: CLI health checks and tests must wait at least 50 seconds before testing endpoints. The `hypercode status` command uses `AbortSignal.timeout(3000)` which may not be enough during startup.
 
 ### 18. Commander.js Global --json Doesn't Merge to Subcommands (Discovered 2026-04-29)
 **Observation**: When `--json` is registered as a global option on the program AND as a subcommand option, the subcommand `opts` object is empty `{}`. The global option consumes the flag.
@@ -277,7 +277,7 @@
 
 ### 20. Dashboard tRPC Proxy Port Mismatch (Discovered 2026-04-30)
 **Observation**: The Next.js dashboard's tRPC API route (`apps/web/src/app/api/trpc/[trpc]/route.ts`) defaulted to `http://127.0.0.1:3001/trpc` (MCP WebSocket port) instead of `http://127.0.0.1:4000/trpc` (tRPC server). All dashboard data queries returned 502 errors.
-**Resolution**: Changed `DEFAULT_UPSTREAM_TRPC_URL` from port 3001 to 4000. Can also be overridden via `BORG_TRPC_UPSTREAM` env var.
+**Resolution**: Changed `DEFAULT_UPSTREAM_TRPC_URL` from port 3001 to 4000. Can also be overridden via `HYPERCODE_TRPC_UPSTREAM` env var.
 **Implication**: This was the root cause of empty dashboard data. The proxy is the only way the dashboard reaches the TS server.
 
 ### 21. Lightweight MCP Init Without Full Discovery (Discovered 2026-04-30)
@@ -288,10 +288,10 @@
 ### 22. MCP Inventory Known When Persisted Data Exists (Discovered 2026-04-30)
 **Observation**: `startupStatus` showed `inventoryReady: false` even though the database had 135 persisted servers and 1302 tools. The `inventoryKnown` check required `aggregatorStatus.initialized` which is only set during full MCP startup.
 **Resolution**: Added `|| persistedServerCount > 0` to the `inventoryKnown` condition in `startupStatus.ts`.
-**Implication**: `borg health` will now correctly report inventory as ready when data exists in the database.
+**Implication**: `hypercode health` will now correctly report inventory as ready when data exists in the database.
 
 ### 23. CLI Provider Auto-Detection (Discovered 2026-04-30)
-**Observation**: 8 API keys were available in environment variables (OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, GEMINI_API_KEY, XAI_API_KEY, DEEPSEEK_API_KEY, MISTRAL_API_KEY, OPENROUTER_API_KEY) but `borg provider list` showed "No providers configured".
+**Observation**: 8 API keys were available in environment variables (OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, GEMINI_API_KEY, XAI_API_KEY, DEEPSEEK_API_KEY, MISTRAL_API_KEY, OPENROUTER_API_KEY) but `hypercode provider list` showed "No providers configured".
 **Resolution**: Added environment variable scanning as fallback when no providers are explicitly configured. Shows provider name, "● Available" status, and the env var source.
 **Implication**: Users see their available providers immediately without explicit configuration.
 Learned that script-based code updates (via heredocs or python strings) can inadvertently double-escape fmt.Sprintf tokens (%%s) in Go source code. Always perform a manual truth-pass or automated sed correction after bulk file writes. Also established the pattern of using the controlplane.MemoryVault interface to decouple kernel services from the SQLite/sqlite-vec persistence implementation.

@@ -1,12 +1,12 @@
-# AI Hypervisor (Nexus) - Comprehensive Architectural Memory
+# AI Hypercode (Hypercode) - Comprehensive Architectural Memory
 
 This document serves as the authoritative summary of the project's architecture, established patterns, and strategic decisions as of version **1.0.0-alpha.56**.
 
-## 1. Core Brand Strategy: Nexus & HyperCode
-The project has transitioned from "Borg" to a sophisticated dual-brand strategy:
-*   **Nexus (The Kernel/Substrate):** The underlying "AI Hypervisor" and coordination runtime. It treats Large Language Models as "guest operating systems" and manages the low-level memory, routing, and execution buses.
-*   **HyperCode (The Flagship Product):** The user-facing, local-first autonomous coding environment powered by the Nexus kernel.
-*   **Rationale:** This separation prevents "identity collapse" by allowing the infrastructure (Nexus) to remain a general-purpose agent coordination layer while the product (HyperCode) focuses on delivering a world-class developer experience.
+## 1. Core Brand Strategy: Hypercode & HyperCode
+The project has transitioned from "Hypercode" to a sophisticated dual-brand strategy:
+*   **Hypercode (The Kernel/Substrate):** The underlying "AI Hypercode" and coordination runtime. It treats Large Language Models as "guest operating systems" and manages the low-level memory, routing, and execution buses.
+*   **HyperCode (The Flagship Product):** The user-facing, local-first autonomous coding environment powered by the Hypercode kernel.
+*   **Rationale:** This separation prevents "identity collapse" by allowing the infrastructure (Hypercode) to remain a general-purpose agent coordination layer while the product (HyperCode) focuses on delivering a world-class developer experience.
 
 ## 2. Active Tiered Memory Substrate (Implemented Phase 1)
 Memory has been transitioned from a passive storage model into an active, biological-inspired system:
@@ -25,7 +25,7 @@ The repository is organized into two primary functional layers:
 *   **/control-plane**: The "observer" layer.
     *   `UI`: Dashboards and TUI/Web interfaces.
     *   `Telemetry`: Real-time traffic inspection and execution graphs.
-*   **Rationale:** Ensures the system can run headless (as `nexusd`) while multiple clients (CLI, Web, Browser Extension) interact with it via standardized tRPC/Go APIs.
+*   **Rationale:** Ensures the system can run headless (as `hypercoded`) while multiple clients (CLI, Web, Browser Extension) interact with it via standardized tRPC/Go APIs.
 
 ## 4. State Authority & The Go Sidecar
 *   **Go Sidecar (Port 4300):** Acts as the high-performance state authority and BM25 ranking engine.
@@ -37,14 +37,14 @@ The repository is organized into two primary functional layers:
 *   **The Solution:** The **Decision System**. It uses ranked discovery and LRU (Least Recently Used) eviction to ensure only the 3-5 most relevant tools or skills are present in the model's active working set at any given moment.
 
 ## 6. Enterprise Blueprint Alignment
-The system is being architected to support "AI Hypervisor Enterprise" features:
+The system is being architected to support "AI Hypercode Enterprise" features:
 *   **Fleet Management:** Private vLLM pod orchestration for GPU clusters using the `pi-pods` model.
 *   **Governance:** SSO/SAML integration and RBAC.
 *   **Security:** Immutable audit ledgers for every tool call and PII scrubbing (DLP) for outgoing prompt streams.
 
 ## 7. Hardened Execution Standards
 *   **Security Pattern:** All command executions must use **tokenized argument arrays** with `shell: false`. Blind `child_process.exec` and `sed` scripts are strictly prohibited to prevent shell injection and codebase corruption.
-*   **Parity Principle:** Nexus must provide 1:1 behavioral and schema parity for tools expected by proprietary models (e.g., Claude Code's `bash`, `read`, `write`).
+*   **Parity Principle:** Hypercode must provide 1:1 behavioral and schema parity for tools expected by proprietary models (e.g., Claude Code's `bash`, `read`, `write`).
 
 ## 8. Meta-Protocol for Future Development
 *   **Truth over Fiction:** UI dashboards must always reflect actual database rows and runtime state.
@@ -52,4 +52,4 @@ The system is being architected to support "AI Hypervisor Enterprise" features:
 *   **Version Synchronization:** Every major functional increment must sync `VERSION`, `CHANGELOG.md`, `VISION.md`, and all monorepo `package.json` manifests.
 
 ---
-*This memory is the definitive record of the Nexus/HyperCode architecture and directs all subsequent implementation turns.*
+*This memory is the definitive record of the Hypercode/HyperCode architecture and directs all subsequent implementation turns.*

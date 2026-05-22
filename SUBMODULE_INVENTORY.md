@@ -29,12 +29,12 @@ https://github.com/yasasbanukaofficial/claude-code | unknown |
 | jules-extension | main | unknown | https://github.com/gemini-cli-extensions/jules | unknown |
 | kimi-cli | main | unknown | https://github.com/MoonshotAI/kimi-cli | unknown |
 | qwen-code-cli | main | unknown | https://github.com/dinoanderson/qwen_cli_coder | unknown |
-| external/MetaMCP | main | unknown | https://github.com/robertpelloni/MetaMCP | unknown |
+| external/Hypercode | main | unknown | https://github.com/robertpelloni/Hypercode | unknown |
 | archive/submodules/mcpproxy | main | unknown | https://github.com/Dumbris/mcpproxy | unknown |
 | archive/submodules/litellm | main | unknown | https://github.com/BerriAI/litellm | unknown |
-| archive/claude-mem | main | unknown | https://github.com/robertpelloni/claude-mem | unknown |
+| archive/hypercode | main | unknown | https://github.com/robertpelloni/hypercode | unknown |
 | archive/OmniRoute | main | unknown | https://github.com/diegosouzapw/OmniRoute | unknown |
-| packages/claude-mem | main | unknown | https://github.com/robertpelloni/claude-mem | unknown |
+| packages/hypercode | main | unknown | https://github.com/robertpelloni/hypercode | unknown |
 | apps/maestro | main | unknown | https://github.com/robertpelloni/Maestro | unknown |
 | submodules/prism-mcp | main | unknown | https://github.com/dcostenco/prism-mcp | unknown |
-| submodules/borg | main | unknown | https://github.com/robertpelloni/borg.git | unknown |
+| submodules/hypercode | main | unknown | https://github.com/robertpelloni/hypercode.git | unknown |

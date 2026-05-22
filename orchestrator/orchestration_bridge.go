@@ -3,7 +3,7 @@ package orchestrator
 import (
 	"strings"
 
-	foundationorchestration "github.com/robertpelloni/borg/foundation/orchestration"
+	foundationorchestration "github.com/robertpelloni/hypercode/foundation/orchestration"
 )
 
 func buildAutoDriveObjective(prompt, workingDir string) string {

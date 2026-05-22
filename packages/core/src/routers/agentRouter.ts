@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { t, publicProcedure, getMcpServer } from '../lib/trpc-core.js';
-import { a2aBroker, taskQueue } from '@borg/agents';
+import { a2aBroker, taskQueue } from '@hypercode/agents';
 import { TRPCError } from '@trpc/server';
 
 function getErrorMessage(error: unknown): string {
@@ -25,7 +25,7 @@ export const agentRouter = t.router({
                 throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'MCP Server not initialized' });
             }
 
-            // In MetaMCP/Borg, tools are often namespaced: "server__tool" or just "tool" if unique.
+            // In Hypercode/Hypercode, tools are often namespaced: "server__tool" or just "tool" if unique.
             // If serverName is provided, we might need to look it up specifically, 
             // but the aggregator usually acts as a unified client.
             // We'll call the server's executeTool method which handles policies and permissions.
@@ -69,7 +69,7 @@ export const agentRouter = t.router({
             }
 
             const contextSnippet = input.context ? `\n\nContext:\n${JSON.stringify(input.context).slice(0, 4000)}` : '';
-            const prompt = `You are Borg Agent Chat. Give concise, actionable guidance and suggest tool usage when helpful.\n\nUser:\n${input.message}${contextSnippet}`;
+            const prompt = `You are Hypercode Agent Chat. Give concise, actionable guidance and suggest tool usage when helpful.\n\nUser:\n${input.message}${contextSnippet}`;
 
             try {
                 const result = await llm.generate(prompt, {

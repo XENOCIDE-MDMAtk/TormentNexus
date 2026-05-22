@@ -24,7 +24,7 @@ const SseServerSchema = z.object({
 
 const AutoConfigSchema = z.object({
     mcpServers: z.object({
-        borg: z.union([CommandServerSchema, SseServerSchema]),
+        hypercode: z.union([CommandServerSchema, SseServerSchema]),
     }),
     ui: z.object({
         theme: z.string(),
@@ -110,14 +110,14 @@ export class AutoConfig {
             ...(Object.keys(envVars).length > 0 ? { env: envVars } : {}),
         };
 
-        const sseUrl = options.sseUrl ?? process.env.BORG_MCP_SSE_URL ?? 'http://borg.default.svc.cluster.local:3000/sse';
+        const sseUrl = options.sseUrl ?? process.env.HYPERCODE_MCP_SSE_URL ?? 'http://hypercode.default.svc.cluster.local:3000/sse';
         const serverConfig = env === 'k8s'
             ? { url: sseUrl, transport: 'sse' as const }
             : localConfig;
 
         const config: GeneratedAutoConfig = {
             mcpServers: {
-                borg: serverConfig,
+                hypercode: serverConfig,
             },
             ui: {
                 theme: env === 'k8s' ? 'dark-enterprise' : 'dark-modern',

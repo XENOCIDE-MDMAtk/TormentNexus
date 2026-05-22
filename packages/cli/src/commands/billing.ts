@@ -1,5 +1,5 @@
 /**
- * `borg billing` — Provider quotas, usage tracking, and model pricing
+ * `hypercode billing` — Provider quotas, usage tracking, and model pricing
  */
 import type { Command } from 'commander';
 
@@ -70,7 +70,7 @@ export function registerBillingCommand(program: Command): void {
 
       console.log(chalk.bold.cyan(`\n  Provider Quotas (${quotas.length})\n`));
       if (quotas.length === 0) {
-        console.log(chalk.dim('  No quota data. Configure providers with `borg provider add`.\n'));
+        console.log(chalk.dim('  No quota data. Configure providers with `hypercode provider add`.\n'));
         return;
       }
 
@@ -149,7 +149,7 @@ export function registerBillingCommand(program: Command): void {
         }
       } else {
         console.log(chalk.dim('  No fallback chain configured.'));
-        console.log(chalk.dim('  Use: borg billing fallback --set openai anthropic google'));
+        console.log(chalk.dim('  Use: hypercode billing fallback --set openai anthropic google'));
       }
       console.log('');
     });

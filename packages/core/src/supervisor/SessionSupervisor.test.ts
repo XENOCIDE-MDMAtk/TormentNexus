@@ -67,7 +67,7 @@ describe('SessionSupervisor', () => {
             clearTimeout: () => undefined,
         };
 
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'borg-session-supervisor-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-session-supervisor-'));
         tempDirs.push(tempDir);
 
         const supervisor = new SessionSupervisor({
@@ -126,7 +126,7 @@ describe('SessionSupervisor', () => {
     });
 
     it('captures execution shell policy and exports it into the supervised environment', async () => {
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'borg-session-supervisor-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-session-supervisor-'));
         tempDirs.push(tempDir);
 
         const supervisor = new SessionSupervisor({
@@ -192,15 +192,15 @@ describe('SessionSupervisor', () => {
             shellLabel: 'Cygwin Bash',
         }));
         expect(session.env).toEqual(expect.objectContaining({
-            BORG_EXECUTION_PROFILE_REQUESTED: 'posix',
-            BORG_EXECUTION_SHELL_ID: 'cygwin-bash',
-            BORG_SUPPORTS_POWERSHELL: '1',
-            BORG_SUPPORTS_POSIX_SHELL: '1',
+            HYPERCODE_EXECUTION_PROFILE_REQUESTED: 'posix',
+            HYPERCODE_EXECUTION_SHELL_ID: 'cygwin-bash',
+            HYPERCODE_SUPPORTS_POWERSHELL: '1',
+            HYPERCODE_SUPPORTS_POSIX_SHELL: '1',
         }));
     });
 
     it('persists metadata patches for a running session', async () => {
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'borg-session-supervisor-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-session-supervisor-'));
         tempDirs.push(tempDir);
 
         const supervisor = new SessionSupervisor({

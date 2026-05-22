@@ -18,7 +18,7 @@ afterEach(() => {
 });
 
 function createTempDir(): string {
-    const dir = mkdtempSync(path.join(os.tmpdir(), 'borg-startup-provenance-'));
+    const dir = mkdtempSync(path.join(os.tmpdir(), 'hypercode-startup-provenance-'));
     tempDirs.push(dir);
     return dir;
 }
@@ -27,7 +27,7 @@ describe('readLocalStartupProvenance', () => {
     it('derives control-plane port provenance from legacy lock files', () => {
         const dataDir = createTempDir();
         writeFileSync(path.join(dataDir, 'lock'), JSON.stringify({
-            instanceId: 'borg-legacy',
+            instanceId: 'hypercode-legacy',
             pid: 1234,
             port: 4555,
             host: '127.0.0.1',

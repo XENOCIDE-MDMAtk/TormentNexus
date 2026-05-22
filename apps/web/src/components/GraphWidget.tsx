@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { trpc } from '@/utils/trpc';
-import { KnowledgeGraph } from '@borg/ui';
+import { KnowledgeGraph } from '@hypercode/ui';
 import { motion } from 'framer-motion';
 
 export function GraphWidget() {

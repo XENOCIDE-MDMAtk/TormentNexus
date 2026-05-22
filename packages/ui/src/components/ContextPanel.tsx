@@ -20,24 +20,24 @@ function normalizePinnedFiles(value: unknown): string[] {
 export function ContextPanel() {
     const [newFile, setNewFile] = useState('');
 
-    const contextQuery = trpc.borgContext.list.useQuery(undefined, {
+    const contextQuery = trpc.hypercodeContext.list.useQuery(undefined, {
         refetchInterval: 5000
     });
     const { data: rawPinnedFiles, refetch } = contextQuery;
     const pinnedFiles = normalizePinnedFiles(rawPinnedFiles);
 
-    const addMutation = trpc.borgContext.add.useMutation({
+    const addMutation = trpc.hypercodeContext.add.useMutation({
         onSuccess: () => {
             setNewFile('');
             refetch();
         }
     });
 
-    const removeMutation = trpc.borgContext.remove.useMutation({
+    const removeMutation = trpc.hypercodeContext.remove.useMutation({
         onSuccess: () => refetch()
     });
 
-    const clearMutation = trpc.borgContext.clear.useMutation({
+    const clearMutation = trpc.hypercodeContext.clear.useMutation({
         onSuccess: () => refetch()
     });
 

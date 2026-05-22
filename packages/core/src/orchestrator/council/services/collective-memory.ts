@@ -77,7 +77,7 @@ class CollectiveMemoryService {
         level: 'info', 
         message: `[CollectiveMemory] New Fact Learned: ${fact.key} = ${fact.value.slice(0, 30)}...`,
         timestamp,
-        source: 'borg-memory'
+        source: 'hypercode-memory'
       },
       timestamp
     });

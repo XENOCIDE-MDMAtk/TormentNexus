@@ -3,9 +3,9 @@ package orchestration
 import (
 	"context"
 
-	"github.com/borghq/borg-go/internal/session"
-	"github.com/borghq/borg-go/internal/controlplane"
-	"github.com/borghq/borg-go/internal/supervisor"
+	"github.com/hypercodehq/hypercode-go/internal/session"
+	"github.com/hypercodehq/hypercode-go/internal/controlplane"
+	"github.com/hypercodehq/hypercode-go/internal/supervisor"
 )
 
 type FleetManagerPlus struct {

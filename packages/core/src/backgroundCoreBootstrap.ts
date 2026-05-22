@@ -102,7 +102,7 @@ export async function ensureBackgroundCoreRunning(
         ? (options.cliEntryPath ?? null)
         : resolveCliEntryPath();
     if (!cliEntryPath) {
-        log('[Borg Core] Background core bootstrap skipped: CLI entrypoint not found.');
+        log('[Hypercode Core] Background core bootstrap skipped: CLI entrypoint not found.');
         return { status: 'launch-unavailable' };
     }
 

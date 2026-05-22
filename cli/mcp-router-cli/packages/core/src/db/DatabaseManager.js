@@ -13,9 +13,9 @@ export class DatabaseManager extends EventEmitter {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
-        const borgDbPath = path.join(dir, 'borg.db');
-        const legacyDbPath = path.join(dir, 'legacy_borg.db');
-        const dbPath = fs.existsSync(borgDbPath) ? borgDbPath : (fs.existsSync(legacyDbPath) ? legacyDbPath : borgDbPath);
+        const hypercodeDbPath = path.join(dir, 'hypercode.db');
+        const legacyDbPath = path.join(dir, 'legacy_hypercode.db');
+        const dbPath = fs.existsSync(hypercodeDbPath) ? hypercodeDbPath : (fs.existsSync(legacyDbPath) ? legacyDbPath : hypercodeDbPath);
         this.db = new Database(dbPath);
         // Enable foreign keys
         this.db.pragma('foreign_keys = ON');
@@ -446,7 +446,7 @@ export class DatabaseManager extends EventEmitter {
     // API Keys
     // ============================================
     createApiKey(name, scopes = ['read']) {
-        const plainKey = `borg_${crypto.randomBytes(32).toString('hex')}`;
+        const plainKey = `hypercode_${crypto.randomBytes(32).toString('hex')}`;
         const keyHash = crypto.createHash('sha256').update(plainKey).digest('hex');
         const keyPrefix = plainKey.substring(0, 12);
         const apiKey = {

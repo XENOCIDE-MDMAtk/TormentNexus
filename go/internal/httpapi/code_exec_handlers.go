@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/borghq/borg-go/internal/codeexec"
+	"github.com/hypercodehq/hypercode-go/internal/codeexec"
 )
 
 // handleCodeExec runs code in the process-based sandbox.

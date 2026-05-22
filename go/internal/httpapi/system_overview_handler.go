@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/borghq/borg-go/internal/buildinfo"
+	"github.com/hypercodehq/hypercode-go/internal/buildinfo"
 )
 
 // handleSystemOverview returns a unified snapshot using Go-native data

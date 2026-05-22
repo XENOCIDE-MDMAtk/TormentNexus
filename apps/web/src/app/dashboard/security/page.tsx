@@ -3,11 +3,11 @@
 
 import React, { useMemo, useState } from 'react';
 import { trpc } from '@/utils/trpc';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@borg/ui';
-import { Badge } from '@borg/ui';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@borg/ui';
-import { Button } from '@borg/ui';
-import { ScrollArea } from '@borg/ui';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@hypercode/ui';
+import { Badge } from '@hypercode/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@hypercode/ui';
+import { Button } from '@hypercode/ui';
+import { ScrollArea } from '@hypercode/ui';
 import { Shield, Lock, Rocket, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 

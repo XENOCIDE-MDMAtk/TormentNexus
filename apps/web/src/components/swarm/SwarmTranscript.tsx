@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { trpc } from '@/utils/trpc';
-import { Card, CardHeader, CardTitle, CardContent, ScrollArea, Badge } from '@borg/ui';
+import { Card, CardHeader, CardTitle, CardContent, ScrollArea, Badge } from '@hypercode/ui';
 import { MessageSquare, Cpu, Brain, Activity, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 

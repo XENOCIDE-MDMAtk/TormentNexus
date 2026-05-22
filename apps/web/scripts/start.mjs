@@ -20,7 +20,7 @@ function readOption(flagNames, fallback) {
 const port = readOption(['--port', '-p'], process.env.PORT || '3000');
 const host = readOption(['--host', '--hostname', '-H'], process.env.HOSTNAME || '0.0.0.0');
 const standaloneServer = resolve(webDir, '.next', 'standalone', 'apps', 'web', 'server.js');
-const portMarkerPath = resolve(webDir, '.borg-dev-port.json');
+const portMarkerPath = resolve(webDir, '.hypercode-dev-port.json');
 
 function writePortMarker() {
   mkdirSync(dirname(portMarkerPath), { recursive: true });
@@ -41,7 +41,7 @@ const child = spawn(process.execPath, [standaloneServer], {
     ...process.env,
     PORT: String(port),
     HOSTNAME: host,
-    BORG_TRPC_UPSTREAM: process.env.BORG_TRPC_UPSTREAM || 'http://127.0.0.1:4100/trpc',
+    HYPERCODE_TRPC_UPSTREAM: process.env.HYPERCODE_TRPC_UPSTREAM || 'http://127.0.0.1:4100/trpc',
   },
 });
 

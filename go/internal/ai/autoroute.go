@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-    "github.com/borghq/borg-go/internal/providers"
+    "github.com/hypercodehq/hypercode-go/internal/providers"
 )
 
 type Router struct {

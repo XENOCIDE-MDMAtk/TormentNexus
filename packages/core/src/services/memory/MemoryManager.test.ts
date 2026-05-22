@@ -5,7 +5,7 @@ import { RedundantMemoryManager } from './RedundantMemoryManager.js';
 
 describe('MemoryManager pipeline summaries', () => {
     it('reports the sectioned store as active in the default redundant pipeline', () => {
-        const manager = new MemoryManager('C:/borg-workspace');
+        const manager = new MemoryManager('C:/hypercode-workspace');
 
         expect(manager.getPipelineSummary()).toEqual({
             configuredMode: 'redundant',
@@ -16,7 +16,7 @@ describe('MemoryManager pipeline summaries', () => {
     });
 
     it('reports the sectioned store as inactive in json-only mode', () => {
-        const manager = new MemoryManager('C:/borg-workspace', 'json');
+        const manager = new MemoryManager('C:/hypercode-workspace', 'json');
 
         expect(manager.getPipelineSummary()).toEqual({
             configuredMode: 'json',
@@ -29,7 +29,7 @@ describe('MemoryManager pipeline summaries', () => {
 
 describe('RedundantMemoryManager provider registration', () => {
     it('lists the built-in provider names in fan-out order', () => {
-        const manager = new RedundantMemoryManager('C:/borg-workspace');
+        const manager = new RedundantMemoryManager('C:/hypercode-workspace');
 
         expect(manager.getProviderNames()).toEqual(['json', 'sectioned-store']);
     });

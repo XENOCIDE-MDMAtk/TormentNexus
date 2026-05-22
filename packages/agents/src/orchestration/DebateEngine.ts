@@ -1,4 +1,4 @@
-import { LLMService } from "@borg/ai";
+import { LLMService } from "@hypercode/ai";
 import { RiskEvaluator, RiskResult } from "./RiskEvaluator.js";
 
 export interface Participant {
@@ -132,7 +132,7 @@ export class DebateEngine {
         }
 
         // Final Synthesis
-        const synthesisPrompt = `You are the borg Collective Moderator. 
+        const synthesisPrompt = `You are the hypercode Collective Moderator. 
         Synthesize the following debate into a final consensus or recommendation.
         TOPIC: ${topic}
         
@@ -149,7 +149,7 @@ export class DebateEngine {
         const synthesisResponse = await this.llmService.generateText(
             synthesisSelection.provider,
             synthesisSelection.modelId,
-            'You are the borg Collective Moderator.',
+            'You are the hypercode Collective Moderator.',
             synthesisPrompt,
             {
                 taskType: 'supervisor',

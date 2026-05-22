@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
+import { Card, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
 import { Loader2, Send, Bot, User, Terminal } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
 
 export default function AgentPlayground() {
     const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant', content: string, tools?: any[] }>>([
-        { role: 'assistant', content: "Hello! I'm your MetaMCP Agent. I have access to all your connected tools. How can I help you today?" }
+        { role: 'assistant', content: "Hello! I'm your Hypercode Agent. I have access to all your connected tools. How can I help you today?" }
     ]);
     const [input, setInput] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);

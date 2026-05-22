@@ -1,5 +1,5 @@
 // Content script to scrape page details
-console.log('borg Content Script Loaded');
+console.log('hypercode Content Script Loaded');
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'read_page') {

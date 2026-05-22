@@ -1,4 +1,4 @@
-module github.com/borghq/borg-go
+module github.com/hypercodehq/hypercode-go
 
 go 1.25.0
 

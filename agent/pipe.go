@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/borg/foundation/adapters"
+	"github.com/robertpelloni/hypercode/foundation/adapters"
 )
 
 // PipeProcessor mimics Simon Willison's "LLM CLI" and Charmbracelet's "Crush".

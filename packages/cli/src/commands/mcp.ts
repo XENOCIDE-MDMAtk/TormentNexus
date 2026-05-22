@@ -1,15 +1,15 @@
 /**
- * `borg mcp` - MCP Router management commands
+ * `hypercode mcp` - MCP Router management commands
  *
  * Comprehensive MCP server lifecycle management, tool browsing,
  * traffic inspection, config sync, and directory access.
  *
  * @example
- *   borg mcp list                    # List all MCP servers
- *   borg mcp start filesystem        # Start a specific server
- *   borg mcp traffic                 # Watch live MCP traffic
- *   borg mcp install @anthropic/mcp  # Install from directory
- *   borg mcp sync                    # Sync configs to all AI tools
+ *   hypercode mcp list                    # List all MCP servers
+ *   hypercode mcp start filesystem        # Start a specific server
+ *   hypercode mcp traffic                 # Watch live MCP traffic
+ *   hypercode mcp install @anthropic/mcp  # Install from directory
+ *   hypercode mcp sync                    # Sync configs to all AI tools
  */
 
 import type { Command } from 'commander';
@@ -45,7 +45,7 @@ export function registerMcpCommand(program: Command): void {
       try {
         const fs = await import('fs');
         const path = await import('path');
-        const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+        const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
         const pidFiles = fs.readdirSync(pidDir).filter(f => f.endsWith('.pid'));
         for (const pf of pidFiles) {
           try {
@@ -71,7 +71,7 @@ export function registerMcpCommand(program: Command): void {
 
       if (servers.length === 0) {
         console.log(chalk.bold.cyan('\n  MCP Servers\n'));
-        console.log(chalk.dim('  No servers found.' + (servers.length === 0 ? ' Is the server running? Use `borg start`.' : '') + '\n'));
+        console.log(chalk.dim('  No servers found.' + (servers.length === 0 ? ' Is the server running? Use `hypercode start`.' : '') + '\n'));
         return;
       }
 
@@ -152,7 +152,7 @@ export function registerMcpCommand(program: Command): void {
               try {
                 const fs = await import('fs');
                 const path = await import('path');
-                const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+                const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
                 fs.mkdirSync(pidDir, { recursive: true });
                 fs.writeFileSync(path.join(pidDir, `${name}.pid`), String(proc.pid));
               } catch {}
@@ -167,7 +167,7 @@ export function registerMcpCommand(program: Command): void {
               }
             } else {
               console.log(chalk.red(`  ✗ Server '${name}' not found or has no command`));
-              console.log(chalk.dim(`    Use borg mcp list to see available servers`));
+              console.log(chalk.dim(`    Use hypercode mcp list to see available servers`));
             }
           }
         } catch (e: any) {
@@ -200,7 +200,7 @@ export function registerMcpCommand(program: Command): void {
         try {
           const fs = await import('fs');
           const path = await import('path');
-          const pidFile = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids', `${name}.pid`);
+          const pidFile = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids', `${name}.pid`);
           const pid = parseInt(fs.readFileSync(pidFile, 'utf8').trim());
           process.kill(pid, 'SIGTERM');
           stopped = true;
@@ -227,7 +227,7 @@ export function registerMcpCommand(program: Command): void {
       try {
         const fs = await import('fs');
         const path = await import('path');
-        const pidFile = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids', `${name}.pid`);
+        const pidFile = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids', `${name}.pid`);
         const pid = parseInt(fs.readFileSync(pidFile, 'utf8').trim());
         process.kill(pid, 'SIGTERM');
         try { fs.unlinkSync(pidFile); } catch {}
@@ -252,7 +252,7 @@ export function registerMcpCommand(program: Command): void {
             try {
               const fs = await import('fs');
               const path = await import('path');
-              const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+              const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
               fs.mkdirSync(pidDir, { recursive: true });
               fs.writeFileSync(path.join(pidDir, `${name}.pid`), String(proc.pid));
             } catch {}
@@ -273,12 +273,12 @@ export function registerMcpCommand(program: Command): void {
     .option('-n, --namespace <ns>', 'Server namespace', 'default')
     .option('--args <args...>', 'Command arguments')
     .option('--env <vars...>', 'Environment variables (KEY=VALUE)')
-    .option('--auto-start', 'Auto-start on Borg launch', true)
+    .option('--auto-start', 'Auto-start on Hypercode launch', true)
     .addHelpText('after', `
 Examples:
-  $ borg mcp add filesystem npx -- -y @modelcontextprotocol/server-filesystem /home
-  $ borg mcp add github npx -- -y @modelcontextprotocol/server-github --env GITHUB_TOKEN=xxx
-  $ borg mcp add remote-api http://localhost:8080/mcp -t streamable-http
+  $ hypercode mcp add filesystem npx -- -y @modelcontextprotocol/server-filesystem /home
+  $ hypercode mcp add github npx -- -y @modelcontextprotocol/server-github --env GITHUB_TOKEN=xxx
+  $ hypercode mcp add remote-api http://localhost:8080/mcp -t streamable-http
     `)
     .action(async (name, command, opts) => {
       const chalk = (await import('chalk')).default;
@@ -354,7 +354,7 @@ Examples:
           const server = servers.find((s: any) => s.name === name);
           if (!server) {
             console.log(chalk.red(`  ✗ Server '${name}' not found`));
-            console.log(chalk.dim(`    Use borg mcp list to see available servers`));
+            console.log(chalk.dim(`    Use hypercode mcp list to see available servers`));
             return;
           }
           console.log(chalk.dim('  Status:     ') + (server.runtimeConnected ? chalk.green('● Connected') : chalk.dim('○ Disconnected')));
@@ -363,7 +363,7 @@ Examples:
           try {
             const fs = await import('fs');
             const path = await import('path');
-            const pidFile = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids', `${name}.pid`);
+            const pidFile = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids', `${name}.pid`);
             const pid = parseInt(fs.readFileSync(pidFile, 'utf8').trim());
             process.kill(pid, 0);
             console.log(chalk.dim('  Fleet:      ') + chalk.green(`● Spawned (PID ${pid})`));
@@ -371,7 +371,7 @@ Examples:
             try {
               const fs = await import('fs');
               const path = await import('path');
-              const pidFile = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids', `${name}.pid`);
+              const pidFile = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids', `${name}.pid`);
               if (fs.existsSync(pidFile)) {
                 console.log(chalk.dim('  Fleet:      ') + chalk.red('✗ Process dead'));
               }
@@ -445,7 +445,7 @@ Examples:
           console.log(chalk.dim('  Traffic endpoint not available.'));
         }
       } catch {
-        console.log(chalk.dim('  Server not reachable. Use borg start to launch.'));
+        console.log(chalk.dim('  Server not reachable. Use hypercode start to launch.'));
       }
     });
 
@@ -530,7 +530,7 @@ Examples:
           if (opts.json) {
             console.log(JSON.stringify(settings, null, 2));
           } else {
-            console.log(chalk.bold.cyan('\n  Borg Configuration\n'));
+            console.log(chalk.bold.cyan('\n  Hypercode Configuration\n'));
             const mcp = settings.mcp ?? {};
             console.log(chalk.bold('  MCP Router:'));
             console.log(chalk.dim('    progressiveDisclosure: ') + (mcp.progressiveDisclosure ?? true));
@@ -582,9 +582,9 @@ Examples:
     .option('--github <repo>', 'Install from GitHub repo')
     .addHelpText('after', `
 Examples:
-  $ borg mcp install @modelcontextprotocol/server-filesystem
-  $ borg mcp install --pip mcp-server-sqlite
-  $ borg mcp install --github anthropics/mcp-servers
+  $ hypercode mcp install @modelcontextprotocol/server-filesystem
+  $ hypercode mcp install --pip mcp-server-sqlite
+  $ hypercode mcp install --github anthropics/mcp-servers
     `)
     .action(async (pkg, opts) => {
       const chalk = (await import('chalk')).default;
@@ -596,7 +596,7 @@ Examples:
       const args = opts.pip ? ['install', pkg] : opts.npm ? ['install', '-g', pkg] : ['-y', pkg];
 
       try {
-        // Add to Borg MCP config via tRPC
+        // Add to Hypercode MCP config via tRPC
         const res = await fetch('http://127.0.0.1:4100/trpc/mcp.addServer', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -610,14 +610,14 @@ Examples:
         });
         if (res.ok) {
           console.log(chalk.green(`  ✓ Installed '${pkg}' as '${serverName}'`));
-          console.log(chalk.dim(`    Use 'borg mcp start ${serverName}' to connect`));
+          console.log(chalk.dim(`    Use 'hypercode mcp start ${serverName}' to connect`));
         } else {
           const json = await res.json().catch(() => ({}));
           console.log(chalk.red(`  ✗ Failed: ${json.error?.message ?? res.statusText}`));
         }
       } catch (e: any) {
         console.log(chalk.red(`  ✗ Error: ${e.message}`));
-        console.log(chalk.dim('    Is the server running? Use borg start'));
+        console.log(chalk.dim('    Is the server running? Use hypercode start'));
       }
     });
 
@@ -685,7 +685,7 @@ Examples:
   mcp
     .command('export')
     .description('Export MCP configuration to JSON file')
-    .option('-o, --output <file>', 'Output file path', 'borg-mcp-export.json')
+    .option('-o, --output <file>', 'Output file path', 'hypercode-mcp-export.json')
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
       const { writeFileSync } = await import('fs');
@@ -822,7 +822,7 @@ Supported clients:
       const chalk = (await import('chalk')).default;
       console.log(chalk.bold.cyan('\n  MCP Config Sync (Go Native)\n'));
 
-      const SIDECAR_URL = process.env.BORG_SIDECAR_URL || 'http://127.0.0.1:4300';
+      const SIDECAR_URL = process.env.HYPERCODE_SIDECAR_URL || 'http://127.0.0.1:4300';
 
       if (opts.dryRun) {
         console.log(chalk.yellow('  [DRY RUN] No changes will be written\n'));
@@ -876,7 +876,7 @@ Supported clients:
         }
       } catch (e: any) {
         console.log(chalk.red(`  ✗ Error: ${e.message}`));
-        console.log(chalk.dim('    Ensure the Borg Go sidecar is running (typically via `borg start`).'));
+        console.log(chalk.dim('    Ensure the Hypercode Go sidecar is running (typically via `hypercode start`).'));
       }
       console.log('');
     });
@@ -938,7 +938,7 @@ Supported clients:
               try {
                 const fs = await import('fs');
                 const path = await import('path');
-                const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+                const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
                 fs.mkdirSync(pidDir, { recursive: true });
                 fs.writeFileSync(path.join(pidDir, `${name}.pid`), String(proc.pid));
               } catch {}
@@ -971,7 +971,7 @@ Supported clients:
       try {
         const fs = await import('fs');
         const path = await import('path');
-        const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+        const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
         const pidFiles = fs.readdirSync(pidDir).filter(f => f.endsWith('.pid'));
 
         let killed = 0, alreadyDead = 0;
@@ -1013,7 +1013,7 @@ Supported clients:
 
       let running = 0, stopped = 0;
       for (const s of startable) {
-        const pidFile = `${process.env.HOME}/.borg/mcp-pids/${s.name}.pid`;
+        const pidFile = `${process.env.HOME}/.hypercode/mcp-pids/${s.name}.pid`;
         let alive = false;
         try {
           const fs = await import('fs');
@@ -1029,6 +1029,6 @@ Supported clients:
       }
 
       console.log(chalk.dim(`\n  ${running} running, ${startable.length - running} stopped, ${noCommand} no-command, ${servers.length} total`));
-      console.log(chalk.dim('  Use borg mcp connect-all to spawn servers\n'));
+      console.log(chalk.dim('  Use hypercode mcp connect-all to spawn servers\n'));
     });
 }

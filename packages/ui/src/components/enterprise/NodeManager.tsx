@@ -75,7 +75,7 @@ export function NodeManager() {
             Distributed Council Nodes
           </CardTitle>
           <CardDescription className="text-slate-400">
-            Register and manage remote AIOS instances to form a distributed supervisor network.
+            Register and manage remote HYPERCODE instances to form a distributed supervisor network.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -161,7 +161,7 @@ export function NodeManager() {
             <div>
               <h3 className="text-slate-50 font-bold">Auto-Discovery</h3>
               <p className="text-sm text-slate-500 max-w-xs">
-                Automatically find and join existing AIOS supervisor mesh networks on your local subnet.
+                Automatically find and join existing HYPERCODE supervisor mesh networks on your local subnet.
               </p>
             </div>
             <Button variant="outline" className="border-slate-800 text-slate-400" disabled>

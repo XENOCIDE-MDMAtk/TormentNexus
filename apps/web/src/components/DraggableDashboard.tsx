@@ -41,7 +41,7 @@ import { ShellHistoryWidget } from "../components/ShellHistoryWidget";
 import SuggestionsPanel from "../components/SuggestionsPanel";
 import { HealerWidget } from "../components/HealerWidget";
 import IngestionStatus from "../components/IngestionStatus";
-import { ActivityPulse, SystemHealth, LatencyMonitor, SecurityWidget } from "@borg/ui";
+import { ActivityPulse, SystemHealth, LatencyMonitor, SecurityWidget } from "@hypercode/ui";
 import { trpc } from "@/utils/trpc"; // Need tRPC to fetch stats
 import { HelpWidget } from "../components/HelpWidget";
 import { MirrorView } from "../components/MirrorView";
@@ -129,7 +129,7 @@ export default function DraggableDashboard() {
 
     // Load from LocalStorage
     useEffect(() => {
-        const saved = localStorage.getItem('borg_dashboard_layout');
+        const saved = localStorage.getItem('hypercode_dashboard_layout');
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
@@ -165,7 +165,7 @@ export default function DraggableDashboard() {
                 const newIndex = items.indexOf(over.id as string);
 
                 const newOrder = arrayMove(items, oldIndex, newIndex);
-                localStorage.setItem('borg_dashboard_layout', JSON.stringify(newOrder));
+                localStorage.setItem('hypercode_dashboard_layout', JSON.stringify(newOrder));
                 return newOrder;
             });
         }

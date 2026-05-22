@@ -1,5 +1,5 @@
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@borg/ai';
-import { SearchService, type SearchResult } from '@borg/search';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
+import { SearchService, type SearchResult } from '@hypercode/search';
 
 export class PreemptiveToolAdvertiser {
     private llmService: LLMService;

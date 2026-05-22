@@ -5,7 +5,7 @@
 ### Added
 - **Deep Link Protocol Scheme (`hypercode://`) in Go**:
   - Built robust URI handling for `hypercode://attach?session=ID` and `hypercode://create?cliType=aider` commands.
-  - Implemented single-instance CLI dispatcher. Clicking deep links routes actions through the active `borgd` daemon via HTTP REST.
+  - Implemented single-instance CLI dispatcher. Clicking deep links routes actions through the active `hypercoded` daemon via HTTP REST.
 - **SQLite L2 Vector Vault Visualizer**:
   - Implemented persistent database queries (`GetAllVaultRecords`) in Go fetching chronic vault memories ordered by importance and heat.
   - Wired the new tRPC `vaultRecords` query to the Next.js control plane to hook persistent SQLite vector records into the UI.
@@ -16,7 +16,7 @@
   - Resolved merge conflict markers and aligned role guidelines across `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md` under `docs/UNIVERSAL_LLM_INSTRUCTIONS.md`.
 
 ### Changed
-- Standardized documentation identity to Nexus Kernel & HyperCode.
+- Standardized documentation identity to Hypercode Kernel & HyperCode.
 - Replaced git merge conflict markers across multiple internal Kotlin and Markdown files with unified content logic.
 
 ## [1.0.0-alpha.61] - 2026-05-17
@@ -28,7 +28,7 @@
   - L2 Vault persistence: All healing events and extracted facts are saved as long-term memory for fleet-wide intelligence sharing.
 
 ### Changed
-- Standardized documentation identity to Nexus Kernel & HyperCode.
+- Standardized documentation identity to Hypercode Kernel & HyperCode.
 - Updated `VERSION.md`, `ROADMAP.md`, and `TODO.md` to reflect Phase 5 active sprint goals.
 - Unified `docs/UNIVERSAL_LLM_INSTRUCTIONS.md` as the single source of truth for all AI agents.
 - Resolved merge conflict markers and aligned role guidelines across `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md`.
@@ -37,7 +37,7 @@
 
 ### Added
 - Fully integrated Go-native `MemoryManager` into the core TS control plane.
-- Wires up `sqlite-vec` storage backend, replacing the deprecated `@borg/claude-mem` implementation.
+- Wires up `sqlite-vec` storage backend, replacing the deprecated `@hypercode/hypercode` implementation.
 - Dual-tier cache invalidation for the L1/L2 memory boundaries.
 
 ### Changed

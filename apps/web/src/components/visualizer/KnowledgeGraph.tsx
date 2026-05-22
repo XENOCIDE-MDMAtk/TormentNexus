@@ -4,7 +4,7 @@
 import dynamic from 'next/dynamic';
 import React, { useRef } from 'react';
 import { trpc } from '@/utils/trpc'; // Assuming standard TRPC hook location or adjust
-import { Card, CardHeader, CardTitle, CardContent, useResizeObserver } from '@borg/ui';
+import { Card, CardHeader, CardTitle, CardContent, useResizeObserver } from '@hypercode/ui';
 
 // ForceGraph must be dynamically imported as it uses window
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });

@@ -125,7 +125,7 @@ async function runBrowserChecks() {
 }
 
 (async () => {
-  console.log('\n  Borg Dashboard Smoke Test\n');
+  console.log('\n  Hypercode Dashboard Smoke Test\n');
   console.log(`  Base URL: ${BASE_URL}\n`);
 
   await runHttpChecks();

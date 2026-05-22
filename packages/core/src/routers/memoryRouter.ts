@@ -20,7 +20,7 @@ import {
     searchObservationsInputSchema, 
     getRecentUserPromptsInputSchema, 
     searchUserPromptsInputSchema
-} from '@borg/types';
+} from '@hypercode/types';
 
 function requireAgentMemoryService(contextLabel: string) {
     const service = getAgentMemoryService();

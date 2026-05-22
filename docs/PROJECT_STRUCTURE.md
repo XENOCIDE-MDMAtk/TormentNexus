@@ -1,14 +1,14 @@
 # Project Structure and Module Diagram
 
-This document maps the current structure of the Borg/Borg repository, shows where the main modules live, and explains how the major pieces connect.
-This document maps the current structure of the borg/borg repository, shows where the main modules live, and explains how the major pieces connect.
+This document maps the current structure of the Hypercode/Hypercode repository, shows where the main modules live, and explains how the major pieces connect.
+This document maps the current structure of the hypercode/hypercode repository, shows where the main modules live, and explains how the major pieces connect.
 
 It is intentionally descriptive rather than aspirational: it focuses on what exists in the repo today.
 
 ## 1. High-level shape
 
-Borg is a **pnpm monorepo** with four major layers:
-borg is a **pnpm monorepo** with four major layers:
+Hypercode is a **pnpm monorepo** with four major layers:
+hypercode is a **pnpm monorepo** with four major layers:
 
 1. `apps/` — operator-facing applications and shells
 2. `packages/` — shared libraries and the main TypeScript control plane
@@ -27,8 +27,8 @@ At a product level, the repo currently centers on:
 ## 2. Top-level repository map
 
 ```text
-borg/
-borg/
+hypercode/
+hypercode/
 ├─ apps/                  Operator-facing applications and shells
 ├─ packages/              Shared libraries and the main TypeScript backend
 ├─ go/                    Experimental Go sidecar / cli-orchestrator port
@@ -56,8 +56,8 @@ The repository is not one flat package list. The root workspace includes:
 
 It explicitly excludes:
 
-- `apps/borg-extension`
-- `apps/borg-extension`
+- `apps/hypercode-extension`
+- `apps/hypercode-extension`
 - `apps/vscode`
 - everything under `archive/**`
 
@@ -77,8 +77,8 @@ flowchart TD
     TYPES["packages/types\nshared types"]
     MCP["packages/mcp-registry + packages/mcp-client\nMCP metadata and client surfaces"]
     GO["go/\nexperimental Go sidecar"]
-    SUB["submodules/borg\nexternal CLI harness upstream"]
-    SUB["submodules/borg\nexternal CLI harness upstream"]
+    SUB["submodules/hypercode\nexternal CLI harness upstream"]
+    SUB["submodules/hypercode\nexternal CLI harness upstream"]
     DATA["data/\nbookmarks, imports, local knowledge"]
 
     CLI --> CORE
@@ -103,8 +103,8 @@ The repo exposes three main orchestrator identities plus one experimental sideca
 
 | Lane | Primary location | Role |
 | --- | --- | --- |
-| CLI orchestrator | `packages/cli` | Main local terminal entrypoint (`borg`) |
-| CLI orchestrator | `packages/cli` | Main local terminal entrypoint (`borg`) |
+| CLI orchestrator | `packages/cli` | Main local terminal entrypoint (`hypercode`) |
+| CLI orchestrator | `packages/cli` | Main local terminal entrypoint (`hypercode`) |
 | Web/dashboard lane | `apps/web` | Operator dashboard and API proxy surface |
 | Desktop lane | `apps/maestro` | Electron-based desktop shell |
 | Experimental Go lane | `go/` | Go sidecar and bridge-first port work |
@@ -122,14 +122,14 @@ There is also a nested cloud stack under `apps/cloud-orchestrator/`, which is it
 | `apps/maestro-go` | Go-adjacent desktop/port lane | Supplementary experimental area |
 | `apps/mobile` | Mobile-facing surface | Companion app lane |
 | `apps/cloud-orchestrator` | Nested cloud orchestrator stack | Separate mini-workspace with its own apps/packages/server |
-| `apps/borg-extension` | Browser extension application | Exists in repo but excluded from root `pnpm-workspace.yaml` |
-| `apps/borg-extension` | Browser extension application | Exists in repo but excluded from root `pnpm-workspace.yaml` |
+| `apps/hypercode-extension` | Browser extension application | Exists in repo but excluded from root `pnpm-workspace.yaml` |
+| `apps/hypercode-extension` | Browser extension application | Exists in repo but excluded from root `pnpm-workspace.yaml` |
 | `apps/vscode` | VS Code extension app | Exists in repo but excluded from root `pnpm-workspace.yaml` |
 
 ### How `apps/` connect
 
-- `apps/web` depends directly on `@borg/core` and `@borg/ui`
-- `apps/web` depends directly on `@borg/core` and `@borg/ui`
+- `apps/web` depends directly on `@hypercode/core` and `@hypercode/ui`
+- `apps/web` depends directly on `@hypercode/core` and `@hypercode/ui`
 - `apps/web` is the main browser-facing dashboard for the TypeScript control plane
 - `apps/maestro` is the broader desktop/operator shell
 - `apps/maestro-go` is an experimental Go-adjacent lane, not the main desktop runtime
@@ -155,16 +155,16 @@ There is also a nested cloud stack under `apps/cloud-orchestrator/`, which is it
 | `packages/agents` | Agent-related logic and adapters |
 | `packages/adk` | Agent development kit layer |
 | `packages/search` | Search and indexing support |
-| `packages/borg-supervisor` | Native Windows supervisor bridge for process/input/UI automation |
+| `packages/hypercode-supervisor` | Native Windows supervisor bridge for process/input/UI automation |
 | `packages/supervisor-plugin` | Supervisor plugin integration |
 | `packages/browser` | Legacy browser support package |
 | `packages/browser-extension` | Shared browser-extension package |
-| `packages/claude-mem` | Claude/Borg memory-related package surface |
-| `packages/borg-supervisor` | Native Windows supervisor bridge for process/input/UI automation |
+| `packages/hypercode` | Claude/Hypercode memory-related package surface |
+| `packages/hypercode-supervisor` | Native Windows supervisor bridge for process/input/UI automation |
 | `packages/supervisor-plugin` | Supervisor plugin integration |
 | `packages/browser` | Legacy browser support package |
 | `packages/browser-extension` | Shared browser-extension package |
-| `packages/claude-mem` | Claude/borg memory-related package surface |
+| `packages/hypercode` | Claude/hypercode memory-related package surface |
 | `packages/jetbrains` | JetBrains integration package surface |
 | `packages/vscode` | VS Code shared extension package |
 | `packages/zed-extension` | Zed extension package surface |
@@ -219,34 +219,34 @@ If you want to understand “where the system comes together,” start in `packa
 
 It depends on:
 
-- `@borg/core` for control-plane access and route integration
-- `@borg/ui` for shared components
+- `@hypercode/core` for control-plane access and route integration
+- `@hypercode/ui` for shared components
 
-`packages/ui` is the shared component layer used to avoid duplicating operator UI across apps. In this repo, the documented convention is that `apps/web` should import shared UI from `@borg/ui`.
-
-## 9. `packages/cli`
-
-`packages/cli` is the main CLI lane and publishes the `borg` command.
-
-It depends on `@borg/core`, so the CLI is not a separate backend; it is another surface over the same TypeScript control-plane concepts.
-- `@borg/core` for control-plane access and route integration
-- `@borg/ui` for shared components
-
-`packages/ui` is the shared component layer used to avoid duplicating operator UI across apps. In this repo, the documented convention is that `apps/web` should import shared UI from `@borg/ui`.
+`packages/ui` is the shared component layer used to avoid duplicating operator UI across apps. In this repo, the documented convention is that `apps/web` should import shared UI from `@hypercode/ui`.
 
 ## 9. `packages/cli`
 
-`packages/cli` is the main CLI lane and publishes the `borg` command.
+`packages/cli` is the main CLI lane and publishes the `hypercode` command.
 
-It depends on `@borg/core`, so the CLI is not a separate backend; it is another surface over the same TypeScript control-plane concepts.
+It depends on `@hypercode/core`, so the CLI is not a separate backend; it is another surface over the same TypeScript control-plane concepts.
+- `@hypercode/core` for control-plane access and route integration
+- `@hypercode/ui` for shared components
+
+`packages/ui` is the shared component layer used to avoid duplicating operator UI across apps. In this repo, the documented convention is that `apps/web` should import shared UI from `@hypercode/ui`.
+
+## 9. `packages/cli`
+
+`packages/cli` is the main CLI lane and publishes the `hypercode` command.
+
+It depends on `@hypercode/core`, so the CLI is not a separate backend; it is another surface over the same TypeScript control-plane concepts.
 
 Conceptually:
 
 ```mermaid
 flowchart TD
     User["Operator"]
-    CLI["borg CLI\npackages/cli"]
-    CLI["borg CLI\npackages/cli"]
+    CLI["hypercode CLI\npackages/cli"]
+    CLI["hypercode CLI\npackages/cli"]
     CORE["TypeScript control plane\npackages/core"]
     Services["routers + services + orchestration"]
 
@@ -259,8 +259,8 @@ flowchart TD
 
 The `go/` workspace is a separate Go module:
 
-- module: `github.com/robertpelloni/borg-go`
-- module: `github.com/borghq/borg-go`
+- module: `github.com/robertpelloni/hypercode-go`
+- module: `github.com/hypercodehq/hypercode-go`
 - top-level layout:
   - `go/cmd/` — Go entrypoints
   - `go/internal/` — Go internal packages and HTTP API
@@ -307,8 +307,8 @@ Observed package surfaces include:
 
 This means the repo has:
 
-- the primary Borg/Borg workspace at the root
-- the primary borg/borg workspace at the root
+- the primary Hypercode/Hypercode workspace at the root
+- the primary hypercode/hypercode workspace at the root
 - a nested cloud-orchestrator workspace with its own app/server/shared package structure
 
 That nested stack should be understood as adjacent infrastructure, not the same thing as `apps/web`.
@@ -319,8 +319,8 @@ The current submodules directory includes at least two important external lanes:
 
 | Path | Purpose |
 | --- | --- |
-| `submodules/borg` | Experimental external CLI harness/upstream assimilation lane |
-| `submodules/borg` | Experimental external CLI harness/upstream assimilation lane |
+| `submodules/hypercode` | Experimental external CLI harness/upstream assimilation lane |
+| `submodules/hypercode` | Experimental external CLI harness/upstream assimilation lane |
 | `submodules/prism-mcp` | External Prism MCP reference lane |
 
 This submodule matters because the CLI/session/harness story is no longer only local handwritten code; it also depends on tracked external harness contracts and source-backed tool inventories.
@@ -336,23 +336,23 @@ It connects mainly to:
 - import and indexing logic in `packages/core`
 - memory/retrieval logic in `packages/memory`
 - bookmark and registry workflows
-- persistent local artifacts such as `data/bobbybookmarks`, `borg.db`, and `cipher-sessions.db`
-- persistent local artifacts such as `data/bobbybookmarks`, `borg.db`, and `cipher-sessions.db`
+- persistent local artifacts such as `data/bobbybookmarks`, `hypercode.db`, and `cipher-sessions.db`
+- persistent local artifacts such as `data/bobbybookmarks`, `hypercode.db`, and `cipher-sessions.db`
 
 ## 14. Connection map by responsibility
 
 | Area | Primary module(s) | Connected to |
 | --- | --- | --- |
 | Operator UI | `apps/web`, `apps/maestro`, `packages/ui` | `packages/core` |
-| CLI orchestration | `packages/cli` | `packages/core`, `submodules/borg` |
-| CLI orchestration | `packages/cli` | `packages/core`, `submodules/borg` |
+| CLI orchestration | `packages/cli` | `packages/core`, `submodules/hypercode` |
+| CLI orchestration | `packages/cli` | `packages/core`, `submodules/hypercode` |
 | Core control plane | `packages/core` | nearly everything |
 | Provider routing | `packages/ai`, `packages/core` | model/provider SDKs, memory, dashboard |
 | Memory and retrieval | `packages/memory`, `packages/core` | sessions, imports, dashboard, providers |
 | MCP registry and client flows | `packages/mcp-registry`, `packages/mcp-client`, `packages/core` | dashboard, CLI, imported catalogs |
 | Tool execution/helpers | `packages/tools`, `packages/core` | CLI, session runtime, MCP/tool UX |
-| Editor and extension bridges | `packages/vscode`, `packages/browser-extension`, `packages/jetbrains`, `packages/zed-extension`, `apps/vscode`, `apps/borg-extension` | `packages/core` |
-| Editor and extension bridges | `packages/vscode`, `packages/browser-extension`, `packages/jetbrains`, `packages/zed-extension`, `apps/vscode`, `apps/borg-extension` | `packages/core` |
+| Editor and extension bridges | `packages/vscode`, `packages/browser-extension`, `packages/jetbrains`, `packages/zed-extension`, `apps/vscode`, `apps/hypercode-extension` | `packages/core` |
+| Editor and extension bridges | `packages/vscode`, `packages/browser-extension`, `packages/jetbrains`, `packages/zed-extension`, `apps/vscode`, `apps/hypercode-extension` | `packages/core` |
 | Go coexistence lane | `go/internal/httpapi`, `go/internal/*` | `packages/core`, workspace state, lock/config files |
 | Local knowledge assets | `data/bobbybookmarks` and other `data/` files | `packages/core`, `packages/memory` |
 
@@ -403,8 +403,8 @@ flowchart TD
     APPS["apps/\nweb, maestro, maestro-go, mobile,\ncloud-orchestrator, browser/editor apps"]
     PKGS["packages/\ncore, cli, ui, ai, memory,\nmcp, tools, agents, extensions"]
     GO["go/\nexperimental sidecar"]
-    SUBS["submodules/\nborg, prism-mcp"]
-    SUBS["submodules/\nborg, prism-mcp"]
+    SUBS["submodules/\nhypercode, prism-mcp"]
+    SUBS["submodules/\nhypercode, prism-mcp"]
     DATA["data/\nbobbybookmarks, local DBs"]
     DOCS["docs/\nREADME, roadmap, contributor guidance"]
 

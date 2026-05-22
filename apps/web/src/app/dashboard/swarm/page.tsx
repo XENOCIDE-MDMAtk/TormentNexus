@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import { PageStatusBanner } from '@/components/PageStatusBanner';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Input } from '@borg/ui';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Input } from '@hypercode/ui';
 import { SwarmTranscript } from '@/components/swarm/SwarmTranscript';
 import { trpc } from '@/utils/trpc';
 import {

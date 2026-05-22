@@ -1,7 +1,7 @@
 "use client";
 
 import type { ComponentType } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
 import { trpc } from '@/utils/trpc';
 import { Loader2, Activity, Clock, AlertTriangle, CheckCircle2 } from "lucide-react";
 

@@ -64,8 +64,8 @@ type RegistryConfig struct {
 func DefaultRegistryConfig() RegistryConfig {
 	homeDir, _ := os.UserHomeDir()
 	return RegistryConfig{
-		RegistryURL: "https://registry.borg.dev/api/v1/skills",
-		LocalDir:    filepath.Join(homeDir, ".borg", "marketplace"),
+		RegistryURL: "https://registry.hypercode.dev/api/v1/skills",
+		LocalDir:    filepath.Join(homeDir, ".hypercode", "marketplace"),
 		CacheTTL:    5 * time.Minute,
 	}
 }

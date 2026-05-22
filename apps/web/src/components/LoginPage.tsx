@@ -18,7 +18,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
         // Simple mock auth for visual effect
         setTimeout(() => {
-            if (code === 'admin' || code === 'borg' || code === '') { // Allow empty for ease of dev
+            if (code === 'admin' || code === 'hypercode' || code === '') { // Allow empty for ease of dev
                 onLogin();
             } else {
                 setError(true);
@@ -61,7 +61,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     </div>
 
                     <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400 mb-2">
-                        Borg OS
+                        Hypercode OS
                     </h1>
                     <p className="text-zinc-500 text-sm mb-8 tracking-wide">SYSTEM ACCESS REQUIRED</p>
 

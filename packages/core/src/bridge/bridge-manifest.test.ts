@@ -11,7 +11,7 @@ describe('bridge manifest helpers', () => {
         const initial = createDefaultBridgeClient('client-1', 1000);
         const registered = applyBridgeClientHello(initial, {
             clientType: 'vscode-extension',
-            clientName: 'Borg VS Code Bridge',
+            clientName: 'Hypercode VS Code Bridge',
             version: '0.99.1',
             platform: 'VS Code 1.99',
             capabilities: ['chat.inject', 'editor.selection.read', 'chat.inject'],
@@ -21,7 +21,7 @@ describe('bridge manifest helpers', () => {
         expect(registered).toMatchObject({
             clientId: 'client-1',
             clientType: 'vscode-extension',
-            clientName: 'Borg VS Code Bridge',
+            clientName: 'Hypercode VS Code Bridge',
             version: '0.99.1',
             platform: 'VS Code 1.99',
             capabilities: ['chat.inject', 'editor.selection.read'],
@@ -34,11 +34,11 @@ describe('bridge manifest helpers', () => {
     it('builds a stable manifest with sorted connected clients', () => {
         const alpha = applyBridgeClientHello(createDefaultBridgeClient('a', 1000), {
             clientType: 'browser-extension',
-            clientName: 'Borg Browser Bridge',
+            clientName: 'Hypercode Browser Bridge',
         }, 1500);
         const beta = applyBridgeClientHello(createDefaultBridgeClient('b', 1000), {
             clientType: 'vscode-extension',
-            clientName: 'Borg VS Code Bridge',
+            clientName: 'Hypercode VS Code Bridge',
         }, 1500);
 
         const manifest = buildBridgeManifest([beta, alpha]);
@@ -47,8 +47,8 @@ describe('bridge manifest helpers', () => {
         expect(manifest.supportedCapabilities).toContain('bridge.websocket');
         expect(manifest.supportedHookPhases).toContain('chat.submit');
         expect(manifest.connectedClients.map((client) => client.clientName)).toEqual([
-            'Borg Browser Bridge',
-            'Borg VS Code Bridge',
+            'Hypercode Browser Bridge',
+            'Hypercode VS Code Bridge',
         ]);
     });
 });

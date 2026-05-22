@@ -1,5 +1,5 @@
 
-import { SquadsPanel } from '@borg/ui';
+import { SquadsPanel } from '@hypercode/ui';
 
 export default function Page() {
     return <SquadsPanel />;

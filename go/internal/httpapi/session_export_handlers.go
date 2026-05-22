@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/borghq/borg-go/internal/sessionimport"
+	"github.com/hypercodehq/hypercode-go/internal/sessionimport"
 )
 
 func (s *Server) handleNativeSessionExport(w http.ResponseWriter, r *http.Request) {

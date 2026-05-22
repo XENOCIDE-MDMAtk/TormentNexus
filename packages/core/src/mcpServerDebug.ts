@@ -1,5 +1,5 @@
-const MCP_SERVER_DEBUG_ENV = 'BORG_MCP_SERVER_DEBUG';
-const MCP_SERVER_DEBUG_NAMESPACE = 'borg:mcp-server';
+const MCP_SERVER_DEBUG_ENV = 'HYPERCODE_MCP_SERVER_DEBUG';
+const MCP_SERVER_DEBUG_NAMESPACE = 'hypercode:mcp-server';
 
 export function isMcpServerDebugEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
     const rawFlag = env[MCP_SERVER_DEBUG_ENV]?.trim().toLowerCase();

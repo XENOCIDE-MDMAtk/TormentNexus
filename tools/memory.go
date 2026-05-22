@@ -13,7 +13,7 @@ type NativeMemoryTools struct {
 
 func NewNativeMemoryTools() *NativeMemoryTools {
 	return &NativeMemoryTools{
-		dbPath: "./.borg_knowledge.db",
+		dbPath: "./.hypercode_knowledge.db",
 	}
 }
 

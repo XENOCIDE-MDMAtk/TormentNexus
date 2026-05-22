@@ -81,7 +81,7 @@ export class OAuthRepository {
         input: OAuthAuthorizationCodeCreateInput,
     ): Promise<OAuthAuthorizationCode> {
         // Generate code logic is handled by service; repo expects code string?
-        // Wait, the input schema doesn't have 'code'. The schema in `metamcp-schema` has `code` as PK.
+        // Wait, the input schema doesn't have 'code'. The schema in `hypercode-schema` has `code` as PK.
         // The `OAuthAuthorizationCodeCreateInput` from Zod types MIGHT be missing 'code' if it expects DB generation?
         // Checking `oauth.zod.ts`: `OAuthAuthorizationCodeCreateInputSchema` has: client_id, redirect_uri, scope, user_id, etc. NO code.
         // So we need to generate it here or pass it.

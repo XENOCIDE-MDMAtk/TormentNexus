@@ -28,7 +28,7 @@ type scoredLocalAgentMemory struct {
 }
 
 func (s *Server) localAgentMemoryFilePath() string {
-	return filepath.Join(s.cfg.WorkspaceRoot, ".borg", "agent_memory", "memories.json")
+	return filepath.Join(s.cfg.WorkspaceRoot, ".hypercode", "agent_memory", "memories.json")
 }
 
 func (s *Server) localWriteAgentMemories(records []localAgentMemoryRecord) error {

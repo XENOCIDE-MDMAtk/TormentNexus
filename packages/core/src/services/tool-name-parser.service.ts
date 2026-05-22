@@ -4,7 +4,7 @@ export interface ParsedToolName {
 }
 
 /**
- * Parse a MetaMCP tool name into server prefix and tool name components
+ * Parse a Hypercode tool name into server prefix and tool name components
  *
  * @param toolName - Full tool name (e.g., "Server__tool" or "Parent__Child__tool")
  * @returns Parsed components or null if invalid format

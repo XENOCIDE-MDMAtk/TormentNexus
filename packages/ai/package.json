@@ -1,5 +1,5 @@
 {
-  "name": "@borg/ai",
+  "name": "@hypercode/ai",
   "version": "1.0.0-alpha.62",
   "private": true,
   "main": "dist/index.js",

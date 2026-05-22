@@ -14,7 +14,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from 'events';
-import { DEFAULT_OPENROUTER_FREE_MODEL } from '@borg/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL } from '@hypercode/ai';
 import { MeshService, SwarmMessageType, SwarmMessage } from '../../mesh/MeshService.js';
 import { MissionService, SwarmMission } from '../../services/MissionService.js';
 import { RateLimiter } from './RateLimiter.js';
@@ -240,7 +240,7 @@ export class SwarmOrchestrator extends EventEmitter {
 
         try {
             if (!this.opencodeUrl) {
-                throw new Error('No Borg Orchestrator base configured.');
+                throw new Error('No Hypercode Orchestrator base configured.');
             }
             // Use the Autopilot Council to decompose the goal via multi-model debate.
             const res = await fetch(`${this.opencodeUrl}/api/council/debate`, {

@@ -1,6 +1,6 @@
-// @borg/agents — comprehensive stub package
+// @hypercode/agents — comprehensive stub package
 // Provides runtime-safe class stubs with full method surface area
-// that @borg/core actually calls. Real implementations live in @borg/core runtime.
+// that @hypercode/core actually calls. Real implementations live in @hypercode/core runtime.
 
 export * from './orchestration/RiskEvaluator.js';
 export * from './orchestration/DebateEngine.js';

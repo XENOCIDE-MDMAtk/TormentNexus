@@ -1,6 +1,6 @@
 
-import { LLMService } from "@borg/ai";
-import { ModelSelector } from "@borg/ai";
+import { LLMService } from "@hypercode/ai";
+import { ModelSelector } from "@hypercode/ai";
 
 /**
  * Manual test script to verify LLM Swapping.

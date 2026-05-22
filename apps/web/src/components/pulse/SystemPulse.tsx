@@ -3,7 +3,7 @@
 
 
 import { trpc } from '@/utils/trpc';
-import { Card, CardHeader, CardTitle, CardContent, Badge } from '@borg/ui';
+import { Card, CardHeader, CardTitle, CardContent, Badge } from '@hypercode/ui';
 
 export function SystemPulse() {
     // Polling System Pulse

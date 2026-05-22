@@ -90,7 +90,7 @@ export class ShellService {
             ? path.join(os.homedir(), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'PowerShell', 'PSReadLine', 'ConsoleHost_history.txt')
             : path.join(os.homedir(), '.bash_history'); // Simple fallback
 
-        this.enrichedHistoryPath = path.join(process.cwd(), '.borg', 'shell_history.json');
+        this.enrichedHistoryPath = path.join(process.cwd(), '.hypercode', 'shell_history.json');
         this.loadEnrichedHistory();
     }
 

@@ -22,7 +22,7 @@ describe('researchRouter ingestion queue truthfulness', () => {
                 return '{invalid json';
             }
 
-            if (target.endsWith('BORG_MASTER_INDEX.jsonc')) {
+            if (target.endsWith('HYPERCODE_MASTER_INDEX.jsonc')) {
                 return '{"categories":{}}';
             }
 

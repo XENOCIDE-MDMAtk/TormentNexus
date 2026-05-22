@@ -102,19 +102,19 @@ describe('selectSessionExecutionPolicy', () => {
         expect(policy.reason).toContain('falling back to PowerShell 7');
     });
 
-    it('exports reserved Borg execution environment variables', () => {
+    it('exports reserved Hypercode execution environment variables', () => {
         const policy = selectSessionExecutionPolicy(createEnvironment(), 'compatibility');
         const env = buildExecutionPolicyEnv(policy);
 
         expect(env).toEqual(expect.objectContaining({
-            BORG_EXECUTION_PROFILE_REQUESTED: 'compatibility',
-            BORG_EXECUTION_SHELL_ID: 'cmd',
-            BORG_EXECUTION_SHELL_FAMILY: 'cmd',
+            HYPERCODE_EXECUTION_PROFILE_REQUESTED: 'compatibility',
+            HYPERCODE_EXECUTION_SHELL_ID: 'cmd',
+            HYPERCODE_EXECUTION_SHELL_FAMILY: 'cmd',
             SHELL: 'C:\\Windows\\System32\\cmd.exe',
             COMSPEC: 'C:\\Windows\\System32\\cmd.exe',
             npm_config_script_shell: 'C:\\Windows\\System32\\cmd.exe',
-            BORG_SUPPORTS_POWERSHELL: '1',
-            BORG_SUPPORTS_POSIX_SHELL: '1',
+            HYPERCODE_SUPPORTS_POWERSHELL: '1',
+            HYPERCODE_SUPPORTS_POSIX_SHELL: '1',
         }));
     });
 
@@ -123,7 +123,7 @@ describe('selectSessionExecutionPolicy', () => {
         const env = buildExecutionPolicyEnv(policy);
 
         expect(env).toEqual(expect.objectContaining({
-            BORG_EXECUTION_SHELL_ID: 'pwsh',
+            HYPERCODE_EXECUTION_SHELL_ID: 'pwsh',
             SHELL: 'C:\\Program Files\\PowerShell\\7\\pwsh.exe',
             npm_config_script_shell: 'C:\\Program Files\\PowerShell\\7\\pwsh.exe',
         }));

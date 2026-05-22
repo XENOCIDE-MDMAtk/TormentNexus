@@ -2,7 +2,7 @@ package tools
 
 import (
 	"fmt"
-	"github.com/robertpelloni/borg/mcp"
+	"github.com/robertpelloni/hypercode/mcp"
 )
 
 func (r *Registry) registerAdvancedTools() {

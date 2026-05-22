@@ -1,6 +1,6 @@
 /**
  * @file council-schema.ts
- * @description SQLite schema definition for Borg Council (Auto-Orchestrator) integration.
+ * @description SQLite schema definition for Hypercode Council (Auto-Orchestrator) integration.
  * @module packages/core/src/db/council-schema
  */
 

@@ -1,1 +1,1 @@
-// @borg/tsconfig stub
+// @hypercode/tsconfig stub

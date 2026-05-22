@@ -10,7 +10,7 @@ import matter from 'gray-matter';
  * Skills are markdown files with YAML frontmatter (name, description) stored
  * as `SKILL.md` in directories under the configured search paths.
  *
- * Example: `.borg/skills/deploy-to-prod/SKILL.md`
+ * Example: `.hypercode/skills/deploy-to-prod/SKILL.md`
  */
 export interface Skill {
     /** Unique identifier — derived from frontmatter `name` or parent directory name */
@@ -32,7 +32,7 @@ function getErrorMessage(error: unknown): string {
 /**
  * SkillRegistry
  *
- * Discovers, loads, and manages Borg's skill library.
+ * Discovers, loads, and manages Hypercode's skill library.
  * Skills are portable runbooks (SKILL.md files with YAML frontmatter) that
  * agents can read and follow to perform specialized tasks.
  *
@@ -110,7 +110,7 @@ export class SkillRegistry {
                 // Ignore missing directories
             }
         }
-        console.log(`Borg Core: Loaded ${this.skills.size} skills.`);
+        console.log(`Hypercode Core: Loaded ${this.skills.size} skills.`);
     }
 
     private async parseSkill(filePath: string) {
@@ -243,7 +243,7 @@ export class SkillRegistry {
     }
 
     async createSkill(id: string, name: string, description: string) {
-        // Default to the first search path (usually .borg/skills in cwd)
+        // Default to the first search path (usually .hypercode/skills in cwd)
         const targetDir = this.searchPaths[0];
         const skillDir = path.join(targetDir, id);
         const skillFile = path.join(skillDir, 'SKILL.md');

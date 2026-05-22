@@ -30,13 +30,13 @@ func (a *MemoryArchiver) TakeSnapshot(ctx context.Context, sessionID string, his
 	}
 
 	raw, _ := json.Marshal(data)
-	path := filepath.Join(a.workspaceRoot, ".borg", "snapshots", sessionID+".json")
+	path := filepath.Join(a.workspaceRoot, ".hypercode", "snapshots", sessionID+".json")
 	_ = os.MkdirAll(filepath.Dir(path), 0755)
 	return os.WriteFile(path, raw, 0644)
 }
 
 func (a *MemoryArchiver) RestoreSnapshot(sessionID string) ([]string, error) {
-	path := filepath.Join(a.workspaceRoot, ".borg", "snapshots", sessionID+".json")
+	path := filepath.Join(a.workspaceRoot, ".hypercode", "snapshots", sessionID+".json")
 	raw, err := os.ReadFile(path)
 	if err != nil { return nil, err }
 

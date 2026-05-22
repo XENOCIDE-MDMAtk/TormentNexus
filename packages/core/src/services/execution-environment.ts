@@ -91,8 +91,8 @@ const SHELL_CATALOG: ShellCatalogEntry[] = [
         command: 'pwsh',
         family: 'powershell',
         versionArgs: ['-NoLogo', '-NoProfile', '-Command', '$PSVersionTable.PSVersion.ToString()'],
-        smokeTestArgs: ['-NoLogo', '-NoProfile', '-Command', 'Write-Output borg-ready'],
-        notes: ['Preferred Borg shell on Windows for general command execution and structured scripting.'],
+        smokeTestArgs: ['-NoLogo', '-NoProfile', '-Command', 'Write-Output hypercode-ready'],
+        notes: ['Preferred Hypercode shell on Windows for general command execution and structured scripting.'],
     },
     {
         id: 'powershell',
@@ -100,7 +100,7 @@ const SHELL_CATALOG: ShellCatalogEntry[] = [
         command: 'powershell',
         family: 'powershell',
         versionArgs: ['-NoLogo', '-NoProfile', '-Command', '$PSVersionTable.PSVersion.ToString()'],
-        smokeTestArgs: ['-NoLogo', '-NoProfile', '-Command', 'Write-Output borg-ready'],
+        smokeTestArgs: ['-NoLogo', '-NoProfile', '-Command', 'Write-Output hypercode-ready'],
         notes: ['Useful legacy fallback when PowerShell 7 is unavailable.'],
     },
     {
@@ -109,7 +109,7 @@ const SHELL_CATALOG: ShellCatalogEntry[] = [
         command: 'cmd',
         family: 'cmd',
         versionArgs: ['/d', '/c', 'ver'],
-        smokeTestArgs: ['/d', '/c', 'echo borg-ready'],
+        smokeTestArgs: ['/d', '/c', 'echo hypercode-ready'],
         notes: ['Lowest-common-denominator Windows shell for compatibility-only flows.'],
     },
     {
@@ -118,7 +118,7 @@ const SHELL_CATALOG: ShellCatalogEntry[] = [
         command: 'bash',
         family: 'posix',
         versionArgs: ['-lc', 'printf "%s" "$(uname -s) $(uname -r)"'],
-        smokeTestArgs: ['-lc', 'printf borg-ready'],
+        smokeTestArgs: ['-lc', 'printf hypercode-ready'],
         executableHints: [
             'C:\\cygwin64\\bin\\bash.exe',
             'C:\\cygwin\\bin\\bash.exe',
@@ -132,7 +132,7 @@ const SHELL_CATALOG: ShellCatalogEntry[] = [
         command: 'bash',
         family: 'posix',
         versionArgs: ['-lc', 'printf "%s" "$(uname -s) $(uname -r)"'],
-        smokeTestArgs: ['-lc', 'printf borg-ready'],
+        smokeTestArgs: ['-lc', 'printf hypercode-ready'],
         executableHints: [
             'C:\\Program Files\\Git\\bin\\bash.exe',
             'C:\\Program Files\\Git\\usr\\bin\\bash.exe',
@@ -147,7 +147,7 @@ const SHELL_CATALOG: ShellCatalogEntry[] = [
         command: 'wsl',
         family: 'wsl',
         versionArgs: ['--version'],
-        smokeTestArgs: ['-e', 'sh', '-lc', 'printf borg-ready'],
+        smokeTestArgs: ['-e', 'sh', '-lc', 'printf hypercode-ready'],
         notes: ['Best fit for Linux-native commands when WSL is installed and configured.'],
     },
 ];
@@ -191,7 +191,7 @@ const TOOL_CATALOG: BinaryCatalogEntry[] = [
         command: 'node',
         versionArgs: ['--version'],
         capabilities: ['javascript runtime', 'tool execution'],
-        notes: ['Required for large parts of the Borg stack and many MCP servers.'],
+        notes: ['Required for large parts of the Hypercode stack and many MCP servers.'],
     },
     {
         id: 'pnpm',
@@ -199,7 +199,7 @@ const TOOL_CATALOG: BinaryCatalogEntry[] = [
         command: 'pnpm',
         versionArgs: ['--version'],
         capabilities: ['workspace package management', 'build orchestration'],
-        notes: ['Primary package manager for this Borg workspace.'],
+        notes: ['Primary package manager for this Hypercode workspace.'],
     },
     {
         id: 'docker',
@@ -302,7 +302,7 @@ async function detectShell(entry: ShellCatalogEntry, deps: ExecutionEnvironmentD
 
     const version = formatVersion(await deps.runCommand(resolvedPath, entry.versionArgs));
     const smokeOutput = await deps.runCommand(resolvedPath, entry.smokeTestArgs);
-    const verified = Boolean(smokeOutput?.toLowerCase().includes('borg-ready'));
+    const verified = Boolean(smokeOutput?.toLowerCase().includes('hypercode-ready'));
 
     return {
         id: entry.id,
@@ -315,7 +315,7 @@ async function detectShell(entry: ShellCatalogEntry, deps: ExecutionEnvironmentD
         preferred: false,
         notes: verified
             ? [...(entry.notes ?? [])]
-            : [...(entry.notes ?? []), 'Shell was found, but Borg could not verify a simple smoke test.'],
+            : [...(entry.notes ?? []), 'Shell was found, but Hypercode could not verify a simple smoke test.'],
     };
 }
 
@@ -387,7 +387,7 @@ function buildSummary(
     const notes: string[] = [];
 
     if (preferredShell) {
-        notes.push(`Prefer ${preferredShell.name} for default Borg shell execution on this host.`);
+        notes.push(`Prefer ${preferredShell.name} for default Hypercode shell execution on this host.`);
     }
 
     if (supportsPosixShell) {
@@ -398,7 +398,7 @@ function buildSummary(
     }
 
     if (!supportsPosixShell && platform === 'win32') {
-        notes.push('No verified POSIX shell detected yet; Borg should prefer PowerShell-compatible command plans.');
+        notes.push('No verified POSIX shell detected yet; Hypercode should prefer PowerShell-compatible command plans.');
     }
 
     return {

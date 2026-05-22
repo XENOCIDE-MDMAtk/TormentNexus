@@ -16,14 +16,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Borg",
-    template: "%s | Borg",
+    default: "Hypercode",
+    template: "%s | Hypercode",
   },
   description: "Local AI operations control plane for MCP routing, provider fallback, session supervision, and a unified dashboard.",
 };
 
 import { TRPCProvider } from "../utils/TRPCProvider";
-import { Toaster } from "@borg/ui";
+import { Toaster } from "@hypercode/ui";
 import { Navigation } from "../components/Navigation";
 
 function getVersionLabel(): string {

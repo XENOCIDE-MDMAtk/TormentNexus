@@ -3,14 +3,14 @@ import { MockSupervisor } from './mock.js';
 import { OpenAISupervisor } from './openai.js';
 import { AnthropicSupervisor } from './anthropic.js';
 import { GenericOpenAISupervisor } from './generic-openai.js';
-import { BorgSupervisor } from './borg.js';
+import { HypercodeSupervisor } from './hypercode.js';
 
 export function createSupervisor(config: SupervisorConfig): Supervisor {
   const { provider } = config;
 
-  // Prefer Borg-native supervisor if possible (it uses the shared LlmService)
+  // Prefer Hypercode-native supervisor if possible (it uses the shared LlmService)
   if (['openai', 'anthropic', 'google', 'gemini', 'grok', 'xai', 'deepseek', 'qwen', 'moonshot', 'kimi'].includes(provider)) {
-    return new BorgSupervisor(config);
+    return new HypercodeSupervisor(config);
   }
 
   switch (provider) {

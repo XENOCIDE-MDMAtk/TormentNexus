@@ -1,4 +1,4 @@
-import { resolveOrchestratorBase } from '../../lib/borg-orchestrator.js';
+import { resolveOrchestratorBase } from '../../lib/hypercode-orchestrator.js';
 
 export function resolveSwarmOrchestratorBase(explicitBase?: string): string | null {
     const explicit = explicitBase?.trim();

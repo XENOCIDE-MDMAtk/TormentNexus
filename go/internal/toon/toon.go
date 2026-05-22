@@ -2,7 +2,7 @@
 // a compact binary serialization for conversation context snapshots.
 //
 // TOON is designed for efficient context compression and cross-session
-// portability in the Borg ecosystem. It encodes structured thread data
+// portability in the Hypercode ecosystem. It encodes structured thread data
 // (messages, tool calls, memory references, and metadata) into a compact
 // binary representation that can be persisted, transmitted, and decoded
 // with minimal overhead.

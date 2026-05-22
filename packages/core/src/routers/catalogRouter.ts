@@ -15,7 +15,7 @@
  * - publicProcedure: list, search, get — safe for any authenticated session
  * - adminProcedure: ingest trigger, validate trigger — restricted to admins
  * - Graceful degradation: if ingestion/validation fails, error is returned
- *   without crashing the server (consistent with Borg's resilience patterns)
+ *   without crashing the server (consistent with Hypercode's resilience patterns)
  */
 
 import { z } from "zod";

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { McpmRegistry, RegistryItem } from '../skills/McpmRegistry.js';
 import { McpmInstaller } from '../skills/McpmInstaller.js';
 import { MeshService, SwarmMessageType } from '../mesh/MeshService.js';
-import { Registry } from '@borg/mcp-registry';
+import { Registry } from '@hypercode/mcp-registry';
 import path from 'path';
 
 export const MarketplaceEntrySchema = z.object({
@@ -51,7 +51,7 @@ export class MarketplaceService {
             id: item.name,
             name: item.name,
             description: "Official Skill",
-            author: "Borg Ecosystem",
+            author: "Hypercode Ecosystem",
             type: 'skill', // Legacy are mostly skills
             source: 'official',
             url: item.url,
@@ -143,7 +143,7 @@ export class MarketplaceService {
         try {
             const os = await import('os');
             // Check the unified config path
-            const mcpJsonPath = path.join(os.homedir(), '.borg', 'mcp.json');
+            const mcpJsonPath = path.join(os.homedir(), '.hypercode', 'mcp.json');
             const mcpJsonRaw = await fs.readFile(mcpJsonPath, 'utf-8');
             const mcpConfig = JSON.parse(mcpJsonRaw);
 

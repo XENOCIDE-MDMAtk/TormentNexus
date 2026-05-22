@@ -6,7 +6,7 @@ import path from 'path';
 
 export const projectRouter = t.router({
     getContext: publicProcedure.query(async () => {
-        const contextPath = path.join(process.cwd(), '.borg', 'project_context.md');
+        const contextPath = path.join(process.cwd(), '.hypercode', 'project_context.md');
         try {
             if (!(await fs.access(contextPath).then(() => true).catch(() => false))) {
                 return "# Project Context\n\nDefine your repository rules and architectural vision here.";
@@ -28,11 +28,11 @@ export const projectRouter = t.router({
     updateContext: publicProcedure
         .input(z.object({ content: z.string() }))
         .mutation(async ({ input }) => {
-            const contextPath = path.join(process.cwd(), '.borg', 'project_context.md');
-            const borgDir = path.dirname(contextPath);
+            const contextPath = path.join(process.cwd(), '.hypercode', 'project_context.md');
+            const hypercodeDir = path.dirname(contextPath);
             
             try {
-                await fs.mkdir(borgDir, { recursive: true });
+                await fs.mkdir(hypercodeDir, { recursive: true });
                 await fs.writeFile(contextPath, input.content, 'utf-8');
                 return { success: true };
             } catch (e: any) {
@@ -41,7 +41,7 @@ export const projectRouter = t.router({
         }),
         
     getHandoffs: publicProcedure.query(async () => {
-        const handoffDir = path.join(process.cwd(), '.borg', 'handoffs');
+        const handoffDir = path.join(process.cwd(), '.hypercode', 'handoffs');
         try {
             if (!(await fs.access(handoffDir).then(() => true).catch(() => false))) {
                 return [];

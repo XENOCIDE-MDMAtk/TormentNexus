@@ -78,7 +78,7 @@ function runGoPrimaryBuild() {
     fail('CLI startup build failed', cliBuild);
   }
 
-  const goBuild = run(goCommand, ['build', '-buildvcs=false', './cmd/borg'], {
+  const goBuild = run(goCommand, ['build', '-buildvcs=false', './cmd/hypercode'], {
     cwd: path.join(repoRoot, 'go'),
   });
   if ((goBuild.status ?? 1) !== 0) {

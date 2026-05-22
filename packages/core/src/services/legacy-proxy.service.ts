@@ -1,1 +1,1 @@
-export * from "./metamcp-proxy.service.js";
+export * from "./hypercode-proxy.service.js";

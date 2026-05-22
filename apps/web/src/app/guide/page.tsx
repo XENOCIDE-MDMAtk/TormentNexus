@@ -7,7 +7,7 @@ export default function GuidePage() {
         <div className="min-h-screen bg-zinc-50 dark:bg-black">
             <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-6 py-4">
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
-                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">📚 Borg User Guide</h1>
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">📚 Hypercode User Guide</h1>
                     <Link href="/" className="text-sm text-blue-500 hover:text-blue-400">← Dashboard</Link>
                 </div>
             </header>
@@ -22,7 +22,7 @@ export default function GuidePage() {
                             <h3 className="font-bold text-sm mb-2">Access Keys</h3>
                             <ul className="text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
                                 <li><code className="bg-zinc-200 dark:bg-zinc-700 px-1 rounded">admin</code> - Full access</li>
-                                <li><code className="bg-zinc-200 dark:bg-zinc-700 px-1 rounded">borg</code> - Full access</li>
+                                <li><code className="bg-zinc-200 dark:bg-zinc-700 px-1 rounded">hypercode</code> - Full access</li>
                                 <li><span className="text-zinc-500">Press Enter</span> - Dev access</li>
                             </ul>
                         </div>
@@ -143,7 +143,7 @@ export default function GuidePage() {
 
                 {/* Footer */}
                 <footer className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-sm text-zinc-500">
-                    <p>Borg Mission Control • Complete Documentation</p>
+                    <p>Hypercode Mission Control • Complete Documentation</p>
                     <div className="mt-4 flex justify-center gap-4">
                         <Link href="/" className="text-blue-500 hover:text-blue-400">Dashboard</Link>
                         <Link href="/docs" className="text-blue-500 hover:text-blue-400">Feature Docs</Link>

@@ -234,7 +234,7 @@ describe('CLIRegistry', () => {
   describe('definition parity', () => {
     test('covers every supported CLI type except custom', () => {
       const expectedTypes: CLIType[] = [
-        'borg',
+        'hypercode',
         'opencode',
         'antigravity',
         'claude',

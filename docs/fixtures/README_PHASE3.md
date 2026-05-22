@@ -226,7 +226,7 @@ git commit -m "chore: capture copilot-cli v1.x.y"
 
 ```bash
 # CD to repo
-cd c:\Users\hyper\workspace\borg
+cd c:\Users\hyper\workspace\hypercode
 
 # Check fixture structure (manual)
 cat docs/fixtures/GOLDEN_FIXTURE_RESPONSES.md | grep -E "^### Tool:|^## Platform:"

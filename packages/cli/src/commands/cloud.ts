@@ -1,5 +1,5 @@
 /**
- * `borg cloud` — Manage cloud development sessions (Jules, Codex, Devin, Copilot)
+ * `hypercode cloud` — Manage cloud development sessions (Jules, Codex, Devin, Copilot)
  */
 import type { Command } from 'commander';
 
@@ -72,7 +72,7 @@ export function registerCloudCommand(program: Command): void {
 
       console.log(chalk.bold.cyan(`\n  Cloud Sessions (${sessions.length})\n`));
       if (sessions.length === 0) {
-        console.log(chalk.dim('  No cloud sessions. Create one with `borg cloud create`.\n'));
+        console.log(chalk.dim('  No cloud sessions. Create one with `hypercode cloud create`.\n'));
         return;
       }
 

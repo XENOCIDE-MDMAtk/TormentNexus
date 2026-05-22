@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/borghq/borg-go/internal/ai"
-	"github.com/borghq/borg-go/internal/codeexec"
-	"github.com/borghq/borg-go/internal/controlplane"
+	"github.com/hypercodehq/hypercode-go/internal/ai"
+	"github.com/hypercodehq/hypercode-go/internal/codeexec"
+	"github.com/hypercodehq/hypercode-go/internal/controlplane"
 )
 
 // Diagnosis represents an LLM-generated diagnosis of an error.

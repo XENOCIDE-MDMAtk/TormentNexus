@@ -1,5 +1,5 @@
 /**
- * `borg skills` — Manage and browse AI skills
+ * `hypercode skills` — Manage and browse AI skills
  */
 import type { Command } from 'commander';
 

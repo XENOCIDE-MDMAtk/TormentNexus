@@ -1,6 +1,6 @@
-// @borg/adk — runtime-safe stubs with proper type/exports
-// Provides interfaces and const enums that @borg/core uses.
-// Real implementations live in @borg/core runtime.
+// @hypercode/adk — runtime-safe stubs with proper type/exports
+// Provides interfaces and const enums that @hypercode/core uses.
+// Real implementations live in @hypercode/core runtime.
 
 // ── A2A Protocol Types ──────────────────────────────────────────────────────
 

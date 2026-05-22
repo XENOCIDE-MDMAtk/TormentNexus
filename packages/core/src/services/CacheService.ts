@@ -35,7 +35,7 @@ interface CacheServiceOptions {
  * - Singleton pattern via `CacheService.getInstance(namespace)` for shared caches
  * - `cached()` helper for wrapping async functions with transparent caching
  *
- * Used by the Borg control plane for metadata caching, tool inventory caching,
+ * Used by the Hypercode control plane for metadata caching, tool inventory caching,
  * and provider response caching to reduce redundant IO and computation.
  */
 export class CacheService<T> extends EventEmitter {

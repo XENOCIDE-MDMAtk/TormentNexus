@@ -39,7 +39,7 @@ describe('workflowRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for loadCanvas when SQLite is unavailable', async () => {
         repositoryMocks.getWorkflow.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();
@@ -51,7 +51,7 @@ describe('workflowRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for saveCanvas when SQLite is unavailable', async () => {
         repositoryMocks.createWorkflow.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();

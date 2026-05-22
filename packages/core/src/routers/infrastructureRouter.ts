@@ -8,12 +8,12 @@ import os from 'node:os';
 
 const execAsync = promisify(exec);
 const LEGACY_INFRA_BINARY = ['mcp', 'enetes'].join('');
-const INFRA_BINARY = process.env.BORG_INFRA_BINARY?.trim() || LEGACY_INFRA_BINARY;
-const INFRA_SUBMODULE_DIR = process.env.BORG_INFRA_SUBMODULE?.trim() || LEGACY_INFRA_BINARY;
+const INFRA_BINARY = process.env.HYPERCODE_INFRA_BINARY?.trim() || LEGACY_INFRA_BINARY;
+const INFRA_SUBMODULE_DIR = process.env.HYPERCODE_INFRA_SUBMODULE?.trim() || LEGACY_INFRA_BINARY;
 
 export const infrastructureRouter = t.router({
     /**
-     * Get the current status of the Borg infrastructure daemon / binary.
+     * Get the current status of the Hypercode infrastructure daemon / binary.
      */
     getInfrastructureStatus: publicProcedure.query(async () => {
         try {

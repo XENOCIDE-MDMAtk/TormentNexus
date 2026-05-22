@@ -35,7 +35,7 @@ export default function RemoteAccessCard() {
         try {
             await executeTool.mutateAsync({
                 name: isActive ? 'stop_remote_access' : 'start_remote_access',
-                args: isActive ? {} : { port: 3000, label: 'borg-dashboard' },
+                args: isActive ? {} : { port: 3000, label: 'hypercode-dashboard' },
             });
             await refreshStatus();
         } catch (e: any) {
@@ -53,7 +53,7 @@ export default function RemoteAccessCard() {
             </div>
 
             <p className="text-sm text-zinc-400 mb-4">
-                Expose your Borg Dashboard securely via Cloudflare Tunnel to access it from your mobile device.
+                Expose your Hypercode Dashboard securely via Cloudflare Tunnel to access it from your mobile device.
             </p>
 
             {error && (

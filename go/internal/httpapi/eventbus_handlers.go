@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/borghq/borg-go/internal/eventbus"
+	"github.com/hypercodehq/hypercode-go/internal/eventbus"
 )
 
 func (s *Server) handleEventBusPublish(w http.ResponseWriter, r *http.Request) {

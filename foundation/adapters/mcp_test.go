@@ -9,12 +9,12 @@ import (
 
 func TestMCPAdapterStatusAndToolHints(t *testing.T) {
 	home := t.TempDir()
-	borgDir := filepath.Join(home, ".borg")
-	if err := os.MkdirAll(borgDir, 0o755); err != nil {
+	hypercodeDir := filepath.Join(home, ".hypercode")
+	if err := os.MkdirAll(hypercodeDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
 	config := `{"mcpServers":{"demo":{"command":"cmd","args":["/c","echo demo"],"env":{"FOO":"BAR"}}}}`
-	if err := os.WriteFile(filepath.Join(borgDir, "mcp.json"), []byte(config), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(hypercodeDir, "mcp.json"), []byte(config), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	adapter := NewMCPAdapter(t.TempDir())

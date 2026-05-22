@@ -6,15 +6,15 @@ import (
 	"time"
 )
 
-// App is the main Wails application struct with Borg bindings.
+// App is the main Wails application struct with Hypercode bindings.
 type App struct {
 	ctx      context.Context
 	started  time.Time
-	services *BorgServices
+	services *HypercodeServices
 }
 
-// BorgServices holds references to the Borg Go-sidecar services.
-type BorgServices struct {
+// HypercodeServices holds references to the Hypercode Go-sidecar services.
+type HypercodeServices struct {
 	Status     func() map[string]interface{}
 	MemoryInfo func() map[string]interface{}
 	HealerInfo func() map[string]interface{}
@@ -34,8 +34,8 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// BindServices connects the Wails app to Borg core services.
-func (a *App) BindServices(svc *BorgServices) {
+// BindServices connects the Wails app to Hypercode core services.
+func (a *App) BindServices(svc *HypercodeServices) {
 	a.services = svc
 }
 

@@ -2,7 +2,7 @@ import * as pty from 'node-pty';
 import { createServer } from 'net';
 
 /**
- * Terminal Sidecar - Integrated into Borg Core
+ * Terminal Sidecar - Integrated into Hypercode Core
  * 
  * This is a standalone process that manages a PTY session.
  * It allows the main Orchestrator to restart without killing the CLI process.
@@ -37,7 +37,7 @@ const server = createServer((socket) => {
       timestamp: Date.now(),
       pid: ptyProcess.pid,
     };
-    socket.write(`BORG_TELEMETRY:${JSON.stringify(telemetry)}`);
+    socket.write(`HYPERCODE_TELEMETRY:${JSON.stringify(telemetry)}`);
   }, 5000);
 
   // Send client input to PTY
@@ -45,7 +45,7 @@ const server = createServer((socket) => {
     const text = data.toString();
     
     // Check for control messages
-    if (text.startsWith('BORG_CTRL:')) {
+    if (text.startsWith('HYPERCODE_CTRL:')) {
       try {
         const ctrl = JSON.parse(text.substring(10));
         if (ctrl.type === 'SET_ENV') {

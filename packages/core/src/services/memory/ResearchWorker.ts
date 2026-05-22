@@ -1,4 +1,4 @@
-import { LLMService } from "@borg/ai";
+import { LLMService } from "@hypercode/ai";
 import { JSDOM } from 'jsdom';
 
 export interface Metadata {

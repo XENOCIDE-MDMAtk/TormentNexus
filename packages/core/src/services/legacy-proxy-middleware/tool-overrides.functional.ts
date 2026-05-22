@@ -1,1 +1,1 @@
-export * from "../metamcp-middleware/tool-overrides.functional.js";
+export * from "../hypercode-middleware/tool-overrides.functional.js";

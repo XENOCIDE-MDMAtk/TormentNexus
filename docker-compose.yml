@@ -21,11 +21,11 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - DATABASE_URL=data/borg.db
+      - DATABASE_URL=data/hypercode.db
       - REDIS_URL=redis://redis:6379
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=borg
+      - POSTGRES_DB=hypercode
     depends_on:
       - db
       - redis
@@ -47,7 +47,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=borg
+      - POSTGRES_DB=hypercode
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always

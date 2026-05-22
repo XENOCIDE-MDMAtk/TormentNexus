@@ -29,7 +29,7 @@ describe('toolChainingRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for listAliases when SQLite is unavailable', async () => {
         repositoryMocks.getAliases.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();
@@ -41,7 +41,7 @@ describe('toolChainingRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for listChains when SQLite is unavailable', async () => {
         repositoryMocks.getAllChains.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();

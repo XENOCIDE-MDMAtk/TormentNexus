@@ -3,7 +3,7 @@ import { homedir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const WEB_DEV_PORT_MARKER = ['apps', 'web', '.borg-dev-port.json'];
+const WEB_DEV_PORT_MARKER = ['apps', 'web', '.hypercode-dev-port.json'];
 
 const STARTUP_CHECK_LABELS = {
   configSync: 'MCP config sync',
@@ -13,9 +13,9 @@ const STARTUP_CHECK_LABELS = {
   extensionBridge: 'extension bridge listener',
 };
 
-export function resolveBorgDataDir(dataDir = process.env.BORG_DEV_READY_DATA_DIR ?? process.env.BORG_DATA_DIR ?? '~/.borg') {
+export function resolveHypercodeDataDir(dataDir = process.env.HYPERCODE_DEV_READY_DATA_DIR ?? process.env.HYPERCODE_DATA_DIR ?? '~/.hypercode') {
   if (typeof dataDir !== 'string' || dataDir.length === 0) {
-    return path.join(homedir(), '.borg');
+    return path.join(homedir(), '.hypercode');
   }
 
   if (dataDir === '~') {
@@ -29,11 +29,11 @@ export function resolveBorgDataDir(dataDir = process.env.BORG_DEV_READY_DATA_DIR
   return path.resolve(dataDir);
 }
 
-export function getBorgStartLockPath(dataDir) {
-  return path.join(resolveBorgDataDir(dataDir), 'lock');
+export function getHypercodeStartLockPath(dataDir) {
+  return path.join(resolveHypercodeDataDir(dataDir), 'lock');
 }
 
-export function readBorgStartLockRecord(lockPath = getBorgStartLockPath()) {
+export function readHypercodeStartLockRecord(lockPath = getHypercodeStartLockPath()) {
   try {
     if (!fs.existsSync(lockPath)) {
       return null;
@@ -104,7 +104,7 @@ export function parseListeningPidFromLsof(output) {
   return line ? Number(line) : null;
 }
 
-export function isLikelyBorgCoreCommand(commandLine) {
+export function isLikelyHypercodeCoreCommand(commandLine) {
   if (typeof commandLine !== 'string') {
     return false;
   }
@@ -114,21 +114,21 @@ export function isLikelyBorgCoreCommand(commandLine) {
     return false;
   }
 
-  const borgMarkers = [
-    '@borg/',
+  const hypercodeMarkers = [
+    '@hypercode/',
     'packages/core',
     'packages\\core',
     'packages/cli',
     'packages\\cli',
-    '/borg/',
-    '\\borg\\',
+    '/hypercode/',
+    '\\hypercode\\',
     'tsx src/index.ts start',
     'tsx src/server-stdio.ts',
     'backgroundcorebootstrap',
     'server-stdio',
   ];
 
-  return borgMarkers.some((marker) => normalized.includes(marker));
+  return hypercodeMarkers.some((marker) => normalized.includes(marker));
 }
 
 export function chooseStaleCoreRefreshTarget({
@@ -242,8 +242,8 @@ const BROWSER_EXTENSION_ARTIFACTS = [
     id: 'browser-extension-chromium',
     label: 'browser extension Chromium bundle',
     candidates: [
-      ['apps', 'borg-extension', 'dist-chromium'],
-      ['apps', 'borg-extension', 'dist'],
+      ['apps', 'hypercode-extension', 'dist-chromium'],
+      ['apps', 'hypercode-extension', 'dist'],
       ['apps', 'extension', 'dist'],
     ],
     requiredFiles: ['background.js', 'manifest.json'],
@@ -252,7 +252,7 @@ const BROWSER_EXTENSION_ARTIFACTS = [
     id: 'browser-extension-firefox',
     label: 'browser extension Firefox bundle',
     candidates: [
-      ['apps', 'borg-extension', 'dist-firefox'],
+      ['apps', 'hypercode-extension', 'dist-firefox'],
     ],
     requiredFiles: ['background.js', 'manifest.json'],
   },

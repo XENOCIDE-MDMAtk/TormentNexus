@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 
-// Stub build — the browser extension source lives in apps/borg-extension
+// Stub build — the browser extension source lives in apps/hypercode-extension
 // This package only holds shared dependencies (@mozilla/readability, turndown).
 export default defineConfig({
   build: {

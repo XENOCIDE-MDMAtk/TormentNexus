@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Button, Card, CardContent, CardHeader, CardTitle } from "@borg/ui";
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@hypercode/ui";
 import { Loader2, Search, Zap, Code, Layers, ExternalLink, Activity, Database, ArrowDownToLine, Sparkles, Trash2, SlidersHorizontal, History } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -99,7 +99,7 @@ type TelemetryWindowPreset = 'all' | '5m' | '15m' | '1h' | '24h';
 type TelemetrySourceFilter = 'all' | 'runtime-search' | 'cached-ranking' | 'live-aggregator';
 type TelemetryTriagePreset = 'errors-now' | 'runtime-failures' | 'load-incidents' | 'hydration-failures' | 'live-aggregator-focus';
 
-const TELEMETRY_FILTERS_STORAGE_KEY = 'borg.mcp.search.telemetryFilters.v1';
+const TELEMETRY_FILTERS_STORAGE_KEY = 'hypercode.mcp.search.telemetryFilters.v1';
 const TELEMETRY_TYPE_QUERY_KEY = 'telemetryType';
 const TELEMETRY_STATUS_QUERY_KEY = 'telemetryStatus';
 const TELEMETRY_WINDOW_QUERY_KEY = 'telemetryWindow';
@@ -791,7 +791,7 @@ function SearchDashboard() {
                                             value={autoLoadMinConfidenceDraft}
                                             onChange={(event) => setAutoLoadMinConfidenceDraft(Number(event.target.value))}
                                             className="w-full"
-                                            title="Set minimum confidence required before Borg auto-loads the top ranked tool"
+                                            title="Set minimum confidence required before Hypercode auto-loads the top ranked tool"
                                             aria-label="Auto-load confidence threshold"
                                         />
                                         <input
@@ -1659,7 +1659,7 @@ function SearchDashboard() {
                             <textarea
                                 value={jsoncDraft}
                                 onChange={(event) => setJsoncDraft(event.target.value)}
-                                title="Edit the Borg MCP JSONC configuration. Changes are saved to the Borg config mcp.jsonc file (typically ~/.borg/mcp.jsonc)."
+                                title="Edit the Hypercode MCP JSONC configuration. Changes are saved to the Hypercode config mcp.jsonc file (typically ~/.hypercode/mcp.jsonc)."
                                 aria-label="MCP JSONC configuration editor"
                                 className="w-full h-48 bg-zinc-950 border border-zinc-800 rounded-md p-3 font-mono text-xs text-zinc-200 outline-none"
                                 spellCheck={false}

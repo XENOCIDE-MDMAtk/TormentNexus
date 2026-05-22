@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/borghq/borg-go/internal/mcp"
-	"github.com/borghq/borg-go/internal/cache"
+	"github.com/hypercodehq/hypercode-go/internal/mcp"
+	"github.com/hypercodehq/hypercode-go/internal/cache"
 )
 
 func (s *Server) handleMCPStatus(w http.ResponseWriter, r *http.Request) {

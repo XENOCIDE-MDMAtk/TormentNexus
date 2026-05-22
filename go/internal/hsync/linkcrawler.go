@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/borghq/borg-go/internal/ai"
+	"github.com/hypercodehq/hypercode-go/internal/ai"
 	_ "modernc.org/sqlite"
 )
 
@@ -231,7 +231,7 @@ func DefaultLinkAnalysisClassifier(ctx context.Context, title, description, cont
 	`, title, description, content[:min(2000, len(content))])
 
 	response, err := ai.AutoRouteWithModel(ctx, defaultOpenRouterFreeModel, []ai.Message{
-		{Role: "system", Content: "You are a technical analyst for the Borg control plane. Output JSON only."},
+		{Role: "system", Content: "You are a technical analyst for the Hypercode control plane. Output JSON only."},
 		{Role: "user", Content: prompt},
 	})
 	if err != nil {

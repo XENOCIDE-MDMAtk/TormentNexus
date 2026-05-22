@@ -6,8 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/borg/foundation/adapters"
-	foundationorchestration "github.com/robertpelloni/borg/foundation/orchestration"
+	"github.com/robertpelloni/hypercode/foundation/adapters"
+	foundationorchestration "github.com/robertpelloni/hypercode/foundation/orchestration"
 )
 
 // Director Agent translates the TS core Director orchestrator.
@@ -18,12 +18,12 @@ type Director struct {
 	State        map[string]interface{}
 	History      []Message
 	WorkingDir   string
-	HyperAdapter *adapters.BorgAdapter
+	HyperAdapter *adapters.HypercodeAdapter
 }
 
 func NewDirector(provider ILLMProvider) *Director {
 	cwd, _ := os.Getwd()
-	hyperAdapter := adapters.NewBorgAdapter(cwd)
+	hyperAdapter := adapters.NewHypercodeAdapter(cwd)
 	return &Director{
 		Name:         "Director",
 		Provider:     provider,
@@ -33,7 +33,7 @@ func NewDirector(provider ILLMProvider) *Director {
 		History: []Message{
 			{
 				Role:    RoleSystem,
-				Content: strings.Join([]string{"You are the Borg TechLead Director. Your role is absolute architectural supervision. Plan, delegate, and review.", hyperAdapter.BuildSystemContext()}, "\n\n"),
+				Content: strings.Join([]string{"You are the Hypercode TechLead Director. Your role is absolute architectural supervision. Plan, delegate, and review.", hyperAdapter.BuildSystemContext()}, "\n\n"),
 			},
 		},
 	}

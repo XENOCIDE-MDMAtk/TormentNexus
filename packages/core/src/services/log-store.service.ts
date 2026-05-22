@@ -1,4 +1,4 @@
-export interface MetaMcpLogEntry {
+export interface hypercodeLogEntry {
     id: string;
     timestamp: Date;
     serverName: string;
@@ -7,18 +7,18 @@ export interface MetaMcpLogEntry {
     error?: string;
 }
 
-class MetaMcpLogStore {
-    private logs: MetaMcpLogEntry[] = [];
+class hypercodeLogStore {
+    private logs: hypercodeLogEntry[] = [];
     private readonly maxLogs = 1000; // Keep only the last 1000 logs
-    private readonly listeners: Set<(log: MetaMcpLogEntry) => void> = new Set();
+    private readonly listeners: Set<(log: hypercodeLogEntry) => void> = new Set();
 
     addLog(
         serverName: string,
-        level: MetaMcpLogEntry["level"],
+        level: hypercodeLogEntry["level"],
         message: string,
         error?: unknown,
     ) {
-        const logEntry: MetaMcpLogEntry = {
+        const logEntry: hypercodeLogEntry = {
             id: crypto.randomUUID(),
             timestamp: new Date(),
             serverName,
@@ -40,7 +40,7 @@ class MetaMcpLogStore {
         }
 
         // Also log to console for debugging
-        const fullMessage = `[MetaMCP][${serverName}] ${message}`;
+        const fullMessage = `[Hypercode][${serverName}] ${message}`;
         switch (level) {
             case "error":
                 console.error(fullMessage, error || "");
@@ -63,7 +63,7 @@ class MetaMcpLogStore {
         });
     }
 
-    getLogs(limit?: number): MetaMcpLogEntry[] {
+    getLogs(limit?: number): hypercodeLogEntry[] {
         const logsToReturn = limit ? this.logs.slice(-limit) : this.logs;
         return [...logsToReturn].reverse(); // Return newest first
     }
@@ -72,7 +72,7 @@ class MetaMcpLogStore {
         this.logs = [];
     }
 
-    addListener(listener: (log: MetaMcpLogEntry) => void): () => void {
+    addListener(listener: (log: hypercodeLogEntry) => void): () => void {
         this.listeners.add(listener);
         return () => this.listeners.delete(listener);
     }
@@ -83,4 +83,4 @@ class MetaMcpLogStore {
 }
 
 // Singleton instance
-export const metamcpLogStore = new MetaMcpLogStore();
+export const hypercodeLogStore = new hypercodeLogStore();

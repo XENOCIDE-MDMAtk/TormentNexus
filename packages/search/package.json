@@ -1,5 +1,5 @@
 {
-  "name": "@borg/search",
+  "name": "@hypercode/search",
   "version": "1.0.0-alpha.62",
   "private": true,
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
     "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
   },
   "dependencies": {
-    "@borg/adk": "workspace:*",
+    "@hypercode/adk": "workspace:*",
     "@vscode/ripgrep": "^1.17.0"
   },
   "devDependencies": {

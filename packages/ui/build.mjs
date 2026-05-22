@@ -2,7 +2,7 @@
 import { spawnSync } from 'node:child_process';
 
 // Run tsc but suppress TS diagnostic spam.
-// The @borg/ui package contains stale page/component files with
+// The @hypercode/ui package contains stale page/component files with
 // unresolved @/ path imports. JS is still emitted for files that
 // compile cleanly. Only show truly fatal errors.
 const result = spawnSync('npx', ['tsc'], {
@@ -25,7 +25,7 @@ const fatalLines = lines.filter(
     line.toLowerCase().includes('out of memory')
 );
 if (fatalLines.length > 0) {
-  console.error('[@borg/ui] Fatal build errors:\n' + fatalLines.join('\n'));
+  console.error('[@hypercode/ui] Fatal build errors:\n' + fatalLines.join('\n'));
 }
 
 process.exit(0);

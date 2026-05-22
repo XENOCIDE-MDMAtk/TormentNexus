@@ -19,20 +19,20 @@ describe('session dashboard utils', () => {
     });
 
     it('builds a cmd-compatible attach command when compatibility mode selected', () => {
-        expect(buildAttachCommand('C:\\Users\\hyper\\workspace\\borg', 'claude.cmd', ['--resume', 'latest'], {
+        expect(buildAttachCommand('C:\\Users\\hyper\\workspace\\hypercode', 'claude.cmd', ['--resume', 'latest'], {
             shellFamily: 'cmd',
             shellPath: 'C:\\Windows\\System32\\cmd.exe',
-        })).toBe('cd /d "C:\\Users\\hyper\\workspace\\borg" && "claude.cmd" "--resume" "latest"');
+        })).toBe('cd /d "C:\\Users\\hyper\\workspace\\hypercode" && "claude.cmd" "--resume" "latest"');
     });
 
     it('builds a WSL attach command when the selected shell uses WSL', () => {
-        const command = buildAttachCommand('/mnt/c/Users/hyper/workspace/borg', 'bash', ['-lc', 'pwd'], {
+        const command = buildAttachCommand('/mnt/c/Users/hyper/workspace/hypercode', 'bash', ['-lc', 'pwd'], {
             shellFamily: 'wsl',
             shellPath: 'wsl',
         });
 
         expect(command.startsWith('wsl -e sh -lc ')).toBe(true);
-        expect(command).toContain('/mnt/c/Users/hyper/workspace/borg');
+        expect(command).toContain('/mnt/c/Users/hyper/workspace/hypercode');
         expect(command).toContain('bash');
         expect(command).toContain('pwd');
     });

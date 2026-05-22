@@ -25,8 +25,8 @@
       "behindAhead": null
     },
     {
-      "name": "claude-mem",
-      "path": "archive/claude-mem",
+      "name": "hypercode",
+      "path": "archive/hypercode",
       "category": "Archive",
       "sha": "fbea18b04a0d",
       "version": "v7.1.2-1182-gfbea18b0",
@@ -61,8 +61,8 @@
       "behindAhead": null
     },
     {
-      "name": "claude-mem",
-      "path": "packages/claude-mem",
+      "name": "hypercode",
+      "path": "packages/hypercode",
       "category": "Package",
       "sha": "1f287028c28d",
       "version": "v7.1.2-1184-g1f287028",

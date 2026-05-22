@@ -1,4 +1,4 @@
-import { DEFAULT_OPENROUTER_FREE_MODEL } from '@borg/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL } from '@hypercode/ai';
 
 import {
     type FallbackCandidateSnapshot,

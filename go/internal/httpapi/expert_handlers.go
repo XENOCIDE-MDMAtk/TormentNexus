@@ -3,7 +3,7 @@ package httpapi
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/borghq/borg-go/internal/ctxharvester"
+	"github.com/hypercodehq/hypercode-go/internal/ctxharvester"
 )
 
 func (s *Server) handleExpertPredict(w http.ResponseWriter, r *http.Request) {

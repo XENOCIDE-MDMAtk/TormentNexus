@@ -1,5 +1,5 @@
 /**
- * `borg inventory` — Full system inventory from Go sidecar
+ * `hypercode inventory` — Full system inventory from Go sidecar
  * Shows tools, harnesses, and detected capabilities
  */
 import type { Command } from 'commander';
@@ -12,7 +12,7 @@ export function registerInventoryCommand(program: Command): void {
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
 
-      console.log(chalk.bold.cyan('\n  Borg System Inventory\n'));
+      console.log(chalk.bold.cyan('\n  Hypercode System Inventory\n'));
       console.log(chalk.yellow('  Querying Go sidecar (may take 30s)...\n'));
 
       try {

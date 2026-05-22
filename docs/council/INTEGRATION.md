@@ -1,19 +1,19 @@
-# Borg Core Assimilation Guide
+# Hypercode Core Assimilation Guide
 
 ## System Overview
-`cli-orchestrator` has undergone a massive architectural overhaul to transition from a standalone monolithic orchestration tool into a resilient, self-healing, distributed sub-component ready for direct assimilation into the **Borg Core**.
+`cli-orchestrator` has undergone a massive architectural overhaul to transition from a standalone monolithic orchestration tool into a resilient, self-healing, distributed sub-component ready for direct assimilation into the **Hypercode Core**.
 
-## Core Capabilities for Borg
+## Core Capabilities for Hypercode
 
-### 1. Distributed PTY Sidecar Architecture (The "Borg-Harness")
-# borg Core Assimilation Guide
+### 1. Distributed PTY Sidecar Architecture (The "Hypercode-Harness")
+# hypercode Core Assimilation Guide
 
 ## System Overview
-`cli-orchestrator` has undergone a massive architectural overhaul to transition from a standalone monolithic orchestration tool into a resilient, self-healing, distributed sub-component ready for direct assimilation into the **borg Core**.
+`cli-orchestrator` has undergone a massive architectural overhaul to transition from a standalone monolithic orchestration tool into a resilient, self-healing, distributed sub-component ready for direct assimilation into the **hypercode Core**.
 
-## Core Capabilities for borg
+## Core Capabilities for hypercode
 
-### 1. Distributed PTY Sidecar Architecture (The "borg-Harness")
+### 1. Distributed PTY Sidecar Architecture (The "hypercode-Harness")
 The system is no longer a single point of failure. It uses a **Distributed Sidecar Model**.
 - **Detached Execution:** All managed AI terminal sessions (like `gemini-cli`, `github-copilot-cli`, `aider`) are launched as detached `terminal-sidecar.ts` processes.
 - **Zero-Downtime Re-attachment:** If the Orchestrator goes down, the sidecar terminals keep running. Upon restart, the Orchestrator discovers the active sidecar ports and seamlessly re-links via local TCP sockets.
@@ -26,10 +26,10 @@ Supported binaries include:
 - `crush`, `factory`, `gemini`, `goose`, `grok`, `kilo-code`, `kimi`
 - `mistral`, `opencode`, `pi`, `qwen`, `rowboatx`, `rovo`, `trae`, `warp`
 
-### 3. Dynamic Environment Injection (`BORG_CTRL`)
-Borg Core can inject dynamic secrets and variables directly into running terminal sessions without restarting them. By passing `BORG_CTRL` JSON packets over the sidecar socket, variables are exported directly into the PTY shell, allowing for live API key rotation.
-### 3. Dynamic Environment Injection (`BORG_CTRL`)
-borg Core can inject dynamic secrets and variables directly into running terminal sessions without restarting them. By passing `BORG_CTRL` JSON packets over the sidecar socket, variables are exported directly into the PTY shell, allowing for live API key rotation.
+### 3. Dynamic Environment Injection (`HYPERCODE_CTRL`)
+Hypercode Core can inject dynamic secrets and variables directly into running terminal sessions without restarting them. By passing `HYPERCODE_CTRL` JSON packets over the sidecar socket, variables are exported directly into the PTY shell, allowing for live API key rotation.
+### 3. Dynamic Environment Injection (`HYPERCODE_CTRL`)
+hypercode Core can inject dynamic secrets and variables directly into running terminal sessions without restarting them. By passing `HYPERCODE_CTRL` JSON packets over the sidecar socket, variables are exported directly into the PTY shell, allowing for live API key rotation.
 
 ### 4. Binary State Checkpointing
 The `CheckpointService` maintains the "last known context" of all running sessions, capturing the active task and the terminal output buffer. When re-attaching, it injects a "Recovery Hint" so the LLM resumes with full situational awareness.
@@ -38,27 +38,27 @@ The `CheckpointService` maintains the "last known context" of all running sessio
 Tasks are parsed from natural language (or Mermaid diagrams) into hierarchical, dependency-aware task graphs. The `SmartPilot` distributes tasks across the CLI fleet in parallel based on tool strengths. `CouncilHierarchy` enables specialized sub-councils (e.g., Performance Council, Security Council) to debate specific types of tasks before pushing decisions back up to the Supreme Council.
 
 ### 6. Collective Memory
-A persistent SQLite "Knowledge Base" is maintained by the `CollectiveMemoryService`. Any sub-agent across any session can store and retrieve facts, sharing knowledge globally across the Borg hive-mind.
+A persistent SQLite "Knowledge Base" is maintained by the `CollectiveMemoryService`. Any sub-agent across any session can store and retrieve facts, sharing knowledge globally across the Hypercode hive-mind.
 
 ### 7. Autonomous Self-Maintenance & Evolution
 - `AutonomousMaintenanceService` cleans orphaned processes, optimizes the DB (`VACUUM`/`ANALYZE`), and prunes old checkpoints.
-- `SelfEvolutionService` adjusts supervisor trust weights dynamically based on historical debate outcomes and can spawn high-privilege meta-sessions to rewrite the Borg orchestration source code.
+- `SelfEvolutionService` adjusts supervisor trust weights dynamically based on historical debate outcomes and can spawn high-privilege meta-sessions to rewrite the Hypercode orchestration source code.
 
 ## Assimilation Next Steps
-1. **Repository Merge:** Move the `cli-orchestrator` package into the Borg Core monorepo structure.
-2. **Global Telemetry:** Hook the `wsManager` broadcast events to the Borg Core global telemetry bus.
-3. **Database Unification:** Migrate the `bun:sqlite` implementation to Borg's central high-availability datastore if required.
-4. **Service Discovery:** Replace hardcoded `127.0.0.1` PTY ports with Borg Core's dynamic service mesh/discovery network.
-A persistent SQLite "Knowledge Base" is maintained by the `CollectiveMemoryService`. Any sub-agent across any session can store and retrieve facts, sharing knowledge globally across the borg hive-mind.
+1. **Repository Merge:** Move the `cli-orchestrator` package into the Hypercode Core monorepo structure.
+2. **Global Telemetry:** Hook the `wsManager` broadcast events to the Hypercode Core global telemetry bus.
+3. **Database Unification:** Migrate the `bun:sqlite` implementation to Hypercode's central high-availability datastore if required.
+4. **Service Discovery:** Replace hardcoded `127.0.0.1` PTY ports with Hypercode Core's dynamic service mesh/discovery network.
+A persistent SQLite "Knowledge Base" is maintained by the `CollectiveMemoryService`. Any sub-agent across any session can store and retrieve facts, sharing knowledge globally across the hypercode hive-mind.
 
 ### 7. Autonomous Self-Maintenance & Evolution
 - `AutonomousMaintenanceService` cleans orphaned processes, optimizes the DB (`VACUUM`/`ANALYZE`), and prunes old checkpoints.
-- `SelfEvolutionService` adjusts supervisor trust weights dynamically based on historical debate outcomes and can spawn high-privilege meta-sessions to rewrite the borg orchestration source code.
+- `SelfEvolutionService` adjusts supervisor trust weights dynamically based on historical debate outcomes and can spawn high-privilege meta-sessions to rewrite the hypercode orchestration source code.
 
 ## Assimilation Next Steps
-1. **Repository Merge:** Move the `cli-orchestrator` package into the borg Core monorepo structure.
-2. **Global Telemetry:** Hook the `wsManager` broadcast events to the borg Core global telemetry bus.
-3. **Database Unification:** Migrate the `bun:sqlite` implementation to borg's central high-availability datastore if required.
-4. **Service Discovery:** Replace hardcoded `127.0.0.1` PTY ports with borg Core's dynamic service mesh/discovery network.
+1. **Repository Merge:** Move the `cli-orchestrator` package into the hypercode Core monorepo structure.
+2. **Global Telemetry:** Hook the `wsManager` broadcast events to the hypercode Core global telemetry bus.
+3. **Database Unification:** Migrate the `bun:sqlite` implementation to hypercode's central high-availability datastore if required.
+4. **Service Discovery:** Replace hardcoded `127.0.0.1` PTY ports with hypercode Core's dynamic service mesh/discovery network.
 
 Assimilation Complete. Resistance is futile.

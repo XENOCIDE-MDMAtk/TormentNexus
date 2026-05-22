@@ -36,7 +36,7 @@ describe('secretsRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for list when SQLite is unavailable', async () => {
         selectFromMock.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();
@@ -48,7 +48,7 @@ describe('secretsRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for set when SQLite is unavailable', async () => {
         insertOnConflictDoUpdateMock.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();

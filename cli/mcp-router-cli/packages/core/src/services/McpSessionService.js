@@ -1,5 +1,5 @@
 /**
- * borg MCP Session Service
+ * hypercode MCP Session Service
  *
  * Enhanced session lifecycle management for MCP servers:
  * - Auto-start servers on system boot

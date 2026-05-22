@@ -24,7 +24,7 @@ export function shouldIgnoreExpectedStartupError(errorLog: string): boolean {
         'could not connect to a chroma server',
     'cannot open database because the directory does not exist',
     'bobbybookmarks db not found',
-    'borgingest',
+    'hypercodeingest',
     ];
 
     return ignoredFragments.some((fragment) => normalized.includes(fragment));

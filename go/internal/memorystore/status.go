@@ -55,8 +55,8 @@ type rawEntry struct {
 }
 
 func ReadStatus(workspaceRoot string) (StoreStatus, error) {
-	storePath := filepath.Join(workspaceRoot, ".borg", "sectioned_memory.json")
-	legacyPath := filepath.Join(workspaceRoot, ".borg", "claude_mem.json")
+	storePath := filepath.Join(workspaceRoot, ".hypercode", "sectioned_memory.json")
+	legacyPath := filepath.Join(workspaceRoot, ".hypercode", "claude_mem.json")
 
 	for _, candidate := range []string{storePath, legacyPath} {
 		raw, err := os.ReadFile(candidate)

@@ -13,7 +13,7 @@ import (
 var DB *gorm.DB
 
 // ---------------------------------------------------------
-// Prisma ORM Native Structural Parity (Borg Go Daemon)
+// Prisma ORM Native Structural Parity (Hypercode Go Daemon)
 // ---------------------------------------------------------
 
 // KeeperLog replaces TS KeeperLog model natively

@@ -160,7 +160,7 @@ export function ToolInventory() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-xs text-slate-400">Current AIOS service path includes 14 validated tool directories.</p>
+            <p className="text-xs text-slate-400">Current HYPERCODE service path includes 14 validated tool directories.</p>
             <div className="p-3 rounded bg-slate-950 border border-slate-800 font-mono text-[9px] text-slate-500 break-all overflow-hidden h-20">
               System Path: /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin...
             </div>

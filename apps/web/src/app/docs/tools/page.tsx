@@ -737,7 +737,7 @@ export default function ToolsPage() {
 
                 {/* Footer */}
                 <footer className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-sm text-zinc-500">
-                    <p>Borg Mission Control • {totalTools} MCP Tools</p>
+                    <p>Hypercode Mission Control • {totalTools} MCP Tools</p>
                     <div className="mt-2 flex justify-center gap-4">
                         <Link href="/docs" className="text-blue-500 hover:text-blue-400">Feature Docs</Link>
                         <Link href="/docs/api" className="text-blue-500 hover:text-blue-400">API Reference</Link>

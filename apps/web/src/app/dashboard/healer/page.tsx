@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useHealerStream } from '@borg/ui';
+import { useHealerStream } from '@hypercode/ui';
 import { trpc } from '@/utils/trpc';
 import { 
     Shield, 

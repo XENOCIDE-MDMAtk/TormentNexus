@@ -75,7 +75,7 @@ export interface SessionSupervisorLogEntry {
  *   2. **Local Terminal Attach** (via `buildAttachCommand`): Operators can manually attach using
  *      a terminal command that connects directly to the process PID
  * - Full stdio streaming/interactivity is intentionally deferred; operators requiring deep
- *   interactivity can use terminal attach while Borg remains a supervision & recovery layer.
+ *   interactivity can use terminal attach while Hypercode remains a supervision & recovery layer.
  */
 export interface SessionAttachInfo {
     id: string;

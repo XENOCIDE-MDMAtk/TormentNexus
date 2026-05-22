@@ -1,7 +1,7 @@
 import { and, desc, eq, like, not, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { db } from "../index.js";
-import { linksBacklogTable } from "../metamcp-schema.js";
+import { linksBacklogTable } from "../hypercode-schema.js";
 
 export type LinkBacklogItem = typeof linksBacklogTable.$inferSelect;
 

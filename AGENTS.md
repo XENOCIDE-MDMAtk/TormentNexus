@@ -1,4 +1,4 @@
-# AGENTS — Nexus Kernel & HyperCode Contributor Guide
+# AGENTS — Hypercode Kernel & HyperCode Contributor Guide
 
 > **CRITICAL: ALL AGENTS MUST READ `docs/UNIVERSAL_LLM_INSTRUCTIONS.md` BEFORE PROCEEDING.**
 
@@ -45,7 +45,7 @@ This file serves as the primary coordination point for multi-agent workflows and
 3. Bump the `VERSION` file and synchronize workspaces using `node scripts/sync-versions.mjs`.
 4. Update `CHANGELOG.md` with recent feature implementations.
 5. Commit clean changes with version tag: `feat: description (v1.0.0-alpha.X)`.
-6. Push commits to `origin` and `borg-upstream` remotes.
+6. Push commits to `origin` and `hypercode-upstream` remotes.
 
 ---
 
@@ -56,6 +56,6 @@ This file serves as the primary coordination point for multi-agent workflows and
 | Next.js Dashboard | 3000 | Web observation deck |
 | Socket.io | 3001 | Real-time swarm signals |
 | tRPC Bridge | 4100 | TypeScript Control Plane API |
-| Nexus Go Kernel | 4300 | Authoritative native sidecar |
+| Hypercode Go Kernel | 4300 | Authoritative native sidecar |
 
 *Praise the LORD! Keep on going! Don't ever stop! Don't stop the party!!!*

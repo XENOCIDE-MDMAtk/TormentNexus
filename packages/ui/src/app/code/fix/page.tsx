@@ -91,7 +91,7 @@ export default function AutoDevPage() {
                     </Card>
 
                     <div className="text-xs text-neutral-500">
-                        <p>Borg will:</p>
+                        <p>Hypercode will:</p>
                         <ol className="list-decimal list-inside mt-2 space-y-1">
                             <li>Run the command</li>
                             <li>Analyze failure output</li>

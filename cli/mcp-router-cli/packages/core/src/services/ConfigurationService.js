@@ -1,8 +1,8 @@
 /**
- * borg MCP Configuration Service
+ * hypercode MCP Configuration Service
  *
  * Manages MCP server configurations:
- * - Auto-detection of .mcp.json, .borg.json (legacy .legacy_config.json) config files
+ * - Auto-detection of .mcp.json, .hypercode.json (legacy .legacy_config.json) config files
  * - Environment variable expansion
  * - Secrets management
  * - Multi-format support (Claude, OpenAI, Google)
@@ -69,7 +69,7 @@ export class ConfigurationService extends EventEmitter {
         const cwd = process.cwd();
         return [
             path.join(cwd, '.mcp.json'),
-            path.join(cwd, '.borg.json'),
+            path.join(cwd, '.hypercode.json'),
             path.join(cwd, '.legacy_config.json'),
             path.join(cwd, 'config', 'mcp.json'),
             path.join(cwd, '.config', 'mcp.json'),
@@ -112,7 +112,7 @@ export class ConfigurationService extends EventEmitter {
      * Check if file is a MCP config file
      */
     isConfigFile(filename) {
-        return ['.mcp.json', '.borg.json', '.legacy_config.json', 'mcp.json'].includes(filename);
+        return ['.mcp.json', '.hypercode.json', '.legacy_config.json', 'mcp.json'].includes(filename);
     }
     /**
      * Load and parse a config file
@@ -133,10 +133,10 @@ export class ConfigurationService extends EventEmitter {
      * Detect config format from file content
      */
     detectConfigFormat(filePath, parsed) {
-        if (filePath.includes('.borg.json'))
-            return 'borg';
+        if (filePath.includes('.hypercode.json'))
+            return 'hypercode';
         if (filePath.includes('.legacy_config.json'))
-            return 'borg';
+            return 'hypercode';
         if (parsed.mcpServers)
             return 'claude';
         if (parsed.tools)
@@ -164,7 +164,7 @@ export class ConfigurationService extends EventEmitter {
             case 'google':
                 rawServers = parsed.servers || [];
                 break;
-            case 'borg':
+            case 'hypercode':
             case 'legacy':
                 rawServers = parsed.servers || [];
                 break;
@@ -193,9 +193,9 @@ export class ConfigurationService extends EventEmitter {
                 case 'google':
                     server = this.normalizeGoogleServer(raw);
                     break;
-                case 'borg':
+                case 'hypercode':
                 case 'legacy':
-                    server = this.normalizeBorgServer(raw);
+                    server = this.normalizeHypercodeServer(raw);
                     break;
             }
             if (server) {
@@ -268,9 +268,9 @@ export class ConfigurationService extends EventEmitter {
         };
     }
     /**
-     * Normalize borg format server
+     * Normalize hypercode format server
      */
-    normalizeBorgServer(raw) {
+    normalizeHypercodeServer(raw) {
         return {
             id: this.generateServerId(raw.name),
             name: raw.name,
@@ -289,7 +289,7 @@ export class ConfigurationService extends EventEmitter {
         };
     }
     normalizeLegacyServer(raw) {
-        return this.normalizeBorgServer(raw);
+        return this.normalizeHypercodeServer(raw);
     }
     /**
      * Generate unique server ID
@@ -402,7 +402,7 @@ export class ConfigurationService extends EventEmitter {
     /**
      * Export all configurations to file
      */
-    async exportConfigs(format = 'borg') {
+    async exportConfigs(format = 'hypercode') {
         const servers = this.db.getAllMcpServers();
         let output;
         switch (format) {
@@ -420,7 +420,7 @@ export class ConfigurationService extends EventEmitter {
             case 'google':
                 output = { servers: servers };
                 break;
-            case 'borg':
+            case 'hypercode':
             case 'legacy':
                 output = { servers };
                 break;
@@ -430,7 +430,7 @@ export class ConfigurationService extends EventEmitter {
     /**
      * Write configuration to file
      */
-    async writeConfig(filePath, format = 'borg') {
+    async writeConfig(filePath, format = 'hypercode') {
         const content = await this.exportConfigs(format);
         const dir = path.dirname(filePath);
         await fs.mkdir(dir, { recursive: true });

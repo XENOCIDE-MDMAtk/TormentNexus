@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent, Button, Badge, ScrollArea } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent, Button, Badge, ScrollArea } from "@hypercode/ui";
 import { Loader2, Brain, Search, Database, History, Zap, Filter, Plus, Save, Download, RefreshCw, ChevronRight } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -29,14 +29,14 @@ import {
     type MemorySearchMode,
 } from './memory-dashboard-utils';
 
-type MemoryInterchangeFormat = 'json' | 'csv' | 'jsonl' | 'json-provider' | 'claude-mem-store';
+type MemoryInterchangeFormat = 'json' | 'csv' | 'jsonl' | 'json-provider' | 'hypercode-store';
 
 const MEMORY_FORMAT_OPTIONS: Array<{ value: MemoryInterchangeFormat; label: string }> = [
     { value: 'json', label: 'Canonical JSON' },
     { value: 'csv', label: 'Canonical CSV' },
     { value: 'jsonl', label: 'Canonical JSONL' },
-    { value: 'json-provider', label: 'Borg JSON Provider' },
-    { value: 'claude-mem-store', label: 'Claude-Mem Store' },
+    { value: 'json-provider', label: 'Hypercode JSON Provider' },
+    { value: 'hypercode-store', label: 'hypercode Store' },
 ];
 
 export default function MemoryDashboard() {
@@ -46,7 +46,7 @@ export default function MemoryDashboard() {
     const [searchMode, setSearchMode] = useState<MemorySearchMode>('all');
     const [newFact, setNewFact] = useState('');
     const [exportFormat, setExportFormat] = useState<MemoryInterchangeFormat>('json');
-    const [convertToFormat, setConvertToFormat] = useState<MemoryInterchangeFormat>('claude-mem-store');
+    const [convertToFormat, setConvertToFormat] = useState<MemoryInterchangeFormat>('hypercode-store');
     const [importing, setImporting] = useState(false);
     const [converting, setConverting] = useState(false);
     const [selectedRecordKey, setSelectedRecordKey] = useState<string | null>(null);
@@ -302,10 +302,10 @@ export default function MemoryDashboard() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
                         <Brain className="h-8 w-8 text-pink-500" />
-                        Borg Memory Control
+                        Hypercode Memory Control
                     </h1>
                     <p className="text-zinc-500 mt-2">
-                        Search and inspect Borg-native facts, observations, prompts, session summaries, and adapter exports from one control surface.
+                        Search and inspect Hypercode-native facts, observations, prompts, session summaries, and adapter exports from one control surface.
                     </p>
                 </div>
                 <div className="flex gap-4">
@@ -347,7 +347,7 @@ export default function MemoryDashboard() {
                         <CardHeader className="pb-3">
                             <CardTitle className="text-sm font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
                                 <Brain className="h-4 w-4" />
-                                Borg Memory Model
+                                Hypercode Memory Model
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3 text-xs text-zinc-300">
@@ -422,7 +422,7 @@ export default function MemoryDashboard() {
                                         const url = URL.createObjectURL(blob);
                                         const a = document.createElement('a');
                                         a.href = url;
-                                        a.download = `borg-memories.${extension}`;
+                                        a.download = `hypercode-memories.${extension}`;
                                         a.click();
                                         URL.revokeObjectURL(url);
                                         toast.success(`Exported as ${MEMORY_FORMAT_OPTIONS.find(option => option.value === exportFormat)?.label || exportFormat}`);
@@ -508,7 +508,7 @@ export default function MemoryDashboard() {
                                             const url = URL.createObjectURL(blob);
                                             const a = document.createElement('a');
                                             a.href = url;
-                                            a.download = `borg-memory-converted.${extension}`;
+                                            a.download = `hypercode-memory-converted.${extension}`;
                                             a.click();
                                             URL.revokeObjectURL(url);
                                             toast.success(`Converted ${exportFormat} → ${convertToFormat}`);

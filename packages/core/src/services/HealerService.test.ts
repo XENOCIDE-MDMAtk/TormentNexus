@@ -6,7 +6,7 @@ import { shouldIgnoreExpectedStartupError } from '../reactors/HealerReactor.js';
 describe('Healer degraded startup handling', () => {
     it('ignores expected SQLite-unavailable startup errors', () => {
         expect(shouldIgnoreExpectedStartupError(
-            'SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better_sqlite3.node)',
+            'SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better_sqlite3.node)',
         )).toBe(true);
     });
 

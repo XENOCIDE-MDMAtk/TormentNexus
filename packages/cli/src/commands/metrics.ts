@@ -1,5 +1,5 @@
 /**
- * `borg metrics` — System metrics, performance, and observability
+ * `hypercode metrics` — System metrics, performance, and observability
  */
 import type { Command } from 'commander';
 

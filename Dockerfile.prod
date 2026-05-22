@@ -7,7 +7,7 @@ RUN corepack enable
 WORKDIR /app
 COPY . .
 # Use turbo to create a pruned version of the workspace focusing on web and core
-RUN pnpm dlx turbo prune @borg/web @borg/core --docker
+RUN pnpm dlx turbo prune @hypercode/web @hypercode/core --docker
 
 # Stage 2: Builder
 FROM node:20-slim AS builder

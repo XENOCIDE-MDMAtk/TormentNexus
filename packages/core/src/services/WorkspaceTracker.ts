@@ -12,7 +12,7 @@ export class WorkspaceTracker {
     private readonly registryPath: string;
 
     constructor() {
-        this.registryPath = path.join(os.homedir(), '.borg', 'workspaces.json');
+        this.registryPath = path.join(os.homedir(), '.hypercode', 'workspaces.json');
     }
 
     public async registerWorkspace(workspacePath: string = process.cwd()): Promise<void> {

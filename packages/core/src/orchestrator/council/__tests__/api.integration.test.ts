@@ -20,7 +20,7 @@ describeApiIntegration('API Integration Tests', () => {
   beforeAll(async () => {
     const ready = await waitForServer();
     if (!ready) {
-      throw new Error('Server not available. Set RUN_API_INTEGRATION_TESTS=1 and point TEST_API_BASE at a live Borg API.');
+      throw new Error('Server not available. Set RUN_API_INTEGRATION_TESTS=1 and point TEST_API_BASE at a live Hypercode API.');
     }
   });
 

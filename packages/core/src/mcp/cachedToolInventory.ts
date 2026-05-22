@@ -1,7 +1,7 @@
 import { mcpServersRepository, toolsRepository } from '../db/repositories/index.js';
 
 import { deriveSemanticCatalogForServer } from './catalogMetadata.js';
-import { loadBorgMcpConfig, type BorgMcpServerEntry, type BorgMcpToolMetadata } from './mcpJsonConfig.js';
+import { loadHypercodeMcpConfig, type HypercodeMcpServerEntry, type HypercodeMcpToolMetadata } from './mcpJsonConfig.js';
 import { namespaceToolName } from './namespaces.js';
 import { formatOptionalSqliteFailure } from '../db/sqliteAvailability.js';
 
@@ -57,7 +57,7 @@ function toDateOrNull(value: string | undefined | null): Date | null {
     return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-function buildConfigSnapshot(configServers: Record<string, BorgMcpServerEntry>): CachedMcpInventorySnapshot {
+function buildConfigSnapshot(configServers: Record<string, HypercodeMcpServerEntry>): CachedMcpInventorySnapshot {
     const servers = Object.entries(configServers).map(([name, server], index) => {
         const metadata = server._meta;
         return {
@@ -102,7 +102,7 @@ function buildConfigSnapshot(configServers: Record<string, BorgMcpServerEntry>):
         }
 
         metadataTools.forEach((tool) => {
-            const typedTool = tool as BorgMcpToolMetadata;
+            const typedTool = tool as HypercodeMcpToolMetadata;
             tools.push({
                 name: namespaceToolName(server.name, typedTool.name),
                 description: typedTool.description ?? '',
@@ -207,7 +207,7 @@ async function buildDatabaseSnapshot(): Promise<CachedMcpInventorySnapshot> {
 }
 
 export async function getCachedToolInventory() {
-    const config = await loadBorgMcpConfig().catch(() => ({ mcpServers: {} }));
+    const config = await loadHypercodeMcpConfig().catch(() => ({ mcpServers: {} }));
     const configSnapshot = buildConfigSnapshot(config.mcpServers ?? {});
 
     try {

@@ -55,7 +55,7 @@ globalMeshBus.setMaxListeners(100);
 
 let redisSubscriber: Redis | null = null;
 let redisPublisher: Redis | null = null;
-const REDIS_CHANNEL = 'borg:swarm:mesh';
+const REDIS_CHANNEL = 'hypercode:swarm:mesh';
 
 // Initialize Redis if REDIS_URL is provided in the environment
 if (process.env.REDIS_URL) {

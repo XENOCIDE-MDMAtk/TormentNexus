@@ -1,1 +1,1 @@
-export * from "../metamcp-middleware/filter-tools.functional.js";
+export * from "../hypercode-middleware/filter-tools.functional.js";

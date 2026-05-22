@@ -2,7 +2,7 @@ import { eq, and } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { db } from "../index.js";
 import { toolSetsTable, toolSetItemsTable } from "../mcp-admin-schema.js";
-import { ToolSet } from "../../types/metamcp/tool-sets.zod.js";
+import { ToolSet } from "../../types/hypercode/tool-sets.zod.js";
 
 type ToolSetRow = typeof toolSetsTable.$inferSelect;
 type ToolSetInsert = typeof toolSetsTable.$inferInsert;

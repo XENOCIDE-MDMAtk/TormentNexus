@@ -1,11 +1,11 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { GraphMemory } from '@borg/memory';
+import { GraphMemory } from '@hypercode/memory';
 import fs from 'fs/promises';
 import path from 'path';
 
 describe('Phase 27: Logic Graph (Knowledge Graph)', () => {
-    const testRoot = path.join(process.cwd(), '.borg_test_graph');
+    const testRoot = path.join(process.cwd(), '.hypercode_test_graph');
 
     beforeEach(async () => {
         await fs.mkdir(testRoot, { recursive: true });

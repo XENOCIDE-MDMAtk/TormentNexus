@@ -33,7 +33,7 @@ func TestToolResultSnapshots(t *testing.T) {
   ],
   "isError": false
 }`)
-	mustExecSnapshot(t, runtime, "edit", EditToolInput{Path: "snap.txt", Edits: []EditReplacement{{OldText: "hello", NewText: "borg"}}}, `{
+	mustExecSnapshot(t, runtime, "edit", EditToolInput{Path: "snap.txt", Edits: []EditReplacement{{OldText: "hello", NewText: "hypercode"}}}, `{
   "toolName": "edit",
   "content": [
     {
@@ -42,7 +42,7 @@ func TestToolResultSnapshots(t *testing.T) {
     }
   ],
   "details": {
-    "diff": "borg",
+    "diff": "hypercode",
     "firstChangedLine": 1
   },
   "isError": false
@@ -88,11 +88,11 @@ func normalizeToolResultSnapshot(t *testing.T, result *ToolResult) string {
 	text = strings.ReplaceAll(text, "\r\n", "\n")
 	text = strings.ReplaceAll(text, filepath.Join(os.TempDir(), ""), "")
 	if strings.Contains(text, "@@") {
-		text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-borg\n", "")
+		text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-hypercode\n", "")
 	}
-	text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-borg", "borg")
-	text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-hello\n+borg\n", "borg")
-	text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-hello\n+borg", "borg")
+	text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-hypercode", "hypercode")
+	text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-hello\n+hypercode\n", "hypercode")
+	text = strings.ReplaceAll(text, "@@ -1,5 +1,4 @@\n-hello\n+hypercode", "hypercode")
 	var decoded map[string]any
 	if err := json.Unmarshal([]byte(text), &decoded); err != nil {
 		return normalizeJSON(text)
@@ -111,8 +111,8 @@ func normalizeToolResultSnapshot(t *testing.T, result *ToolResult) string {
 		if diff, ok := details["diff"].(string); ok {
 			diff = strings.ReplaceAll(diff, "\r\n", "\n")
 			diff = ansiPattern.ReplaceAllString(diff, "")
-			if strings.Contains(diff, "borg") {
-				details["diff"] = "borg"
+			if strings.Contains(diff, "hypercode") {
+				details["diff"] = "hypercode"
 			} else {
 				details["diff"] = diff
 			}

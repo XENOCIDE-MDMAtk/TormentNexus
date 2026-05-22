@@ -14,7 +14,7 @@ export const suggestionsRouter = t.router({
 
         // EXECUTION LOGIC FOR APPROVED ACTIONS
         if (suggestion && input.status === 'APPROVED' && suggestion.payload && suggestion.payload.tool) {
-            console.log(`[Borg Core] Auto-Executing Approved Suggestion: ${suggestion.title}`);
+            console.log(`[Hypercode Core] Auto-Executing Approved Suggestion: ${suggestion.title}`);
             await getMcpServer().executeTool(suggestion.payload.tool, suggestion.payload.args || {});
         }
         return suggestion ?? null;

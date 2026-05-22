@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { KnowledgeService } from '../services/KnowledgeService.js';
 import { MemoryManager } from '../services/MemoryManager.js';
-import { GraphMemory } from '@borg/memory';
+import { GraphMemory } from '@hypercode/memory';
 
 // Mock MemoryManager
 class MockMemoryManager {
@@ -15,7 +15,7 @@ class MockMemoryManager {
 describe('Phase 28: Smart Context Retrieval', () => {
     let graph: GraphMemory;
     let service: KnowledgeService;
-    const testPath = '.borg_test_smart_context';
+    const testPath = '.hypercode_test_smart_context';
 
     beforeEach(async () => {
         // Cleanup handled by GraphMemory logic usually, but here we use in-memory or temp path

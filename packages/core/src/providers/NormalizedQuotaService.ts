@@ -1,4 +1,4 @@
-import { QuotaService, type QuotaConfig } from '@borg/ai';
+import { QuotaService, type QuotaConfig } from '@hypercode/ai';
 
 import { ProviderBalanceService } from './ProviderBalanceService.js';
 import { ProviderRegistry } from './ProviderRegistry.js';

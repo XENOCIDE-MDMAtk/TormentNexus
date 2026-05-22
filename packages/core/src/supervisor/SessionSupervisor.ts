@@ -85,7 +85,7 @@ export class SessionSupervisor {
 
     constructor(options: SessionSupervisorOptions = {}) {
         this.rootDir = options.rootDir ?? process.cwd();
-        this.persistencePath = options.persistencePath ?? path.join(this.rootDir, '.borg', 'session-supervisor.json');
+        this.persistencePath = options.persistencePath ?? path.join(this.rootDir, '.hypercode', 'session-supervisor.json');
         this.maxPersistedSessions = options.maxPersistedSessions ?? 100;
         this.maxLogEntries = options.maxLogEntries ?? 200;
         this.autoResumeOnStart = options.autoResumeOnStart ?? true;

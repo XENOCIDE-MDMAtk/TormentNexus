@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// AutoDrive State Machine provides Roo Code / Cline level autonomy within Borg.
+// AutoDrive State Machine provides Roo Code / Cline level autonomy within Hypercode.
 // It bypasses the need for the TS orchestrator driving a loop.
 type AutoDrive struct {
 	MaxIterations int

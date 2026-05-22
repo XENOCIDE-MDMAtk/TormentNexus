@@ -15,16 +15,16 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/borghq/borg-go/internal/cache"
-	"github.com/borghq/borg-go/internal/ctxharvester"
-	"github.com/borghq/borg-go/internal/eventbus"
-	"github.com/borghq/borg-go/internal/healer"
-	"github.com/borghq/borg-go/internal/mcp"
-	"github.com/borghq/borg-go/internal/metrics"
-	processmanager "github.com/borghq/borg-go/internal/process"
-	"github.com/borghq/borg-go/internal/session"
-	"github.com/borghq/borg-go/internal/toolregistry"
-	"github.com/borghq/borg-go/internal/workspaces"
+	"github.com/hypercodehq/hypercode-go/internal/cache"
+	"github.com/hypercodehq/hypercode-go/internal/ctxharvester"
+	"github.com/hypercodehq/hypercode-go/internal/eventbus"
+	"github.com/hypercodehq/hypercode-go/internal/healer"
+	"github.com/hypercodehq/hypercode-go/internal/mcp"
+	"github.com/hypercodehq/hypercode-go/internal/metrics"
+	processmanager "github.com/hypercodehq/hypercode-go/internal/process"
+	"github.com/hypercodehq/hypercode-go/internal/session"
+	"github.com/hypercodehq/hypercode-go/internal/toolregistry"
+	"github.com/hypercodehq/hypercode-go/internal/workspaces"
 )
 
 // ==================== MCP Decision System ====================

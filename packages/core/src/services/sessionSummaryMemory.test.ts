@@ -11,7 +11,7 @@ describe('sessionSummaryMemory helpers', () => {
     it('builds stable structured summaries and readable content', () => {
         const summary = buildStructuredSessionSummary({
             sessionId: 'session-123',
-            name: 'Borg Dev Session',
+            name: 'Hypercode Dev Session',
             cliType: 'tabby',
             workingDirectory: 'C:/repo',
             status: 'stopped',
@@ -24,7 +24,7 @@ describe('sessionSummaryMemory helpers', () => {
         const { contentHash: _contentHash, ...summaryWithoutHash } = summary;
 
         expect(summary.contentHash).toBe(createSessionSummaryContentHash(summaryWithoutHash));
-        expect(buildSessionSummaryContent(summary)).toContain('Borg Dev Session (tabby) ended with status stopped.');
+        expect(buildSessionSummaryContent(summary)).toContain('Hypercode Dev Session (tabby) ended with status stopped.');
         expect(buildSessionSummaryContent(summary)).toContain('Goal: Ship native memory summaries');
     });
 

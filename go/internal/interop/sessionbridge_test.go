@@ -8,23 +8,23 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/borghq/borg-go/internal/lockfile"
+	"github.com/hypercodehq/hypercode-go/internal/lockfile"
 )
 
 func TestResolveTRPCBasesUsesConfiguredExclusivelyWhenSet(t *testing.T) {
 	tempDir := t.TempDir()
 	mainLockPath := filepath.Join(tempDir, "lock")
-	// Seed a lock file — this should be IGNORED when BORG_TRPC_UPSTREAM is set
+	// Seed a lock file — this should be IGNORED when HYPERCODE_TRPC_UPSTREAM is set
 	if err := lockfile.Write(mainLockPath, lockfile.Record{
 		Host: "0.0.0.0",
 		Port: 4100,
 	}); err != nil {
 		t.Fatalf("failed to seed lock file: %v", err)
 	}
-	t.Setenv("BORG_TRPC_UPSTREAM", "http://127.0.0.1:4200/trpc")
+	t.Setenv("HYPERCODE_TRPC_UPSTREAM", "http://127.0.0.1:4200/trpc")
 	bases := ResolveTRPCBases(mainLockPath)
 	if len(bases) != 1 {
-		t.Fatalf("expected exactly 1 base when BORG_TRPC_UPSTREAM is set, got %v", bases)
+		t.Fatalf("expected exactly 1 base when HYPERCODE_TRPC_UPSTREAM is set, got %v", bases)
 	}
 	if bases[0] != "http://127.0.0.1:4200/trpc" {
 		t.Fatalf("expected configured base, got %s", bases[0])
@@ -40,8 +40,8 @@ func TestResolveTRPCBasesUsesLockfileAndDefaultsWhenNoEnv(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("failed to seed lock file: %v", err)
 	}
-	// Ensure BORG_TRPC_UPSTREAM is not set
-	t.Setenv("BORG_TRPC_UPSTREAM", "")
+	// Ensure HYPERCODE_TRPC_UPSTREAM is not set
+	t.Setenv("HYPERCODE_TRPC_UPSTREAM", "")
 	bases := ResolveTRPCBases(mainLockPath)
 	if len(bases) < 2 {
 		t.Fatalf("expected locked + default bases, got %v", bases)
@@ -68,7 +68,7 @@ func TestCallTRPCProcedureReturnsUnwrappedJSONData(t *testing.T) {
 		})
 	}))
 	defer server.Close()
-	t.Setenv("BORG_TRPC_UPSTREAM", server.URL+"/trpc")
+	t.Setenv("HYPERCODE_TRPC_UPSTREAM", server.URL+"/trpc")
 	result, err := CallTRPCProcedure(context.Background(), filepath.Join(t.TempDir(), "missing-lock"), "session.list", nil)
 	if err != nil {
 		t.Fatalf("expected no bridge error, got %v", err)

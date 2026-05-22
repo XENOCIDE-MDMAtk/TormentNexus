@@ -29,7 +29,7 @@ export class GraphMemory {
     private initialized: boolean = false;
 
     constructor(storageRoot: string = process.cwd()) {
-        this.persistPath = path.join(storageRoot, '.borg', 'memory', 'knowledge_graph.json');
+        this.persistPath = path.join(storageRoot, '.hypercode', 'memory', 'knowledge_graph.json');
 
     }
 

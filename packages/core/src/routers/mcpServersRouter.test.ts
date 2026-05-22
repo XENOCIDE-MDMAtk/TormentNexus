@@ -15,7 +15,7 @@ vi.mock('../db/repositories/index.js', () => ({
 }));
 
 vi.mock('../mcp/mcpJsonConfig.js', () => ({
-    loadBorgMcpConfig: vi.fn(async () => ({ mcpServers: {} })),
+    loadHypercodeMcpConfig: vi.fn(async () => ({ mcpServers: {} })),
 }));
 
 vi.mock('../mcp/clientConfigSync.js', () => ({
@@ -51,7 +51,7 @@ describe('mcpServersRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for list when SQLite is unavailable', async () => {
         repositoryMocks.findAll.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();
@@ -63,7 +63,7 @@ describe('mcpServersRouter degraded SQLite handling', () => {
 
     it('surfaces a clear error for create when SQLite is unavailable', async () => {
         repositoryMocks.create.mockRejectedValue(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const caller = createCaller();
@@ -94,7 +94,7 @@ describe('mcpServersRouter degraded SQLite handling', () => {
         const caller = createCaller();
 
         await expect(caller.registrySnapshot()).rejects.toMatchObject<Partial<TRPCError>>({
-            message: 'Registry snapshot is unavailable: BORG_MASTER_INDEX.jsonc contains invalid JSON.',
+            message: 'Registry snapshot is unavailable: HYPERCODE_MASTER_INDEX.jsonc contains invalid JSON.',
         });
     });
 });

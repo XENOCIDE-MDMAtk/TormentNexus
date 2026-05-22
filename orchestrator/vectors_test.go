@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/robertpelloni/borg/agents"
+	"github.com/robertpelloni/hypercode/agents"
 )
 
 func TestVectorDatabaseSimilarityLoops(t *testing.T) {

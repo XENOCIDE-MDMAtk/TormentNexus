@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/borghq/borg-go/internal/ai"
+	"github.com/hypercodehq/hypercode-go/internal/ai"
 )
 
 type PairRole string

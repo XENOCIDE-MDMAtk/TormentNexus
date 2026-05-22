@@ -329,7 +329,7 @@ async function safeFetch(url: string, options?: { timeoutMs?: number }): Promise
     try {
         const response = await fetch(url, {
             signal: controller.signal,
-            headers: { "Accept": "application/json", "User-Agent": "Borg/MCP-Catalog-Ingestor" },
+            headers: { "Accept": "application/json", "User-Agent": "Hypercode/MCP-Catalog-Ingestor" },
         });
         const contentType = (readHeader(response.headers, "content-type") ?? "").toLowerCase();
         if (!response.ok) {

@@ -10,7 +10,7 @@
 As GitHub Copilot, you act as an interactive localized autocomplete partner and localized pair programmer for the operator:
 - **Concise Suggestions**: Provide context-aware, highly focused, and surgical inline completions.
 - **Style Concordance**: Match the exact style, indentation, type strictness, and structure of the surrounding active code block.
-- **Component Alignment**: Utilize `@borg/ui` and `lucide-react` for frontend React elements, maintaining premium aesthetics.
+- **Component Alignment**: Utilize `@hypercode/ui` and `lucide-react` for frontend React elements, maintaining premium aesthetics.
 
 ---
 

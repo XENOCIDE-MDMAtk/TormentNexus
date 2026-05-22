@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@borg/ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@hypercode/ui";
 import { Activity, AlertTriangle, CheckCircle2, Loader2, Server, Wifi, WifiOff } from "lucide-react";
 
 type ServiceStatus = {
@@ -195,7 +195,7 @@ export default function ServiceConnectivityPage() {
             <AlertTriangle className="h-6 w-6 mb-2" />
             <p>{error}</p>
             <p className="mt-2 text-sm text-zinc-500">
-              Ensure the Go sidecar is running: <code className="bg-zinc-800 px-1.5 py-0.5 rounded">borg serve</code>
+              Ensure the Go sidecar is running: <code className="bg-zinc-800 px-1.5 py-0.5 rounded">hypercode serve</code>
             </p>
           </CardContent>
         </Card>
@@ -215,7 +215,7 @@ export default function ServiceConnectivityPage() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">Service Connectivity</h1>
           <p className="text-zinc-500 mt-1">
-            Real-time health of the Borg multi-service architecture
+            Real-time health of the Hypercode multi-service architecture
           </p>
         </div>
         <div className="flex items-center gap-2">

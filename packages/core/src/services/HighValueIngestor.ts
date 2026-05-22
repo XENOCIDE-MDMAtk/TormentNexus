@@ -7,7 +7,7 @@
  *
  * WHY: High-value links (e.g. popular MCP servers, key documentation) require 
  * more than just a basic crawl. They need to be fully assimilated into 
- * Borg's available toolset and knowledge graph.
+ * Hypercode's available toolset and knowledge graph.
  *
  * HOW:
  * 1. Filter links in the backlog by priority/value (stars, domain, manual tag).
@@ -17,7 +17,7 @@
  */
 
 import { linksBacklogRepository } from "../db/repositories/links-backlog.repo.js";
-import { LLMService } from "@borg/ai";
+import { LLMService } from "@hypercode/ai";
 import { McpConfigService } from "./McpConfigService.js";
 import { SkillRegistry } from "../skills/SkillRegistry.js";
 
@@ -56,7 +56,7 @@ export class HighValueIngestor {
         console.log(`[HighValueIngestor] 🔍 Deep diving into: ${link.title || link.url}`);
 
         const prompt = `
-            Analyze this resource for the Borg Control Plane:
+            Analyze this resource for the Hypercode Control Plane:
             Title: ${link.page_title || link.title}
             Description: ${link.page_description || link.description}
             URL: ${link.url}

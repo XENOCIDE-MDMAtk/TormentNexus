@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/borghq/borg-go/internal/workflow"
+	"github.com/hypercodehq/hypercode-go/internal/workflow"
 )
 
 func (s *Server) handleNativeWorkflowList(w http.ResponseWriter, r *http.Request) {

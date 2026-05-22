@@ -21,7 +21,7 @@ export const skillsRouter = t.router({
     }),
 
     listLoaded: publicProcedure.query(async () => {
-        const SIDECAR_URL = process.env.BORG_SIDECAR_URL || 'http://127.0.0.1:4300';
+        const SIDECAR_URL = process.env.HYPERCODE_SIDECAR_URL || 'http://127.0.0.1:4300';
         try {
             const res = await fetch(`${SIDECAR_URL}/api/skills/list-loaded`);
             if (res.ok) {
@@ -35,7 +35,7 @@ export const skillsRouter = t.router({
     }),
 
     load: publicProcedure.input(z.object({ id: z.string() })).mutation(async ({ input }) => {
-        const SIDECAR_URL = process.env.BORG_SIDECAR_URL || 'http://127.0.0.1:4300';
+        const SIDECAR_URL = process.env.HYPERCODE_SIDECAR_URL || 'http://127.0.0.1:4300';
         try {
             const res = await fetch(`${SIDECAR_URL}/api/skills/load`, {
                 method: 'POST',
@@ -50,7 +50,7 @@ export const skillsRouter = t.router({
     }),
 
     unload: publicProcedure.input(z.object({ id: z.string() })).mutation(async ({ input }) => {
-        const SIDECAR_URL = process.env.BORG_SIDECAR_URL || 'http://127.0.0.1:4300';
+        const SIDECAR_URL = process.env.HYPERCODE_SIDECAR_URL || 'http://127.0.0.1:4300';
         try {
             const res = await fetch(`${SIDECAR_URL}/api/skills/unload`, {
                 method: 'POST',

@@ -1,5 +1,5 @@
 /**
- * `borg info` — Show comprehensive system information
+ * `hypercode info` — Show comprehensive system information
  * Combines version, status, providers, catalog, and uptime in one view
  */
 import type { Command } from 'commander';
@@ -29,7 +29,7 @@ export function registerInfoCommand(program: Command): void {
       const version = getVersion();
 
       if (opts.json) {
-        const info: Record<string, any> = { version, codename: 'AIOS' };
+        const info: Record<string, any> = { version, codename: 'HYPERCODE' };
 
         try {
           const res = await fetch('http://127.0.0.1:4100/health', { signal: AbortSignal.timeout(3000) });
@@ -50,7 +50,7 @@ export function registerInfoCommand(program: Command): void {
         return;
       }
 
-      console.log(chalk.bold.cyan(`\n  ⬡ Borg AIOS v${version} — System Info\n`));
+      console.log(chalk.bold.cyan(`\n  ⬡ Hypercode HYPERCODE v${version} — System Info\n`));
 
       // Parallel fetch all data
       const [health, mcpStatus, goHealth, catalogStats] = await Promise.all([
@@ -149,7 +149,7 @@ export function registerInfoCommand(program: Command): void {
         try {
           const fs = await import('fs');
           const path = await import('path');
-          const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+          const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
           const pidFiles = fs.readdirSync(pidDir).filter(f => f.endsWith('.pid'));
           let fleetAlive = 0;
           for (const pf of pidFiles) {

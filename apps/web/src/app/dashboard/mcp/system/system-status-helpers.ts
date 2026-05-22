@@ -263,7 +263,7 @@ export function buildSystemStartupNotice(startupStatus: SystemStartupStatusInput
     if (startupStatus?.status === 'degraded') {
         return {
             title: 'Compat fallback active',
-            detail: summary || 'Live startup telemetry is unavailable, so Borg is showing config-backed compatibility state instead of the full core startup contract.',
+            detail: summary || 'Live startup telemetry is unavailable, so Hypercode is showing config-backed compatibility state instead of the full core startup contract.',
             tone: 'warning',
         };
     }
@@ -368,7 +368,7 @@ function getMemoryContextDetail(startupStatus: SystemStartupStatusInput): string
 
     if (memory?.ready) {
         if (claudeMem?.enabled) {
-            return 'Memory manager initialized and claude-mem default sections are ready';
+            return 'Memory manager initialized and hypercode default sections are ready';
         }
 
         return 'Memory manager initialized and context services are available';
@@ -380,16 +380,16 @@ function getMemoryContextDetail(startupStatus: SystemStartupStatusInput): string
 
     if (claudeMem?.enabled) {
         if (!claudeMem.storeExists) {
-            return 'Memory manager is initialized, but claude-mem store has not been created yet';
+            return 'Memory manager is initialized, but hypercode store has not been created yet';
         }
 
         const presentSectionCount = Number(claudeMem.presentDefaultSectionCount ?? 0);
         const defaultSectionCount = Number(claudeMem.defaultSectionCount ?? 0);
         if (defaultSectionCount > 0 && presentSectionCount < defaultSectionCount) {
-            return `Memory manager is initialized, but claude-mem is still seeding default sections (${presentSectionCount}/${defaultSectionCount} present)`;
+            return `Memory manager is initialized, but hypercode is still seeding default sections (${presentSectionCount}/${defaultSectionCount} present)`;
         }
 
-        return 'Memory manager is initialized, but claude-mem readiness is still pending';
+        return 'Memory manager is initialized, but hypercode readiness is still pending';
     }
 
     return 'Memory manager is present, but agent context wiring is still finishing';
@@ -510,10 +510,10 @@ export function buildSystemComponentHealthRows(
             status: startupTelemetryConnecting ? 'Pending' : (startupStatus?.status === 'running' ? 'Operational' : 'Pending'),
             latency: startupTelemetryConnecting ? 'connecting' : (startupStatus?.ready ? 'ready' : 'warming'),
             detail: startupTelemetryConnecting
-                ? 'Connecting to live startup telemetry from Borg Core.'
+                ? 'Connecting to live startup telemetry from Hypercode Core.'
                 : startupStatus?.ready
                 ? 'Authoritative startup contract is online and reporting readiness.'
-                : 'Waiting for Borg Core startup checks to finish reporting.',
+                : 'Waiting for Hypercode Core startup checks to finish reporting.',
         },
         {
             name: 'Cached MCP inventory',
@@ -537,7 +537,7 @@ export function buildSystemComponentHealthRows(
             latency: browserStatus?.available ? `${browserStatus?.pageCount ?? 0} pages` : '-',
             detail: browserStatus?.available
                 ? 'Browser automation/runtime endpoints are online.'
-                : 'Browser runtime is not currently reachable from Borg.',
+                : 'Browser runtime is not currently reachable from Hypercode.',
         },
         {
             name: 'Extension bridge',
@@ -562,7 +562,7 @@ export function buildSystemComponentHealthRows(
             status: execution?.ready ? 'Operational' : 'Pending',
             latency: `${execution?.verifiedToolCount ?? 0}/${execution?.toolCount ?? 0} tools`,
             detail: execution?.ready
-                ? `${execution?.preferredShellLabel ?? 'Preferred shell'} is available for Borg task execution.`
+                ? `${execution?.preferredShellLabel ?? 'Preferred shell'} is available for Hypercode task execution.`
                 : 'Waiting for shell and tool verification to complete.',
         },
     ];

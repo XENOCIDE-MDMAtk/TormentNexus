@@ -1,6 +1,6 @@
 # Phase 3: Fleet Orchestration
 
-## 1. Nexus Fleet Manager
+## 1. Hypercode Fleet Manager
 The Go sidecar will act as the "Ground Control" for multiple concurrent HyperCode sessions.
 
 ### Functional Requirements

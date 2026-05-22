@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Card, CardContent } from "@borg/ui";
+import { Card, CardContent } from "@hypercode/ui";
 import { Library, FileCode, Hammer, Brain, BookOpenText, Lightbulb, Layers, ScrollText, ExternalLink, Loader2 } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 
@@ -54,7 +54,7 @@ export default function LibraryDashboard() {
     const sections: ResourceSection[] = [
         {
             title: "Saved Scripts",
-            description: "Reusable automation scripts for common Borg operations and workflows.",
+            description: "Reusable automation scripts for common Hypercode operations and workflows.",
             href: "/dashboard/mcp/scripts",
             icon: FileCode,
             accentClass: "text-blue-400",
@@ -63,7 +63,7 @@ export default function LibraryDashboard() {
         },
         {
             title: "Skills",
-            description: "Curated skill bundles that extend Borg's reasoning and action capabilities.",
+            description: "Curated skill bundles that extend Hypercode's reasoning and action capabilities.",
             href: "/dashboard/skills",
             icon: Hammer,
             accentClass: "text-orange-400",
@@ -79,28 +79,28 @@ export default function LibraryDashboard() {
         },
         {
             title: "Memory Bank",
-            description: "Searchable observations, prompts, and session summaries persisted by Borg.",
+            description: "Searchable observations, prompts, and session summaries persisted by Hypercode.",
             href: "/dashboard/memory",
             icon: Brain,
             accentClass: "text-purple-400",
         },
         {
             title: "Plans",
-            description: "Structured reasoning plans and goal decompositions generated or stored by Borg.",
+            description: "Structured reasoning plans and goal decompositions generated or stored by Hypercode.",
             href: "/dashboard/plans",
             icon: Lightbulb,
             accentClass: "text-yellow-400",
         },
         {
             title: "Manual",
-            description: "Operator documentation, usage guides, and feature reference for Borg.",
+            description: "Operator documentation, usage guides, and feature reference for Hypercode.",
             href: "/dashboard/manual",
             icon: BookOpenText,
             accentClass: "text-emerald-400",
         },
         {
             title: "Chronicle",
-            description: "Git commit history and working-tree status for the active Borg workspace.",
+            description: "Git commit history and working-tree status for the active Hypercode workspace.",
             href: "/dashboard/chronicle",
             icon: ScrollText,
             accentClass: "text-violet-400",
@@ -125,7 +125,7 @@ export default function LibraryDashboard() {
                         Resource Library
                     </h1>
                     <p className="text-zinc-500 mt-2 max-w-2xl">
-                        Central hub for scripts, skills, tool sets, memory, plans, and documentation — all the reusable resources that power Borg workflows.
+                        Central hub for scripts, skills, tool sets, memory, plans, and documentation — all the reusable resources that power Hypercode workflows.
                     </p>
                 </div>
                 {isLoading && (

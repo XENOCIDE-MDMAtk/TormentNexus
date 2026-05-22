@@ -6,7 +6,7 @@ import {
     CreatePolicySchema,
     UpdatePolicySchema,
     DeletePolicySchema
-} from '../types/metamcp/policies.zod.js';
+} from '../types/hypercode/policies.zod.js';
 
 export const policiesRouter = t.router({
     list: publicProcedure.query(async () => {

@@ -2,7 +2,7 @@ import { eq, desc } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { db } from "../index.js";
 import { savedScriptsTable } from "../mcp-admin-schema.js";
-import { SavedScript } from "../../types/metamcp/saved-scripts.zod.js";
+import { SavedScript } from "../../types/hypercode/saved-scripts.zod.js";
 
 type SavedScriptRow = typeof savedScriptsTable.$inferSelect;
 type SavedScriptInsert = typeof savedScriptsTable.$inferInsert;

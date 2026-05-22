@@ -1,1 +1,1 @@
-export * from "../metamcp-middleware/functional-middleware.js";
+export * from "../hypercode-middleware/functional-middleware.js";

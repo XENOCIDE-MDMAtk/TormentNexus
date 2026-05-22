@@ -1,7 +1,7 @@
 export type BridgeClientType = 'browser-extension' | 'vscode-extension' | 'cli-adapter' | 'unknown';
 
 export interface BridgeClientHello {
-    type: 'BORG_CLIENT_HELLO';
+    type: 'HYPERCODE_CLIENT_HELLO';
     clientType?: BridgeClientType;
     clientName?: string;
     version?: string;

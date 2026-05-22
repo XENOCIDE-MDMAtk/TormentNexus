@@ -1,1 +1,1 @@
-// @borg/mcp-client -- stub\nexport {};
+// @hypercode/mcp-client -- stub\nexport {};

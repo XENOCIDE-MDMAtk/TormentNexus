@@ -16,7 +16,7 @@ export class SessionManager {
     private saveInterval: NodeJS.Timeout | null = null;
 
     constructor(baseDir: string = process.cwd()) {
-        this.persistencePath = path.join(baseDir, '.borg-session.json');
+        this.persistencePath = path.join(baseDir, '.hypercode-session.json');
         this.state = {
             isAutoDriveActive: false,
             activeGoal: null,

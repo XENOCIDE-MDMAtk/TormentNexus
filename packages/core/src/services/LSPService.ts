@@ -1,5 +1,5 @@
 /**
- * LSP Service - Language Server Protocol Integration for Borg
+ * LSP Service - Language Server Protocol Integration for Hypercode
  * 
  * Provides semantic code understanding via Language Server Protocol integration.
  * Inspired by Serena's architecture but implemented in TypeScript.

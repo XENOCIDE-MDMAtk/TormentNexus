@@ -14,7 +14,7 @@ func localMemoryInterchangeFormats() []map[string]any {
 			"label":       "Canonical JSON",
 			"kind":        "canonical",
 			"extension":   "json",
-			"description": "Portable Borg memory export with metadata preserved.",
+			"description": "Portable Hypercode memory export with metadata preserved.",
 		},
 		{
 			"id":          "csv",
@@ -32,17 +32,17 @@ func localMemoryInterchangeFormats() []map[string]any {
 		},
 		{
 			"id":          "json-provider",
-			"label":       "Borg JSON Provider",
+			"label":       "Hypercode JSON Provider",
 			"kind":        "provider",
 			"extension":   "json",
-			"description": "Native snapshot of Borg's flat-file memory provider.",
+			"description": "Native snapshot of Hypercode's flat-file memory provider.",
 		},
 		{
 			"id":          "sectioned-memory-store",
 			"label":       "Sectioned Memory Store",
 			"kind":        "provider",
 			"extension":   "json",
-			"description": "Native Borg sectioned memory snapshot.",
+			"description": "Native Hypercode sectioned memory snapshot.",
 		},
 	}
 }

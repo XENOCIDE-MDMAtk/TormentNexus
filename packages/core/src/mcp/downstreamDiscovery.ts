@@ -54,7 +54,7 @@ export function isSameServerInstance(
     params: { name?: string; url?: string | null },
     namespaceUuid: string,
 ): boolean {
-    return params.name === `metamcp-unified-${namespaceUuid}`;
+    return params.name === `hypercode-unified-${namespaceUuid}`;
 }
 
 async function visitEligibleServers(
@@ -107,11 +107,11 @@ async function visitEligibleServers(
 
             const actualServerName =
                 session.client.getServerVersion()?.name || params.name || '';
-            const ourServerName = `metamcp-unified-${context.namespaceUuid}`;
+            const ourServerName = `hypercode-unified-${context.namespaceUuid}`;
 
             if (actualServerName === ourServerName) {
                 console.log(
-                    `Skipping self-referencing MetaMCP server in ${logScope}: "${actualServerName}"`,
+                    `Skipping self-referencing Hypercode server in ${logScope}: "${actualServerName}"`,
                 );
                 return;
             }

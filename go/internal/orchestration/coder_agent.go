@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/borghq/borg-go/internal/ai"
+	"github.com/hypercodehq/hypercode-go/internal/ai"
 )
 
 type CoderAgent struct {

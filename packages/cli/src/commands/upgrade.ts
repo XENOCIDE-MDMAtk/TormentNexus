@@ -1,12 +1,12 @@
 /**
- * `borg upgrade` — Check for updates and upgrade Borg AIOS
+ * `hypercode upgrade` — Check for updates and upgrade Hypercode HYPERCODE
  */
 import type { Command } from 'commander';
 
 export function registerUpgradeCommand(program: Command): void {
   program
     .command('upgrade')
-    .description('Check for updates and upgrade Borg AIOS')
+    .description('Check for updates and upgrade Hypercode HYPERCODE')
     .option('--check', 'Only check for updates without upgrading')
     .option('--force', 'Force upgrade even if up to date')
     .action(async (opts) => {
@@ -27,7 +27,7 @@ export function registerUpgradeCommand(program: Command): void {
         }
       } catch {}
 
-      console.log(chalk.bold.cyan('\n  Borg AIOS Upgrade\n'));
+      console.log(chalk.bold.cyan('\n  Hypercode HYPERCODE Upgrade\n'));
       console.log(chalk.dim('  Current version: ') + currentVersion);
 
       // Check latest version from GitHub
@@ -71,7 +71,7 @@ export function registerUpgradeCommand(program: Command): void {
         console.log(chalk.yellow(`\n  ${behind} commits behind origin/main`));
 
         if (opts.check) {
-          console.log(chalk.dim('  Run `borg upgrade` to update.\n'));
+          console.log(chalk.dim('  Run `hypercode upgrade` to update.\n'));
           return;
         }
 
@@ -103,7 +103,7 @@ export function registerUpgradeCommand(program: Command): void {
 
           // Build Go binary
           try {
-            execSync('cd go && go build -buildvcs=false ./cmd/borg', { encoding: 'utf8', timeout: 120000, stdio: 'pipe' });
+            execSync('cd go && go build -buildvcs=false ./cmd/hypercode', { encoding: 'utf8', timeout: 120000, stdio: 'pipe' });
             console.log(chalk.green('  ✓ Go binary built'));
           } catch {
             console.log(chalk.yellow('  ⚠ Go build had errors'));
@@ -122,7 +122,7 @@ export function registerUpgradeCommand(program: Command): void {
           } catch {}
 
           console.log(chalk.green(`\n  ✓ Upgraded to ${newVersion}`));
-          console.log(chalk.dim('  Restart with `borg start` to apply changes.\n'));
+          console.log(chalk.dim('  Restart with `hypercode start` to apply changes.\n'));
         } catch (e: any) {
           console.log(chalk.red(`  ✗ Upgrade failed: ${e.message}`));
         }

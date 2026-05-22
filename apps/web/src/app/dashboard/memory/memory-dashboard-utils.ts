@@ -92,7 +92,7 @@ export const MEMORY_SEARCH_MODES: Array<{ value: MemorySearchMode; label: string
 export const MEMORY_MODEL_PILLARS = [
     {
         title: 'Facts live in tiers',
-        description: 'Session, working, and long-term records remain Borg’s storage backbone for manual and inferred facts.',
+        description: 'Session, working, and long-term records remain Hypercode’s storage backbone for manual and inferred facts.',
     },
     {
         title: 'Observations are structured',
@@ -103,8 +103,8 @@ export const MEMORY_MODEL_PILLARS = [
         description: 'Captured user prompts and session summaries keep goals, objectives, and provenance visible.',
     },
     {
-        title: 'Claude-mem is an adapter',
-        description: 'The adapter remains useful for interchange, but Borg-native records are now the source of truth.',
+        title: 'Hypercode is an adapter',
+        description: 'The adapter remains useful for interchange, but Hypercode-native records are now the source of truth.',
     },
 ] as const;
 
@@ -704,7 +704,7 @@ export function getMemoryDetailSections(memory: MemoryRecord): MemoryDetailSecti
 
 export function getMemoryModeHint(mode: MemorySearchMode, tier: 'session' | 'working' | 'long_term'): string {
     if (mode === 'all') {
-        return `Showing every record Borg can surface for the ${tier} tier.`;
+        return `Showing every record Hypercode can surface for the ${tier} tier.`;
     }
 
     if (mode === 'facts') {
@@ -712,7 +712,7 @@ export function getMemoryModeHint(mode: MemorySearchMode, tier: 'session' | 'wor
     }
 
     if (mode === 'observations') {
-        return 'Showing structured runtime observations from Borg-native tool and workflow capture.';
+        return 'Showing structured runtime observations from Hypercode-native tool and workflow capture.';
     }
 
     if (mode === 'prompts') {

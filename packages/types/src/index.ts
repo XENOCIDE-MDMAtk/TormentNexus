@@ -1,4 +1,4 @@
-// @borg/types -- schemas for tRPC routers
+// @hypercode/types -- schemas for tRPC routers
 import { z } from 'zod';
 
 export const getRecentObservationsInputSchema = z.object({

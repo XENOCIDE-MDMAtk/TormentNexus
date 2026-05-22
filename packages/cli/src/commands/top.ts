@@ -1,6 +1,6 @@
 /**
- * `borg top` - Live system monitor
- * Shows updating status of all Borg subsystems
+ * `hypercode top` - Live system monitor
+ * Shows updating status of all Hypercode subsystems
  */
 import type { Command } from 'commander';
 import { readFileSync } from 'fs';
@@ -37,7 +37,7 @@ export function registerTopCommand(program: Command): void {
         // Clear screen
         process.stdout.write('\x1B[2J\x1B[H');
 
-        console.log(chalk.bold.cyan(`  ⬡ Borg AIOS v${version} — System Monitor`));
+        console.log(chalk.bold.cyan(`  ⬡ Hypercode HYPERCODE v${version} — System Monitor`));
         console.log(chalk.dim(`  Refresh: ${interval}ms | Iteration: ${iteration + 1}/${maxIterations} | Ctrl+C to stop\n`));
 
         // Fetch all data in parallel
@@ -112,7 +112,7 @@ export function registerTopCommand(program: Command): void {
         try {
           const fs = await import('fs');
           const path = await import('path');
-          const pidDir = path.join(process.env.HOME ?? '', '.borg', 'mcp-pids');
+          const pidDir = path.join(process.env.HOME ?? '', '.hypercode', 'mcp-pids');
           const pidFiles = fs.readdirSync(pidDir).filter(f => f.endsWith('.pid'));
           let fleetAlive = 0;
           for (const pf of pidFiles) {

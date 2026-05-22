@@ -1,6 +1,6 @@
 /**
- * borg Database Schema
- * Migrated from MetaMCP PostgreSQL/Drizzle to SQLite/better-sqlite3
+ * hypercode Database Schema
+ * Migrated from Hypercode PostgreSQL/Drizzle to SQLite/better-sqlite3
  *
  * Tables:
  * - mcp_servers: MCP server configurations (STDIO, SSE, StreamableHTTP)

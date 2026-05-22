@@ -13,7 +13,7 @@ This document tracks all external submodules merged into the HyperCode workspace
 | **OmniRoute** | `external/OmniRoute` / `archive/OmniRoute` | `diegosouzapw/OmniRoute` | Reference for unified LLM provider routing. |
 | **litellm** | `submodules/litellm` | `BerriAI/litellm` | Proxy server for 100+ LLMs. Reference for Go-native provider abstraction. |
 | **mcpproxy** | `submodules/mcpproxy` | `Dumbris/mcpproxy` | Reference for Go-based MCP routing and middleware. |
-| **claude-mem** | `packages/claude-mem` | `robertpelloni/claude-mem` | Memory ingestion system. Fully ported to Go `MemoryManager`. |
+| **hypercode** | `packages/hypercode` | `robertpelloni/hypercode` | Memory ingestion system. Fully ported to Go `MemoryManager`. |
 | **hyperharness** | `submodules/hyperharness` | `robertpelloni/hyperharness` | Core CLI harness integration. |
 | **multica** | `submodules/multica` | `multica-ai/multica` | Multi-agent conversation structures. |
 | **unifyroute** | `submodules/unifyroute` | `unifyroute/unifyroute` | Reference for fallback chains. |

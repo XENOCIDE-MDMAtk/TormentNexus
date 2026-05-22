@@ -1,13 +1,13 @@
 /**
- * `borg memory` - Universal memory management
+ * `hypercode memory` - Universal memory management
  *
- * Manage Borg's multi-backend memory system: add, search, browse,
+ * Manage Hypercode's multi-backend memory system: add, search, browse,
  * import/export, prune, and configure memory backends.
  *
  * @example
- *   borg memory add "Project uses TypeScript ESM"
- *   borg memory search "authentication flow"
- *   borg memory export --format json
+ *   hypercode memory add "Project uses TypeScript ESM"
+ *   hypercode memory search "authentication flow"
+ *   hypercode memory export --format json
  */
 
 import type { Command } from 'commander';
@@ -26,9 +26,9 @@ export function registerMemoryCommand(program: Command): void {
     .option('-s, --source <source>', 'Source of the memory', 'cli')
     .addHelpText('after', `
 Examples:
-  $ borg memory add "User prefers dark mode"
-  $ borg memory add "API uses OAuth 2.0" -t semantic --tags auth api
-  $ borg memory add "Deploy with: pnpm build && pnpm start" -t procedural
+  $ hypercode memory add "User prefers dark mode"
+  $ hypercode memory add "API uses OAuth 2.0" -t semantic --tags auth api
+  $ hypercode memory add "Deploy with: pnpm build && pnpm start" -t procedural
     `)
     .action(async (content, opts) => {
       const chalk = (await import('chalk')).default;
@@ -39,7 +39,7 @@ Examples:
         const res = await fetch('http://127.0.0.1:4100/trpc/memory.saveContext', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ json: { content, source: opts.source ?? 'borg-cli', url: `memory://${Date.now()}`, type: opts.type, tags: opts.tags } }),
+          body: JSON.stringify({ json: { content, source: opts.source ?? 'hypercode-cli', url: `memory://${Date.now()}`, type: opts.type, tags: opts.tags } }),
           signal: AbortSignal.timeout(3000),
         });
         if (res.ok) persisted = true;
@@ -94,7 +94,7 @@ Examples:
       const chalk = (await import('chalk')).default;
       console.log(chalk.bold.cyan(`\n  Memory Search: "${query}"\n`));
       if (results.length === 0) {
-        console.log(chalk.dim('  No memories found. Add some with `borg memory add`.\n'));
+        console.log(chalk.dim('  No memories found. Add some with `hypercode memory add`.\n'));
         return;
       }
       for (const r of results.slice(0, 20)) {
@@ -162,7 +162,7 @@ Examples:
     .option('--backend <backend>', 'Export from specific backend')
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
-      const file = opts.output || `borg-memories-export.${opts.format}`;
+      const file = opts.output || `hypercode-memories-export.${opts.format}`;
       console.log(chalk.green(`  ✓ Exported memories to ${file}`));
     });
 

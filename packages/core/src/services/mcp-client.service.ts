@@ -1,7 +1,7 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js"; // Assuming this exists in SDK or similar
-// StreamableHTTPClientTransport may not be available in basic SDK. MetaMCP uses it.
+// StreamableHTTPClientTransport may not be available in basic SDK. Hypercode uses it.
 // If not found, skip HTTP/SSE or use standard HTTP.
 // Assuming it prevails based on active imports.
 
@@ -12,7 +12,7 @@ import {
     ProcessManagedStdioTransport,
     StdioServerParameters,
 } from "../transports/process-managed.transport.js";
-import { metamcpLogStore } from "./log-store.service.js";
+import { hypercodeLogStore } from "./log-store.service.js";
 import { serverErrorTracker } from "./server-error-tracker.service.js";
 import { resolveEnvVariables } from "./utils.service.js";
 
@@ -61,7 +61,7 @@ export const transformDockerUrl = (url: string): string => {
     return url;
 };
 
-export const createMetaMcpClient = (
+export const createhypercodeClient = (
     serverParams: ServerParameters,
 ): { client: Client | undefined; transport: Transport | undefined } => {
     let transport: Transport | undefined;
@@ -87,7 +87,7 @@ export const createMetaMcpClient = (
             const stderrStream = (transport as ProcessManagedStdioTransport).stderr;
 
             stderrStream?.on("data", (chunk: Buffer) => {
-                metamcpLogStore.addLog(
+                hypercodeLogStore.addLog(
                     serverParams.name,
                     "error",
                     chunk.toString().trim(),
@@ -95,7 +95,7 @@ export const createMetaMcpClient = (
             });
 
             stderrStream?.on("error", (error: Error) => {
-                metamcpLogStore.addLog(
+                hypercodeLogStore.addLog(
                     serverParams.name,
                     "error",
                     "stderr error",
@@ -115,7 +115,7 @@ export const createMetaMcpClient = (
                     return;
                 }
 
-                metamcpLogStore.addLog(
+                hypercodeLogStore.addLog(
                     serverParams.name,
                     "info",
                     message,
@@ -123,7 +123,7 @@ export const createMetaMcpClient = (
             });
 
             stdoutStream?.on("error", (error: Error) => {
-                metamcpLogStore.addLog(
+                hypercodeLogStore.addLog(
                     serverParams.name,
                     "error",
                     "stdout error",
@@ -177,7 +177,7 @@ export const createMetaMcpClient = (
             });
         }
     } else {
-        metamcpLogStore.addLog(
+        hypercodeLogStore.addLog(
             serverParams.name,
             "error",
             `Unsupported server type: ${serverParams.type}`,
@@ -187,7 +187,7 @@ export const createMetaMcpClient = (
 
     const client = new Client(
         {
-            name: "metamcp-client",
+            name: "hypercode-client",
             version: "0.99.1",
         },
         {
@@ -199,7 +199,7 @@ export const createMetaMcpClient = (
     return { client, transport };
 };
 
-export const connectMetaMcpClient = async (
+export const connecthypercodeClient = async (
     serverParams: ServerParameters,
     onProcessCrash?: (exitCode: number | null, signal: string | null) => void,
 ): Promise<ConnectedClient | undefined> => {
@@ -230,7 +230,7 @@ export const connectMetaMcpClient = async (
             }
 
             // Create fresh client and transport for each attempt
-            const { client, transport } = createMetaMcpClient(serverParams);
+            const { client, transport } = createhypercodeClient(serverParams);
             if (!client || !transport) {
                 return undefined;
             }
@@ -279,10 +279,10 @@ export const connectMetaMcpClient = async (
                 },
             };
         } catch (error) {
-            metamcpLogStore.addLog(
+            hypercodeLogStore.addLog(
                 "client",
                 "error",
-                `Error connecting to MetaMCP client (attempt ${count + 1}/${maxAttempts})`,
+                `Error connecting to Hypercode client (attempt ${count + 1}/${maxAttempts})`,
                 error,
             );
             count++;

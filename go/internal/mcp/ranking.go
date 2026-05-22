@@ -33,7 +33,7 @@ func Tokenize(text string) []string {
 
 // CalculateBM25Score provides a lightweight, heuristic-based scoring model
 // simulating the Node.js TypeScript TF-IDF and semantic weighting algorithms
-// used by the Borg Control Plane.
+// used by the Hypercode Control Plane.
 func CalculateBM25Score(queryTokens []string, tool ToolEntry) (float64, map[string]float64, string) {
 	if len(queryTokens) == 0 {
 		return 0.0, nil, ""

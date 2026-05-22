@@ -32,7 +32,7 @@ import {
     type PublishedServerStatusEnum,
     type ValidationRunModeEnum,
     type ValidationRunOutcomeEnum,
-} from "../metamcp-schema.js";
+} from "../hypercode-schema.js";
 
 // ---- Type aliases ----
 

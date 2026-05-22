@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
-import { createReconnectPolicy, getReconnectDelayMs, resolveCoreWsUrl, shouldRetryReconnect } from '@borg/ui';
+import { createReconnectPolicy, getReconnectDelayMs, resolveCoreWsUrl, shouldRetryReconnect } from '@hypercode/ui';
 import { trpc } from '@/utils/trpc';
 
 interface Packet {
@@ -36,7 +36,7 @@ export function TrafficInspector() {
                 wsRef.current.close();
             }
 
-            // Connect to Borg Core Bridge
+            // Connect to Hypercode Core Bridge
             const ws = new WebSocket(wsUrl);
 
             ws.onopen = () => {

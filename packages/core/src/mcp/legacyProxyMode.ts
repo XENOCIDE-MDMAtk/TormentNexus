@@ -20,7 +20,7 @@ export function parseBooleanFlag(value: string | undefined): boolean {
 }
 
 export function isLegacyProxyDisabled(env: NodeJS.ProcessEnv = process.env): boolean {
-    return parseBooleanFlag(env.MCP_DISABLE_METAMCP);
+    return parseBooleanFlag(env.MCP_DISABLE_HYPERCODE);
 }
 
 export function shouldUseLegacyProxy(env: NodeJS.ProcessEnv = process.env): boolean {
@@ -28,7 +28,7 @@ export function shouldUseLegacyProxy(env: NodeJS.ProcessEnv = process.env): bool
         return false;
     }
 
-    return parseBooleanFlag(env.MCP_ENABLE_LEGACY_METAMCP_PROXY ?? env.MCP_ENABLE_METAMCP_PROXY);
+    return parseBooleanFlag(env.MCP_ENABLE_LEGACY_HYPERCODE_PROXY ?? env.MCP_ENABLE_HYPERCODE_PROXY);
 }
 
 export function isToolNotFoundError(error: unknown): boolean {

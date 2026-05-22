@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/borghq/borg-go/internal/ai"
+	"github.com/hypercodehq/hypercode-go/internal/ai"
 )
 
 // SkillEvolutionRecord tracks the performance of a specific skill version

@@ -1,7 +1,7 @@
 # Go Port Analysis & Findings (v1.0.0-alpha.32)
 
 ## Overview
-This document summarizes the comprehensive port of Borg's core orchestrator, memory management, and code execution capabilities from TypeScript to a native Go implementation (`go/internal/...`).
+This document summarizes the comprehensive port of Hypercode's core orchestrator, memory management, and code execution capabilities from TypeScript to a native Go implementation (`go/internal/...`).
 
 ## Features Ported to Go
 1. **MCP Decision System (`internal/mcp/decision.go`)**
@@ -26,7 +26,7 @@ This document summarizes the comprehensive port of Borg's core orchestrator, mem
    - **Process Manager:** Handled PID orchestration for external harnesses.
 
 ## Challenges Resolved
-- Addressed multiple Go package cyclic import and typing issues across test files when swapping to the `robertpelloni/borg-go` namespace.
+- Addressed multiple Go package cyclic import and typing issues across test files when swapping to the `robertpelloni/hypercode-go` namespace.
 - Mocked missing interface struct fields in `memorystore` and `ctxharvester` unit tests.
 - Re-wired the `Server` struct inside `httpapi/server.go` to safely inject new Go services (`memoryManager`, `codeExecutor`, `mcpDecision`) without disrupting the TS fallback proxy logic.
 

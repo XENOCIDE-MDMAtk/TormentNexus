@@ -5,7 +5,7 @@ import { MemoryExportImportService } from './MemoryExportImportService.js';
 describe('MemoryExportImportService interchange', () => {
     const service = new MemoryExportImportService({});
 
-    it('converts sectioned store snapshots into Borg JSON provider snapshots', async () => {
+    it('converts sectioned store snapshots into Hypercode JSON provider snapshots', async () => {
         const source = JSON.stringify({
             version: '1.0.0',
             sections: [

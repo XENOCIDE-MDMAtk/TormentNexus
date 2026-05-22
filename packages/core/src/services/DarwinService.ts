@@ -1,5 +1,5 @@
 
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@borg/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
 import type { MCPServer } from '../MCPServer.js';
 
 export interface Mutation {

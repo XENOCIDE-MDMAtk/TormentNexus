@@ -1,7 +1,7 @@
 "use client";
 
 import { TrafficInspector } from "@/components/TrafficInspector";
-import { resolveCoreWsUrl } from "@borg/ui";
+import { resolveCoreWsUrl } from "@hypercode/ui";
 import Link from "next/link";
 
 function getBridgeDisplayUrl(): string {

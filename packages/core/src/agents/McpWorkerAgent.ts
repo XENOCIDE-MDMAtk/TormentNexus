@@ -1,5 +1,5 @@
 import { SpecializedAgent } from '../mesh/SpecializedAgent.js';
-import { LLMService } from '@borg/ai';
+import { LLMService } from '@hypercode/ai';
 import { MCPServer } from '../MCPServer.js';
 
 export class McpWorkerAgent extends SpecializedAgent {

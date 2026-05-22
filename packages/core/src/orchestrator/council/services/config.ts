@@ -2,9 +2,9 @@ import type { CouncilConfig, SupervisorConfig, SessionTemplate, LogRotationConfi
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 
-const DEFAULT_ORCHESTRATOR_CONFIG_DIR = join(process.cwd(), '.borg', 'orchestrator');
+const DEFAULT_ORCHESTRATOR_CONFIG_DIR = join(process.cwd(), '.hypercode', 'orchestrator');
 const LEGACY_CONFIG_DIR = process.env.AUTOPILOT_CONFIG_DIR || join(process.cwd(), '.autopilot');
-const CONFIG_DIR = process.env.BORG_ORCHESTRATOR_CONFIG_DIR
+const CONFIG_DIR = process.env.HYPERCODE_ORCHESTRATOR_CONFIG_DIR
   || process.env.AUTOPILOT_CONFIG_DIR
   || (existsSync(join(DEFAULT_ORCHESTRATOR_CONFIG_DIR, 'config.json')) ? DEFAULT_ORCHESTRATOR_CONFIG_DIR : undefined)
   || (existsSync(join(LEGACY_CONFIG_DIR, 'config.json')) ? LEGACY_CONFIG_DIR : DEFAULT_ORCHESTRATOR_CONFIG_DIR);
@@ -62,7 +62,7 @@ const DEFAULT_CONFIG: AutopilotConfig = {
   },
   persistence: {
     enabled: true,
-    filePath: '.borg/orchestrator/sessions.json',
+    filePath: '.hypercode/orchestrator/sessions.json',
     autoSaveIntervalMs: 5000,
     autoResumeOnStart: true,
     maxPersistedSessions: 100,
@@ -231,27 +231,27 @@ export function loadConfig(): AutopilotConfig {
     }
   }
 
-  const orchestratorPort = getEnvValue('BORG_ORCHESTRATOR_PORT', 'AUTOPILOT_PORT');
+  const orchestratorPort = getEnvValue('HYPERCODE_ORCHESTRATOR_PORT', 'AUTOPILOT_PORT');
   if (orchestratorPort) {
     config.server.port = parseInt(orchestratorPort);
   }
-  const orchestratorHost = getEnvValue('BORG_ORCHESTRATOR_HOST', 'AUTOPILOT_HOST');
+  const orchestratorHost = getEnvValue('HYPERCODE_ORCHESTRATOR_HOST', 'AUTOPILOT_HOST');
   if (orchestratorHost) {
     config.server.host = orchestratorHost;
   }
-  const basePort = getEnvValue('BORG_ORCHESTRATOR_BASE_PORT', 'AUTOPILOT_BASE_PORT');
+  const basePort = getEnvValue('HYPERCODE_ORCHESTRATOR_BASE_PORT', 'AUTOPILOT_BASE_PORT');
   if (basePort) {
     config.sessions.basePort = parseInt(basePort);
   }
-  const debateRounds = getEnvValue('BORG_ORCHESTRATOR_DEBATE_ROUNDS', 'AUTOPILOT_DEBATE_ROUNDS');
+  const debateRounds = getEnvValue('HYPERCODE_ORCHESTRATOR_DEBATE_ROUNDS', 'AUTOPILOT_DEBATE_ROUNDS');
   if (debateRounds) {
     config.council.debateRounds = parseInt(debateRounds);
   }
-  const consensusThreshold = getEnvValue('BORG_ORCHESTRATOR_CONSENSUS', 'AUTOPILOT_CONSENSUS');
+  const consensusThreshold = getEnvValue('HYPERCODE_ORCHESTRATOR_CONSENSUS', 'AUTOPILOT_CONSENSUS');
   if (consensusThreshold) {
     config.council.consensusThreshold = parseFloat(consensusThreshold);
   }
-  const smartPilot = getEnvValue('BORG_ORCHESTRATOR_SMART_PILOT', 'AUTOPILOT_SMART_PILOT');
+  const smartPilot = getEnvValue('HYPERCODE_ORCHESTRATOR_SMART_PILOT', 'AUTOPILOT_SMART_PILOT');
   if (smartPilot) {
     config.council.smartPilot = smartPilot === 'true';
   }

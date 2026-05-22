@@ -8,7 +8,7 @@ import { toolsRepository, mcpServersRepository } from '../db/repositories/index.
 import {
     ToolCreateInputSchema,
     ToolUpsertInputSchema
-} from '../types/metamcp/tools.zod.js';
+} from '../types/hypercode/tools.zod.js';
 
 export const toolsRouter = t.router({
     list: publicProcedure.query(async () => {

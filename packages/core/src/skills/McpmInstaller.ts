@@ -1,5 +1,5 @@
 import { McpmRegistry } from './McpmRegistry.js';
-import { Registry as McpServerRegistry } from '@borg/mcp-registry';
+import { Registry as McpServerRegistry } from '@hypercode/mcp-registry';
 import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs/promises';
@@ -27,8 +27,8 @@ export class McpmInstaller {
         if (mcpServer) {
             console.log(`[McpmInstaller] Installing MCP Server: ${mcpServer.package}`);
             try {
-                // Execute the internal borg CLI command
-                await this.runCommand(`npx borg mcp install ${mcpServer.package}`);
+                // Execute the internal hypercode CLI command
+                await this.runCommand(`npx hypercode mcp install ${mcpServer.package}`);
                 return `Successfully installed MCP Server '${mcpServer.name}'`;
             } catch (e: unknown) {
                 throw new Error(`Failed to install MCP server: ${getErrorMessage(e)}`);

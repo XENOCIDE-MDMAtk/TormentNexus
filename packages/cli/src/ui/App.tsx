@@ -9,7 +9,7 @@ import { LogEmitter } from '../logger-patch.js';
 // We'll import these dynamically in useEffect to ensure they run in the same process context if needed,
 // but for the TUI, we are the host.
 // @ts-ignore -- path alias not resolved under NodeNext
-import { startOrchestrator } from '@borg/core/orchestrator';
+import { startOrchestrator } from '@hypercode/core/orchestrator';
 
 export const App = () => {
     const { exit } = useApp();

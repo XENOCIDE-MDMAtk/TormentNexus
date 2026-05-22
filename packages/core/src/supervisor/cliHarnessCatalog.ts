@@ -14,13 +14,13 @@ export interface CliHarnessCatalogEntry {
 
 export const CLI_HARNESS_CATALOG: CliHarnessCatalogEntry[] = [
     {
-        id: 'borg',
-        name: 'Borg',
-        command: 'borg',
+        id: 'hypercode',
+        name: 'Hypercode',
+        command: 'hypercode',
         args: [],
-        homepage: 'https://github.com/robertpelloni/borg',
-        docsUrl: 'https://github.com/robertpelloni/borg',
-        installHint: 'Use Borg\'s tracked `submodules/hyperharness` checkout or install Borg and ensure `borg` is on PATH.',
+        homepage: 'https://github.com/robertpelloni/hypercode',
+        docsUrl: 'https://github.com/robertpelloni/hypercode',
+        installHint: 'Use Hypercode\'s tracked `submodules/hyperharness` checkout or install Hypercode and ensure `hypercode` is on PATH.',
         category: 'cli',
         sessionCapable: true,
         versionArgs: ['version'],
@@ -44,7 +44,7 @@ export const CLI_HARNESS_CATALOG: CliHarnessCatalogEntry[] = [
         args: [],
         homepage: 'https://antigravity.google/',
         docsUrl: 'https://antigravity.google/docs/home',
-        installHint: 'Download the Antigravity desktop app from https://antigravity.google/download and launch it directly; Borg does not currently detect it as a PATH CLI.',
+        installHint: 'Download the Antigravity desktop app from https://antigravity.google/download and launch it directly; Hypercode does not currently detect it as a PATH CLI.',
         category: 'editor',
         sessionCapable: false,
         versionArgs: [],

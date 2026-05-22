@@ -4,7 +4,7 @@ import { t, publicProcedure, adminProcedure } from '../lib/trpc-core.js';
 import { configRepo } from '../db/repositories/index.js';
 import { configService } from '../services/config.service.js';
 import { jsonConfigProvider } from '../services/config/JsonConfigProvider.js';
-import { getBorgConfigDir, writeBorgMcpConfig } from '../mcp/mcpJsonConfig.js';
+import { getHypercodeConfigDir, writeHypercodeMcpConfig } from '../mcp/mcpJsonConfig.js';
 import { rethrowSqliteUnavailableAsTrpc } from './sqliteTrpc.js';
 
 const ConfigValueSchema = z.object({
@@ -93,10 +93,10 @@ export const configRouter = t.router({
         .mutation(async ({ input }) => {
             try {
                 const configDir = input.scope === 'global'
-                    ? getBorgConfigDir()
-                    : path.join(process.cwd(), '.borg');
+                    ? getHypercodeConfigDir()
+                    : path.join(process.cwd(), '.hypercode');
 
-                await writeBorgMcpConfig({ mcpServers: {} }, configDir);
+                await writeHypercodeMcpConfig({ mcpServers: {} }, configDir);
 
                 return {
                     success: true,

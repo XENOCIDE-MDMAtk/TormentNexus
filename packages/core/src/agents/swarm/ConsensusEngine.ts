@@ -101,7 +101,7 @@ export class ConsensusEngine extends EventEmitter {
     private async queryModel(model: string, prompt: string, councilUrl: string | null): Promise<string> {
         try {
             if (!councilUrl) {
-                throw new Error('No Borg Orchestrator base configured.');
+                throw new Error('No Hypercode Orchestrator base configured.');
             }
             const supervisor = this.modelToSupervisor(model);
             const res = await fetch(`${councilUrl}/api/supervisors/${supervisor}/chat`, {
@@ -143,7 +143,7 @@ export class ConsensusEngine extends EventEmitter {
 
         try {
             if (!councilUrl) {
-                throw new Error('No Borg Orchestrator base configured.');
+                throw new Error('No Hypercode Orchestrator base configured.');
             }
             const res = await fetch(`${councilUrl}/api/supervisors/GPT-4o/chat`, {
                 method: 'POST',

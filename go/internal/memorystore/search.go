@@ -20,14 +20,14 @@ type SearchResult struct {
 	Title     string `json:"title,omitempty"`
 }
 
-// Search executes a fast full-text or LIKE search directly across the MetaMCP local SQLite database.
+// Search executes a fast full-text or LIKE search directly across the Hypercode local SQLite database.
 // This serves as the Go sidecar fallback for the more complex LanceDB vector router in TypeScript.
 func Search(workspaceRoot string, query string, limit int) ([]SearchResult, error) {
 	if limit <= 0 {
 		limit = 50
 	}
 
-	dbPath := filepath.Join(workspaceRoot, "metamcp.db")
+	dbPath := filepath.Join(workspaceRoot, "hypercode.db")
 	if _, err := os.Stat(dbPath); err != nil {
 		if os.IsNotExist(err) {
 			return []SearchResult{}, nil

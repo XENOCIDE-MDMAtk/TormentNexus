@@ -1,4 +1,4 @@
-import { ModelSelector, type ModelSelectionRequest, type SelectedModel } from '@borg/ai';
+import { ModelSelector, type ModelSelectionRequest, type SelectedModel } from '@hypercode/ai';
 
 import { ProviderBalanceService } from './ProviderBalanceService.js';
 import { ProviderRegistry } from './ProviderRegistry.js';

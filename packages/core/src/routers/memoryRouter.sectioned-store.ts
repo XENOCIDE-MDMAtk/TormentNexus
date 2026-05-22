@@ -104,8 +104,8 @@ export function summarizeSectionedMemoryStore(storePath: string, rawStore: RawSe
 }
 
 export async function readSectionedMemoryStoreStatus(workspaceRoot: string, pipelineSummary?: MemoryPipelineSummary | null): Promise<SectionedMemoryStoreStatus> {
-    const storePath = path.join(workspaceRoot, '.borg', 'sectioned_memory.json');
-    const legacyStorePath = path.join(workspaceRoot, '.borg', LEGACY_STORE_FILE);
+    const storePath = path.join(workspaceRoot, '.hypercode', 'sectioned_memory.json');
+    const legacyStorePath = path.join(workspaceRoot, '.hypercode', LEGACY_STORE_FILE);
 
     for (const candidatePath of [storePath, legacyStorePath]) {
         try {

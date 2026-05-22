@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardContent, Button, Badge } from '@borg/ui';
+import { Card, CardHeader, CardTitle, CardContent, Button, Badge } from '@hypercode/ui';
 import { trpc } from '@/utils/trpc';
 import { Terminal, Globe, Wrench, Layers, ExternalLink, ShieldCheck, Cpu, Box, Clock } from 'lucide-react';
 import { normalizeShellHistory } from './tools-page-normalizers';
@@ -129,7 +129,7 @@ export default function ToolsRegistryDashboard() {
                         </div>
                     ) : normalizedShellHistory.length === 0 ? (
                         <div className="p-8 text-zinc-600">
-                            <span className="text-emerald-500">server@borg</span><span className="text-zinc-400">:</span><span className="text-blue-500">~</span>$ No commands logged in recent history.
+                            <span className="text-emerald-500">server@hypercode</span><span className="text-zinc-400">:</span><span className="text-blue-500">~</span>$ No commands logged in recent history.
                         </div>
                     ) : (
                         <ul className="divide-y divide-white/5">
@@ -137,7 +137,7 @@ export default function ToolsRegistryDashboard() {
                                 <li key={entry.id} className="p-3 hover:bg-white/[0.02] transition-colors group">
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
                                         <div className="flex items-center gap-2 text-zinc-400">
-                                            <span className="text-emerald-500">agent@borg</span>
+                                            <span className="text-emerald-500">agent@hypercode</span>
                                             <span className="text-zinc-600">:</span>
                                             <span className="text-blue-400 truncate max-w-[200px]" title={entry.cwd}>{entry.cwd || '~'}</span>
                                             <span className="text-zinc-600">$</span>

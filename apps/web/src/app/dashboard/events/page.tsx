@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { trpc } from '@/utils/trpc';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@borg/ui';
-import { Badge } from "@borg/ui";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@hypercode/ui';
+import { Badge } from "@hypercode/ui";
 import { Activity, File, Terminal, Zap, Cpu, Clock } from 'lucide-react';
 
 export default function EventsPage() {
@@ -101,7 +101,7 @@ export default function EventsPage() {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <Cpu className="w-5 h-5 text-green-400" />
-                                <span>Borg Core</span>
+                                <span>Hypercode Core</span>
                             </div>
                             <Badge className={systemStatus?.status === 'online' ? "bg-green-600" : "bg-red-600"}>
                                 {systemStatus?.status === 'online' ? 'Online' : 'Offline'}

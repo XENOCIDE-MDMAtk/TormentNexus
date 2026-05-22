@@ -1,5 +1,5 @@
 /**
- * `borg ping` — Test connectivity to TS server and Go sidecar
+ * `hypercode ping` — Test connectivity to TS server and Go sidecar
  */
 import type { Command } from 'commander';
 
@@ -10,7 +10,7 @@ export function registerPingCommand(program: Command): void {
     .action(async () => {
       const chalk = (await import('chalk')).default;
 
-      console.log(chalk.bold.cyan('\n  Borg Connectivity Test\n'));
+      console.log(chalk.bold.cyan('\n  Hypercode Connectivity Test\n'));
 
       // Ping TS server
       const tsStart = Date.now();

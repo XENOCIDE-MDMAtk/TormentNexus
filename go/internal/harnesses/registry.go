@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"sort"
 
-	"github.com/borghq/borg-go/internal/controlplane"
+	"github.com/hypercodehq/hypercode-go/internal/controlplane"
 )
 
 type Definition struct {
@@ -43,8 +43,8 @@ func List(workspaceRoot string, tools []controlplane.Tool) []Definition {
 		}
 	}
 
-	borgTools := borgToolNames(workspaceRoot)
-	externalHarnessNote := "External harness; borg currently tracks install/runtime metadata only, not a source-backed tool registry."
+	hypercodeTools := hypercodeToolNames(workspaceRoot)
+	externalHarnessNote := "External harness; hypercode currently tracks install/runtime metadata only, not a source-backed tool registry."
 	metadataHarness := func(id, description, maturity, runtime string) Definition {
 		return Definition{
 			ID:                  id,
@@ -59,22 +59,22 @@ func List(workspaceRoot string, tools []controlplane.Tool) []Definition {
 	}
 	definitions := []Definition{
 		{
-			ID:                  "borg",
-			Description:         "borg Go CLI harness",
+			ID:                  "hypercode",
+			Description:         "hypercode Go CLI harness",
 			Maturity:            "Experimental",
 			Primary:             true,
-			SubmodulePath:       "submodules/borg",
-			Upstream:            "https://github.com/robertpelloni/borg",
+			SubmodulePath:       "submodules/hypercode",
+			Upstream:            "https://github.com/robertpelloni/hypercode",
 			Runtime:             "Go / Cobra / TUI",
 			LaunchCommand:       "go run .",
-			Capabilities:        []string{"repl", "pipe", "borg-adapter", "tool-registry"},
-			ParityNotes:         "borg can read borg tool calls directly from the assimilated submodule source.",
-			ToolCallCount:       len(borgTools),
-			ToolCallNames:       borgTools,
-			ToolSource:          "submodules/borg/tools/*.go",
+			Capabilities:        []string{"repl", "pipe", "hypercode-adapter", "tool-registry"},
+			ParityNotes:         "hypercode can read hypercode tool calls directly from the assimilated submodule source.",
+			ToolCallCount:       len(hypercodeTools),
+			ToolCallNames:       hypercodeTools,
+			ToolSource:          "submodules/hypercode/tools/*.go",
 			ToolInventoryStatus: "source-backed",
 			IntegrationLevel:    "source-backed",
-			Installed:           pathExists(filepath.Join(workspaceRoot, "submodules", "borg")),
+			Installed:           pathExists(filepath.Join(workspaceRoot, "submodules", "hypercode")),
 		},
 		metadataHarness("opencode", "OpenCode CLI harness", "Beta", "External CLI"),
 		metadataHarness("antigravity", "Antigravity CLI harness", "Experimental", "Desktop IDE / command surface"),
@@ -159,8 +159,8 @@ func pathExists(target string) bool {
 	return err == nil
 }
 
-func borgToolNames(workspaceRoot string) []string {
-	toolsDir := filepath.Join(workspaceRoot, "submodules", "borg", "tools")
+func hypercodeToolNames(workspaceRoot string) []string {
+	toolsDir := filepath.Join(workspaceRoot, "submodules", "hypercode", "tools")
 	entries, err := os.ReadDir(toolsDir)
 	if err != nil {
 		return nil

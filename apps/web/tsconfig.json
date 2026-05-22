@@ -28,10 +28,10 @@
       "@/*": [
         "./src/*"
       ],
-      "@borg/ui": [
+      "@hypercode/ui": [
         "../../packages/ui/src/index.tsx"
       ],
-      "@borg/ui/*": [
+      "@hypercode/ui/*": [
         "../../packages/ui/src/*"
       ]
     }

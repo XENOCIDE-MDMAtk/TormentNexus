@@ -1,6 +1,6 @@
 
 import { MemoryManager } from './MemoryManager.js';
-import { GraphNode, GraphEdge } from '@borg/memory';
+import { GraphNode, GraphEdge } from '@hypercode/memory';
 
 export interface ContextBundle {
     root: { id: string, type: string };

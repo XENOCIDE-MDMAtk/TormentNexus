@@ -1,4 +1,4 @@
-const DEFAULT_BORG_BRIDGE_PORT = 3001;
+const DEFAULT_HYPERCODE_BRIDGE_PORT = 3001;
 
 function normalizePort(value: string | undefined): number | null {
     if (typeof value !== 'string') {
@@ -19,13 +19,13 @@ function normalizePort(value: string | undefined): number | null {
 }
 
 export function getDefaultBridgePort(): number {
-    return DEFAULT_BORG_BRIDGE_PORT;
+    return DEFAULT_HYPERCODE_BRIDGE_PORT;
 }
 
 export function resolveBridgePort(env: NodeJS.ProcessEnv = process.env): number {
-    return normalizePort(env.BORG_BRIDGE_PORT)
-        ?? normalizePort(env.BORG_CORE_BRIDGE_PORT)
-        ?? DEFAULT_BORG_BRIDGE_PORT;
+    return normalizePort(env.HYPERCODE_BRIDGE_PORT)
+        ?? normalizePort(env.HYPERCODE_CORE_BRIDGE_PORT)
+        ?? DEFAULT_HYPERCODE_BRIDGE_PORT;
 }
 
 export function getBridgeHttpBase(port: number = resolveBridgePort()): string {

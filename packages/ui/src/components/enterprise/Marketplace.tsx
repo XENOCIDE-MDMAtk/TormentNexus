@@ -83,7 +83,7 @@ export function Marketplace() {
         <div>
           <h2 className="text-2xl font-bold text-slate-50 flex items-center gap-2">
             <ShoppingBag className="h-6 w-6 text-emerald-400" />
-            AIOS Marketplace
+            HYPERCODE Marketplace
           </h2>
           <p className="text-slate-400 text-sm">Discover and install autonomous agents, skills, and enterprise workflows.</p>
         </div>

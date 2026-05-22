@@ -8,7 +8,7 @@ aiohttp==3.13.5
     # via
     #   -c requirements/common-constraints.txt
     #   litellm
-aiosignal==1.4.0
+hypercodeignal==1.4.0
     # via
     #   -c requirements/common-constraints.txt
     #   aiohttp
@@ -97,7 +97,7 @@ frozenlist==1.8.0
     # via
     #   -c requirements/common-constraints.txt
     #   aiohttp
-    #   aiosignal
+    #   hypercodeignal
 fsspec==2025.12.0
     # via
     #   -c requirements/common-constraints.txt
@@ -494,7 +494,7 @@ tree-sitter-yaml==0.7.2
 typing-extensions==4.15.0
     # via
     #   -c requirements/common-constraints.txt
-    #   aiosignal
+    #   hypercodeignal
     #   anyio
     #   beautifulsoup4
     #   google-generativeai

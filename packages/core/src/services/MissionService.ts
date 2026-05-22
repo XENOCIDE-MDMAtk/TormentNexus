@@ -37,7 +37,7 @@ export class MissionService extends EventEmitter {
 
     constructor(rootDir: string) {
         super();
-        this.historyPath = path.join(rootDir, '.borg', 'mission_history.json');
+        this.historyPath = path.join(rootDir, '.hypercode', 'mission_history.json');
         this.loadMissions();
     }
 

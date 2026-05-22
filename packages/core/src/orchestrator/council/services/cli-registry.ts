@@ -16,13 +16,13 @@ interface CLIDefinition {
 
 export const CLI_DEFINITIONS: CLIDefinition[] = [
   {
-    type: 'borg',
-    name: 'Borg CLI',
-    command: 'borg',
+    type: 'hypercode',
+    name: 'Hypercode CLI',
+    command: 'hypercode',
     serveArgs: [],
     versionArgs: ['version'],
-    detectCommands: ['borg'],
-    capabilities: ['chat', 'edit', 'repl', 'borg-adapter'],
+    detectCommands: ['hypercode'],
+    capabilities: ['chat', 'edit', 'repl', 'hypercode-adapter'],
     interactive: true,
     promptRegex: '(?i)(?:>)\\s*$',
   },

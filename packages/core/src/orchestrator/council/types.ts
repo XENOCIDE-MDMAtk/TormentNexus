@@ -174,7 +174,7 @@ export interface SessionPersistenceConfig {
 }
 
 export type CLIType =
-  | 'borg'
+  | 'hypercode'
   | 'opencode'
   | 'antigravity'
   | 'claude'

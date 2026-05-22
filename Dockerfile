@@ -33,7 +33,7 @@ RUN pnpm config set store-dir /pnpm/store \
  && pnpm config set fetch-retry-maxtimeout 120000 \
  && pnpm config set network-concurrency 8
 
-RUN --mount=type=cache,id=borg-pnpm-store-v2,target=/pnpm/store \
+RUN --mount=type=cache,id=hypercode-pnpm-store-v2,target=/pnpm/store \
 	pnpm install --frozen-lockfile
 
 # Copy source code required to build the Core API and Web dashboard.

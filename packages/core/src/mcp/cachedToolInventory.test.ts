@@ -7,7 +7,7 @@ vi.mock('./mcpJsonConfig.js', async (importOriginal) => {
     const actual = await importOriginal<typeof import('./mcpJsonConfig.js')>();
     return {
         ...actual,
-        loadBorgMcpConfig: vi.fn(),
+        loadHypercodeMcpConfig: vi.fn(),
     };
 });
 
@@ -22,7 +22,7 @@ vi.mock('../db/repositories/index.js', () => ({
 
 describe('getCachedToolInventory', () => {
     it('merges servers and tools from both mcp.jsonc and SQLite successfully', async () => {
-        vi.mocked(mcpJsonConfig.loadBorgMcpConfig).mockResolvedValue({
+        vi.mocked(mcpJsonConfig.loadHypercodeMcpConfig).mockResolvedValue({
             mcpServers: {
                 manual_server: {
                     command: 'node',
@@ -71,7 +71,7 @@ describe('getCachedToolInventory', () => {
     });
 
     it('gracefully handles discovery failures (SQLite unavailable) and falls back to config', async () => {
-        vi.mocked(mcpJsonConfig.loadBorgMcpConfig).mockResolvedValue({
+        vi.mocked(mcpJsonConfig.loadHypercodeMcpConfig).mockResolvedValue({
             mcpServers: {
                 manual_server: {
                     command: 'node',
@@ -104,7 +104,7 @@ describe('getCachedToolInventory', () => {
     });
 
     it('returns empty cache if both sources are empty', async () => {
-        vi.mocked(mcpJsonConfig.loadBorgMcpConfig).mockResolvedValue({ mcpServers: {} });
+        vi.mocked(mcpJsonConfig.loadHypercodeMcpConfig).mockResolvedValue({ mcpServers: {} });
         vi.mocked(dbRepos.mcpServersRepository.findAll).mockResolvedValue([]);
         vi.mocked(dbRepos.toolsRepository.findAll).mockResolvedValue([]);
 

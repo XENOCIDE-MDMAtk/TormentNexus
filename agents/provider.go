@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/robertpelloni/borg/foundation/adapters"
+	"github.com/robertpelloni/hypercode/foundation/adapters"
 	"github.com/sashabaranov/go-openai"
 )
 
-// GeminiBorgProvider implements ILLMProvider targeting Gemini (default) or OpenAI endpoints.
-// It exposes all of our newly ported native CLI parity tools exactly as the Borg TS Core did.
-type GeminiBorgProvider struct {
+// GeminiHypercodeProvider implements ILLMProvider targeting Gemini (default) or OpenAI endpoints.
+// It exposes all of our newly ported native CLI parity tools exactly as the Hypercode TS Core did.
+type GeminiHypercodeProvider struct {
 	Client *openai.Client
 	Model  string
 }
 
-func NewGeminiBorgProvider() ILLMProvider {
+func NewGeminiHypercodeProvider() ILLMProvider {
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	if apiKey == "" {
 		apiKey = "dummy_for_compilation"
@@ -25,7 +25,7 @@ func NewGeminiBorgProvider() ILLMProvider {
 	config := openai.DefaultConfig(apiKey)
 	config.BaseURL = "https://generativelanguage.googleapis.com/v1beta/"
 
-	baseLayer := &GeminiBorgProvider{
+	baseLayer := &GeminiHypercodeProvider{
 		Client: openai.NewClientWithConfig(config),
 		Model:  "gemini-1.5-pro",
 	}
@@ -35,7 +35,7 @@ func NewGeminiBorgProvider() ILLMProvider {
 }
 
 // FetchLegacyToolArray holds the actual 649+ internal commands securely blocked from the JSON request loop natively.
-func (p *GeminiBorgProvider) FetchLegacyToolArray() []Tool {
+func (p *GeminiHypercodeProvider) FetchLegacyToolArray() []Tool {
 	return []Tool{
 		{
 			Name:        "apply_search_replace",
@@ -55,7 +55,7 @@ func (p *GeminiBorgProvider) FetchLegacyToolArray() []Tool {
 	}
 }
 
-func (p *GeminiBorgProvider) Chat(ctx context.Context, messages []Message, tools []Tool) (Message, error) {
+func (p *GeminiHypercodeProvider) Chat(ctx context.Context, messages []Message, tools []Tool) (Message, error) {
 	prompt := ""
 	if len(messages) > 0 {
 		prompt = messages[len(messages)-1].Content
@@ -67,7 +67,7 @@ func (p *GeminiBorgProvider) Chat(ctx context.Context, messages []Message, tools
 	}, nil
 }
 
-func (p *GeminiBorgProvider) Stream(ctx context.Context, messages []Message, tools []Tool, chunkChan chan<- string) error {
+func (p *GeminiHypercodeProvider) Stream(ctx context.Context, messages []Message, tools []Tool, chunkChan chan<- string) error {
 	defer close(chunkChan)
 	// Example bypass
 	chunkChan <- "Stream initialized... "
@@ -75,6 +75,6 @@ func (p *GeminiBorgProvider) Stream(ctx context.Context, messages []Message, too
 	return nil
 }
 
-func (p *GeminiBorgProvider) GetModelName() string {
+func (p *GeminiHypercodeProvider) GetModelName() string {
 	return p.Model
 }

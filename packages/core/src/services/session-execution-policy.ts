@@ -89,7 +89,7 @@ export function selectSessionExecutionPolicy(
                 preferred,
                 preferred
                     ? `A PowerShell shell was requested, but none verified; falling back to ${preferred.name}.`
-                    : 'A PowerShell shell was requested, but Borg could not verify any shell on this host.',
+                    : 'A PowerShell shell was requested, but Hypercode could not verify any shell on this host.',
             );
         }
 
@@ -111,7 +111,7 @@ export function selectSessionExecutionPolicy(
                 preferred,
                 preferred
                     ? `A POSIX shell was requested, but none verified; falling back to ${preferred.name}.`
-                    : 'A POSIX shell was requested, but Borg could not verify any shell on this host.',
+                    : 'A POSIX shell was requested, but Hypercode could not verify any shell on this host.',
             );
         }
 
@@ -123,7 +123,7 @@ export function selectSessionExecutionPolicy(
                 compatibilityShell,
                 compatibilityShell
                     ? `${compatibilityShell.name} selected for the most conservative compatibility posture on this host.`
-                    : 'Compatibility mode was requested, but Borg could not verify any shell on this host.',
+                    : 'Compatibility mode was requested, but Hypercode could not verify any shell on this host.',
             );
         }
 
@@ -135,7 +135,7 @@ export function selectSessionExecutionPolicy(
                     requestedProfile,
                     'powershell',
                     powerShell,
-                    `${powerShell.name} selected automatically as Borg's preferred Windows execution shell for general harness supervision.`,
+                    `${powerShell.name} selected automatically as Hypercode's preferred Windows execution shell for general harness supervision.`,
                 );
             }
 
@@ -155,7 +155,7 @@ export function selectSessionExecutionPolicy(
                 'fallback',
                 preferred,
                 preferred
-                    ? `${preferred.name} selected automatically as the only verified shell Borg can trust on this host.`
+                    ? `${preferred.name} selected automatically as the only verified shell Hypercode can trust on this host.`
                     : 'Auto execution profile could not verify a runnable shell on this host.',
             );
         }
@@ -168,15 +168,15 @@ export function buildExecutionPolicyEnv(policy: SessionExecutionPolicy | null): 
     }
 
     const env: Record<string, string> = {
-        BORG_EXECUTION_PROFILE_REQUESTED: policy.requestedProfile,
-        BORG_EXECUTION_PROFILE_EFFECTIVE: policy.effectiveProfile,
-        BORG_EXECUTION_SHELL_ID: policy.shellId ?? '',
-        BORG_EXECUTION_SHELL_LABEL: policy.shellLabel ?? '',
-        BORG_EXECUTION_SHELL_FAMILY: policy.shellFamily ?? '',
-        BORG_EXECUTION_SHELL_PATH: policy.shellPath ?? '',
-        BORG_EXECUTION_POLICY_REASON: policy.reason,
-        BORG_SUPPORTS_POWERSHELL: policy.supportsPowerShell ? '1' : '0',
-        BORG_SUPPORTS_POSIX_SHELL: policy.supportsPosixShell ? '1' : '0',
+        HYPERCODE_EXECUTION_PROFILE_REQUESTED: policy.requestedProfile,
+        HYPERCODE_EXECUTION_PROFILE_EFFECTIVE: policy.effectiveProfile,
+        HYPERCODE_EXECUTION_SHELL_ID: policy.shellId ?? '',
+        HYPERCODE_EXECUTION_SHELL_LABEL: policy.shellLabel ?? '',
+        HYPERCODE_EXECUTION_SHELL_FAMILY: policy.shellFamily ?? '',
+        HYPERCODE_EXECUTION_SHELL_PATH: policy.shellPath ?? '',
+        HYPERCODE_EXECUTION_POLICY_REASON: policy.reason,
+        HYPERCODE_SUPPORTS_POWERSHELL: policy.supportsPowerShell ? '1' : '0',
+        HYPERCODE_SUPPORTS_POSIX_SHELL: policy.supportsPosixShell ? '1' : '0',
     };
 
     if (policy.shellPath) {

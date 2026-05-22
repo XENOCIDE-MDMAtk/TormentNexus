@@ -255,7 +255,7 @@ async function _mcpToolsList(
             "@modelcontextprotocol/sdk/client/streamableHttp.js"
         );
 
-        const client = new Client({ name: "borg-catalog-verifier", version: "0.1.0" });
+        const client = new Client({ name: "hypercode-catalog-verifier", version: "0.1.0" });
 
         let transportImpl: any;
         const normalizedTransport = transport.toLowerCase();

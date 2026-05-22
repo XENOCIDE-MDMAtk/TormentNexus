@@ -1,7 +1,7 @@
 # Go-Primary Migration Plan
 
 ## Objective
-Make the Go runtime the **primary Borg control plane** and port **every backend feature/function** from the current TypeScript runtime into Go, leaving only the most crucial TypeScript pieces in place temporarily:
+Make the Go runtime the **primary Hypercode control plane** and port **every backend feature/function** from the current TypeScript runtime into Go, leaving only the most crucial TypeScript pieces in place temporarily:
 - UI clients
 - compatibility bridges
 - any TS-only surface that has not yet reached validated Go parity
@@ -94,7 +94,7 @@ Make Go the default runtime started by operator entrypoints.
 - Keep occupied-port behavior non-destructive and truthful
 
 ### Exit criteria
-- `start.bat` and `borg start` prefer Go by default
+- `start.bat` and `hypercode start` prefer Go by default
 - default startup validation is Go-primary rather than full-TS-workspace-first
 - Go owns the primary control-plane port
 - TS startup becomes optional/compatibility-oriented
@@ -106,10 +106,10 @@ Make Go the default runtime started by operator entrypoints.
 - `start.bat` now prints explicit install/build phase summaries so operators can see whether each phase ran or was skipped and why
 - `start.bat` now exports those install/build decisions to the CLI runtime so startup provenance can be persisted and queried later
 - `start.bat` now launches through the built CLI entrypoint directly instead of relying on `pnpm start` for the final handoff path
-- the CLI Go runtime launcher now prefers the prebuilt `go/borg(.exe)` binary and only falls back to `go run ./cmd/borg` when the binary is absent or source launch is explicitly forced
+- the CLI Go runtime launcher now prefers the prebuilt `go/hypercode(.exe)` binary and only falls back to `go run ./cmd/hypercode` when the binary is absent or source launch is explicitly forced
 - startup output now reports whether Go is running via the prebuilt binary, via source fallback, or whether Node compatibility runtime is active due to explicit selection or Go fallback
 - the CLI now also prints a concise startup mode summary block describing which surfaces are actually active/compatibility-only in the chosen runtime
-- `borg status` now exposes persisted startup provenance from the local startup lock when available
+- `hypercode status` now exposes persisted startup provenance from the local startup lock when available
 - the TypeScript `startupStatus` API surface now also exposes that persisted startup provenance, making the same truth available to dashboard and API consumers
 - the dashboard startup-readiness UI now renders a visible `Startup mode` section backed by that persisted/API-visible provenance
 - the dashboard Health, Integrations, System, MCP System, and Orchestrator pages now also surface startup/runtime provenance so operators can see launch truth across the major runtime views
@@ -121,21 +121,21 @@ Make Go the default runtime started by operator entrypoints.
 - the web tRPC compat layer now also prefers Go-native `/api/sessions` for `session.list` when the TypeScript session-list procedure is unavailable, replacing empty degraded-mode session inventories with native Go-discovered session rows in both legacy bridge batches and local dashboard fallback mode
 - the web tRPC compat layer now also derives `session.catalog` from Go-native `/api/cli/harnesses` when the TypeScript session-catalog procedure is unavailable, preserving session-creation harness metadata instead of collapsing the catalog to empty in degraded mode
 - `start.bat` now captures startup probe exit codes with runtime `!ERRORLEVEL!` instead of parse-time `%ERRORLEVEL%`, eliminating contradictory Go-primary build messaging during startup and making the install/build phase summaries truthful again
-- Go-primary startup installs now default to `pnpm install --ignore-scripts` unless `BORG_STARTUP_INSTALL_SCRIPTS=1` is set, reducing startup dependence on unrelated workspace postinstall hooks when only the Go control plane + built CLI lane is needed
+- Go-primary startup installs now default to `pnpm install --ignore-scripts` unless `HYPERCODE_STARTUP_INSTALL_SCRIPTS=1` is set, reducing startup dependence on unrelated workspace postinstall hooks when only the Go control plane + built CLI lane is needed
 - the web tRPC compat layer now also prefers Go-native `/api/tools/detect-execution-environment` when the TypeScript execution-environment procedure is unavailable, normalizing native shell/tool/harness posture into the existing dashboard contract instead of returning an all-zero synthetic placeholder
 - degraded `startupStatus.checks.executionEnvironment` now reuses that same normalized Go-native execution summary, keeping dashboard-home/system readiness summaries aligned with the AI Tools page during TypeScript outage/degraded mode
 - the web tRPC compat layer now also prefers Go-native `/api/tools/detect-install-surfaces` when the TypeScript install-surface procedure is unavailable, preserving browser-extension / VS Code / MCP-sync artifact summaries instead of collapsing install-surface pages to `[]` in degraded mode
 - the web tRPC compat layer now also prefers Go-native `/api/sessions/imported/maintenance-stats` when the TypeScript imported-maintenance procedure is unavailable, preserving imported-session archive/retention counters and backfilling degraded `startupStatus.checks.importedSessions` when startup telemetry omits that block
 - the web tRPC compat layer now also prefers Go-native MCP inspector state for `/api/mcp/working-set`, `/api/mcp/tool-selection-telemetry`, and `/api/mcp/preferences` when the corresponding TypeScript procedures are unavailable, preserving working-set rows, tool-selection telemetry history, and tool-preference controls instead of falling back to synthetic empty placeholders
 - the web tRPC compat layer now also prefers Go-native `/api/api-keys`, `/api/shell/history/system`, `/api/memory/agent-stats`, and `/api/expert/status` when the corresponding TypeScript procedures are unavailable, preserving operator-facing API-key metadata, shell-history lines, compact agent-memory stats, and expert offline status instead of synthetic placeholders
-- the Go HTTP layer now owns persisted local fallback writes/searches for agent-memory-backed facts, observations, user prompts, session summaries, pivot search, timeline windows, cross-session links, and direct `/api/agent-memory/*` inventory/export/stats/handoff/pickup mutations through `.borg/agent_memory/memories.json` when the TypeScript runtime is unavailable
-- the Go HTTP layer now also owns a more truthful degraded-memory context path: generic `memory.query` can merge local SQLite-backed memory rows with persisted `.borg/memory/contexts.json` entries, `memory.saveContext` can persist new local saved-context entries there during TypeScript outage, `memory.getContext` can return locally persisted inline context bodies when present, `memory.deleteContext` can remove local context-registry entries instead of hard-failing, and the local memory interchange cluster now truthfully supports structured format listing plus import/convert fallback across `json`, `json-provider`, `jsonl`, `csv`, and `sectioned-memory-store`
+- the Go HTTP layer now owns persisted local fallback writes/searches for agent-memory-backed facts, observations, user prompts, session summaries, pivot search, timeline windows, cross-session links, and direct `/api/agent-memory/*` inventory/export/stats/handoff/pickup mutations through `.hypercode/agent_memory/memories.json` when the TypeScript runtime is unavailable
+- the Go HTTP layer now also owns a more truthful degraded-memory context path: generic `memory.query` can merge local SQLite-backed memory rows with persisted `.hypercode/memory/contexts.json` entries, `memory.saveContext` can persist new local saved-context entries there during TypeScript outage, `memory.getContext` can return locally persisted inline context bodies when present, `memory.deleteContext` can remove local context-registry entries instead of hard-failing, and the local memory interchange cluster now truthfully supports structured format listing plus import/convert fallback across `json`, `json-provider`, `jsonl`, `csv`, and `sectioned-memory-store`
 - the web tRPC compat layer now also prefers Go-native `/api/tools` and `/api/tools/search` when `tools.list` and `mcp.searchTools` are unavailable, preserving tool inventory and search results instead of synthetic empty catalog/search placeholders
 - the web tRPC compat layer now also prefers Go-native `/api/mcp/traffic` and `/api/server-health/check` when `mcp.traffic` and UUID-backed `serverHealth.check` are unavailable, preserving router traffic rows and truthful server health counters instead of synthetic empty traffic and config-only health inference
 - the web tRPC compat layer now also prefers Go-native `/api/sessions/supervisor/state` when `session.getState` is unavailable, preserving truthful session-state signals like active auto-drive and current goal instead of the synthetic session-state placeholder
 - the Go-native `/api/runtime/status` surface now also exposes startup provenance, making the native backend self-describing rather than depending on the TS compatibility surface for that truth
 - this dashboard propagation cluster is now complete; the next focus is reducing remaining TS compatibility dependence by switching more runtime-heavy dashboard/system reads onto Go-native truth where equivalent native surfaces already exist
-- Go-primary startup no longer has to hard-skip the web dashboard: `borg start --runtime auto|go` can now launch the Next.js dashboard in a compatibility-backed mode against the live Go control plane, while still warning explicitly that some mutation-heavy surfaces remain compatibility-dependent during the migration
+- Go-primary startup no longer has to hard-skip the web dashboard: `hypercode start --runtime auto|go` can now launch the Next.js dashboard in a compatibility-backed mode against the live Go control plane, while still warning explicitly that some mutation-heavy surfaces remain compatibility-dependent during the migration
 - the shared Next.js compat route now also maps the session dashboard's key supervisor reads/mutations onto Go `/api/sessions/supervisor/*` routes when `/trpc` is unavailable, making Go-primary dashboard startup materially more usable for supervised-session workflows instead of only launching the shell UI
 - the shared Next.js compat route now also maps the memory dashboard’s key read/export/import/convert flows onto Go `/api/memory/*` routes when `/trpc` is unavailable, so the dashboard can inherit the newer Go-native saved-context/interchange fallbacks instead of keeping that cluster artificially TS-dependent
 - the shared Next.js compat route now also maps the adjacent operator-facing `agentMemory.*` cluster onto Go `/api/agent-memory/*` routes when `/trpc` is unavailable, allowing handoff/pickup, recent memory, and intake flows to inherit the existing Go-native agent-memory ownership instead of remaining artificially TS-dependent
@@ -148,7 +148,7 @@ Make Go the default runtime started by operator entrypoints.
 - Go now also owns native fallback behavior for policy CRUD through the HTTP layer, and the shared Next.js compat route exposes `policies.list` plus policy mutations during `/trpc` outage, making the Policies governance dashboard cluster more usable in Go-primary degraded mode
 - Go now also owns native fallback behavior for tool-set create/delete through the HTTP layer, and the shared Next.js compat route exposes `toolSets.list` plus tool-set mutations during `/trpc` outage, making the Tool Sets dashboard cluster more usable in Go-primary degraded mode
 - explicit Node compatibility mode still uses the full workspace build path and still defaults to a full install/build posture
-- full builds remain available via `BORG_FULL_BUILD=1`
+- full builds remain available via `HYPERCODE_FULL_BUILD=1`
 
 ---
 
@@ -256,7 +256,7 @@ The next coding slice after this plan should be:
 
 ## Success definition
 The migration is successful when:
-- the default Borg startup path runs Go first
+- the default Hypercode startup path runs Go first
 - all major backend surfaces are native in Go
 - TypeScript is reduced to crucial UI/compatibility roles only
 - removing TS backend ownership does not reduce operator-visible functionality

@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/borghq/borg-go/internal/harnesses"
-	"github.com/borghq/borg-go/internal/mcp"
+	"github.com/hypercodehq/hypercode-go/internal/harnesses"
+	"github.com/hypercodehq/hypercode-go/internal/mcp"
 )
 
 type localMCPInventoryView struct {

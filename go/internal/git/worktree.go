@@ -29,7 +29,7 @@ func (m *WorktreeManager) CreateTaskEnvironment(taskID string) (string, error) {
 	}
 
 	branchName := "task/" + sanitizeTaskID(taskID)
-	relativePath := filepath.Join(".borg", "worktrees", sanitizeTaskID(taskID))
+	relativePath := filepath.Join(".hypercode", "worktrees", sanitizeTaskID(taskID))
 	fullPath := filepath.Join(m.rootDir, relativePath)
 	if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
 		return "", err
@@ -54,7 +54,7 @@ func (m *WorktreeManager) CleanupTaskEnvironment(taskID string) error {
 	if strings.TrimSpace(m.rootDir) == "" {
 		return fmt.Errorf("missing worktree root")
 	}
-	fullPath := filepath.Join(m.rootDir, ".borg", "worktrees", sanitizeTaskID(taskID))
+	fullPath := filepath.Join(m.rootDir, ".hypercode", "worktrees", sanitizeTaskID(taskID))
 	cmd := exec.CommandContext(context.Background(), "git", "worktree", "remove", "--force", fullPath)
 	cmd.Dir = m.rootDir
 	output, err := cmd.CombinedOutput()

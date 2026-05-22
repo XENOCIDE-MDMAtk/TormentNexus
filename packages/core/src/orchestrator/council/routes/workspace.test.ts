@@ -18,7 +18,7 @@ describe('workspace routes', () => {
 
   it('returns 503 when workspace storage is unavailable', async () => {
     mockWorkspaceManager.getAllWorkspaces.mockRejectedValue(
-      new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+      new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
     );
 
     const { default: app } = await import('./workspace.js');
@@ -33,7 +33,7 @@ describe('workspace routes', () => {
 
   it('returns 503 for workspace stats when storage is unavailable', async () => {
     mockWorkspaceManager.getWorkspaceStats.mockRejectedValue(
-      new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+      new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
     );
 
     const { default: app } = await import('./workspace.js');

@@ -29,7 +29,7 @@ describe('MCPAggregator', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'borg-mcp-aggregator-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-mcp-aggregator-'));
         configPath = path.join(tempDir, 'mcp_servers.json');
         fs.writeFileSync(configPath, JSON.stringify({
             'test-server': {

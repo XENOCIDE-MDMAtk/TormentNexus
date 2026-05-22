@@ -97,7 +97,7 @@ export class TelemetryService extends EventEmitter {
             status: 'unset',
             startTime: Date.now(),
             attributes: {
-                'service.name': 'borg-core',
+                'service.name': 'hypercode-core',
             },
             events: [],
         };

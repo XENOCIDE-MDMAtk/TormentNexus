@@ -9,7 +9,7 @@ This document provides practical examples of using the cli-orchestrator council 
    pnpm install
    ```
 
-   The council now ships inside the borg monorepo as the **cli-orchestrator** lane rather than as a standalone `borg-orchestrator-council` package.
+   The council now ships inside the hypercode monorepo as the **cli-orchestrator** lane rather than as a standalone `hypercode-orchestrator-council` package.
 
 2. **Create configuration**:
    Create `.opencode/council.json` in your project:
@@ -353,5 +353,5 @@ Store debate history for analysis:
 ## Support
 
 For issues, questions, or contributions:
-- GitHub Issues: use the main borg repository issue tracker.
+- GitHub Issues: use the main hypercode repository issue tracker.
 - Documentation: [README.md](../README.md)

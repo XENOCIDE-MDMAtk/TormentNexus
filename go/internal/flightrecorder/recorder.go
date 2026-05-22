@@ -27,7 +27,7 @@ type Recorder struct {
 }
 
 func NewRecorder(workspaceRoot string) *Recorder {
-	dir := filepath.Join(workspaceRoot, ".borg", "flight_records")
+	dir := filepath.Join(workspaceRoot, ".hypercode", "flight_records")
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return &Recorder{initErr: err}
 	}

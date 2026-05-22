@@ -14,11 +14,11 @@ async function main() {
     redirectProtocolUnsafeConsoleMethods();
 
     process.on('unhandledRejection', (reason) => {
-        console.error('[Borg Core] Unhandled promise rejection:', reason);
+        console.error('[Hypercode Core] Unhandled promise rejection:', reason);
     });
 
     process.on('uncaughtException', (error) => {
-        console.error('[Borg Core] Uncaught exception:', error);
+        console.error('[Hypercode Core] Uncaught exception:', error);
         process.exit(1);
     });
 
@@ -29,16 +29,16 @@ async function main() {
             log: (message, ...optionalParams) => console.error(message, ...optionalParams),
         }).then((result) => {
             if (result.status === 'spawned') {
-                console.error(`[Borg Core] Background control-plane bootstrap requested (PID: ${result.pid ?? 'unknown'}).`);
+                console.error(`[Hypercode Core] Background control-plane bootstrap requested (PID: ${result.pid ?? 'unknown'}).`);
             }
         }).catch((error) => {
-            console.error('[Borg Core] Background control-plane bootstrap failed:', error);
+            console.error('[Hypercode Core] Background control-plane bootstrap failed:', error);
         });
 
         const { MCPServer } = await import('./MCPServer.js');
         const mcp = new MCPServer({ skipWebsocket: true });
         await mcp.start();
-        console.error("[Borg Core] MCP Server Stdio Entry Point Started.");
+        console.error("[Hypercode Core] MCP Server Stdio Entry Point Started.");
     } catch (err) {
         console.error("Failed to start MCP server:", err);
         process.exit(1);

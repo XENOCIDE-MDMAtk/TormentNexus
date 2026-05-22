@@ -14,7 +14,7 @@ export class AuditService {
     private buffer: AuditLogEntry[] = [];
     private flushInterval: NodeJS.Timeout;
 
-    constructor(logDir: string = '.borg/audit') {
+    constructor(logDir: string = '.hypercode/audit') {
         const absoluteLogDir = path.isAbsolute(logDir) ? logDir : path.join(process.cwd(), logDir);
         if (!fs.existsSync(absoluteLogDir)) {
             fs.mkdirSync(absoluteLogDir, { recursive: true });

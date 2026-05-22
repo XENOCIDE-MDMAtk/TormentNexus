@@ -6,7 +6,7 @@ import (
 )
 
 func TestQueueInitialization(t *testing.T) {
-	dbPath := "./.test_borg_queue.db"
+	dbPath := "./.test_hypercode_queue.db"
 
 	// Ensure clean state
 	os.Remove(dbPath)

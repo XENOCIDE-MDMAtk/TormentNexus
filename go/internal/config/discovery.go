@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// ServiceDiscovery holds resolved endpoints for all Borg services.
+// ServiceDiscovery holds resolved endpoints for all Hypercode services.
 // This replaces hardcoded ports with a centralized, environment-driven configuration.
 type ServiceDiscovery struct {
 	// GoSidecarPort is the port the Go control plane listens on.
@@ -26,7 +26,7 @@ type ServiceDiscovery struct {
 	DashboardHost string
 }
 
-// DefaultServiceDiscovery returns the standard Borg service topology.
+// DefaultServiceDiscovery returns the standard Hypercode service topology.
 func DefaultServiceDiscovery() ServiceDiscovery {
 	sd := ServiceDiscovery{
 		GoSidecarPort: 4300,
@@ -41,29 +41,29 @@ func DefaultServiceDiscovery() ServiceDiscovery {
 	}
 
 	// Override from environment variables
-	if v := os.Getenv("BORG_GO_PORT"); v != "" {
+	if v := os.Getenv("HYPERCODE_GO_PORT"); v != "" {
 		if p, err := strconv.Atoi(v); err == nil && p > 0 {
 			sd.GoSidecarPort = p
 		}
 	}
 
-	if v := strings.TrimSpace(os.Getenv("BORG_TRPC_UPSTREAM")); v != "" {
+	if v := strings.TrimSpace(os.Getenv("HYPERCODE_TRPC_UPSTREAM")); v != "" {
 		sd.TRPCUpstreamURLs = append([]string{v}, sd.TRPCUpstreamURLs...)
 	}
 
-	if v := os.Getenv("BORG_BRIDGE_PORT"); v != "" {
+	if v := os.Getenv("HYPERCODE_BRIDGE_PORT"); v != "" {
 		if p, err := strconv.Atoi(v); err == nil && p > 0 {
 			sd.BridgePort = p
 		}
 	}
 
-	if v := os.Getenv("BORG_DASHBOARD_PORT"); v != "" {
+	if v := os.Getenv("HYPERCODE_DASHBOARD_PORT"); v != "" {
 		if p, err := strconv.Atoi(v); err == nil && p > 0 {
 			sd.DashboardPort = p
 		}
 	}
 
-	if v := os.Getenv("BORG_DASHBOARD_HOST"); v != "" {
+	if v := os.Getenv("HYPERCODE_DASHBOARD_HOST"); v != "" {
 		sd.DashboardHost = v
 	}
 

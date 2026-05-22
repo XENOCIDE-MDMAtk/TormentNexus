@@ -1,6 +1,6 @@
 
 import { DeepResearchService } from '../services/DeepResearchService.js';
-import { LLMService } from '@borg/ai';
+import { LLMService } from '@hypercode/ai';
 import { MemoryManager } from '../services/MemoryManager.js';
 
 type RecursiveResearchResult = {
@@ -37,7 +37,7 @@ const mockMemory = {
     saveContext: async () => 123
 } as unknown as MemoryManager;
 
-const mockSearch = {} as unknown as import('@borg/search').SearchService;
+const mockSearch = {} as unknown as import('@hypercode/search').SearchService;
 
 async function verifyRecursion() {
     console.log("🔍 Verifying Recursive Research...");

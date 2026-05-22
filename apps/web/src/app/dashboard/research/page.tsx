@@ -1,10 +1,10 @@
 'use client';
 
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
-import { Input } from "@borg/ui";
-import { Badge } from "@borg/ui";
-import { ScrollArea } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
+import { Input } from "@hypercode/ui";
+import { Badge } from "@hypercode/ui";
+import { ScrollArea } from "@hypercode/ui";
 import { useEffect, useState } from "react";
 import { Loader2, Search, BookOpen, GitBranch, ExternalLink, Network } from "lucide-react";
 import { trpc } from '@/utils/trpc';

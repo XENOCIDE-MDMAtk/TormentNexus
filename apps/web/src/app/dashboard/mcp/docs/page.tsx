@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
+import { Card, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
 import { FileText, Loader2, RefreshCw } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 

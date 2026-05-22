@@ -7,7 +7,7 @@ package projects
  * WHAT: Project tracker — manages a registry of known projects/workspaces,
  *       tracks their activity, last session, and status.
  *
- * WHY: Borg needs to know about all projects the user works on,
+ * WHY: Hypercode needs to know about all projects the user works on,
  *       track their activity, and enable multi-project orchestration.
  *
  * ADDED: v1.0.0-alpha.32

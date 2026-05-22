@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import path from 'node:path';
 
-export interface BorgStartupProvenance {
+export interface HypercodeStartupProvenance {
     requestedRuntime?: string;
     activeRuntime?: string;
     requestedPort?: number;
@@ -18,16 +18,16 @@ export interface BorgStartupProvenance {
     updatedAt?: string;
 }
 
-interface BorgStartLockRecord {
+interface HypercodeStartLockRecord {
     instanceId: string;
     pid: number;
     port: number;
     host: string;
     createdAt: string;
-    startup?: BorgStartupProvenance;
+    startup?: HypercodeStartupProvenance;
 }
 
-function normalizeStartupProvenance(record: BorgStartLockRecord | null): BorgStartupProvenance | null {
+function normalizeStartupProvenance(record: HypercodeStartLockRecord | null): HypercodeStartupProvenance | null {
     if (!record || typeof record.port !== 'number' || record.port <= 0) {
         return null;
     }
@@ -62,14 +62,14 @@ function resolveDataDir(dataDir: string, homeDirectory: string = homedir()): str
     return path.isAbsolute(dataDir) ? dataDir : path.resolve(dataDir);
 }
 
-function readStartLockRecord(dataDir: string): BorgStartLockRecord | null {
+function readStartLockRecord(dataDir: string): HypercodeStartLockRecord | null {
     const lockPath = path.join(resolveDataDir(dataDir), 'lock');
     if (!existsSync(lockPath)) {
         return null;
     }
 
     try {
-        const parsed = JSON.parse(readFileSync(lockPath, 'utf8')) as Partial<BorgStartLockRecord>;
+        const parsed = JSON.parse(readFileSync(lockPath, 'utf8')) as Partial<HypercodeStartLockRecord>;
         if (
             typeof parsed.instanceId !== 'string'
             || typeof parsed.pid !== 'number'
@@ -80,12 +80,12 @@ function readStartLockRecord(dataDir: string): BorgStartLockRecord | null {
             return null;
         }
 
-        return parsed as BorgStartLockRecord;
+        return parsed as HypercodeStartLockRecord;
     } catch {
         return null;
     }
 }
 
-export function readLocalStartupProvenance(dataDir: string = process.env.BORG_DATA_DIR ?? '~/.borg'): BorgStartupProvenance | null {
+export function readLocalStartupProvenance(dataDir: string = process.env.HYPERCODE_DATA_DIR ?? '~/.hypercode'): HypercodeStartupProvenance | null {
     return normalizeStartupProvenance(readStartLockRecord(dataDir));
 }

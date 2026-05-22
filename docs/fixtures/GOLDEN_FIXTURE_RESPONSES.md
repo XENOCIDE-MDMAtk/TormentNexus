@@ -476,7 +476,7 @@
 {
   "server": "github",
   "method": "repositories.list",
-  "params": { "owner": "borg-org" }
+  "params": { "owner": "hypercode-org" }
 }
 ```
 
@@ -487,7 +487,7 @@
   "server": "github",
   "method": "repositories.list",
   "result": [
-    { "name": "borg", "stars": 1234, "url": "..." }
+    { "name": "hypercode", "stars": 1234, "url": "..." }
   ],
   "httpStatusCode": 200,
   "executionTime_ms": 450

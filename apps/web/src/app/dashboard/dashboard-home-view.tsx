@@ -520,7 +520,7 @@ function getMemoryContextDetail(memory: DashboardStartupStatus['checks']['memory
 
     if (memory.ready) {
         if (claudeMem?.enabled) {
-            return 'Memory manager initialized and claude-mem default sections are ready';
+            return 'Memory manager initialized and hypercode default sections are ready';
         }
 
         return 'Memory manager initialized and agent context services are available';
@@ -532,16 +532,16 @@ function getMemoryContextDetail(memory: DashboardStartupStatus['checks']['memory
 
     if (claudeMem?.enabled) {
         if (!claudeMem.storeExists) {
-            return 'Memory manager is initialized, but claude-mem store has not been created yet';
+            return 'Memory manager is initialized, but hypercode store has not been created yet';
         }
 
         const presentSectionCount = Number(claudeMem.presentDefaultSectionCount ?? 0);
         const defaultSectionCount = Number(claudeMem.defaultSectionCount ?? 0);
         if (defaultSectionCount > 0 && presentSectionCount < defaultSectionCount) {
-            return `Memory manager is initialized, but claude-mem is still seeding default sections (${presentSectionCount}/${defaultSectionCount} present)`;
+            return `Memory manager is initialized, but hypercode is still seeding default sections (${presentSectionCount}/${defaultSectionCount} present)`;
         }
 
-        return 'Memory manager is initialized, but claude-mem readiness is still pending';
+        return 'Memory manager is initialized, but hypercode readiness is still pending';
     }
 
     return 'Memory manager is present, but agent context wiring is still finishing';
@@ -883,7 +883,7 @@ export function buildDashboardAlerts(
             id: 'startup-compat-fallback',
             severity: 'warning',
             title: 'Startup is using local compat fallback',
-            detail: startupSummary || 'Live startup telemetry is unavailable, so Borg is showing config-backed compatibility state instead of the full core startup contract.',
+            detail: startupSummary || 'Live startup telemetry is unavailable, so Hypercode is showing config-backed compatibility state instead of the full core startup contract.',
             href: '/dashboard/mcp/system',
             hrefLabel: 'Review startup status',
         });
@@ -1045,7 +1045,7 @@ export function DashboardHomeView({
                     <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                         <div className="space-y-3">
                             <span className="inline-flex items-center rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
-                                Borg 1.0 control plane
+                                Hypercode 1.0 control plane
                             </span>
                             <div className="space-y-2">
                                 <h1 className="text-3xl font-semibold tracking-tight text-white">Operator dashboard</h1>
@@ -1092,7 +1092,7 @@ export function DashboardHomeView({
 
                         {isBootstrapping ? (
                             <div className="mt-4 rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-4 text-sm text-cyan-100">
-                                Connecting to live core telemetry. Borg will replace these neutral placeholders as soon as the first startup snapshot arrives.
+                                Connecting to live core telemetry. Hypercode will replace these neutral placeholders as soon as the first startup snapshot arrives.
                             </div>
                         ) : dashboardAlerts.length === 0 ? (
                             <div className="mt-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-100">
@@ -1298,7 +1298,7 @@ export function DashboardHomeView({
                         <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
-                                    <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">Install &amp; connect Borg</h3>
+                                    <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">Install &amp; connect Hypercode</h3>
                                     <p className="mt-1 text-sm text-slate-500">Fast path for getting browser bridges, editor surfaces, and managed MCP configs into the tools you already use.</p>
                                 </div>
                                 <Link
@@ -1322,7 +1322,7 @@ export function DashboardHomeView({
                                 </div>
                                 <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-3 text-sm text-slate-300">
                                     <div className="font-medium text-white">Client config sync</div>
-                                    <p className="mt-2 text-slate-400">Push Borg-managed MCP endpoints into Claude Desktop, Cursor, and VS Code without manual JSON surgery.</p>
+                                    <p className="mt-2 text-slate-400">Push Hypercode-managed MCP endpoints into Claude Desktop, Cursor, and VS Code without manual JSON surgery.</p>
                                 </div>
                             </div>
                         </div>
@@ -1453,7 +1453,7 @@ export function DashboardHomeView({
                                                 </p>
                                                 {session.autoRestart === false ? (
                                                     <p className="mt-2 text-xs text-amber-300">
-                                                        Manual restart only · Borg will not auto-restart this session after a crash.
+                                                        Manual restart only · Hypercode will not auto-restart this session after a crash.
                                                     </p>
                                                 ) : null}
                                                 {session.status === 'restarting' && session.scheduledRestartAt ? (
@@ -1814,7 +1814,7 @@ export function getStartupBlockingReasonTitle(code: string): string {
         case 'memory_not_ready':
             return 'Memory manager is still initializing';
         case 'claude_mem_not_ready':
-            return 'Claude-mem default sections are not ready';
+            return 'Hypercode default sections are not ready';
         case 'browser_service_not_ready':
             return 'Browser service bridge is not ready';
         case 'extension_bridge_not_ready':

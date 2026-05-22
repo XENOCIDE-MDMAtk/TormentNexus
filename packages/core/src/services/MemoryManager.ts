@@ -21,7 +21,7 @@ export class MemoryManager {
   async initialize() {
     if (this.initialized) return;
     try {
-      const { LanceDBStore, MemoryVectorStore } = await import('@borg/memory');
+      const { LanceDBStore, MemoryVectorStore } = await import('@hypercode/memory');
       try {
         this.provider = new LanceDBStore(this.rootDir);
         await this.provider.initialize();
@@ -31,7 +31,7 @@ export class MemoryManager {
       }
       // Initialize graph memory
       try {
-        const { GraphMemory } = await import('@borg/memory');
+        const { GraphMemory } = await import('@hypercode/memory');
         const gm = new GraphMemory(this.rootDir);
         if (gm.initialize) await gm.initialize();
         this.graph = gm;
@@ -83,7 +83,7 @@ export class MemoryManager {
   public async indexCodebase(rootDir: string): Promise<number> {
     if (!this.initialized) await this.initialize();
     try {
-      const { Indexer } = await import('@borg/memory');
+      const { Indexer } = await import('@hypercode/memory');
       const indexer = new Indexer(this.provider);
       return await indexer.indexDirectory(rootDir);
     } catch {
@@ -120,7 +120,7 @@ export class MemoryManager {
   public async indexSymbols(rootDir: string): Promise<number> {
     if (!this.initialized) await this.initialize();
     try {
-      const { Indexer } = await import('@borg/memory');
+      const { Indexer } = await import('@hypercode/memory');
       const indexer = new Indexer(this.provider);
       return await indexer.indexSymbols(rootDir);
     } catch {

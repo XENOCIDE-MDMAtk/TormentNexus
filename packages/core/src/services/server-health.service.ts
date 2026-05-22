@@ -9,7 +9,7 @@ import { mcpServersRepository } from "../db/repositories/index.js";
 import { formatOptionalSqliteFailure, isSqliteUnavailableError } from "../db/sqliteAvailability.js";
 import { configService } from "./config.service.js";
 import { autoReconnectService } from "./auto-reconnect.service.js";
-import { connectMetaMcpClient } from "./mcp-client.service.js";
+import { connecthypercodeClient } from "./mcp-client.service.js";
 import { serverErrorTracker } from "./server-error-tracker.service.js";
 import { convertDbServerToParams } from "./utils.service.js";
 
@@ -174,13 +174,13 @@ export class ServerHealthService {
     }
 
     private async performHealthCheck(
-        serverParams: Parameters<typeof connectMetaMcpClient>[0],
+        serverParams: Parameters<typeof connecthypercodeClient>[0],
     ): Promise<
         | { success: true; toolCount: number }
         | { success: false; errorMessage: string }
     > {
         try {
-            const connectedClient = await connectMetaMcpClient(serverParams);
+            const connectedClient = await connecthypercodeClient(serverParams);
 
             if (!connectedClient) {
                 return { success: false, errorMessage: "Failed to connect to server" };

@@ -1,9 +1,9 @@
 'use client';
 
-import { Card, CardHeader, CardTitle, CardContent, CardDescription, Tabs, TabsContent, TabsList, TabsTrigger } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription, Tabs, TabsContent, TabsList, TabsTrigger } from "@hypercode/ui";
 import { useEffect, useState } from "react";
 import { fetchSubmodulesAction, healSubmodulesAction, fetchUserLinksAction } from "./actions";
-import { Button } from "@borg/ui";
+import { Button } from "@hypercode/ui";
 import { Loader2, RefreshCw, GitCommit, Calendar, ExternalLink, Copy, Check } from "lucide-react";
 import {
     normalizeSubmodules,
@@ -162,7 +162,7 @@ export default function SubmodulesPage() {
                 <TabsContent value="structure">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Borg Project Structure</CardTitle>
+                            <CardTitle>Hypercode Project Structure</CardTitle>
                             <CardDescription>
                                 Architectural overview of the monorepo.
                             </CardDescription>

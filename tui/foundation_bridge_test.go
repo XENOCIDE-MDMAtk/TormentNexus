@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/robertpelloni/borg/agents"
+	"github.com/robertpelloni/hypercode/agents"
 )
 
 func TestBuildPromptResponseIncludesFoundationRoute(t *testing.T) {

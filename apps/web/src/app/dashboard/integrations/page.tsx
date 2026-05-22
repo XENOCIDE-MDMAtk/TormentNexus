@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import type { ComponentType } from 'react';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@borg/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@hypercode/ui';
 import { Bot, Cable, Check, Copy, ExternalLink, FolderCode, Globe, Loader2, Puzzle, Settings2, Sparkles, TerminalSquare } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -100,7 +100,7 @@ export default function IntegrationsDashboard() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-white">Integration Hub</h1>
                     <p className="mt-2 max-w-3xl text-zinc-500">
-                        Install Borg into the environments you actually use: browser bridges, VS Code, and MCP-aware clients.
+                        Install Hypercode into the environments you actually use: browser bridges, VS Code, and MCP-aware clients.
                         This page centralizes extension package locations, supported MCP client sync targets, and live bridge readiness so setup is less treasure hunt, more control plane.
                     </p>
                 </div>
@@ -139,7 +139,7 @@ export default function IntegrationsDashboard() {
                 <StatCard
                     title="Synced MCP clients"
                     value={String(overview.syncedClientCount)}
-                    detail="Detected config targets with existing Borg-ready files"
+                    detail="Detected config targets with existing Hypercode-ready files"
                     icon={Settings2}
                     tone="text-violet-400"
                 />
@@ -162,7 +162,7 @@ export default function IntegrationsDashboard() {
             <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-4">
                 <Card className="bg-zinc-900 border-zinc-800">
                     <CardHeader>
-                        <CardTitle className="text-white">Installable Borg surfaces</CardTitle>
+                        <CardTitle className="text-white">Installable Hypercode surfaces</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         {installSurfaceRows.map((surface) => (
@@ -275,7 +275,7 @@ export default function IntegrationsDashboard() {
                             <Settings2 className="mt-0.5 h-4 w-4 text-violet-400" />
                             <div>
                                 <div className="font-medium text-white">Client config sync</div>
-                                <div className="mt-1 text-xs text-zinc-400">Preview and write Borg-managed MCP configs for Claude Desktop, Cursor, and VS Code.</div>
+                                <div className="mt-1 text-xs text-zinc-400">Preview and write Hypercode-managed MCP configs for Claude Desktop, Cursor, and VS Code.</div>
                             </div>
                         </Link>
 
@@ -380,7 +380,7 @@ export default function IntegrationsDashboard() {
                                         </div>
                                         <div className="flex items-center gap-2 text-xs text-zinc-400">
                                             <FolderCode className="h-4 w-4" />
-                                            {row.detected ? 'Detected on this machine' : 'Not detected from Borg yet'}
+                                            {row.detected ? 'Detected on this machine' : 'Not detected from Hypercode yet'}
                                         </div>
                                     </div>
                                 </div>

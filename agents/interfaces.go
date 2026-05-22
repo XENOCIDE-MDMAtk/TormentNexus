@@ -45,7 +45,7 @@ type ILLMProvider interface {
 	GetModelName() string
 }
 
-// IAgent is the core interface for all Borg Agents, enforcing parity with the TS core
+// IAgent is the core interface for all Hypercode Agents, enforcing parity with the TS core
 type IAgent interface {
 	GetName() string
 	GetRole() string

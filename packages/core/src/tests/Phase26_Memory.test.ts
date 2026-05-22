@@ -9,7 +9,7 @@ describe('Phase 26: Infinite Context V3', () => {
         // Generate a synthetic conversation
         // System Prompt + 50 User/Assistant turns
         const messages: any[] = [
-            { role: 'system', content: 'You are Borg.' }
+            { role: 'system', content: 'You are Hypercode.' }
         ];
 
         for (let i = 0; i < 50; i++) {
@@ -39,7 +39,7 @@ describe('Phase 26: Infinite Context V3', () => {
 
         // Assertions
         expect(finalSize).toBeLessThanOrEqual(Math.max(200, minimumAchievableSize));
-        expect(pruned[0].content).toBe('You are Borg.'); // System prompt kept
+        expect(pruned[0].content).toBe('You are Hypercode.'); // System prompt kept
         expect(pruned[pruned.length - 1].content).toContain('Answer 49'); // Last message kept
         expect(pruned.length).toBeLessThan(messages.length);
         expect(pruned.length).toBeGreaterThan(5); // At least 1 + 4

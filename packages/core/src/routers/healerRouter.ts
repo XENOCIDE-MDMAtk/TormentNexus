@@ -17,7 +17,7 @@ export const healerRouter = t.router({
         try { return getHealerService()?.getHistory() ?? []; } catch { return []; }
     }),
     vaultRecords: publicProcedure.input(z.object({ limit: z.number().optional() }).optional()).query(async ({ input }) => {
-        const SIDECAR_URL = process.env.BORG_SIDECAR_URL || 'http://127.0.0.1:4300';
+        const SIDECAR_URL = process.env.HYPERCODE_SIDECAR_URL || 'http://127.0.0.1:4300';
         const limit = input?.limit || 50;
         try {
             const res = await fetch(`${SIDECAR_URL}/api/native/healer/vault?limit=${limit}`);
@@ -59,7 +59,7 @@ export const healerRouter = t.router({
             };
             // Safely fetch internal EventBus from active Orchestrator Context
             const server = getHealerService() as any; 
-            // In Borg, either the server or generic system holds event bus. We use MCPServer fallback.
+            // In Hypercode, either the server or generic system holds event bus. We use MCPServer fallback.
             const mcpServer = (global as any).mcpServerInstance;
             if (mcpServer && mcpServer.eventBus) {
                 mcpServer.eventBus.on('system:llm_quota_exhausted', onEvent);

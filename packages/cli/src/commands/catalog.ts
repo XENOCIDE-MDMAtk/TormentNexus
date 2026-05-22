@@ -1,5 +1,5 @@
 /**
- * `borg catalog` — Browse the MCP server catalog
+ * `hypercode catalog` — Browse the MCP server catalog
  * Queries the Go sidecar's local catalog database
  */
 import type { Command } from 'commander';
@@ -53,7 +53,7 @@ export function registerCatalogCommand(program: Command): void {
         console.log('');
       } catch (e: any) {
         console.log(chalk.red(`  ✗ Error: ${e.message}`));
-        console.log(chalk.dim('    Is the Go sidecar running? Use borg start'));
+        console.log(chalk.dim('    Is the Go sidecar running? Use hypercode start'));
       }
     });
 
@@ -165,11 +165,11 @@ export function registerCatalogCommand(program: Command): void {
           console.log(chalk.green(`  ✓ '${name}' installed`));
           if (data.serverName) console.log(chalk.dim(`    Server: ${data.serverName}`));
           if (data.command) console.log(chalk.dim(`    Command: ${data.command}`));
-          console.log(chalk.dim(`    Use 'borg mcp start ${name}' to connect`));
+          console.log(chalk.dim(`    Use 'hypercode mcp start ${name}' to connect`));
         } else {
           const json = await res.json().catch(() => ({}));
           console.log(chalk.yellow(`  ⚠ Install returned ${res.status}: ${json.error ?? 'unknown'}`));
-          console.log(chalk.dim(`    Try: borg mcp install @modelcontextprotocol/server-${name}`));
+          console.log(chalk.dim(`    Try: hypercode mcp install @modelcontextprotocol/server-${name}`));
         }
       } catch (e: any) {
         console.log(chalk.red(`  ✗ Error: ${e.message}`));

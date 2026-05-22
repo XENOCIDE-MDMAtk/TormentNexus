@@ -56,14 +56,14 @@ export interface NavSection {
 
 export const META_MCP_NAV: NavItem[] = [
     {
-        title: "MetaMCP Dashboard",
+        title: "Hypercode Dashboard",
         href: "/dashboard/mcp",
         icon: Server,
         variant: "default",
     },
     {
-        title: "MetaMCP Servers",
-        href: "/dashboard/mcp/metamcp",
+        title: "Hypercode Servers",
+        href: "/dashboard/mcp/hypercode",
         icon: Network,
         variant: "ghost",
     },
@@ -267,7 +267,7 @@ export const MAIN_DASHBOARD_NAV: NavItem[] = [
 
 export const SIDEBAR_SECTIONS: NavSection[] = [
     {
-        title: "MetaMCP Tools",
+        title: "Hypercode Tools",
         items: META_MCP_NAV,
     },
     {

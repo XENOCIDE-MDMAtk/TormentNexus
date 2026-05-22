@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/robertpelloni/borg/borg"
+	"github.com/robertpelloni/hypercode/hypercode"
 )
 
 type MCPStatus struct {
@@ -42,7 +42,7 @@ type MCPCallResult struct {
 }
 
 type MCPAdapter struct {
-	borgAdapter *borg.Adapter
+	hypercodeAdapter *hypercode.Adapter
 	workingDir  string
 	homeDir     string
 }
@@ -50,7 +50,7 @@ type MCPAdapter struct {
 func NewMCPAdapter(workingDir string) *MCPAdapter {
 	homeDir, _ := os.UserHomeDir()
 	return &MCPAdapter{
-		borgAdapter: borg.NewAdapter(),
+		hypercodeAdapter: hypercode.NewAdapter(),
 		workingDir:  workingDir,
 		homeDir:     homeDir,
 	}
@@ -101,10 +101,10 @@ func (a *MCPAdapter) ListTools() ([]string, error) {
 
 func (a *MCPAdapter) RouteCall(serverName, request string) string {
 	payload := fmt.Sprintf("%s:%s", strings.TrimSpace(serverName), strings.TrimSpace(request))
-	if a.borgAdapter == nil {
+	if a.hypercodeAdapter == nil {
 		return payload
 	}
-	return a.borgAdapter.RouteMCP(payload)
+	return a.hypercodeAdapter.RouteMCP(payload)
 }
 
 func (a *MCPAdapter) CallTool(req MCPCallRequest) (MCPCallResult, error) {
@@ -169,10 +169,10 @@ func defaultToolHintsForServer(name string, server MCPServerConfig) []string {
 }
 
 func (a *MCPAdapter) routeHint(name string) string {
-	if a.borgAdapter == nil {
+	if a.hypercodeAdapter == nil {
 		return name
 	}
-	return a.borgAdapter.RouteMCP(name)
+	return a.hypercodeAdapter.RouteMCP(name)
 }
 
 func commandResolvable(command string) bool {

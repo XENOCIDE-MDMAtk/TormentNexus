@@ -20,7 +20,7 @@ export function getMcpRouterMetric(
         return {
             status: 'Degraded',
             color: 'text-amber-500',
-            detail: summary || 'Live startup telemetry is unavailable while Borg serves a compat-fallback router snapshot.',
+            detail: summary || 'Live startup telemetry is unavailable while Hypercode serves a compat-fallback router snapshot.',
         };
     }
 
@@ -50,7 +50,7 @@ export function getEventBusMetric(startupStatus?: DashboardStartupStatus): {
         return {
             status: 'Degraded',
             color: 'text-amber-500',
-            detail: summary || 'Live startup telemetry is unavailable while Borg serves a compat-fallback snapshot.',
+            detail: summary || 'Live startup telemetry is unavailable while Hypercode serves a compat-fallback snapshot.',
         };
     }
 

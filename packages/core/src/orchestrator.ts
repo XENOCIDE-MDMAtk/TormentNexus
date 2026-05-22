@@ -10,7 +10,7 @@ import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import { appRouter } from './trpc.js';
 console.log("[Core:Orchestrator] ✓ trpc.js");
 import { ingestPublishedCatalog } from './services/published-catalog-ingestor.js';
-import { InputTools, SystemStatusTool } from '@borg/tools';
+import { InputTools, SystemStatusTool } from '@hypercode/tools';
 import { MCPServer } from './MCPServer.js';
 import { listenExpress } from './orchestrator-listen.js';
 import { resolveSupervisorEntryPath } from './orchestratorPaths.js';
@@ -19,7 +19,7 @@ import { councilApp } from './orchestrator/council/node-index.js';
 import { jsonConfigProvider } from './services/config/JsonConfigProvider.js';
 import { codeExecutorService } from './services/CodeExecutorService.js';
 
-export const name = "@borg/core";
+export const name = "@hypercode/core";
 
 export interface StartOrchestratorOptions {
     host?: string;
@@ -151,7 +151,7 @@ export async function startOrchestrator(options: StartOrchestratorOptions = {}) 
     app.get('/health', (_req, res) => {
         res.json({
             status: 'ok',
-            name: '@borg/core',
+            name: '@hypercode/core',
             uptime: process.uptime(),
             timestamp: Date.now(),
             mcpReady: !!global.mcpServerInstance,
@@ -175,10 +175,10 @@ export async function startOrchestrator(options: StartOrchestratorOptions = {}) 
     // 1.5. Start Supervisor (Native Input / Watchdog)
     if (startSupervisor) {
         try {
-            console.log("[Core] 1.5 Starting Borg Supervisor...");
+            console.log("[Core] 1.5 Starting Hypercode Supervisor...");
             const supervisorPath = resolveSupervisorEntryPath();
             if (!supervisorPath) {
-                console.warn("[Core] Borg Supervisor build not found. Skipping supervisor startup.");
+                console.warn("[Core] Hypercode Supervisor build not found. Skipping supervisor startup.");
             } else {
                 const supervisor = spawn('node', [supervisorPath], {
                     stdio: 'inherit',
@@ -240,8 +240,8 @@ export async function startOrchestrator(options: StartOrchestratorOptions = {}) 
 
             // Load server configs from mcp.jsonc into the aggregator
             try {
-                const { loadBorgMcpConfig } = await import('./mcp/mcpJsonConfig.js');
-                const config = await loadBorgMcpConfig();
+                const { loadHypercodeMcpConfig } = await import('./mcp/mcpJsonConfig.js');
+                const config = await loadHypercodeMcpConfig();
                 const serverConfigs = config.mcpServers ?? {};
                 let loaded = 0;
                 for (const [name, serverConfig] of Object.entries(serverConfigs)) {

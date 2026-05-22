@@ -3,7 +3,7 @@
  *
  * Supports:
  * - Canonical exports: JSON, CSV, JSONL
- * - Provider-native snapshots: Borg JSON provider, sectioned memory store
+ * - Provider-native snapshots: Hypercode JSON provider, sectioned memory store
  * - Conversion between all supported formats via a canonical intermediate form
  */
 
@@ -30,7 +30,7 @@ export const MEMORY_INTERCHANGE_FORMATS: Array<{
         label: 'Canonical JSON',
         kind: 'canonical',
         extension: 'json',
-        description: 'Portable Borg memory export with metadata preserved.',
+        description: 'Portable Hypercode memory export with metadata preserved.',
     },
     {
         id: 'csv',
@@ -48,17 +48,17 @@ export const MEMORY_INTERCHANGE_FORMATS: Array<{
     },
     {
         id: 'json-provider',
-        label: 'Borg JSON Provider',
+        label: 'Hypercode JSON Provider',
         kind: 'provider',
         extension: 'json',
-        description: 'Native snapshot of Borg\'s flat-file memory provider.',
+        description: 'Native snapshot of Hypercode\'s flat-file memory provider.',
     },
     {
         id: 'sectioned-memory-store',
         label: 'Sectioned Memory Store',
         kind: 'provider',
         extension: 'json',
-        description: 'Native Borg sectioned memory snapshot.',
+        description: 'Native Hypercode sectioned memory snapshot.',
     },
 ];
 

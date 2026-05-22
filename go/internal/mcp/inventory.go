@@ -229,7 +229,7 @@ func loadLiveInventory(workspaceRoot, mainConfigDir string) (*Inventory, error) 
 		inventory.Source = "config"
 	}
 
-	dbPath := filepath.Join(workspaceRoot, "metamcp.db")
+	dbPath := filepath.Join(workspaceRoot, "hypercode.db")
 	db, err := sql.Open("sqlite", dbPath)
 	if err == nil {
 		db.Exec("PRAGMA journal_mode=WAL")

@@ -159,7 +159,7 @@ async function fetchJson(url: string): Promise<unknown> {
     const response = await fetch(url, {
         headers: {
             Accept: "application/json",
-            "User-Agent": "Borg/BobbyBookmarks-Adapter",
+            "User-Agent": "Hypercode/BobbyBookmarks-Adapter",
         },
     });
     if (!response.ok) {

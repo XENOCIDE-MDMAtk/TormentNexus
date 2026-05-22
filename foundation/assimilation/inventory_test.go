@@ -9,7 +9,7 @@ func TestInventoryCoversKeySources(t *testing.T) {
 	}
 
 	wanted := map[string]bool{
-		"borg": false,
+		"hypercode": false,
 		"pi":        false,
 		"aider":     false,
 		"opencode":  false,

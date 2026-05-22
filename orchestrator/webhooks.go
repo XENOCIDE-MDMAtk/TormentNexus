@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	foundationorchestration "github.com/robertpelloni/borg/foundation/orchestration"
+	foundationorchestration "github.com/robertpelloni/hypercode/foundation/orchestration"
 )
 
 type WebhookPayload struct {
@@ -16,8 +16,8 @@ type WebhookPayload struct {
 	Data   json.RawMessage `json:"data"`
 }
 
-// HandleBorgWebhook processes real-time synchronization routes mirroring the JULES TS implementation.
-func HandleBorgWebhook(payload WebhookPayload, queue *TaskQueue, ws *TelemetrySocket) (map[string]interface{}, error) {
+// HandleHypercodeWebhook processes real-time synchronization routes mirroring the JULES TS implementation.
+func HandleHypercodeWebhook(payload WebhookPayload, queue *TaskQueue, ws *TelemetrySocket) (map[string]interface{}, error) {
 	source := payload.Source
 	if source == "" {
 		source = "unknown"
@@ -28,7 +28,7 @@ func HandleBorgWebhook(payload WebhookPayload, queue *TaskQueue, ws *TelemetrySo
 		ID:        uuid.New().String(),
 		SessionId: "global",
 		Type:      "info",
-		Message:   fmt.Sprintf("Received Borg signal: %s from %s", payload.Type, source),
+		Message:   fmt.Sprintf("Received Hypercode signal: %s from %s", payload.Type, source),
 		Metadata:  string(payload.Data),
 	}
 	if err := DB.Create(&actionLog).Error; err != nil {
@@ -59,7 +59,7 @@ func HandleBorgWebhook(payload WebhookPayload, queue *TaskQueue, ws *TelemetrySo
 	}
 
 	rawJson, _ := json.Marshal(emitPayload)
-	ws.Broadcast(fmt.Sprintf(`{"event": "borg_signal_received", "payload": %s}`, string(rawJson)))
+	ws.Broadcast(fmt.Sprintf(`{"event": "hypercode_signal_received", "payload": %s}`, string(rawJson)))
 
 	return map[string]interface{}{"success": true, "processed": true, "plan": plan}, nil
 }

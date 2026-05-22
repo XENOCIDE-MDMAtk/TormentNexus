@@ -240,7 +240,7 @@ const PROVIDER_QUICK_ACCESS_SECTIONS: ProviderQuickAccessSectionDefinition[] = [
     {
         id: 'api-keys',
         title: 'API keys & tokens',
-        description: 'Fast path to the credentials most likely to block first-run setup in Borg.',
+        description: 'Fast path to the credentials most likely to block first-run setup in Hypercode.',
         links: [
             { providerId: 'openai', preferredKinds: ['keys'] },
             { providerId: 'anthropic', preferredKinds: ['keys'] },

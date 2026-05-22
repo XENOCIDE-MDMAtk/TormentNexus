@@ -15,10 +15,10 @@ const config = createConfig({
     walletConnect({
       projectId: WALLETCONNECT_PROJECT_ID,
       metadata: {
-        name: 'AIOS Dashboard',
+        name: 'HYPERCODE Dashboard',
         description: 'AI Operating System - Bobcoin Wallet',
-        url: 'https://aios.local',
-        icons: ['https://aios.local/icon.png'],
+        url: 'https://hypercode.local',
+        icons: ['https://hypercode.local/icon.png'],
       },
       showQrModal: true,
     }),

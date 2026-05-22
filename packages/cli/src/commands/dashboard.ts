@@ -1,12 +1,12 @@
 /**
- * `borg dashboard` - Open the web dashboard
+ * `hypercode dashboard` - Open the web dashboard
  *
- * Launches the Borg WebUI dashboard in the default browser.
+ * Launches the Hypercode WebUI dashboard in the default browser.
  * If the server isn't running, optionally starts it first.
  *
  * @example
- *   borg dashboard            # Open dashboard in browser
- *   borg dashboard --port 8080
+ *   hypercode dashboard            # Open dashboard in browser
+ *   hypercode dashboard --port 8080
  */
 
 import type { Command } from 'commander';
@@ -65,13 +65,13 @@ export function registerDashboardCommand(program: Command): void {
   program
     .command('dashboard')
     .alias('ui')
-    .description('Open the Borg WebUI dashboard in the default browser')
+    .description('Open the Hypercode WebUI dashboard in the default browser')
     .option('-p, --port <number>', 'Dashboard port', '3000')
     .option('-H, --host <address>', 'Dashboard host', 'localhost')
     .option('--no-open', 'Start dashboard server without opening browser')
     .option('--dev', 'Start in development mode with hot reload')
     .addHelpText('after', `
-The dashboard provides a comprehensive visual interface to all Borg subsystems:
+The dashboard provides a comprehensive visual interface to all Hypercode subsystems:
   - System overview with health metrics
   - MCP Router management (servers, tools, traffic, config, directory)
   - Memory browser and search
@@ -83,21 +83,21 @@ The dashboard provides a comprehensive visual interface to all Borg subsystems:
   - Submodule dashboard
 
 Examples:
-  $ borg dashboard                  Open in browser at localhost:3000
-  $ borg dashboard --port 8080      Custom port
-  $ borg dashboard --dev            Development mode with HMR
-  $ borg dashboard --no-open        Start without opening browser
+  $ hypercode dashboard                  Open in browser at localhost:3000
+  $ hypercode dashboard --port 8080      Custom port
+  $ hypercode dashboard --dev            Development mode with HMR
+  $ hypercode dashboard --no-open        Start without opening browser
     `)
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
       const { spawn } = await import('child_process');
       const webDir = resolve(process.cwd(), 'apps/web');
       const url = `http://${opts.host}:${opts.port}`;
-      const upstreamTrpc = process.env.BORG_TRPC_UPSTREAM?.trim() || 'http://127.0.0.1:4100/trpc';
+      const upstreamTrpc = process.env.HYPERCODE_TRPC_UPSTREAM?.trim() || 'http://127.0.0.1:4100/trpc';
       const scriptPath = resolve(webDir, 'scripts', opts.dev ? 'dev.mjs' : 'start.mjs');
       const coreReachable = await isCoreReachable(upstreamTrpc);
 
-      console.log(chalk.bold.cyan('\n  ⬡ Borg Dashboard\n'));
+      console.log(chalk.bold.cyan('\n  ⬡ Hypercode Dashboard\n'));
       console.log(chalk.dim(`  URL: ${url}`));
       console.log(chalk.dim(`  Mode: ${opts.dev ? 'development' : 'production'}`));
       console.log(chalk.dim(`  Core: ${upstreamTrpc}`));
@@ -105,7 +105,7 @@ Examples:
 
       if (!coreReachable) {
         console.log(chalk.yellow('  ⚠ Core control plane is not responding yet.'));
-        console.log(chalk.dim('    Start it with: borg start --port 4100'));
+        console.log(chalk.dim('    Start it with: hypercode start --port 4100'));
         console.log('');
       }
 
@@ -115,7 +115,7 @@ Examples:
         cwd: webDir,
         env: {
           ...process.env,
-          BORG_TRPC_UPSTREAM: upstreamTrpc,
+          HYPERCODE_TRPC_UPSTREAM: upstreamTrpc,
         },
       });
 
@@ -139,53 +139,53 @@ Examples:
   // About command (bonus)
   program
     .command('about')
-    .description('Show Borg AIOS version, project info, and submodule status')
+    .description('Show Hypercode HYPERCODE version, project info, and submodule status')
     .option('--json', 'Output as JSON')
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
 
       if (opts.json) {
         console.log(JSON.stringify({
-          name: 'Borg',
+          name: 'Hypercode',
           subtitle: 'The Neural Operating System',
           version: getVersion(),
-          codename: 'AIOS',
-          packages: ['@borg/core', '@borg/cli', '@borg/types', '@borg/ai', '@borg/agents', '@borg/tools', '@borg/search', '@borg/memory', '@borg/adk'],
-          repository: 'https://github.com/robertpelloni/borg',
+          codename: 'HYPERCODE',
+          packages: ['@hypercode/core', '@hypercode/cli', '@hypercode/types', '@hypercode/ai', '@hypercode/agents', '@hypercode/tools', '@hypercode/search', '@hypercode/memory', '@hypercode/adk'],
+          repository: 'https://github.com/robertpelloni/hypercode',
         }, null, 2));
         return;
       }
 
-      console.log(chalk.bold.cyan('\n  ⬡ Borg — The Neural Operating System'));
-      console.log(chalk.dim(`  Version: ${getVersion()} | Codename: AIOS\n`));
+      console.log(chalk.bold.cyan('\n  ⬡ Hypercode — The Neural Operating System'));
+      console.log(chalk.dim(`  Version: ${getVersion()} | Codename: HYPERCODE\n`));
       console.log(chalk.dim('  "The Ultimate AI Tool Dashboard & Development Orchestrator"\n'));
 
       console.log(chalk.bold('  Packages:'));
       const pkgs = [
-        ['@borg/core', 'Backend server, MCP router, orchestrator'],
-        ['@borg/cli', 'Command-line interface'],
-        ['@borg/types', 'Shared TypeScript types & Zod schemas'],
-        ['@borg/ai', 'LLM service, model selector'],
-        ['@borg/agents', 'Director, Council, Supervisor'],
-        ['@borg/tools', 'File, terminal, browser, chain executor'],
-        ['@borg/search', 'Semantic & text search service'],
-        ['@borg/memory', 'Multi-backend memory system'],
-        ['@borg/adk', 'Agent Development Kit'],
+        ['@hypercode/core', 'Backend server, MCP router, orchestrator'],
+        ['@hypercode/cli', 'Command-line interface'],
+        ['@hypercode/types', 'Shared TypeScript types & Zod schemas'],
+        ['@hypercode/ai', 'LLM service, model selector'],
+        ['@hypercode/agents', 'Director, Council, Supervisor'],
+        ['@hypercode/tools', 'File, terminal, browser, chain executor'],
+        ['@hypercode/search', 'Semantic & text search service'],
+        ['@hypercode/memory', 'Multi-backend memory system'],
+        ['@hypercode/adk', 'Agent Development Kit'],
       ];
 
       for (const [name, desc] of pkgs) {
         console.log(chalk.cyan(`    ${name.padEnd(20)}`) + chalk.dim(desc));
       }
 
-      console.log(chalk.dim('\n  Repository: https://github.com/robertpelloni/borg'));
+      console.log(chalk.dim('\n  Repository: https://github.com/robertpelloni/hypercode'));
       console.log(chalk.dim('  License: MIT'));
 
       // Quick-start hints
       console.log(chalk.bold.cyan('\n  Quick Start:'));
-      console.log(chalk.dim('    borg start                # Launch the control plane'));
-      console.log(chalk.dim('    borg info                 # System overview'));
-      console.log(chalk.dim('    borg provider test openai  # Verify API keys'));
-      console.log(chalk.dim('    borg catalog search memory # Browse MCP servers'));
-      console.log(chalk.dim('    borg dashboard --dev       # Launch Web UI\n'));
+      console.log(chalk.dim('    hypercode start                # Launch the control plane'));
+      console.log(chalk.dim('    hypercode info                 # System overview'));
+      console.log(chalk.dim('    hypercode provider test openai  # Verify API keys'));
+      console.log(chalk.dim('    hypercode catalog search memory # Browse MCP servers'));
+      console.log(chalk.dim('    hypercode dashboard --dev       # Launch Web UI\n'));
     });
 }

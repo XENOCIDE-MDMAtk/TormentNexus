@@ -32,8 +32,8 @@ describe('detectLocalExecutionEnvironment', () => {
             },
             runCommand: async (command, args) => {
                 const joined = `${command} ${args.join(' ')}`;
-                if (joined.includes('borg-ready')) {
-                    return 'borg-ready';
+                if (joined.includes('hypercode-ready')) {
+                    return 'hypercode-ready';
                 }
                 if (joined.includes('PSVersionTable')) {
                     return '7.5.0';
@@ -101,6 +101,6 @@ describe('detectLocalExecutionEnvironment', () => {
         expect(environment.summary.ready).toBe(false);
         expect(environment.summary.preferredShellId).toBeNull();
         expect(environment.summary.verifiedShellCount).toBe(0);
-        expect(environment.summary.notes).toContain('No verified POSIX shell detected yet; Borg should prefer PowerShell-compatible command plans.');
+        expect(environment.summary.notes).toContain('No verified POSIX shell detected yet; Hypercode should prefer PowerShell-compatible command plans.');
     });
 });

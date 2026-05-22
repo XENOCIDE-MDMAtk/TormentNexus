@@ -39,7 +39,7 @@ export default function ConnectionStatus() {
                     <div className="space-y-3">
                         <div className="flex items-center justify-between p-3 bg-zinc-800/50 rounded-lg">
                             <span className="text-zinc-400 text-sm">Service</span>
-                            <span className="text-white font-mono text-sm">{health.data.service || 'borg-core'}</span>
+                            <span className="text-white font-mono text-sm">{health.data.service || 'hypercode-core'}</span>
                         </div>
                         <div className="flex items-center justify-between p-3 bg-zinc-800/50 rounded-lg">
                             <span className="text-zinc-400 text-sm">State</span>

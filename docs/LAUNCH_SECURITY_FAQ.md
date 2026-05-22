@@ -5,42 +5,42 @@ Use this as a copy/paste response bank for launch-day comments.
 ## Short answers (1–3 lines)
 
 ### How do you handle secrets?
-Secrets are injected through environment/config and should never be committed. borg is local-first, so secret handling follows your local runtime boundaries and key-scoping practices.
+Secrets are injected through environment/config and should never be committed. hypercode is local-first, so secret handling follows your local runtime boundaries and key-scoping practices.
 
 ### What if an MCP server/tool is malicious?
-Treat every external MCP server as outside your trust boundary. borg can route calls and improve visibility, but safety still depends on what you connect and enable.
+Treat every external MCP server as outside your trust boundary. hypercode can route calls and improve visibility, but safety still depends on what you connect and enable.
 
-### Does borg send data to a hosted backend?
-Core operation is local-first and does not require a hosted borg backend. Any outbound data flow depends on the external providers/tools you configure.
+### Does hypercode send data to a hosted backend?
+Core operation is local-first and does not require a hosted hypercode backend. Any outbound data flow depends on the external providers/tools you configure.
 
 ### Is this production-ready?
 Core workflows are usable now for advanced local/operator use. We are actively hardening policies, docs, and guardrails based on user feedback.
 
 ### How is this safer than direct client-to-tool wiring?
-borg centralizes visibility and control (routing, logs, policy surfaces), making behavior easier to audit and constrain than ad-hoc direct wiring.
+hypercode centralizes visibility and control (routing, logs, policy surfaces), making behavior easier to audit and constrain than ad-hoc direct wiring.
 
 ## Deeper technical follow-ups
 
 ### Threat model (concise)
-- Trusted: host machine + user account running borg.
+- Trusted: host machine + user account running hypercode.
 - Untrusted/outside boundary: remote MCP servers, third-party APIs, and any side-effect-capable external tool.
 - Security posture: least privilege, explicit allowlists, scoped credentials, and audit visibility.
 
 ### Hardening guidance
-- Run borg under least-privilege OS user.
+- Run hypercode under least-privilege OS user.
 - Scope API keys to minimum permissions; rotate regularly.
 - Disable unused MCP servers/tools.
 - Separate sensitive workloads by environment/project.
 - Review logs for unexpected executions.
 
 ### Limitations to acknowledge publicly
-- borg does not make an untrusted external tool trustworthy.
+- hypercode does not make an untrusted external tool trustworthy.
 - Security quality depends on connected integrations and operator configuration.
 - Some guardrails are still evolving and are part of active hardening.
 
 ## Copy/paste long reply
 
-Totally fair question. borg is local-first and should be treated as a high-privilege operator process. The key security point is trust boundaries: your local host/user is the trusted base, while remote MCP servers and external APIs are outside that boundary. borg helps by centralizing control and visibility (routing, logs, policy surfaces), but it does not magically make an untrusted external tool trustworthy. In practice, safe operation means least privilege runtime, scoped keys, explicit server/tool allowlists, and regular audit review.
+Totally fair question. hypercode is local-first and should be treated as a high-privilege operator process. The key security point is trust boundaries: your local host/user is the trusted base, while remote MCP servers and external APIs are outside that boundary. hypercode helps by centralizing control and visibility (routing, logs, policy surfaces), but it does not magically make an untrusted external tool trustworthy. In practice, safe operation means least privilege runtime, scoped keys, explicit server/tool allowlists, and regular audit review.
 
 ## Skeptic-proof response
 
@@ -55,7 +55,7 @@ That’s a valid concern. The value is not “magic security,” it’s operatio
 We’re publishing reproducible benchmark scripts and environment details so claims are verifiable.
 
 ### “What data leaves my machine exactly?”
-Only what your configured integrations send. borg itself runs local-first; outbound behavior depends on enabled providers/tools and your runtime config.
+Only what your configured integrations send. hypercode itself runs local-first; outbound behavior depends on enabled providers/tools and your runtime config.
 
 ### “Can I run it fully offline?”
 Core control-plane behavior is local. Offline capability for end-to-end workflows depends on whether your selected tools/providers require network access.

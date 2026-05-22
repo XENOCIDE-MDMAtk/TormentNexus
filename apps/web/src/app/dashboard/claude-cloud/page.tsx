@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ExternalLink, Zap, KeyRound, Radio, RefreshCw, CheckCircle2, ShieldCheck, BarChart3, Sparkles, Terminal } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
 
 const CLAUDE_CLOUD_KEY_STORAGE = "claude-cloud-api-key";
 
@@ -32,7 +32,7 @@ export default function ClaudeCloudPage() {
     setApiKey(trimmed);
     setStatus({
       ok: true,
-      message: "Anthropic API Key saved locally and synchronized with Borg LLM Service.",
+      message: "Anthropic API Key saved locally and synchronized with Hypercode LLM Service.",
       checkedAt: new Date().toISOString(),
     });
     setSimulatedLogs((prev) => [

@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
-import { Badge } from "@borg/ui";
-import { WorkflowVisualizer } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
+import { Badge } from "@hypercode/ui";
+import { WorkflowVisualizer } from "@hypercode/ui";
 import { trpc } from '@/utils/trpc';
 import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
 import { toast } from 'sonner';

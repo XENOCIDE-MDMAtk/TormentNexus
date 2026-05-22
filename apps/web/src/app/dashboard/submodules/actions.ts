@@ -6,7 +6,7 @@ import fs from 'fs/promises';
 
 // Resolve the monorepo root safely without overly broad path traversals
 function getMonorepoRoot(): string {
-    return process.env.BORG_ROOT || path.resolve(process.cwd(), '..', '..');
+    return process.env.HYPERCODE_ROOT || path.resolve(process.cwd(), '..', '..');
 }
 
 export async function fetchSubmodulesAction(): Promise<SubmoduleInfo[]> {

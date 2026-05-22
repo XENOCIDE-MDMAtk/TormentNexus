@@ -13,8 +13,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/borghq/borg-go/internal/config"
-	"github.com/borghq/borg-go/internal/lockfile"
+	"github.com/hypercodehq/hypercode-go/internal/config"
+	"github.com/hypercodehq/hypercode-go/internal/lockfile"
 )
 
 // sharedTRPCClient returns a singleton HTTP client with connection pooling
@@ -58,10 +58,10 @@ type UpstreamCallResult struct {
 }
 
 // ResolveTRPCBases returns the ordered list of tRPC upstream base URLs.
-// If BORG_TRPC_UPSTREAM is set, it is used exclusively (no lockfile or defaults).
+// If HYPERCODE_TRPC_UPSTREAM is set, it is used exclusively (no lockfile or defaults).
 // Otherwise, lockfile-recorded base is tried first, then discovery defaults.
 func ResolveTRPCBases(mainLockPath string) []string {
-	configured := strings.TrimSpace(os.Getenv("BORG_TRPC_UPSTREAM"))
+	configured := strings.TrimSpace(os.Getenv("HYPERCODE_TRPC_UPSTREAM"))
 	if configured != "" {
 		// When explicit upstream is set, use it exclusively —
 		// this prevents tests from accidentally hitting real servers.

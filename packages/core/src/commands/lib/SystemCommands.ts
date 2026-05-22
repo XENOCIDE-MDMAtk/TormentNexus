@@ -1,5 +1,5 @@
 import { ICommand, CommandResult, CommandRegistry } from "../CommandRegistry.js";
-import { Director } from "@borg/agents";
+import { Director } from "@hypercode/agents";
 
 interface DirectorStatusView {
     active?: boolean;

@@ -16,7 +16,7 @@ export class PromptRegistry {
     private cache: Map<string, PromptTemplate> = new Map();
 
     constructor(storageDir?: string) {
-        this.storageDir = storageDir || path.join(process.cwd(), '.borg', 'prompts');
+        this.storageDir = storageDir || path.join(process.cwd(), '.hypercode', 'prompts');
     }
 
     async initialize() {

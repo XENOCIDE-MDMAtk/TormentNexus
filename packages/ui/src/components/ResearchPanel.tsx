@@ -30,7 +30,7 @@ export default function ResearchPanel() {
 
             ws.onopen = () => {
                 reconnectAttemptsRef.current = 0;
-                setLogs(prev => [...prev, { type: 'system', message: 'Connected to Borg Core' }]);
+                setLogs(prev => [...prev, { type: 'system', message: 'Connected to Hypercode Core' }]);
             };
 
             ws.onmessage = (event: MessageEvent) => {

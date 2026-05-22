@@ -10,7 +10,7 @@ build: build-go build-ts build-cli
 	@echo "✓ All builds complete (v$(VERSION))"
 
 build-go:
-	cd go && go build -buildvcs=false -ldflags "-X internal/buildinfo.Version=$(VERSION)" -o ../../bin/borg$(EXT) ./cmd/borg
+	cd go && go build -buildvcs=false -ldflags "-X internal/buildinfo.Version=$(VERSION)" -o ../../bin/hypercode$(EXT) ./cmd/hypercode
 
 build-ts:
 	pnpm -C packages/core exec tsc
@@ -53,6 +53,6 @@ start: build
 	./start.bat
 
 version:
-	@echo "borg v$(VERSION)"
+	@echo "hypercode v$(VERSION)"
 	@echo "CLI: $$(node packages/cli/dist/cli/src/index.js --version 2>/dev/null || echo 'not built')"
-	@echo "Go:  $$(bin/borg version 2>/dev/null || echo 'not built')"
+	@echo "Go:  $$(bin/hypercode version 2>/dev/null || echo 'not built')"

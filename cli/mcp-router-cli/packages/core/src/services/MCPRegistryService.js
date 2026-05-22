@@ -1,5 +1,5 @@
 /**
- * borg MCP Registry Service
+ * hypercode MCP Registry Service
  *
  * Discovers and manages MCP servers from external registries:
  * - Punkpeye/AppCypher (appcypher.github.io/mcp)

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ExternalLink, Bot, KeyRound, Radio, RefreshCw, CheckCircle2, ShieldCheck, CreditCard, Sparkles, Terminal } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
 
 const COPILOT_KEY_STORAGE = "copilot-cloud-api-key";
 
@@ -176,7 +176,7 @@ export default function CopilotCloudPage() {
               <h2 className="text-lg font-bold text-white">OAuth / API Credentials</h2>
             </div>
             <p className="text-xs text-zinc-400">
-              Paste your personal access token or local Copilot API keys to grant Borg permission to coordinate context suggestions.
+              Paste your personal access token or local Copilot API keys to grant Hypercode permission to coordinate context suggestions.
             </p>
             <div className="flex flex-col gap-3">
               <div className="text-xs text-zinc-400">

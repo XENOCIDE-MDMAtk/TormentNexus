@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
+import { Card, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
 import { Activity, Server, Cpu, HardDrive, Network, Globe, Radio, Puzzle } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -184,7 +184,7 @@ export default function SystemStatusDashboard() {
                         <div className="space-y-4">
                             {startupChecks.length === 0 ? (
                                 <div className="rounded border border-zinc-800 bg-zinc-950 p-4 text-sm text-zinc-500">
-                                    Connecting to live startup telemetry from Borg Core…
+                                    Connecting to live startup telemetry from Hypercode Core…
                                 </div>
                             ) : startupChecks.map((check) => (
                                 <HealthRow key={check.name} name={check.name} status={check.status} latency={check.latency} detail={check.detail} />

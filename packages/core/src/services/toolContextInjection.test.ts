@@ -10,7 +10,7 @@ import {
 } from './toolContextInjection.js';
 
 describe('toolContextInjection', () => {
-    it('skips Borg meta-tools for automatic JIT resolution', () => {
+    it('skips Hypercode meta-tools for automatic JIT resolution', () => {
         expect(shouldResolveAutomaticToolContext('get_tool_context')).toBe(false);
         expect(shouldResolveAutomaticToolContext('search_tools')).toBe(false);
         expect(shouldResolveAutomaticToolContext('read_file')).toBe(true);

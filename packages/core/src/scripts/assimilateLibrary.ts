@@ -14,14 +14,14 @@ dotenv.config({ path: path.join(root, 'packages/core/.env') });
 import fs from 'fs/promises';
 import { SkillAssimilationService } from '../services/SkillAssimilationService.js';
 import { SkillRegistry } from '../skills/SkillRegistry.js';
-import { LLMService, ModelSelector } from '@borg/ai';
+import { LLMService, ModelSelector } from '@hypercode/ai';
 import { DeepResearchService } from '../services/DeepResearchService.js';
 import { MemoryManager } from '../services/MemoryManager.js';
-import { SearchService } from '@borg/search';
+import { SearchService } from '@hypercode/search';
 
 async function run() {
-    const indexPath = path.join(root, 'BORG_MASTER_INDEX.jsonc');
-    const skillsRoot = path.join(root, '.borg', 'skills');
+    const indexPath = path.join(root, 'HYPERCODE_MASTER_INDEX.jsonc');
+    const skillsRoot = path.join(root, '.hypercode', 'skills');
 
     console.log(`[Assimilator] Root: ${root}`);
     console.log(`[Assimilator] ANTHROPIC_API_KEY present: ${!!process.env.ANTHROPIC_API_KEY}`);

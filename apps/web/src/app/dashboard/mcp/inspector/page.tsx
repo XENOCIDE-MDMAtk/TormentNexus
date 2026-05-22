@@ -2,8 +2,8 @@
 
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
 import { Loader2, Play, Wrench, Search, ChevronRight, Layers, Database, ExternalLink, Link2, Activity, ArrowDownToLine, Sparkles, Trash2 } from "lucide-react";
 import { TrafficInspector } from '@/components/TrafficInspector';
 import { trpc } from '@/utils/trpc';

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardContent, Badge, Button } from "@borg/ui";
+import { Card, CardContent, Badge, Button } from "@hypercode/ui";
 import { ScrollText, GitCommit, GitBranch, Loader2, RefreshCw, AlertCircle, GitMerge, Plus, Minus } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 
@@ -87,7 +87,7 @@ export default function ChronicleDashboard() {
                         Chronicle
                     </h1>
                     <p className="text-zinc-500 mt-2">
-                        Git commit log and working-tree status for the active Borg workspace.
+                        Git commit log and working-tree status for the active Hypercode workspace.
                     </p>
                 </div>
                 <Button

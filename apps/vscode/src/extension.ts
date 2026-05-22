@@ -4,7 +4,7 @@ import WebSocket from 'ws';
 let socket: WebSocket | null = null;
 let statusBarItem: vscode.StatusBarItem;
 let outputChannel: vscode.OutputChannel;
-let sidebarProvider: BorgSidebarProvider | null = null;
+let sidebarProvider: HypercodeSidebarProvider | null = null;
 let reconnectTimer: NodeJS.Timeout | null = null;
 let lastActivityTime = Date.now();
 let debounceTimer: NodeJS.Timeout | null = null;
@@ -114,7 +114,7 @@ function log(message: string) {
     emitInspectorLog('info', message);
 }
 
-function emitInspectorLog(level: 'info' | 'warn' | 'error', message: string, url = 'vscode://borg-vscode-extension') {
+function emitInspectorLog(level: 'info' | 'warn' | 'error', message: string, url = 'vscode://hypercode-vscode-extension') {
     if (!socket || socket.readyState !== WebSocket.OPEN) {
         return;
     }
@@ -227,7 +227,7 @@ function getWorkspaceState() {
 }
 
 function resolveCoreHttpUrl(): string {
-    const config = vscode.workspace.getConfiguration('borg');
+    const config = vscode.workspace.getConfiguration('hypercode');
     const wsUrl = config.get<string>('coreUrl', 'ws://localhost:3001');
 
     try {
@@ -240,7 +240,7 @@ function resolveCoreHttpUrl(): string {
 }
 
 function resolveDashboardBaseUrl(): string {
-    const config = vscode.workspace.getConfiguration('borg');
+    const config = vscode.workspace.getConfiguration('hypercode');
     const configured = config.get<string>('dashboardUrl', 'http://localhost:3000');
     return configured.replace(/\/$/, '');
 }
@@ -301,8 +301,8 @@ async function createSidebarSnapshot(): Promise<SidebarSnapshot> {
     };
 }
 
-class BorgSidebarProvider implements vscode.WebviewViewProvider {
-    public static readonly viewType = 'borg.dispatchView';
+class HypercodeSidebarProvider implements vscode.WebviewViewProvider {
+    public static readonly viewType = 'hypercode.dispatchView';
     private view?: vscode.WebviewView;
 
     resolveWebviewView(webviewView: vscode.WebviewView): void | Thenable<void> {
@@ -513,7 +513,7 @@ class BorgSidebarProvider implements vscode.WebviewViewProvider {
 </head>
 <body>
     <div class="card">
-        <h2>Borg Mini Dashboard</h2>
+        <h2>Hypercode Mini Dashboard</h2>
         <div class="grid">
             <div class="metric">
                 <div class="label">Connection</div>
@@ -553,12 +553,12 @@ class BorgSidebarProvider implements vscode.WebviewViewProvider {
             <button id="templatesBtn">Debate Templates</button>
             <button id="architectBtn">Architect Mode</button>
         </div>
-        <div class="muted" style="margin-top: 8px;">Dashboard-linked actions open the richer Borg web UI when a direct Core endpoint does not exist yet.</div>
+        <div class="muted" style="margin-top: 8px;">Dashboard-linked actions open the richer Hypercode web UI when a direct Core endpoint does not exist yet.</div>
     </div>
 
     <div class="card">
         <h3>Research Agent</h3>
-        <textarea id="researchQuery" placeholder="Ask Borg to research a topic…"></textarea>
+        <textarea id="researchQuery" placeholder="Ask Hypercode to research a topic…"></textarea>
         <div class="row">
             <select id="researchDepth">
                 <option value="1">Depth 1</option>
@@ -573,7 +573,7 @@ class BorgSidebarProvider implements vscode.WebviewViewProvider {
 
     <div class="card">
         <h3>Coder Agent</h3>
-        <textarea id="codeTask" placeholder="Describe a coding task for Borg…"></textarea>
+        <textarea id="codeTask" placeholder="Describe a coding task for Hypercode…"></textarea>
         <div class="row">
             <button id="codeBtn">Run Coder</button>
         </div>
@@ -582,7 +582,7 @@ class BorgSidebarProvider implements vscode.WebviewViewProvider {
     <div class="card">
         <h3>Recent Tasks</h3>
         <ul id="feed" class="feed">
-            <li><span class="muted">Waiting for Borg activity…</span></li>
+            <li><span class="muted">Waiting for Hypercode activity…</span></li>
         </ul>
     </div>
 
@@ -672,35 +672,35 @@ class BorgSidebarProvider implements vscode.WebviewViewProvider {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    outputChannel = vscode.window.createOutputChannel('Borg Bridge');
-    sidebarProvider = new BorgSidebarProvider();
-    context.subscriptions.push(vscode.window.registerWebviewViewProvider(BorgSidebarProvider.viewType, sidebarProvider));
+    outputChannel = vscode.window.createOutputChannel('Hypercode Bridge');
+    sidebarProvider = new HypercodeSidebarProvider();
+    context.subscriptions.push(vscode.window.registerWebviewViewProvider(HypercodeSidebarProvider.viewType, sidebarProvider));
 
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-    statusBarItem.command = 'borg.connect';
+    statusBarItem.command = 'hypercode.connect';
     updateStatusBar(false);
     statusBarItem.show();
     context.subscriptions.push(statusBarItem);
     context.subscriptions.push(outputChannel);
 
-    context.subscriptions.push(vscode.commands.registerCommand('borg.connect', connectToCore));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.disconnect', disconnectFromCore));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.showStatus', showHubStatus));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.runAgent', runAgentDispatch));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.searchMemory', searchMemory));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.ingestSelectionToRag', ingestSelectionToRag));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.ingestUrl', ingestUrl));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.rememberSelection', rememberSelection));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.listTools', listTools));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.invokeTool', invokeTool));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.openDashboard', () => openDashboardRoute(DASHBOARD_ROUTES.home, 'Opened dashboard')));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.showLogs', showLogs));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.startDebate', startDebate));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.viewAnalytics', viewAnalytics));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.listDebateTemplates', listDebateTemplates));
-    context.subscriptions.push(vscode.commands.registerCommand('borg.architectMode', architectMode));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.connect', connectToCore));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.disconnect', disconnectFromCore));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.showStatus', showHubStatus));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.runAgent', runAgentDispatch));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.searchMemory', searchMemory));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.ingestSelectionToRag', ingestSelectionToRag));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.ingestUrl', ingestUrl));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.rememberSelection', rememberSelection));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.listTools', listTools));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.invokeTool', invokeTool));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.openDashboard', () => openDashboardRoute(DASHBOARD_ROUTES.home, 'Opened dashboard')));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.showLogs', showLogs));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.startDebate', startDebate));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.viewAnalytics', viewAnalytics));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.listDebateTemplates', listDebateTemplates));
+    context.subscriptions.push(vscode.commands.registerCommand('hypercode.architectMode', architectMode));
 
-    const config = vscode.workspace.getConfiguration('borg');
+    const config = vscode.workspace.getConfiguration('hypercode');
     if (config.get<boolean>('autoConnect', true)) {
         void connectToCore();
     }
@@ -758,7 +758,7 @@ export function activate(context: vscode.ExtensionContext) {
         addActivity('system', 'Terminal capture unavailable', 'VS Code runtime does not expose terminal write event.');
     }
 
-    addActivity('system', 'Extension activated', 'Borg VS Code bridge is online.');
+    addActivity('system', 'Extension activated', 'Hypercode VS Code bridge is online.');
     addChatHistory('system', 'extension', 'VS Code extension bridge activated.');
 }
 
@@ -768,11 +768,11 @@ export function deactivate() {
 
 function updateStatusBar(connected: boolean) {
     if (connected) {
-        statusBarItem.text = '$(plug) Borg: Connected';
-        statusBarItem.tooltip = 'Connected to Borg Core';
+        statusBarItem.text = '$(plug) Hypercode: Connected';
+        statusBarItem.tooltip = 'Connected to Hypercode Core';
         statusBarItem.backgroundColor = undefined;
     } else {
-        statusBarItem.text = '$(debug-disconnect) Borg: Disconnected';
+        statusBarItem.text = '$(debug-disconnect) Hypercode: Disconnected';
         statusBarItem.tooltip = 'Click to Connect';
         statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
@@ -792,7 +792,7 @@ async function connectToCore() {
         return;
     }
 
-    const config = vscode.workspace.getConfiguration('borg');
+    const config = vscode.workspace.getConfiguration('hypercode');
     const url = config.get<string>('coreUrl', 'ws://localhost:3001');
     addActivity('system', 'Connecting to core', url);
 
@@ -806,14 +806,14 @@ async function connectToCore() {
                 reconnectTimer = null;
             }
             socket?.send(JSON.stringify({
-                type: 'BORG_CLIENT_HELLO',
+                type: 'HYPERCODE_CLIENT_HELLO',
                 clientType: 'vscode-extension',
-                clientName: 'Borg VS Code Bridge',
+                clientName: 'Hypercode VS Code Bridge',
                 platform: `${vscode.env.appName} ${vscode.version}`,
                 capabilities: VSCODE_BRIDGE_CAPABILITIES,
                 hookPhases: VSCODE_BRIDGE_HOOK_PHASES,
             }));
-            addActivity('status', 'Connected to Borg Core', url);
+            addActivity('status', 'Connected to Hypercode Core', url);
             void sidebarProvider?.refreshSnapshot();
         });
 
@@ -829,7 +829,7 @@ async function connectToCore() {
         socket.on('close', () => {
             updateStatusBar(false);
             socket = null;
-            addActivity('status', 'Disconnected from Borg Core', 'Retrying in 5 seconds.');
+            addActivity('status', 'Disconnected from Hypercode Core', 'Retrying in 5 seconds.');
             void sidebarProvider?.refreshSnapshot();
             reconnectTimer = setTimeout(() => {
                 void connectToCore();
@@ -858,7 +858,7 @@ function disconnectFromCore() {
     }
 
     updateStatusBar(false);
-    addActivity('status', 'Disconnected manually', 'Borg Core connection closed.');
+    addActivity('status', 'Disconnected manually', 'Hypercode Core connection closed.');
     void sidebarProvider?.refreshSnapshot();
 }
 
@@ -879,7 +879,7 @@ async function showHubStatus() {
     const status = await fetchHubStatus();
     addActivity('status', 'Hub status checked', `${status.connectionState}; researcher=${status.researcher}; coder=${status.coder}`);
     addChatHistory('system', 'extension', `Hub status checked: ${status.connectionState}; researcher=${status.researcher}; coder=${status.coder}`);
-    void vscode.window.showInformationMessage(`Borg Hub ${status.connectionState} — Researcher: ${status.researcher}, Coder: ${status.coder}`);
+    void vscode.window.showInformationMessage(`Hypercode Hub ${status.connectionState} — Researcher: ${status.researcher}, Coder: ${status.coder}`);
 }
 
 async function dispatchResearchTask(query: string, depth: number): Promise<unknown> {
@@ -927,7 +927,7 @@ async function runAgentDispatch() {
         { label: 'Research Agent', value: 'research' },
         { label: 'Coder Agent', value: 'code' },
     ], {
-        placeHolder: 'Choose which Borg expert to run',
+        placeHolder: 'Choose which Hypercode expert to run',
     });
 
     if (!target) {
@@ -975,7 +975,7 @@ async function runAgentDispatch() {
 
 async function rememberSelection() {
     if (!socket || socket.readyState !== WebSocket.OPEN) {
-        void vscode.window.showWarningMessage('Borg Core is not connected. Connect first to save context.');
+        void vscode.window.showWarningMessage('Hypercode Core is not connected. Connect first to save context.');
         return;
     }
 
@@ -1009,7 +1009,7 @@ async function rememberSelection() {
     }));
 
     addActivity('memory', 'Saved editor context to memory', vscode.workspace.asRelativePath(editor.document.uri));
-    void vscode.window.showInformationMessage(`Saved context from ${vscode.workspace.asRelativePath(editor.document.uri)} to Borg memory.`);
+    void vscode.window.showInformationMessage(`Saved context from ${vscode.workspace.asRelativePath(editor.document.uri)} to Hypercode memory.`);
 }
 
 async function ingestSelectionToRag() {
@@ -1042,7 +1042,7 @@ async function ingestSelectionToRag() {
     });
 
     addActivity('rag', 'Ingested editor content into RAG', `${relativePath} (${response.chunksIngested} chunks)`);
-    void vscode.window.showInformationMessage(`Ingested ${relativePath} into Borg RAG (${response.chunksIngested} chunks).`);
+    void vscode.window.showInformationMessage(`Ingested ${relativePath} into Hypercode RAG (${response.chunksIngested} chunks).`);
 }
 
 async function ingestUrl() {
@@ -1055,7 +1055,7 @@ async function ingestUrl() {
     })();
 
     const url = await vscode.window.showInputBox({
-        prompt: 'URL to ingest into Borg Knowledge',
+        prompt: 'URL to ingest into Hypercode Knowledge',
         placeHolder: 'https://example.com/docs',
         value: seededUrl,
         ignoreFocusOut: true,
@@ -1082,7 +1082,7 @@ async function ingestUrl() {
     addChatHistory('user', 'extension', `URL ingest requested: ${trimmedUrl}`);
     addChatHistory('assistant', 'extension', `URL ingest result: ${summarizeText(response.result, 900)}`);
     addActivity('memory', 'Ingested URL into Knowledge', trimmedUrl);
-    void vscode.window.showInformationMessage(`Ingested URL into Borg Knowledge: ${trimmedUrl}`);
+    void vscode.window.showInformationMessage(`Ingested URL into Hypercode Knowledge: ${trimmedUrl}`);
 }
 
 async function searchMemory() {
@@ -1105,7 +1105,7 @@ async function listTools() {
 async function invokeTool() {
     const name = await vscode.window.showInputBox({
         prompt: 'Tool name',
-        placeHolder: 'Enter the Borg tool name to invoke',
+        placeHolder: 'Enter the Hypercode tool name to invoke',
         ignoreFocusOut: true,
     });
     if (!name?.trim()) {
@@ -1137,7 +1137,7 @@ async function invokeTool() {
     outputChannel.show(true);
     outputChannel.appendLine(`\n=== Tool Invocation: ${name.trim()} ===\n${formatResult(response.result.data)}\n`);
     addActivity('tool', 'Invoked tool', name.trim());
-    void vscode.window.showInformationMessage(`Tool ${name.trim()} executed. See Borg Bridge output for details.`);
+    void vscode.window.showInformationMessage(`Tool ${name.trim()} executed. See Hypercode Bridge output for details.`);
 }
 
 async function showLogs() {
@@ -1187,11 +1187,11 @@ async function architectMode() {
     outputChannel.appendLine(`\n=== Architect Mode Research ===\n${formatResult(research)}\n`);
     outputChannel.appendLine(`\n=== Architect Mode Plan ===\n${formatResult(code)}\n`);
     addActivity('code', 'Architect mode completed', task.trim());
-    void vscode.window.showInformationMessage('Architect mode completed. See Borg Bridge output for research and plan details.');
+    void vscode.window.showInformationMessage('Architect mode completed. See Hypercode Bridge output for research and plan details.');
 }
 
 async function handleMessage(msg: Record<string, unknown>) {
-    if (msg.type === 'BORG_CORE_MANIFEST') {
+    if (msg.type === 'HYPERCODE_CORE_MANIFEST') {
         const manifest = msg.manifest as { connectedClients?: Array<{ clientName?: string }>; supportedHookPhases?: string[] } | undefined;
         addActivity(
             'system',

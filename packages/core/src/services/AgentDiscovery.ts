@@ -67,7 +67,7 @@ export class AgentDiscovery {
     }
 
     private async scanForElectronOrchestrator(): Promise<AgentCapability | null> {
-        // In the borg ecosystem, the electron-orchestrator desktop shell currently lives at apps/maestro.
+        // In the hypercode ecosystem, the electron-orchestrator desktop shell currently lives at apps/maestro.
         const electronOrchestratorPath = path.resolve(process.cwd(), 'apps/maestro');
         try {
             await fs.access(electronOrchestratorPath);

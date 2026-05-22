@@ -22,7 +22,7 @@ func TestDirectorInitialization(t *testing.T) {
 		t.Errorf("Expected initial prompt history length of 1, got %d", len(director.History))
 	}
 
-	if !strings.Contains(director.History[0].Content, "Borg TechLead Director") {
+	if !strings.Contains(director.History[0].Content, "Hypercode TechLead Director") {
 		t.Errorf("System prompt missing core identity")
 	}
 	if director.HyperAdapter == nil {
@@ -39,7 +39,7 @@ func TestDirectorHandleInput(t *testing.T) {
 		t.Fatalf("HandleInput failed: %v", err)
 	}
 
-	if !strings.Contains(resp, "Native Go Borg Director") {
+	if !strings.Contains(resp, "Native Go Hypercode Director") {
 		t.Errorf("Unexpected default response: %s", resp)
 	}
 	if !strings.Contains(resp, "[Director Plan]") {

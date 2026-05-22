@@ -7,12 +7,12 @@ These are the top-level projects integrated into the monorepo.
 
 | Path | Description | Rationale |
 | :--- | :--- | :--- |
-| `submodules/hyperharness/` | Borg CLI Harness | Experimental primary CLI harness assimilation track for Borg. |
+| `submodules/hyperharness/` | Hypercode CLI Harness | Experimental primary CLI harness assimilation track for Hypercode. |
 | `apps/maestro/` | electron-orchestrator desktop shell | Core desktop surface for multi-agent coordination. |
-| `borg/` | Autonomous IDE | The central intelligence and supervision engine. |
-| `submodules/borg/` | borg CLI Harness | Experimental primary CLI harness assimilation track for borg. |
+| `hypercode/` | Autonomous IDE | The central intelligence and supervision engine. |
+| `submodules/hypercode/` | hypercode CLI Harness | Experimental primary CLI harness assimilation track for hypercode. |
 | `apps/maestro/` | electron-orchestrator desktop shell | Core desktop surface for multi-agent coordination. |
-| `borg/` | Autonomous IDE | The central intelligence and supervision engine. |
+| `hypercode/` | Autonomous IDE | The central intelligence and supervision engine. |
 | `antigravity-autopilot/` | UI/Mobile Bridge | Autonomous UI testing and mobile control plane. |
 | `bg/` | Game Engine Cluster | Core game logic and legacy references. |
 | `bobmani/` | Rhythm Ecosystem | Unified platform for IIDX, DDR, and chart tools. |
@@ -41,7 +41,7 @@ The high-performance game engine relies on industrial-grade C++ infrastructure.
 ## 4. Automation & AI Utilities (`bobbybookmarks/submodules`)
 Utilities for personal knowledge management and AI skill sets.
 
-- `metamcp`: Meta-server for Model Context Protocol.
+- `hypercode`: Meta-server for Model Context Protocol.
 - `anthropics-skills`: Official skill sets for Claude.
 - `openai-skills`: Official skill sets for GPT.
 - `ykdojo-claude-code-tips`: Optimization patterns for agent interaction.

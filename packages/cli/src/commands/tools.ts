@@ -1,13 +1,13 @@
 /**
- * `borg tools` - Tool management
+ * `hypercode tools` - Tool management
  *
  * Browse, search, enable/disable, and group tools across all MCP servers.
  * Supports semantic search, tool reranking, and progressive disclosure.
  *
  * @example
- *   borg tools list                   # List all tools
- *   borg tools search "file editing"  # Semantic search
- *   borg tools groups                 # List tool groups
+ *   hypercode tools list                   # List all tools
+ *   hypercode tools search "file editing"  # Semantic search
+ *   hypercode tools groups                 # List tool groups
  */
 
 import type { Command } from 'commander';
@@ -58,7 +58,7 @@ export function registerToolsCommand(program: Command): void {
 
       if (toolsList.length === 0) {
         console.log(chalk.bold.cyan('\n  Available Tools\n'));
-        console.log(chalk.dim('  No tools loaded. Is the server running? Use `borg start`.\n'));
+        console.log(chalk.dim('  No tools loaded. Is the server running? Use `hypercode start`.\n'));
         return;
       }
 
@@ -84,9 +84,9 @@ export function registerToolsCommand(program: Command): void {
     .option('--json', 'Output as JSON')
     .addHelpText('after', `
 Examples:
-  $ borg tools search "read and write files"
-  $ borg tools search "run shell commands"
-  $ borg tools search "search code semantically"
+  $ hypercode tools search "read and write files"
+  $ hypercode tools search "run shell commands"
+  $ hypercode tools search "search code semantically"
     `)
     .action(async (query, opts, cmd) => {
       const allOpts = cmd ? cmd.optsWithGlobals() : opts;
@@ -233,7 +233,7 @@ Examples:
           }
         }
       } catch {}
-      console.log(chalk.dim('  Not found. Check available tools with `borg tools list`.\n'));
+      console.log(chalk.dim('  Not found. Check available tools with `hypercode tools list`.\n'));
     });
 
   tools

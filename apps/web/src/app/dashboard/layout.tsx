@@ -39,7 +39,7 @@ export default function DashboardLayout({
           >
             {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
-          <span className="text-sm font-semibold text-zinc-200">Borg Dashboard</span>
+          <span className="text-sm font-semibold text-zinc-200">Hypercode Dashboard</span>
         </div>
         {children}
       </main>

@@ -88,30 +88,30 @@
 [submodule "qwen-code-cli"]
 	path = qwen-code-cli
 	url = https://github.com/dinoanderson/qwen_cli_coder
-[submodule "external/MetaMCP"]
-        path = external/MetaMCP
-        url = https://github.com/robertpelloni/MetaMCP
+[submodule "external/Hypercode"]
+        path = external/Hypercode
+        url = https://github.com/robertpelloni/Hypercode
 [submodule "submodules/mcpproxy"]
 	path = archive/submodules/mcpproxy
         url = https://github.com/Dumbris/mcpproxy
 [submodule "submodules/litellm"]
 	path = archive/submodules/litellm
         url = https://github.com/BerriAI/litellm
-[submodule "external/claude-mem"]
-	path = archive/claude-mem
-        url = https://github.com/robertpelloni/claude-mem
+[submodule "external/hypercode"]
+	path = archive/hypercode
+        url = https://github.com/robertpelloni/hypercode
 [submodule "external/OmniRoute"]
 	path = archive/OmniRoute
         url = https://github.com/diegosouzapw/OmniRoute
-[submodule "packages/claude-mem"]
-        path = packages/claude-mem
-        url = https://github.com/robertpelloni/claude-mem
+[submodule "packages/hypercode"]
+        path = packages/hypercode
+        url = https://github.com/robertpelloni/hypercode
 [submodule "apps/maestro"]
 	path = apps/maestro
 	url = https://github.com/robertpelloni/Maestro
 [submodule "submodules/prism-mcp"]
 	path = submodules/prism-mcp
 	url = https://github.com/dcostenco/prism-mcp
-[submodule "submodules/borg"]
-	path = submodules/borg
-	url = https://github.com/robertpelloni/borg.git
+[submodule "submodules/hypercode"]
+	path = submodules/hypercode
+	url = https://github.com/robertpelloni/hypercode.git

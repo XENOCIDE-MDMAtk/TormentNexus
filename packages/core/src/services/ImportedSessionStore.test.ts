@@ -70,7 +70,7 @@ function createSchema(database: Database.Database): void {
 }
 
 async function createTempRoot(): Promise<string> {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'borg-imported-session-store-'));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'hypercode-imported-session-store-'));
     tempRoots.push(root);
     return root;
 }

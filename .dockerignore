@@ -45,7 +45,7 @@
 **/.DS_Store
 **/*.log
 **/.env
-**/.borg
+**/.hypercode
 **/.chunkhound
 *.swp
 *.tmp

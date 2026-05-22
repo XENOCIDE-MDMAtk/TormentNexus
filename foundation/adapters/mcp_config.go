@@ -22,10 +22,10 @@ func ParseMCPConfig(homeDir string) (string, *MCPConfig, error) {
 	if strings.TrimSpace(homeDir) == "" {
 		homeDir, _ = os.UserHomeDir()
 	}
-	path := filepath.Join(homeDir, ".borg", "mcp.json")
+	path := filepath.Join(homeDir, ".hypercode", "mcp.json")
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return path, nil, fmt.Errorf("missing .borg/mcp.json definition: %w", err)
+		return path, nil, fmt.Errorf("missing .hypercode/mcp.json definition: %w", err)
 	}
 	var conf MCPConfig
 	if err := json.Unmarshal(data, &conf); err != nil {

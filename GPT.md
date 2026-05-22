@@ -40,17 +40,17 @@ As GPT, you focus on high-level orchestration, strict type enforcement, distribu
 ## 3. Binary-Topology Layout Context
 
 Adhere to the recommended target layout for future architecture:
-- `borg` / `borgd` for the core control plane.
+- `hypercode` / `hypercoded` for the core control plane.
 - `hypermcpd` plus `hypermcp-indexer` for MCP routing and metadata work.
 - `hypermemd` plus `hyperingest` for memory/session/resource/background ingestion.
 - `hyperharness` / `hyperharnessd` for harness execution surfaces.
-- `borg-web` and `borg-native` as client applications.
+- `hypercode-web` and `hypercode-native` as client applications.
 
 ---
 
 ## 4. Build Verification
 ```bash
-cd go && go build -buildvcs=false ./cmd/borg && go test ./...
+cd go && go build -buildvcs=false ./cmd/hypercode && go test ./...
 cd .. && pnpm -C packages/core exec tsc --noEmit
 ```
 

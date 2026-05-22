@@ -37,7 +37,7 @@ describe('mcpRouter degraded inventory handling', () => {
     it('returns a concise TRPC error when listServers cannot read persisted inventory', async () => {
         const { getCachedToolInventory } = await import('../mcp/cachedToolInventory.js');
         vi.mocked(getCachedToolInventory).mockRejectedValueOnce(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const { mcpRouter } = await import('./mcpRouter.js');
@@ -51,7 +51,7 @@ describe('mcpRouter degraded inventory handling', () => {
     it('returns a concise TRPC error when getStatus cannot read persisted inventory', async () => {
         const { getCachedToolInventory } = await import('../mcp/cachedToolInventory.js');
         vi.mocked(getCachedToolInventory).mockRejectedValueOnce(
-            new Error('SQLite runtime is unavailable for Borg DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
+            new Error('SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)'),
         );
 
         const { mcpRouter } = await import('./mcpRouter.js');

@@ -41,7 +41,7 @@ class AutonomousMaintenanceService {
    */
   private async cleanupOrphanedSidecars(): Promise<void> {
     // This is OS specific. For now, we rely on sessionManager.cleanup() on exit,
-    // but a robust Borg system would scan the process tree.
+    // but a robust Hypercode system would scan the process tree.
     // implementation planned for next sub-phase.
   }
 

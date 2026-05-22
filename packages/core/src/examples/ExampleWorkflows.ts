@@ -338,7 +338,7 @@ export function createFileProcessingWorkflow(engine: WorkflowEngine): WorkflowDe
  * import { WorkflowEngine } from './orchestrator/WorkflowEngine';
  * import { createCodeReviewWorkflow } from './examples/ExampleWorkflows';
  * 
- * const engine = new WorkflowEngine({ persistDir: '.borg/workflows' });
+ * const engine = new WorkflowEngine({ persistDir: '.hypercode/workflows' });
  * const workflow = createCodeReviewWorkflow(engine);
  * 
  * const result = await engine.start(workflow.id, {

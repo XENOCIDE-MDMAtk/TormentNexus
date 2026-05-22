@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-// ServiceLocator acts as the central Dependency Injection container for the Borg Go orchestrator.
+// ServiceLocator acts as the central Dependency Injection container for the Hypercode Go orchestrator.
 // It matches the TS version's centralized instantiation of singletons.
 type ServiceLocator struct {
 	ConfigManager *ConfigService

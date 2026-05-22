@@ -87,7 +87,7 @@ export async function GET(request: Request) {
       { path: 'packages/core', description: 'Main Node.js Hub service (Backend), handles MCP connections, agents, and memory.' },
       { path: 'packages/ui', description: 'Next.js Web Dashboard (Frontend), provides the user interface for Jules and system management.' },
       { path: 'submodules/jules-app', description: 'Jules Application Logic, contains the core components and business logic for the Jules assistant.' },
-      { path: 'mcp-hubs/metamcp', description: 'Meta-Orchestrator, handles complex routing and tool aggregation.' },
+      { path: 'mcp-hubs/hypercode', description: 'Meta-Orchestrator, handles complex routing and tool aggregation.' },
       { path: 'submodules/mcpenetes', description: 'Configuration Injector, manages client configurations for Claude Desktop and VSCode.' },
       { path: 'agents/', description: 'Autonomous Agent Definitions (JSON), defines the behavior and tools for different agents.' },
       { path: 'mcp-servers/', description: 'Managed Local MCP Servers, contains source code for local tools.' },

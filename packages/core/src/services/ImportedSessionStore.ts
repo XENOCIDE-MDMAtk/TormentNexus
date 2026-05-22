@@ -123,7 +123,7 @@ function toRelativeArchivePath(root: string, filePath: string): string {
 export class ImportedSessionStore {
     private archiveRoot: string;
 
-    constructor(archiveRoot: string = path.join(process.cwd(), '.borg', 'imported_sessions', 'archive')) {
+    constructor(archiveRoot: string = path.join(process.cwd(), '.hypercode', 'imported_sessions', 'archive')) {
         this.archiveRoot = archiveRoot;
         ensureDir(this.archiveRoot);
     }

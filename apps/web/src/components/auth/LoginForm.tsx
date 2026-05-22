@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { Button, Input } from '@borg/ui';
+import { Button, Input } from '@hypercode/ui';
 
 export function LoginForm() {
     const router = useRouter();

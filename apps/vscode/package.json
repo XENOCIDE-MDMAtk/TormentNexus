@@ -1,9 +1,9 @@
 {
-  "name": "borg-vscode-extension",
-  "displayName": "Borg Plugin",
+  "name": "hypercode-vscode-extension",
+  "displayName": "Hypercode Plugin",
   "version": "1.0.0-alpha.62",
-  "description": "Connect VS Code to Borg Hub for AI agent orchestration, memory management, and tool invocation",
-  "publisher": "borg",
+  "description": "Connect VS Code to Hypercode Hub for AI agent orchestration, memory management, and tool invocation",
+  "publisher": "hypercode",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -28,107 +28,107 @@
   "contributes": {
     "commands": [
       {
-        "command": "borg.connect",
-        "title": "Borg: Connect to Core"
+        "command": "hypercode.connect",
+        "title": "Hypercode: Connect to Core"
       },
       {
-        "command": "borg.disconnect",
-        "title": "Borg: Disconnect from Core"
+        "command": "hypercode.disconnect",
+        "title": "Hypercode: Disconnect from Core"
       },
       {
-        "command": "borg.showStatus",
-        "title": "Borg: Show Hub Status"
+        "command": "hypercode.showStatus",
+        "title": "Hypercode: Show Hub Status"
       },
       {
-        "command": "borg.runAgent",
-        "title": "Borg: Run Agent"
+        "command": "hypercode.runAgent",
+        "title": "Hypercode: Run Agent"
       },
       {
-        "command": "borg.searchMemory",
-        "title": "Borg: Search Memory"
+        "command": "hypercode.searchMemory",
+        "title": "Hypercode: Search Memory"
       },
       {
-        "command": "borg.ingestUrl",
-        "title": "Borg: Ingest URL to Knowledge"
+        "command": "hypercode.ingestUrl",
+        "title": "Hypercode: Ingest URL to Knowledge"
       },
       {
-        "command": "borg.ingestSelectionToRag",
-        "title": "Borg: Ingest Selection to RAG"
+        "command": "hypercode.ingestSelectionToRag",
+        "title": "Hypercode: Ingest Selection to RAG"
       },
       {
-        "command": "borg.rememberSelection",
-        "title": "Borg: Remember Selection"
+        "command": "hypercode.rememberSelection",
+        "title": "Hypercode: Remember Selection"
       },
       {
-        "command": "borg.listTools",
-        "title": "Borg: List Tools"
+        "command": "hypercode.listTools",
+        "title": "Hypercode: List Tools"
       },
       {
-        "command": "borg.invokeTool",
-        "title": "Borg: Invoke Tool"
+        "command": "hypercode.invokeTool",
+        "title": "Hypercode: Invoke Tool"
       },
       {
-        "command": "borg.openDashboard",
-        "title": "Borg: Open Dashboard"
+        "command": "hypercode.openDashboard",
+        "title": "Hypercode: Open Dashboard"
       },
       {
-        "command": "borg.showLogs",
-        "title": "Borg: Show Logs"
+        "command": "hypercode.showLogs",
+        "title": "Hypercode: Show Logs"
       },
       {
-        "command": "borg.startDebate",
-        "title": "Borg: Start Council Debate"
+        "command": "hypercode.startDebate",
+        "title": "Hypercode: Start Council Debate"
       },
       {
-        "command": "borg.viewAnalytics",
-        "title": "Borg: View Supervisor Analytics"
+        "command": "hypercode.viewAnalytics",
+        "title": "Hypercode: View Supervisor Analytics"
       },
       {
-        "command": "borg.listDebateTemplates",
-        "title": "Borg: List Debate Templates"
+        "command": "hypercode.listDebateTemplates",
+        "title": "Hypercode: List Debate Templates"
       },
       {
-        "command": "borg.architectMode",
-        "title": "Borg: Architect Mode (Two-Model)"
+        "command": "hypercode.architectMode",
+        "title": "Hypercode: Architect Mode (Two-Model)"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "borgSidebar",
-          "title": "Borg",
-          "icon": "resources/borg.svg"
+          "id": "hypercodeSidebar",
+          "title": "Hypercode",
+          "icon": "resources/hypercode.svg"
         }
       ]
     },
     "views": {
-      "borgSidebar": [
+      "hypercodeSidebar": [
         {
           "type": "webview",
-          "id": "borg.dispatchView",
+          "id": "hypercode.dispatchView",
           "name": "Mini Dashboard"
         }
       ]
     },
     "configuration": {
-      "title": "Borg",
+      "title": "Hypercode",
       "properties": {
-        "borg.coreUrl": {
+        "hypercode.coreUrl": {
           "type": "string",
           "default": "ws://localhost:3001",
-          "description": "URL of the Borg Core WebSocket server"
+          "description": "URL of the Hypercode Core WebSocket server"
         },
-        "borg.apiKey": {
+        "hypercode.apiKey": {
           "type": "string",
           "default": "",
           "description": "API key for authenticated Core access"
         },
-        "borg.dashboardUrl": {
+        "hypercode.dashboardUrl": {
           "type": "string",
           "default": "http://localhost:3000",
-          "description": "Base URL of the Borg web dashboard used for deep links from the VS Code extension"
+          "description": "Base URL of the Hypercode web dashboard used for deep links from the VS Code extension"
         },
-        "borg.autoConnect": {
+        "hypercode.autoConnect": {
           "type": "boolean",
           "default": true,
           "description": "Automatically connect to Core on startup"
@@ -138,14 +138,14 @@
     "menus": {
       "editor/context": [
         {
-          "command": "borg.ingestSelectionToRag",
+          "command": "hypercode.ingestSelectionToRag",
           "when": "editorHasSelection",
-          "group": "borg@1"
+          "group": "hypercode@1"
         },
         {
-          "command": "borg.rememberSelection",
+          "command": "hypercode.rememberSelection",
           "when": "editorHasSelection",
-          "group": "borg@2"
+          "group": "hypercode@2"
         }
       ]
     }

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from "@borg/ui";
-import { Button } from "@borg/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
+import { Button } from "@hypercode/ui";
 import { Loader2, Plus, Key, Trash2, Copy, Check } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -68,7 +68,7 @@ function ApiKeyCard({ apiKey, onUpdate }: { apiKey: any; onUpdate: () => void })
         // If the key IS available (e.g. for display purposes in this internal dashboard), we copy it.
         // Usually we only show it on creation. 
         // For now, let's assume we copy the ID or a placeholder if actual key isn't stored in plain text (it shouldn't be).
-        // METAMCP pattern: key is stored hashed? Or is it retrievable?
+        // HYPERCODE pattern: key is stored hashed? Or is it retrievable?
         // Checked api-keys.repo.ts -> findPublicApiKeys.
         // If it returns full key, that's a security risk, but for MVP/Internal usage might be acceptable or it returns a masked version.
         setCopied(true);

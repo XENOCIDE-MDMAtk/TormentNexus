@@ -229,7 +229,7 @@ export default function DocsPage() {
 
                 {/* Footer */}
                 <footer className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center text-sm text-zinc-500">
-                    <p>Borg Mission Control • All features documented</p>
+                    <p>Hypercode Mission Control • All features documented</p>
                     <p className="mt-2">
                         <Link href="/" className="text-blue-500 hover:text-blue-400">Return to Dashboard</Link>
                     </p>

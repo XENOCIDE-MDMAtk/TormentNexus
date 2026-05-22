@@ -1,6 +1,6 @@
 
-import { LLMService } from '@borg/ai';
-import { SearchService } from '@borg/search';
+import { LLMService } from '@hypercode/ai';
+import { SearchService } from '@hypercode/search';
 import { MemoryManager } from './MemoryManager.js';
 import type { MCPServer } from '../MCPServer.js';
 
