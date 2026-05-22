@@ -1670,10 +1670,22 @@ export class SessionImportService {
 
     private async importCandidate(candidate: DiscoveryCandidate, force: boolean): Promise<ImportedSessionRecord | null> {
         // Fast metadata-based check to skip unchanged files
-        if (!force && !candidate.sourcePath.includes('#')) {
+        const MAX_SESSION_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+        let sourceSize: number | null = null;
+        let sourceMtime: number | null = null;
+        
+        if (!candidate.sourcePath.includes('#')) {
             try {
                 const stat = await fs.stat(candidate.sourcePath);
-                if (this.store.hasMatchingSource(candidate.sourcePath, stat.size, stat.mtimeMs)) {
+                sourceSize = stat.size;
+                sourceMtime = stat.mtimeMs;
+                
+                if (sourceSize > MAX_SESSION_FILE_SIZE) {
+                    console.warn(`[SessionImport] Skipping file too large for import (>10MB): ${candidate.sourcePath} (${sourceSize} bytes)`);
+                    return null;
+                }
+                
+                if (!force && this.store.hasMatchingSource(candidate.sourcePath, sourceSize, sourceMtime)) {
                     return null;
                 }
             } catch (e) {
@@ -1706,17 +1718,7 @@ export class SessionImportService {
 
         const normalizedSession = this.buildNormalizedSession(candidate, transcript, transcriptHash);
         
-        // Get stat for the record
-        let sourceSize: number | null = null;
-        let sourceMtime: number | null = null;
-        if (!candidate.sourcePath.includes('#')) {
-            try {
-                const stat = await fs.stat(candidate.sourcePath);
-                sourceSize = stat.size;
-                sourceMtime = stat.mtimeMs;
-            } catch {}
-        }
-
+        // Use already fetched stat for the record if available
         const analysis = await this.analyzeImportedSession(normalizedSession);
         const parsedMemories = analysis.memories.map((memory) => ({
             ...memory,
