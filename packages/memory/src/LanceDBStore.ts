@@ -72,51 +72,36 @@ export class LanceDBStore implements IVectorStore {
 
     async addMemory(content: string, metadata: any) {
         const vector = await this.createEmbeddings(content);
-        const sanitizedMetadata = sanitizeMetadataForArrow(metadata);
+        const { heat_score, last_accessed_at, timestamp, ...rest } = metadata;
+        
         const data = [{ 
             vector, 
-            text: content, 
-            ...sanitizedMetadata, 
-            heat_score: metadata.heat_score ?? 50, 
-            last_accessed_at: Date.now(), 
-            timestamp: Date.now() 
+            text: content,
+            heat_score: heat_score ?? 50, 
+            last_accessed_at: last_accessed_at ?? Date.now(), 
+            timestamp: timestamp ?? Date.now(),
+            metadata: JSON.stringify(rest)
         }];
         const table = await this.ensureTable(data);
-        try {
-            await table.add(data);
-        } catch (err: any) {
-            if (err.message?.includes('not in schema')) {
-                // If schema mismatch, we might need to be more careful.
-                // For now, let's just log and skip or we could drop and recreate (expensive).
-                console.error('[LanceDBStore] Schema mismatch, skipping entry:', err.message);
-            } else {
-                throw err;
-            }
-        }
+        await table.add(data);
     }
 
     async addDocuments(docs: any[]) {
         const processed = await Promise.all(docs.map(async d => {
-            const sanitizedMetadata = sanitizeMetadataForArrow(d.metadata || {});
+            const { vector, text, content, heat_score, last_accessed_at, timestamp, metadata, ...rest } = d;
+            const finalMetadata = { ...(metadata || {}), ...rest };
+            
             return {
-                ...d, 
-                ...sanitizedMetadata,
-                vector: d.vector || await this.createEmbeddings(d.text || d.content),
-                heat_score: d.heat_score ?? 50, 
-                last_accessed_at: d.last_accessed_at ?? Date.now(), 
-                timestamp: d.timestamp || Date.now()
+                vector: vector || await this.createEmbeddings(text || content),
+                text: text || content,
+                heat_score: heat_score ?? 50, 
+                last_accessed_at: last_accessed_at ?? Date.now(), 
+                timestamp: timestamp ?? Date.now(),
+                metadata: JSON.stringify(finalMetadata)
             };
         }));
         const table = await this.ensureTable(processed);
-        try {
-            await table.add(processed);
-        } catch (err: any) {
-            if (err.message?.includes('not in schema')) {
-                console.error('[LanceDBStore] Schema mismatch in batch, skipping:', err.message);
-            } else {
-                throw err;
-            }
-        }
+        await table.add(processed);
     }
 
     async get(id: string) {
