@@ -189,4 +189,8 @@
 **Observation**: Learned that script-based code updates can inadvertently double-escape `fmt.Sprintf` tokens (`%%s`) in Go source code. Always perform a manual truth-pass or automated sed correction after bulk file writes.
 **Resolution**: Established the pattern of using the `controlplane.MemoryVault` interface to decouple kernel services from the persistence implementation.
 
+### 47. TypeScript Compile Security & Telemetry Alignment (Added 2026-05-25)
+**Observation**: The environment-telemetry model updates introduced compile discrepancies in `NormalizedQuotaService.ts` due to missing properties on core `types.ts` interfaces (`ProviderAuthState`, `ProviderQuotaSnapshot`).
+**Resolution**: Formally defined `ProviderAuthTruth` and added the missing telemetry properties (`authTruth`, `quotaConfidence`, `quotaRefreshedAt`) to `packages/core/src/providers/types.ts`. Eliminated all redundant `@ts-expect-error` directives, achieving a 100% clean build.
+
 *Update this file whenever a major systemic pattern, recurring bug, or deep architectural quirk is discovered.*
