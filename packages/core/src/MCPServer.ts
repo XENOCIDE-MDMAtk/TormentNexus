@@ -3683,68 +3683,71 @@ ${env.tools.filter((tool) => tool.installed).map((tool) => `- **${tool.name}**: 
 
     async start() {
         mcpServerDebugLog('[MCPServer] Loading Skills...');
-        const aggregatorStartup = this.mcpAggregator.initialize()
-            .then(async () => {
-                const inventory = await getCachedToolInventory();
-                const toolCountsByName = new Map(
-                    inventory.servers.map((server) => [server.name, inventory.toolCounts.get(server.uuid) ?? 0]),
-                );
 
-                this.mcpAggregator.seedAdvertisedInventory({
-                    servers: inventory.servers.map((server) => ({
-                        name: server.name,
-                        alwaysOnAdvertised: server.alwaysOnAdvertised,
-                        advertisedToolCount: toolCountsByName.get(server.name) ?? 0,
-                    })),
-                    source: inventory.source,
-                });
-                const { lazySessionMode } = mcpServerPool.getLifecycleModes();
-                // Keep aggregator in sync with the resolved lifecycle mode so that
-                // any restarts or hot-reload paths also respect the latest setting.
-                this.mcpAggregator.setLazyMode(lazySessionMode);
-                if (lazySessionMode) {
-                    mcpServerDebugLog('[MCPServer] Lazy MCP session mode enabled; skipping eager advertised-server warmup.');
-                } else {
-                    this.mcpAggregator.warmAdvertisedServers();
-                }
-            })
-            .catch(e => console.error("[MCPServer] Aggregator Init Failed:", e));
+        // CRITICAL: Connect stdio transport FIRST so the MCP client receives
+        // its initialize response immediately. Heavy initialization happens
+        // in the background after transport is connected.
+        // Tool handlers are already registered in the constructor (setupHandlers),
+        // so the server can respond to requests right away.
+        await this.serverSetupPromise;
 
-        // Startup readiness should only report memory as ready once the runtime flag
-        // is actually set. The current memory bootstrap is lightweight, so we prime
-        // it during core startup instead of advertising a false-positive ready state.
-        await this.initializeMemorySystem();
-        await Promise.all([this.serverSetupPromise, aggregatorStartup]);
-
-        // Start Services
-        // this.director.startChatDaemon(); // Removed, auto-drive handles this
-
-        // Register this workspace globally
-        workspaceTracker.registerWorkspace(process.cwd());
-
-        // Trigger automatic session discovery/import in the background
-        this.sessionImportService.startAutoImport();
-        
-        // Start hyperingest background workers
-        this.bobbyBookmarksSyncWorker.start();
-        this.linkCrawlerWorker.start();
-        this.nativeSidecarDaemon.start().catch(e => console.error("[MCPServer] Native sidecar daemon failed to start:", e));
-
-        // Build Graph in Background
-        this.autoTestService.repoGraph.buildGraph().catch(e => console.error("Graph build failed", e));
-
-        mcpServerDebugLog('[MCPServer] 🚀 Hypercode Core ready.');
-        mcpServerDebugLog('[MCPServer] Preparing request handlers...');
-
-        // 1. Start Stdio (for local CLI usage)
+        // 1. Start Stdio (for local CLI usage) — MOVED TO TOP
         if (!this.options.skipStdio) {
-            mcpServerDebugLog('[MCPServer] Connecting Stdio...');
+            mcpServerDebugLog('[MCPServer] Connecting Stdio (early)...');
             const stdioTransport = new StdioServerTransport();
             await this.server.connect(stdioTransport);
             mcpServerDebugLog('Hypercode Core: Stdio Transport Active');
         } else {
             mcpServerDebugLog('[MCPServer] Skipping Stdio transport (managed by external loader).');
         }
+
+        // Heavy initialization runs in the background — the transport is already
+        // connected, so tool calls will be handled as soon as inventory is available.
+        const backgroundInit = (async () => {
+            const aggregatorStartup = this.mcpAggregator.initialize()
+                .then(async () => {
+                    const inventory = await getCachedToolInventory();
+                    const toolCountsByName = new Map(
+                        inventory.servers.map((server) => [server.name, inventory.toolCounts.get(server.uuid) ?? 0]),
+                    );
+                    this.mcpAggregator.seedAdvertisedInventory({
+                        servers: inventory.servers.map((server) => ({
+                            name: server.name,
+                            alwaysOnAdvertised: server.alwaysOnAdvertised,
+                            advertisedToolCount: toolCountsByName.get(server.name) ?? 0,
+                        })),
+                        source: inventory.source,
+                    });
+                    const { lazySessionMode } = mcpServerPool.getLifecycleModes();
+                    this.mcpAggregator.setLazyMode(lazySessionMode);
+                    if (lazySessionMode) {
+                        mcpServerDebugLog('[MCPServer] Lazy MCP session mode enabled; skipping eager advertised-server warmup.');
+                    } else {
+                        this.mcpAggregator.warmAdvertisedServers();
+                    }
+                })
+                .catch(e => console.error("[MCPServer] Aggregator Init Failed:", e));
+
+            await this.initializeMemorySystem();
+            await aggregatorStartup;
+
+            // Start Services
+            workspaceTracker.registerWorkspace(process.cwd());
+            this.sessionImportService.startAutoImport();
+            this.bobbyBookmarksSyncWorker.start();
+            this.linkCrawlerWorker.start();
+            this.nativeSidecarDaemon.start().catch(e => console.error("[MCPServer] Native sidecar daemon failed to start:", e));
+            this.autoTestService.repoGraph.buildGraph().catch(e => console.error("Graph build failed", e));
+
+            mcpServerDebugLog('[MCPServer] 🚀 Hypercode Core ready (background init complete).');
+        })();
+
+        // Don't await backgroundInit — let it run while the server is already
+        // accepting requests. The server will return partial tool lists until
+        // the aggregator finishes initializing.
+        void backgroundInit;
+
+        mcpServerDebugLog('[MCPServer] Stdio connected, background init in progress...');
 
         // 2. Start WebSocket (for Extension/Web usage)
         if (this.wsServer && !this.wssInstance) {
