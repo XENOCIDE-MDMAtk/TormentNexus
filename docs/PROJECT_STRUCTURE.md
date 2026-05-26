@@ -321,7 +321,7 @@ The current submodules directory includes at least two important external lanes:
 | --- | --- |
 | `submodules/hypercode` | Experimental external CLI harness/upstream assimilation lane |
 | `submodules/hypercode` | Experimental external CLI harness/upstream assimilation lane |
-| `submodules/prism-mcp` | External Prism MCP reference lane |
+| `submodules/hypercode-mcp` | External Hypercode MCP reference lane |
 
 This submodule matters because the CLI/session/harness story is no longer only local handwritten code; it also depends on tracked external harness contracts and source-backed tool inventories.
 
@@ -403,8 +403,8 @@ flowchart TD
     APPS["apps/\nweb, maestro, maestro-go, mobile,\ncloud-orchestrator, browser/editor apps"]
     PKGS["packages/\ncore, cli, ui, ai, memory,\nmcp, tools, agents, extensions"]
     GO["go/\nexperimental sidecar"]
-    SUBS["submodules/\nhypercode, prism-mcp"]
-    SUBS["submodules/\nhypercode, prism-mcp"]
+    SUBS["submodules/\nhypercode, hypercode-mcp"]
+    SUBS["submodules/\nhypercode, hypercode-mcp"]
     DATA["data/\nbobbybookmarks, local DBs"]
     DOCS["docs/\nREADME, roadmap, contributor guidance"]
 

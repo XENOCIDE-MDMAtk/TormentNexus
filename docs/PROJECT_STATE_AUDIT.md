@@ -1309,7 +1309,7 @@ hypercode/
 
 │   ├── hyperharness/        # LLM harness submodule
 
-│   └── prism-mcp/           # Prism MCP reference
+│   └── hypercode-mcp/           # Hypercode MCP reference
 
 ├── packages/hypercode/     # Claude memory bridge (submodule)
 
@@ -1339,7 +1339,7 @@ hypercode/
 
 | `submodules/hyperharness` | github.com/robertpelloni/hyperharness | LLM harness |
 
-| `submodules/prism-mcp` | github.com/dcostenco/prism-mcp | Prism MCP reference |
+| `submodules/hypercode-mcp` | github.com/dcostenco/hypercode-mcp | Hypercode MCP reference |
 
 
 
@@ -2263,7 +2263,7 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 
 ### Changed
 
-- **Submodule Sync**: Updated all submodules to latest upstream (cloud-orchestrator, hyperharness, prism-mcp, litellm, OmniRoute, maestro, mcpproxy, hypercode). Resolved merge conflicts in cloud-orchestrator and hyperharness.
+- **Submodule Sync**: Updated all submodules to latest upstream (cloud-orchestrator, hyperharness, hypercode-mcp, litellm, OmniRoute, maestro, mcpproxy, hypercode). Resolved merge conflicts in cloud-orchestrator and hyperharness.
 
 - **Version Sync**: All 57 package.json files now synchronized to VERSION file.
 
@@ -3169,9 +3169,9 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 
 - **TelemetryService**: W3C Trace Context compatible distributed tracing with span lifecycle, attributes, events, async `trace()` wrapper, traceparent export/parse, and ring-buffered completed spans.
 
-- **Prism MCP Reference Submodule**: Added `submodules/prism-mcp` so Hypercode can track upstream Prism memory/dashboard work as a first-class reference repository during assimilation.
+- **Hypercode MCP Reference Submodule**: Added `submodules/hypercode-mcp` so Hypercode can track upstream Hypercode memory/dashboard work as a first-class reference repository during assimilation.
 
-- **Prism MCP Reference Submodule**: Added `submodules/prism-mcp` so hypercode can track upstream Prism memory/dashboard work as a first-class reference repository during assimilation.
+- **Hypercode MCP Reference Submodule**: Added `submodules/hypercode-mcp` so hypercode can track upstream Hypercode memory/dashboard work as a first-class reference repository during assimilation.
 
 
 
@@ -3207,7 +3207,7 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 
 - **OpenAI Session Import Coverage**: Hypercode now discovers OpenAI or ChatGPT export JSON histories from explicit `.openai` / `.chatgpt` / `ChatGPT` / `OpenAI` roots and normalizes them into readable user/assistant transcripts with tool-call markers.
 
-- **Prism Session Import Coverage**: Hypercode can now ingest Prism local `~/.prism-mcp/data.db` ledger and handoff rows as imported sessions, including behavioral `event_type` / `confidence_score` / `importance` metadata and derived correction warnings.
+- **Hypercode Session Import Coverage**: Hypercode can now ingest Hypercode local `~/.hypercode-mcp/data.db` ledger and handoff rows as imported sessions, including behavioral `event_type` / `confidence_score` / `importance` metadata and derived correction warnings.
 
 - **Memory Bootstrap Idempotency**: Hardened `@hypercode/memory` LanceDB startup so concurrent first writes no longer crash Hypercode with `Table 'memories' already exists`; the adapter now retries `openTable()` after a competing creator wins the race.
 
@@ -3221,7 +3221,7 @@ and this project adheres to [Semantic Versioning](https://sumver.org/spec/v2.0.0
 
 - **OpenAI Session Import Coverage**: hypercode now discovers OpenAI or ChatGPT export JSON histories from explicit `.openai` / `.chatgpt` / `ChatGPT` / `OpenAI` roots and normalizes them into readable user/assistant transcripts with tool-call markers.
 
-- **Prism Session Import Coverage**: hypercode can now ingest Prism local `~/.prism-mcp/data.db` ledger and handoff rows as imported sessions, including behavioral `event_type` / `confidence_score` / `importance` metadata and derived correction warnings.
+- **Hypercode Session Import Coverage**: hypercode can now ingest Hypercode local `~/.hypercode-mcp/data.db` ledger and handoff rows as imported sessions, including behavioral `event_type` / `confidence_score` / `importance` metadata and derived correction warnings.
 
 - **Memory Bootstrap Idempotency**: Hardened `@hypercode/memory` LanceDB startup so concurrent first writes no longer crash hypercode with `Table 'memories' already exists`; the adapter now retries `openTable()` after a competing creator wins the race.
 

@@ -36,5 +36,5 @@ https://github.com/yasasbanukaofficial/claude-code | unknown |
 | archive/OmniRoute | main | unknown | https://github.com/diegosouzapw/OmniRoute | unknown |
 | packages/hypercode | main | unknown | https://github.com/robertpelloni/hypercode | unknown |
 | apps/maestro | main | unknown | https://github.com/robertpelloni/Maestro | unknown |
-| submodules/prism-mcp | main | unknown | https://github.com/dcostenco/prism-mcp | unknown |
+| submodules/hypercode-mcp | main | unknown | https://github.com/dcostenco/hypercode-mcp | unknown |
 | submodules/hypercode | main | unknown | https://github.com/robertpelloni/hypercode.git | unknown |

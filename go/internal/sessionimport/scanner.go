@@ -253,12 +253,12 @@ func (s Scanner) rules() []discoveryRule {
 			fileNameHints: []string{"session", "chat", "copilot", "conversation", "history", "message"},
 		},
 		{
-			sourceTool: "prism-mcp",
+			sourceTool: "hypercode-mcp",
 			roots: []string{
-				filepath.Join(s.WorkspaceRoot, ".prism-mcp", "data.db"),
-				filepath.Join(s.HomeDir, ".prism-mcp", "data.db"),
+				filepath.Join(s.WorkspaceRoot, ".hypercode-mcp", "data.db"),
+				filepath.Join(s.HomeDir, ".hypercode-mcp", "data.db"),
 			},
-			fileNameHints: []string{"prism", "data.db", "session", "handoff", "ledger"},
+			fileNameHints: []string{"hypercode", "data.db", "session", "handoff", "ledger"},
 		},
 		{
 			sourceTool: "llm-cli",

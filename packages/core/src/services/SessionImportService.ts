@@ -565,9 +565,9 @@ function extractWorkingDirectory(metadata: Record<string, unknown>): string | nu
     return null;
 }
 
-function buildPrismLedgerTranscript(row: Record<string, unknown>): string {
+function buildHypercodeLedgerTranscript(row: Record<string, unknown>): string {
     const lines = [
-        `Prism session ledger for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
+        `Hypercode session ledger for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
         typeof row.summary === 'string' ? row.summary : '',
     ];
 
@@ -614,9 +614,9 @@ function buildPrismLedgerTranscript(row: Record<string, unknown>): string {
     return lines.filter(Boolean).join('\n');
 }
 
-function buildPrismHandoffTranscript(row: Record<string, unknown>): string {
+function buildHypercodeHandoffTranscript(row: Record<string, unknown>): string {
     const lines = [
-        `Prism handoff for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
+        `Hypercode handoff for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
         typeof row.last_summary === 'string' ? row.last_summary : '',
         typeof row.key_context === 'string' ? row.key_context : '',
     ];
@@ -1226,7 +1226,7 @@ export class SessionImportService {
             }
         }
 
-        for (const candidate of await this.discoverPrismDatabaseCandidates()) {
+        for (const candidate of await this.discoverHypercodeDatabaseCandidates()) {
             discovered.set(candidate.sourcePath, candidate);
         }
 
@@ -1308,10 +1308,10 @@ export class SessionImportService {
         return candidates;
     }
 
-    private async discoverPrismDatabaseCandidates(): Promise<DiscoveryCandidate[]> {
+    private async discoverHypercodeDatabaseCandidates(): Promise<DiscoveryCandidate[]> {
         const roots = [
-            path.join(this.workspaceRoot, '.prism-mcp', 'data.db'),
-            this.includeHomeDirectories ? path.join(os.homedir(), '.prism-mcp', 'data.db') : null,
+            path.join(this.workspaceRoot, '.hypercode-mcp', 'data.db'),
+            this.includeHomeDirectories ? path.join(os.homedir(), '.hypercode-mcp', 'data.db') : null,
         ].filter((root): root is string => Boolean(root));
 
         const discovered: DiscoveryCandidate[] = [];
@@ -1323,10 +1323,10 @@ export class SessionImportService {
             }
 
             try {
-                const prismDb = new Database(dbPath, { readonly: true, fileMustExist: true });
+                const hypercodeDb = new Database(dbPath, { readonly: true, fileMustExist: true });
 
                 try {
-                    const ledgerRows = prismDb
+                    const ledgerRows = hypercodeDb
                         .prepare('SELECT * FROM session_ledger ORDER BY datetime(created_at) DESC LIMIT ?')
                         .all(this.maxFilesPerRoot) as Array<Record<string, unknown>>;
 
@@ -1338,29 +1338,29 @@ export class SessionImportService {
                         if (seen.has(sourcePath)) continue;
                         seen.add(sourcePath);
 
-                        const transcript = buildPrismLedgerTranscript(row).trim();
+                        const transcript = buildHypercodeLedgerTranscript(row).trim();
                         if (!transcript) continue;
 
                         const metadata: Record<string, unknown> = {
-                            prismProject: row.project,
-                            prismRole: row.role,
-                            prismTable: 'session_ledger',
-                            prismConversationId: row.conversation_id,
-                            prismEventType: typeof row.event_type === 'string' && row.event_type.trim()
+                            hypercodeProject: row.project,
+                            hypercodeRole: row.role,
+                            hypercodeTable: 'session_ledger',
+                            hypercodeConversationId: row.conversation_id,
+                            hypercodeEventType: typeof row.event_type === 'string' && row.event_type.trim()
                                 ? row.event_type
                                 : 'session',
-                            prismConfidenceScore: typeof row.confidence_score === 'number' && Number.isFinite(row.confidence_score)
+                            hypercodeConfidenceScore: typeof row.confidence_score === 'number' && Number.isFinite(row.confidence_score)
                                 ? row.confidence_score
                                 : null,
-                            prismImportance: typeof row.importance === 'number' && Number.isFinite(row.importance)
+                            hypercodeImportance: typeof row.importance === 'number' && Number.isFinite(row.importance)
                                 ? row.importance
                                 : 0,
                         };
 
                         if (
-                            metadata.prismEventType === 'correction'
-                            && typeof metadata.prismImportance === 'number'
-                            && metadata.prismImportance >= 3
+                            metadata.hypercodeEventType === 'correction'
+                            && typeof metadata.hypercodeImportance === 'number'
+                            && metadata.hypercodeImportance >= 3
                             && typeof row.summary === 'string'
                             && row.summary.trim()
                         ) {
@@ -1368,9 +1368,9 @@ export class SessionImportService {
                         }
 
                         discovered.push({
-                            sourceTool: 'prism-mcp',
+                            sourceTool: 'hypercode-mcp',
                             sourcePath,
-                            sessionFormat: 'prism-ledger',
+                            sessionFormat: 'hypercode-ledger',
                             lastModifiedAt: toTimestampMs(row.created_at),
                             externalSessionId: typeof row.conversation_id === 'string' && row.conversation_id.trim()
                                 ? row.conversation_id
@@ -1378,17 +1378,17 @@ export class SessionImportService {
                             transcript,
                             title: typeof row.summary === 'string' && row.summary.trim()
                                 ? sanitizeSentence(row.summary, 120)
-                                : `Prism ledger ${id}`,
+                                : `Hypercode ledger ${id}`,
                             workingDirectory: path.dirname(dbPath),
                             metadata,
                         });
                     }
                 } catch {
-                    // Table may not exist yet in a freshly initialized Prism install.
+                    // Table may not exist yet in a freshly initialized Hypercode install.
                 }
 
                 try {
-                    const handoffRows = prismDb
+                    const handoffRows = hypercodeDb
                         .prepare('SELECT * FROM session_handoffs ORDER BY datetime(COALESCE(updated_at, created_at)) DESC LIMIT ?')
                         .all(this.maxFilesPerRoot) as Array<Record<string, unknown>>;
 
@@ -1400,37 +1400,37 @@ export class SessionImportService {
                         if (seen.has(sourcePath)) continue;
                         seen.add(sourcePath);
 
-                        const transcript = buildPrismHandoffTranscript(row).trim();
+                        const transcript = buildHypercodeHandoffTranscript(row).trim();
                         if (!transcript) continue;
 
                         const parsedMetadata = parseJsonRecord(row.metadata);
                         const metadata = {
-                            prismProject: project,
-                            prismTable: 'session_handoffs',
-                            prismVersion: row.version,
+                            hypercodeProject: project,
+                            hypercodeTable: 'session_handoffs',
+                            hypercodeVersion: row.version,
                             ...parsedMetadata,
                         };
 
                         discovered.push({
-                            sourceTool: 'prism-mcp',
+                            sourceTool: 'hypercode-mcp',
                             sourcePath,
-                            sessionFormat: 'prism-handoff',
+                            sessionFormat: 'hypercode-handoff',
                             lastModifiedAt: toTimestampMs(row.updated_at) ?? toTimestampMs(row.created_at),
                             externalSessionId: `handoff:${project}`,
                             transcript,
-                            title: `Prism handoff ${project}`,
+                            title: `Hypercode handoff ${project}`,
                             workingDirectory: extractWorkingDirectory(parsedMetadata) ?? path.dirname(dbPath),
                             metadata,
                         });
                     }
                 } catch {
-                    // Table may not exist in minimal Prism setups.
+                    // Table may not exist in minimal Hypercode setups.
                 }
 
-                prismDb.close();
+                hypercodeDb.close();
             } catch (error) {
                 console.warn(formatOptionalSqliteFailure(
-                    `[SessionImport] Failed to inspect Prism database at ${dbPath}`,
+                    `[SessionImport] Failed to inspect Hypercode database at ${dbPath}`,
                     error,
                 ));
             }

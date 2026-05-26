@@ -771,15 +771,15 @@ describe('SessionImportService', () => {
         expect(store.sessions).toHaveLength(0);
     });
 
-    (sqliteAvailable ? it : it.skip)('imports Prism ledger and handoff entries from the local data.db store', async () => {
+    (sqliteAvailable ? it : it.skip)('imports Hypercode ledger and handoff entries from the local data.db store', async () => {
         const root = await createTempRoot();
         const fakeHome = await createTempRoot();
-        const prismDir = path.join(fakeHome, '.prism-mcp');
-        const prismDbPath = path.join(prismDir, 'data.db');
-        await fs.mkdir(prismDir, { recursive: true });
+        const hypercodeDir = path.join(fakeHome, '.hypercode-mcp');
+        const hypercodeDbPath = path.join(hypercodeDir, 'data.db');
+        await fs.mkdir(hypercodeDir, { recursive: true });
 
-        const prismDb = new Database(prismDbPath);
-        prismDb.exec(`
+        const hypercodeDb = new Database(hypercodeDbPath);
+        hypercodeDb.exec(`
             CREATE TABLE session_ledger (
                 id TEXT PRIMARY KEY,
                 project TEXT NOT NULL,
@@ -809,7 +809,7 @@ describe('SessionImportService', () => {
                 updated_at TEXT DEFAULT '2026-03-27T01:00:00.000Z'
             );
         `);
-        prismDb
+        hypercodeDb
             .prepare(`
                 INSERT INTO session_ledger (
                     id, project, conversation_id, summary, todos, files_changed, decisions, keywords, role, event_type, confidence_score, importance, created_at
@@ -819,18 +819,18 @@ describe('SessionImportService', () => {
                 'ledger-1',
                 'hypercode',
                 'conversation-1',
-                'Integrated the Prism session importer into Hypercode.',
-                JSON.stringify(['Add dashboard visibility for Prism memory state']),
+                'Integrated the Hypercode session importer into Hypercode.',
+                JSON.stringify(['Add dashboard visibility for Hypercode memory state']),
                 JSON.stringify(['packages/core/src/services/SessionImportService.ts']),
-                JSON.stringify(['Prefer importing Prism ledger summaries into Hypercode memory']),
-                JSON.stringify(['prism', 'memory', 'import']),
+                JSON.stringify(['Prefer importing Hypercode ledger summaries into Hypercode memory']),
+                JSON.stringify(['hypercode', 'memory', 'import']),
                 'dev',
                 'correction',
                 92,
                 5,
                 '2026-03-27T02:00:00.000Z',
             );
-        prismDb
+        hypercodeDb
             .prepare(`
                 INSERT INTO session_handoffs (
                     project, last_summary, pending_todo, active_decisions, keywords, key_context, active_branch, version, metadata, updated_at
@@ -838,17 +838,17 @@ describe('SessionImportService', () => {
             `)
             .run(
                 'hypercode',
-                'Prism handoff summary for Hypercode.',
-                JSON.stringify(['Keep assimilating Prism features carefully']),
+                'Hypercode handoff summary for Hypercode.',
+                JSON.stringify(['Keep assimilating Hypercode features carefully']),
                 JSON.stringify(['Use Hypercode as the operator-facing control plane']),
-                JSON.stringify(['prism', 'handoff']),
+                JSON.stringify(['hypercode', 'handoff']),
                 'Current focus: bridge durable memory and imported sessions.',
                 'main',
                 7,
                 JSON.stringify({ cwd: 'C:\\Users\\hyper\\workspace\\hypercode' }),
                 '2026-03-27T03:00:00.000Z',
             );
-        prismDb.close();
+        hypercodeDb.close();
 
         vi.spyOn(os, 'homedir').mockReturnValue(fakeHome);
 
@@ -872,9 +872,9 @@ describe('SessionImportService', () => {
 
         expect(result.discoveredCount).toBe(2);
         expect(result.importedCount).toBe(2);
-        expect(result.tools).toContain('prism-mcp');
+        expect(result.tools).toContain('hypercode-mcp');
         expect(store.sessions.map((session) => session.sessionFormat)).toEqual(
-            expect.arrayContaining(['prism-ledger', 'prism-handoff']),
+            expect.arrayContaining(['hypercode-ledger', 'hypercode-handoff']),
         );
         expect(store.sessions.map((session) => session.sourcePath)).toEqual(
             expect.arrayContaining([
@@ -883,16 +883,16 @@ describe('SessionImportService', () => {
             ]),
         );
         expect(store.sessions.map((session) => session.workingDirectory)).toContain('C:\\Users\\hyper\\workspace\\hypercode');
-        const prismLedger = store.sessions.find((session) => session.sessionFormat === 'prism-ledger');
-        expect(prismLedger?.metadata).toMatchObject({
-            prismEventType: 'correction',
-            prismConfidenceScore: 92,
-            prismImportance: 5,
-            behavioralWarnings: ['Integrated the Prism session importer into Hypercode.'],
+        const hypercodeLedger = store.sessions.find((session) => session.sessionFormat === 'hypercode-ledger');
+        expect(hypercodeLedger?.metadata).toMatchObject({
+            hypercodeEventType: 'correction',
+            hypercodeConfidenceScore: 92,
+            hypercodeImportance: 5,
+            behavioralWarnings: ['Integrated the Hypercode session importer into Hypercode.'],
         });
-        expect(String(prismLedger?.transcript)).toContain('Event type: correction');
-        expect(String(prismLedger?.transcript)).toContain('Confidence score: 92');
-        expect(String(prismLedger?.transcript)).toContain('Importance: 5');
+        expect(String(hypercodeLedger?.transcript)).toContain('Event type: correction');
+        expect(String(hypercodeLedger?.transcript)).toContain('Confidence score: 92');
+        expect(String(hypercodeLedger?.transcript)).toContain('Importance: 5');
         expect(addLongTerm).toHaveBeenCalled();
         expect(captureSessionSummary).toHaveBeenCalledTimes(2);
     });

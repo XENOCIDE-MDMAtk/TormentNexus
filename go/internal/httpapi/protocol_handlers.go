@@ -96,18 +96,22 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 		}
 
 		// Emit attachment event to SSE and EventBus so frontends focus the session
-		s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
-			"sessionId":        session.ID,
-			"cliType":          session.CliType,
-			"workingDirectory": session.WorkingDirectory,
-			"timestamp":        time.Now().UnixMilli(),
-		})
+		if s.eventBus != nil {
+			s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
+				"sessionId":        session.ID,
+				"cliType":          session.CliType,
+				"workingDirectory": session.WorkingDirectory,
+				"timestamp":        time.Now().UnixMilli(),
+			})
+		}
 
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
-			"action":  "attach",
-			"session": session,
-			"message": "attachment focus signal broadcast successfully",
+			"data": map[string]any{
+				"action":  "attach",
+				"session": session,
+				"message": "attachment focus signal broadcast successfully",
+			},
 		})
 
 	case "create":
@@ -155,18 +159,22 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 		_ = s.supervisorManager.StartSession(r.Context(), session.ID)
 
 		// Broadcast new session event
-		s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
-			"sessionId":        session.ID,
-			"cliType":          session.CliType,
-			"workingDirectory": session.WorkingDirectory,
-			"timestamp":        time.Now().UnixMilli(),
-		})
+		if s.eventBus != nil {
+			s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
+				"sessionId":        session.ID,
+				"cliType":          session.CliType,
+				"workingDirectory": session.WorkingDirectory,
+				"timestamp":        time.Now().UnixMilli(),
+			})
+		}
 
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
-			"action":  "create",
-			"session": session,
-			"message": "supervised session created and dispatch focus broadcast",
+			"data": map[string]any{
+				"action":  "create",
+				"session": session,
+				"message": "supervised session created and dispatch focus broadcast",
+			},
 		})
 
 	default:

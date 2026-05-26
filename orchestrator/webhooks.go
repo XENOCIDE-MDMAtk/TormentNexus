@@ -23,7 +23,7 @@ func HandleHypercodeWebhook(payload WebhookPayload, queue *TaskQueue, ws *Teleme
 		source = "unknown"
 	}
 
-	// 1. Log natively into GORM Prisma mapped model
+	// 1. Log natively into GORM Hypercodea mapped model
 	actionLog := KeeperLog{
 		ID:        uuid.New().String(),
 		SessionId: "global",

@@ -13,7 +13,7 @@ import (
 var DB *gorm.DB
 
 // ---------------------------------------------------------
-// Prisma ORM Native Structural Parity (Hypercode Go Daemon)
+// Hypercodea ORM Native Structural Parity (Hypercode Go Daemon)
 // ---------------------------------------------------------
 
 // KeeperLog replaces TS KeeperLog model natively
@@ -103,7 +103,7 @@ type CodeChunk struct {
 	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updatedAt"`
 }
 
-// InitDatabase constructs the CGO-Free pure Go SQLite connection linking Prisma Parity!
+// InitDatabase constructs the CGO-Free pure Go SQLite connection linking Hypercodea Parity!
 func InitDatabase(dbPath string) error {
 	log.Printf("[Database] Constructing Native ORM Mapping against %s", dbPath)
 
@@ -116,7 +116,7 @@ func InitDatabase(dbPath string) error {
 
 	DB = db
 
-	// Auto-Migrate structurally maps our pure Go structs backwards compatibly atop Prisma tables!
+	// Auto-Migrate structurally maps our pure Go structs backwards compatibly atop Hypercodea tables!
 	err = db.AutoMigrate(
 		&KeeperLog{},
 		&KeeperSettings{},
@@ -129,6 +129,6 @@ func InitDatabase(dbPath string) error {
 		return fmt.Errorf("SQLite Auto-Migration rejection: %w", err)
 	}
 
-	log.Printf("[Database] ORM AutoMigration Sync Validated. Prisma Legacy completely deprecated.")
+	log.Printf("[Database] ORM AutoMigration Sync Validated. Hypercodea Legacy completely deprecated.")
 	return nil
 }

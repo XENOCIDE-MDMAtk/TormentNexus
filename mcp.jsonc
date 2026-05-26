@@ -676,11 +676,11 @@
         "maxAttempts": 0
       }
     },
-    "prism-mcp": {
+    "hypercode-mcp": {
       "command": "npx",
       "args": [
         "-y",
-        "prism-mcp-server"
+        "hypercode-mcp-server"
       ],
       "env": []
     },

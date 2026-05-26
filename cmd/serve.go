@@ -29,9 +29,9 @@ var serveCmd = &cobra.Command{
 			AllowHeaders: "Origin, Content-Type, Accept",
 		}))
 
-		// Initialize Database/Queues natively substituting BullMQ & Prisma
+		// Initialize Database/Queues natively substituting BullMQ & Hypercodea
 		if err := orchestrator.InitDatabase("./.hypercode_queue.db"); err != nil {
-			log.Fatalf("Prisma Parity Core mapping failed: %v", err)
+			log.Fatalf("Hypercodea Parity Core mapping failed: %v", err)
 		}
 
 		queue, err := orchestrator.NewTaskQueue("./.hypercode_queue.db")
@@ -106,7 +106,7 @@ var serveCmd = &cobra.Command{
 
 		api.Get("/sessions", func(c *fiber.Ctx) error {
 			var sessions []orchestrator.Session
-			// Natively mapping Prisma's listSessions
+			// Natively mapping Hypercodea's listSessions
 			if err := orchestrator.DB.Order("created_at desc").Find(&sessions).Error; err != nil {
 				return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 			}
