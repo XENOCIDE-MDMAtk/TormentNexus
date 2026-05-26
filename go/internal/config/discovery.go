@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -49,6 +50,11 @@ func DefaultServiceDiscovery() ServiceDiscovery {
 
 	if v := strings.TrimSpace(os.Getenv("HYPERCODE_TRPC_UPSTREAM")); v != "" {
 		sd.TRPCUpstreamURLs = append([]string{v}, sd.TRPCUpstreamURLs...)
+	}
+	if v := strings.TrimSpace(os.Getenv("HYPERCODE_TRPC_PORT")); v != "" {
+		if p, err := strconv.Atoi(v); err == nil && p > 0 {
+			sd.TRPCUpstreamURLs = append([]string{fmt.Sprintf("http://127.0.0.1:%d/trpc", p)}, sd.TRPCUpstreamURLs...)
+		}
 	}
 
 	if v := os.Getenv("HYPERCODE_BRIDGE_PORT"); v != "" {

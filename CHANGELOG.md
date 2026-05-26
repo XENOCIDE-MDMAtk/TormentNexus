@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-alpha.64] - 2026-05-25
+
+### Added
+- **TypeScript Compile Security & Alignment**:
+  - Fully resolved all TypeScript compilation errors across `packages/core` by introducing the missing `ProviderAuthTruth` definitions and aligning `ProviderAuthState` and `ProviderQuotaSnapshot` with the new environment-telemetry models.
+  - Eliminated unused `@ts-expect-error` directives, achieving a 100% clean type check.
+- **Verification of Merged Feature Branches**:
+  - Conducted deep graph audits and verified that all local and remote branches (`jules-...`, `nexus-...`) have been successfully merged into `main` with absolutely zero progress or feature regressions.
+
 ## [1.0.0-alpha.63] - 2026-05-25
 
 ### Added
