@@ -1119,7 +1119,7 @@ export class MCPServer {
             else if (name === "get_knowledge_graph") {
                 result = await this.knowledgeService.getGraph(args?.query, args?.depth);
             }
-            else if (name === "system_diagnostics") {
+            else if (name === "system_diagnostics" || name === "system_status") {
                 const status = await DiagnosticTools.checkHealth();
                 result = { content: [{ type: "text", text: DiagnosticTools.getDiagnosticsMarkup(status) }] };
             }
@@ -1167,11 +1167,7 @@ export class MCPServer {
                 result = { content: [{ type: "text", text: "ws://localhost:9222" }] };
             }
 
-            // Log flow
-            mcpServerDebugLog(`[DEBUG] Flow check: name='${name}'`);
-
-            // --- SWARM TOOLS (Phase 51) ---
-            if (name === "start_squad") {
+            else if (name === "start_squad") {
                 mcpServerDebugLog('[DEBUG] ENTERED start_squad BLOCK');
                 const branch = args?.branch as string;
                 const goal = args?.goal as string;
@@ -1259,7 +1255,7 @@ export class MCPServer {
                 }
             }
             // --- CORE INFRASTRUCTURE TOOLS (Phase 20) ---
-            else if (name === "lsp_symbol_search") {
+            else if (name === "lsp_symbol_search" || name === "symbol_search" || name === "list_workspace_symbols") {
                 const query = args?.query as string;
                 if (!query) throw new Error("Missing 'query' parameter");
                 const symbols = this.lspService.searchSymbols(query);
@@ -1952,21 +1948,7 @@ export class MCPServer {
                 await this.gitWorktreeManager.removeWorktree(pathOrBranch, force);
                 result = { content: [{ type: "text", text: `Worktree removed: ${pathOrBranch}` }] };
             }
-            // 2. Intercept File Reading for Suggestions (Engagement Module)
-            if (name === "read_file" || name === "view_file") {
-                const filePath = args.path || args.AbsolutePath;
-                if (!filePath) {
-                    // Fallthrough to standard handler which will likely error
-                } else {
-                    // Fire and forget suggestion analysis
-                    // We don't read content here to avoid double-read cost; 
-                    // ideally we'd tap into the result, but that requires waiting for the real tool.
-                    // For now, let's just log intent or trigger analysis if we can get content cheaply later.
-                    // Actually, let's tap the result AFTER execution.
-                }
-            }
-
-            if (name === "execute_sandbox") {
+            else if (name === "execute_sandbox") {
                 const lang = args?.language as 'python' | 'node';
                 const code = args?.code as string;
                 result = {

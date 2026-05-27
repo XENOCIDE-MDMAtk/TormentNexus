@@ -247,6 +247,8 @@ export class MCPAggregator {
         }
 
         for (const [serverName] of this.getEnabledServerEntries()) {
+            // In lazy mode, skip servers not already connected.
+            if (this.lazyMode && !this.clients.has(serverName)) continue;
             // Skip servers that recently failed to avoid blocking on every tool call.
             const serverState = this.serverStates.get(serverName);
             if (serverState && serverState.status === 'error' && serverState.lastErrorAt) {
