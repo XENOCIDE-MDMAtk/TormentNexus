@@ -1,28 +1,29 @@
-# Handoff - v1.0.0-alpha.63
+# Handoff - v1.0.0-alpha.64
 
 ## Summary
-Completed the **Dashboard Truth Pass** and enhanced **L2 Vault Visualization** by bridging tRPC procedures to the Go native kernel.
+Successfully synced the project with GitHub, resolved massive structural merge conflicts from the 'hypercode' rebranding, and stabilized the full workspace build.
 
 ## Accomplishments
-- **Project Rebranding (hypercode)**: 
-    - Successfully transformed 'borg', 'nexus', 'hypervisor', and 'aios' into 'hypercode' across the entire codebase (content, package names, Go module, and filenames).
-    - Rebranded 'borg' and 'borg' to 'borg' as per instructions, establishing 'borg' as the new name for the MCP registry and memory adapters.
-    - Merged `origin/jules` and `origin/nexus` branches.
-    - Consolidated `apps/borg-extension` into `apps/hypercode-extension`.
-    - Merged `.borg` hidden directory into `.hypercode`.
-    - Updated `packages/core` database default to `borg.db`.
-- **MCP Server & Stability**:
-    - Resolved a critical "Table already exists" race condition in `LanceDBStore` using a global initialization lock.
-    - Implemented multi-layered deduplication (Metadata + SHA-256) in `SessionImportService` to skip unchanged files and filter noise.
-    - Verified MCP aggregation of over 1,300 tools across 135 servers.
-- **Dashboard**: 
-    - Resolved a port conflict (moved to 3010) and verified the UI is responsive and correctly rebranded.
-    - Completed a full workspace build to ensure binary/compiled consistency.
+- **Sync & Merge All Branches**:
+    - Fetched all remote updates and merged `origin/main` into local `main`.
+    - Confirmed that feature branches (`nexus`, `copilot`, `jules`) are now fully integrated into the main branch.
+    - Resolved extensive "modify/delete" and "rename/delete" conflicts caused by the consolidation of `apps/borg-extension` into `apps/hypercode-extension`.
+- **Environment & Build Stability**:
+    - Resolved a build-breaking Next.js type error in `@hypercode/web` by clearing stale caches and correcting page references.
+    - Successfully executed a full workspace build (`pnpm run build:workspace`).
+    - Added missing `glob` dependency to the monorepo root to fix internal maintenance scripts.
+- **MCP & Configuration**:
+    - Re-applied and verified project-level MCP configurations for Gemini CLI.
+    - Globally updated `mcp.jsonc` to resolve hardcoded user paths (`hyper` -> `jakeg`).
+    - Attempted submodule re-synchronization; identified recursive configuration errors in upstream repositories but successfully restored the primary `hypercode` submodule.
+- **Versioning**:
+    - Bumped the project version to **1.0.0-alpha.64**.
+    - Synchronized the new version across all 27 monorepo packages using `scripts/sync-versions.mjs`.
 
 ## Blockers / Issues
-- The `hypercode-extension` build still fails due to Vite/esbuild resolution issues (pre-existing).
+- **Submodule Recursion**: Upstream submodules (e.g., `hypercode`) contain broken references to non-existent repositories (`Super-MCP`), preventing a full `--recursive` update.
+- **GitHub Permissions**: Pushing back to `origin/main` was denied (403), requiring manual push by a user with write access.
 
 ## Next Steps
-- **Wails Migration**: Continue with the planned migration for `apps/native-ui` as per the roadmap.
-- **A2A Mesh Protocol**: Implement the discovery layer for agents running on different local network hosts.
-- **Mobile Style Audit**: Perform a second pass on mobile layout stability for the new Vault metrics.
+- **Submodule Cleanup**: Manually verify and repair the submodule tree or consider moving to a flatter monorepo structure for external dependencies.
+- **Re-test Full Stack**: Verify that all services (Go sidecar, tRPC control plane, and Next.js dashboard) still communicate correctly after the rebranding structural changes.

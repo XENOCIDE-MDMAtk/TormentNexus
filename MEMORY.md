@@ -220,6 +220,11 @@
 **Resolution**: Implemented the `MemoryReactor` in Go. It performs semantic chunking and incremental summarization of workspace files autonomously.
 **Implication**: The Go sidecar now maintains its own live semantic index of the project, further reducing its dependency on the TypeScript control plane.
 
+### 46. The Great Hypercode Rebrand Merge (Added 2026-05-22)
+**Observation**: The transition from 'Borg' to 'Hypercode' involved a massive restructuring of the repository, including renaming almost all packages and consolidating `apps/borg-extension` into `apps/hypercode-extension`. This caused extensive merge conflicts and broke many internal maintenance scripts.
+**Resolution**: Performed a controlled merge prioritizing remote structural changes while preserving local functional fixes. Cleaned Next.js and Turbo caches to resolve stale reference errors in the web dashboard.
+**Implication**: The workspace is now officially 'Hypercode'. Many legacy scripts (e.g., submodule checkers) were removed during this transition, suggesting a move towards a simpler, more consolidated monorepo structure. Recursive submodule updates currently fail due to upstream configuration drift.
+
 *Update this file whenever a major systemic pattern, recurring bug, or deep architectural quirk is discovered.*
 
 ### 9. tRPC Type Recursion Limit (Discovered 2026-04-29)
