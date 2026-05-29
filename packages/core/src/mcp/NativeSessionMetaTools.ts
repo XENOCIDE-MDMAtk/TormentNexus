@@ -59,6 +59,10 @@ export class NativeSessionMetaTools {
 
     public refreshCatalog(tools: Tool[]): void {
         this.catalog.clear();
+        // Always include base loading/meta tools in catalog
+        this.listToolDefinitions().forEach((tool) => {
+            this.catalog.set(tool.name, tool);
+        });
         tools.forEach((tool) => {
             this.catalog.set(tool.name, tool);
         });

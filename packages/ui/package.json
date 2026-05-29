@@ -1,6 +1,6 @@
 {
   "name": "@hypercode/ui",
-  "version": "1.0.0-alpha.65",
+  "version": "1.0.0-alpha.66",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

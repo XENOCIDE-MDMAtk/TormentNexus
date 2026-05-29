@@ -137,6 +137,16 @@ async function main() {
         console.error(`[Hypercode Core] Phase 2 complete: Full server ready in ${Date.now() - startTime}ms.`);
         console.error("[Hypercode Core] MCP Server Stdio Entry Point Started.");
 
+        // Notify client to reload tools list now that the full server is initialized
+        try {
+            await lightweightServer.notification({
+                method: "notifications/tools/list_changed"
+            });
+            console.error("[Hypercode Core] Sent notifications/tools/list_changed to client successfully.");
+        } catch (notificationErr: any) {
+            console.error("[Hypercode Core] Failed to send notifications/tools/list_changed:", notificationErr.message);
+        }
+
     } catch (err) {
         console.error("Failed to start MCP server:", err);
         process.exit(1);

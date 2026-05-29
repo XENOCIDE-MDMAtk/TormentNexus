@@ -3348,9 +3348,6 @@ ${env.tools.filter((tool) => tool.installed).map((tool) => `- **${tool.name}**: 
             };
         }) as (Tool & { alwaysOn: boolean })[];
 
-        this.nativeSessionMetaTools.refreshCatalog(cachedAdvertisedDownstreamTools);
-        await this.syncNativeToolPreferences();
-
         const allNativeTools = await this.getNativeTools({
             downstreamTools: cachedAdvertisedDownstreamTools,
             skipLiveDiscovery: true,
@@ -3358,6 +3355,9 @@ ${env.tools.filter((tool) => tool.installed).map((tool) => `- **${tool.name}**: 
         const aggregatedToolNames = new Set(cachedAdvertisedDownstreamTools.map((tool) => tool.name));
         const baseTools = allNativeTools.filter((tool) => !aggregatedToolNames.has(tool.name));
         const savedScriptTools = await getDirectModeSavedScriptTools(jsonConfigProvider);
+
+        this.nativeSessionMetaTools.refreshCatalog([...cachedAdvertisedDownstreamTools, ...allNativeTools]);
+        await this.syncNativeToolPreferences();
 
         // ULTRA-STREAMLINED ADVERTISING:
         // Only show core Meta-Tools by default.
@@ -3436,7 +3436,11 @@ ${env.tools.filter((tool) => tool.installed).map((tool) => `- **${tool.name}**: 
         }
 
         const cachedAdvertisedDownstreamTools = await this.getCachedAdvertisedDownstreamTools();
-        this.nativeSessionMetaTools.refreshCatalog(cachedAdvertisedDownstreamTools);
+        const allNativeTools = await this.getNativeTools({
+            downstreamTools: cachedAdvertisedDownstreamTools,
+            skipLiveDiscovery: true,
+        });
+        this.nativeSessionMetaTools.refreshCatalog([...cachedAdvertisedDownstreamTools, ...allNativeTools]);
         return await this.nativeSessionMetaTools.handleToolCall(name, args);
     }
 
