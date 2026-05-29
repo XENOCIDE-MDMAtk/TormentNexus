@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-alpha.70] - 2026-05-29
+
+### Added
+- **Global Multi-API Ingestion & Integration (Smithery, Glama, NPM, GitHub)**:
+  - Triggered the core ingestion engine across all active remote directory APIs.
+  - Ingested **767 servers** successfully across Glama, Smithery, NPM, and GitHub registries.
+  - Advanced 188 newly discovered servers to `normalized` and created 32 active recipes.
+  - Total internal catalog database now indexes **8,978 unique MCP servers** under `published_mcp_servers` inside `borg.db`.
+
 ## [1.0.0-alpha.69] - 2026-05-29
 
 ### Added
