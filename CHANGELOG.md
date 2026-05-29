@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.0-alpha.71] - 2026-05-29
+
+### Added
+- **Aggressive Text Ingestion & Integration (Borg Repos, Reprocess Queue, Incoming Resources)**:
+  - Scraped additional online repository listings and raw resources inside `bobbybookmarks` directory.
+  - Successfully extracted **2,078 unique MCP repositories** across multiple raw list files.
+  - Ingested **1,392 new, unique MCP servers** and prunes/consolidated **686 existing servers**.
+  - Generated fallback stdio configurations for all 1,392 newly registered servers.
+  - Consolidated internal catalog database to hold **10,370 total unique MCP servers** under `published_mcp_servers` in `borg.db`.
+
 ## [1.0.0-alpha.70] - 2026-05-29
 
 ### Added
