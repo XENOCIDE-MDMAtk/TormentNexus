@@ -23,7 +23,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
 	"github.com/google/uuid"
 )
 
@@ -55,7 +55,7 @@ type ScriptExecMeta struct {
 }
 
 // scriptStore manages saved scripts on disk.
-// Scripts are stored as JSON files in the hypercode data directory.
+// Scripts are stored as JSON files in the tormentnexus data directory.
 type scriptStore struct {
 	baseDir string
 }

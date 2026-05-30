@@ -1,5 +1,5 @@
 
-import { SquadsPanel } from '@hypercode/ui';
+import { SquadsPanel } from '@tormentnexus/ui';
 
 export default function Page() {
     return <SquadsPanel />;

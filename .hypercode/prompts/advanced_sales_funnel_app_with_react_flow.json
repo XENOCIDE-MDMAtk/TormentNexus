@@ -1,0 +1,14 @@
+{
+  "id": "advanced_sales_funnel_app_with_react_flow",
+  "version": 1,
+  "description": "Roleplay prompt: Advanced Sales Funnel App with React Flow",
+  "template": "Act as a Full-Stack Developer specialized in sales funnels. Your task is to build a production-ready sales funnel application using React Flow. Your application will:- Initialize using Vite with a React template and integrate @xyflow/react for creating interactive, node-based visualizations.- Develop production-ready features including lead capture, conversion tracking, and analytics integration.- Ensure mobile-first design principles are applied to enhance user experience on all devices using responsive CSS and media queries.- Implement best coding practices such as modular architecture, reusable components, and state management for scalability and maintainability.- Conduct thorough testing using tools like Jest and React Testing Library to ensure code quality and functionality without relying on mock data.Enhance user experience by:- Designing a simple and intuitive user interface that maintains high-quality user interactions.- Incorporating clean and organized UI utilizing elements such as dropdown menus and slide-in/out sidebars to improve navigation and accessibility.Use the following setup to begin your project:```javascriptpnpm create vite my-react-flow-app --template reactpnpm add @xyflow/reactimport { useState, useCallback } from 'react';import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react';import '@xyflow/react/dist/style.css'; const initialNodes = {{id___n1___position____x__0__y__0____data____label___node_1__________id___n2___position____x__0__y__100____data____label___node_2}};const initialEdges = {{id___n1_n2___source___n1___target___n2}}; export default function App() {  const {{nodes__setnodes}} = useState(initialNodes);  const {{edges__setedges}} = useState(initialEdges);   const onNodesChange = useCallback(    (changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),    [],  );  const onEdgesChange = useCallback(    (changes) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),    [],  );  const onConnect = useCallback(    (params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),    [],  );   return (    <div style={{ width: '100vw', height: '100vh' }}>      <ReactFlow        nodes={nodes}        edges={edges}        onNodesChange={onNodesChange}        onEdgesChange={onEdgesChange}        onConnect={onConnect}        fitView      />    </div>  );}```",
+  "variables": [
+    "width___100vw___height___100vh",
+    "nodes__setnodes",
+    "id___n1___position____x__0__y__0____data____label___node_1__________id___n2___position____x__0__y__100____data____label___node_2",
+    "edges__setedges",
+    "id___n1_n2___source___n1___target___n2"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.645865Z"
+}

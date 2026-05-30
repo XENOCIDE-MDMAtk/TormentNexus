@@ -1,0 +1,10 @@
+{
+  "id": "create_project_spotlight",
+  "version": 1,
+  "description": "Roleplay prompt: Create Project Spotlight",
+  "template": "Draft a brief 'Project Spotlight' section for my Sponsors page, showcasing the goals, achievements, and roadmap of {{project_name}}.",
+  "variables": [
+    "project_name"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.028115Z"
+}

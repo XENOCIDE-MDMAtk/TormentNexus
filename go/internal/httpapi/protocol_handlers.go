@@ -7,13 +7,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/eventbus"
-	"github.com/hypercodehq/hypercode-go/internal/supervisor"
+	"github.com/tormentnexushq/tormentnexus-go/internal/eventbus"
+	"github.com/tormentnexushq/tormentnexus-go/internal/supervisor"
 )
 
-// handleHypercodeProtocol handles inbound hypercode:// deep links passed from the OS
+// handleTormentNexusProtocol handles inbound tormentnexus:// deep links passed from the OS
 // or client dispatchers.
-func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTormentNexusProtocol(w http.ResponseWriter, r *http.Request) {
 	var rawURL string
 
 	if r.Method == http.MethodPost {
@@ -48,10 +48,10 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Validate scheme
-	if u.Scheme != "hypercode" {
+	if u.Scheme != "tormentnexus" {
 		writeJSON(w, http.StatusBadRequest, map[string]any{
 			"success": false,
-			"error":   "invalid URL scheme; expected hypercode://",
+			"error":   "invalid URL scheme; expected tormentnexus://",
 		})
 		return
 	}
@@ -79,6 +79,13 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 			return
 		}
 
+		if s.supervisorManager == nil {
+			writeJSON(w, http.StatusServiceUnavailable, map[string]any{
+				"success": false,
+				"error":  "session supervisor not available",
+			})
+			return
+		}
 		session, ok := s.supervisorManager.GetSession(sessionID)
 		if !ok {
 			writeJSON(w, http.StatusNotFound, map[string]any{
@@ -89,18 +96,22 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 		}
 
 		// Emit attachment event to SSE and EventBus so frontends focus the session
-		s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
-			"sessionId":        session.ID,
-			"cliType":          session.CliType,
-			"workingDirectory": session.WorkingDirectory,
-			"timestamp":        time.Now().UnixMilli(),
-		})
+		if s.eventBus != nil {
+			s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
+				"sessionId":        session.ID,
+				"cliType":          session.CliType,
+				"workingDirectory": session.WorkingDirectory,
+				"timestamp":        time.Now().UnixMilli(),
+			})
+		}
 
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
-			"action":  "attach",
-			"session": session,
-			"message": "attachment focus signal broadcast successfully",
+			"data": map[string]any{
+				"action":  "attach",
+				"session": session,
+				"message": "attachment focus signal broadcast successfully",
+			},
 		})
 
 	case "create":
@@ -121,6 +132,13 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 		// Fallback command mapping
 		cmd, args := defaultLocalSessionCommand(cliType, nil)
 
+		if s.supervisorManager == nil {
+			writeJSON(w, http.StatusServiceUnavailable, map[string]any{
+				"success": false,
+				"error":  "session supervisor not available",
+			})
+			return
+		}
 		session, createErr := s.supervisorManager.CreateSessionWithOptions(supervisor.CreateSessionOptions{
 			CliType:             cliType,
 			Command:             cmd,
@@ -141,18 +159,22 @@ func (s *Server) handleHypercodeProtocol(w http.ResponseWriter, r *http.Request)
 		_ = s.supervisorManager.StartSession(r.Context(), session.ID)
 
 		// Broadcast new session event
-		s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
-			"sessionId":        session.ID,
-			"cliType":          session.CliType,
-			"workingDirectory": session.WorkingDirectory,
-			"timestamp":        time.Now().UnixMilli(),
-		})
+		if s.eventBus != nil {
+			s.eventBus.EmitEvent(eventbus.SystemEventType("session:attach"), "protocol", map[string]any{
+				"sessionId":        session.ID,
+				"cliType":          session.CliType,
+				"workingDirectory": session.WorkingDirectory,
+				"timestamp":        time.Now().UnixMilli(),
+			})
+		}
 
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
-			"action":  "create",
-			"session": session,
-			"message": "supervised session created and dispatch focus broadcast",
+			"data": map[string]any{
+				"action":  "create",
+				"session": session,
+				"message": "supervised session created and dispatch focus broadcast",
+			},
 		})
 
 	default:

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Full-stack smoke test for Hypercode HYPERCODE
+ * Full-stack smoke test for TormentNexus TORMENTNEXUS
  * Verifies TS server, Go sidecar, and key API endpoints
  */
 const http = require('http');
@@ -43,7 +43,7 @@ async function test(name, fn) {
 }
 
 (async () => {
-  console.log(`\n  Hypercode HYPERCODE Full-Stack Smoke Test\n`);
+  console.log(`\n  TormentNexus TORMENTNEXUS Full-Stack Smoke Test\n`);
   console.log(`  TS: http://127.0.0.1:${TS_PORT}  Go: http://127.0.0.1:${GO_PORT}\n`);
 
   // === TypeScript Server ===

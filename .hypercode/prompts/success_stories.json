@@ -1,0 +1,10 @@
+{
+  "id": "success_stories",
+  "version": 1,
+  "description": "Roleplay prompt: Success Stories",
+  "template": "Write 3-5 brief success stories or testimonials from users who have benefited from {{project_name}}, showing real-world impact.",
+  "variables": [
+    "project_name"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.015884Z"
+}

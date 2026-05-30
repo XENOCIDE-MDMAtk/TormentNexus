@@ -54,7 +54,7 @@ export function isSameServerInstance(
     params: { name?: string; url?: string | null },
     namespaceUuid: string,
 ): boolean {
-    return params.name === `hypercode-unified-${namespaceUuid}`;
+    return params.name === `tormentnexus-unified-${namespaceUuid}`;
 }
 
 async function visitEligibleServers(
@@ -107,11 +107,11 @@ async function visitEligibleServers(
 
             const actualServerName =
                 session.client.getServerVersion()?.name || params.name || '';
-            const ourServerName = `hypercode-unified-${context.namespaceUuid}`;
+            const ourServerName = `tormentnexus-unified-${context.namespaceUuid}`;
 
             if (actualServerName === ourServerName) {
                 console.log(
-                    `Skipping self-referencing Hypercode server in ${logScope}: "${actualServerName}"`,
+                    `Skipping self-referencing TormentNexus server in ${logScope}: "${actualServerName}"`,
                 );
                 return;
             }
@@ -151,7 +151,7 @@ export async function listDownstreamPrompts(options: {
                             _meta: options.meta,
                         },
                     },
-                    ListPromptsResultSchema as unknown as import('zod').ZodType<any>,
+                    ListPromptsResultSchema as any,
                 ),
                 `Prompt discovery for ${serverName}`,
             );
@@ -235,7 +235,7 @@ export async function listDownstreamResources(options: {
                             _meta: options.meta,
                         },
                     },
-                    ListResourcesResultSchema as unknown as import('zod').ZodType<any>,
+                    ListResourcesResultSchema as any,
                 ),
                 `Resource discovery for ${serverName}`,
             );
@@ -312,7 +312,7 @@ export async function listDownstreamResourceTemplates(options: {
                                 _meta: options.meta,
                             },
                         },
-                        ListResourceTemplatesResultSchema as unknown as import('zod').ZodType<any>,
+                        ListResourceTemplatesResultSchema as any,
                     ),
                     `Resource template discovery for ${serverName}`,
                 );

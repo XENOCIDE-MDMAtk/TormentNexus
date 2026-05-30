@@ -4,7 +4,7 @@ package mcp
 	"strings"
  * @module go/internal/mcp
  *
- * WHAT: The Hypercode MCP Decision System — a ranked discovery, auto-load,
+ * WHAT: The TormentNexus MCP Decision System — a ranked discovery, auto-load,
  *       and unified tool search-and-call engine.
  *
  * WHY: Models fail not because tools are missing, but because they face too
@@ -526,7 +526,7 @@ func (ds *DecisionSystem) ListAllTools() *ToolOverview {
 		if t.AlwaysOn {
 			alwaysOn = append(alwaysOn, summary)
 		}
-		if t.Server == "builtin" || t.Server == "hypercode" {
+		if t.Server == "builtin" || t.Server == "tormentnexus" {
 			builtin = append(builtin, summary)
 		}
 	}
@@ -776,12 +776,12 @@ func (ds *DecisionSystem) recordEventLocked(event DecisionEvent) {
 }
 
 func (ds *DecisionSystem) requiresBinary(server string) bool {
-	return server != "builtin" && server != "hypercode"
+	return server != "builtin" && server != "tormentnexus"
 }
 
 func (ds *DecisionSystem) estimateLatency(server string) string {
 	switch server {
-	case "builtin", "hypercode":
+	case "builtin", "tormentnexus":
 		return "<1ms"
 	default:
 		return "50-500ms (spawn on first call)"
@@ -815,108 +815,108 @@ func (ds *DecisionSystem) generateExample(r RankedTool) string {
 // that every model expects, modeled after Claude Code, Codex, Gemini CLI, etc.
 func BuiltinTools() []ToolEntry {
 	return []ToolEntry{
-		{Name: "bash", OriginalName: "bash", Server: "hypercode", AdvertisedName: "hypercode__bash",
+		{Name: "bash", OriginalName: "bash", Server: "tormentnexus", AdvertisedName: "tormentnexus__bash",
 			Description: "Execute a bash command in the working directory. Returns stdout, stderr, and exit code.",
 			AlwaysOn:    true},
-		{Name: "read_file", OriginalName: "read_file", Server: "hypercode", AdvertisedName: "hypercode__read_file",
+		{Name: "read_file", OriginalName: "read_file", Server: "tormentnexus", AdvertisedName: "tormentnexus__read_file",
 			Description: "Read the contents of a file. Supports text files with offset/limit for large files.",
 			AlwaysOn:    true},
-		{Name: "write_file", OriginalName: "write_file", Server: "hypercode", AdvertisedName: "hypercode__write_file",
+		{Name: "write_file", OriginalName: "write_file", Server: "tormentnexus", AdvertisedName: "tormentnexus__write_file",
 			Description: "Write content to a file. Creates the file and parent directories if needed.",
 			AlwaysOn:    true},
-		{Name: "edit_file", OriginalName: "edit_file", Server: "hypercode", AdvertisedName: "hypercode__edit_file",
+		{Name: "edit_file", OriginalName: "edit_file", Server: "tormentnexus", AdvertisedName: "tormentnexus__edit_file",
 			Description: "Make precise edits to a file using exact text replacement. Multiple disjoint edits in one call.",
 			AlwaysOn:    true},
-		{Name: "search_files", OriginalName: "search_files", Server: "hypercode", AdvertisedName: "hypercode__search_files",
+		{Name: "search_files", OriginalName: "search_files", Server: "tormentnexus", AdvertisedName: "tormentnexus__search_files",
 			Description: "Search file contents for a regex pattern. Returns matching lines with file paths and line numbers.",
 			AlwaysOn:    true},
-		{Name: "list_directory", OriginalName: "list_directory", Server: "hypercode", AdvertisedName: "hypercode__list_directory",
+		{Name: "list_directory", OriginalName: "list_directory", Server: "tormentnexus", AdvertisedName: "tormentnexus__list_directory",
 			Description: "List directory contents sorted alphabetically. Returns entries with type indicators.",
 			AlwaysOn:    true},
-		{Name: "find_files", OriginalName: "find_files", Server: "hypercode", AdvertisedName: "hypercode__find_files",
+		{Name: "find_files", OriginalName: "find_files", Server: "tormentnexus", AdvertisedName: "tormentnexus__find_files",
 			Description: "Search for files by glob pattern. Returns matching file paths relative to the search directory.",
 			AlwaysOn:    true},
 
 		// Codex-compatible aliases
-		{Name: "shell", OriginalName: "shell", Server: "hypercode", AdvertisedName: "hypercode__shell",
+		{Name: "shell", OriginalName: "shell", Server: "tormentnexus", AdvertisedName: "tormentnexus__shell",
 			Description: "Execute a shell command. Codex-compatible alias for bash.",
 			AlwaysOn:    true},
-		{Name: "codex_apply_patch", OriginalName: "apply_patch", Server: "hypercode", AdvertisedName: "hypercode__apply_patch",
+		{Name: "codex_apply_patch", OriginalName: "apply_patch", Server: "tormentnexus", AdvertisedName: "tormentnexus__apply_patch",
 			Description: "Apply a unified diff patch to a file. Codex-compatible.",
 			AlwaysOn:    true},
 
 		// Claude Code-compatible aliases
-		{Name: "cat", OriginalName: "cat", Server: "hypercode", AdvertisedName: "hypercode__cat",
+		{Name: "cat", OriginalName: "cat", Server: "tormentnexus", AdvertisedName: "tormentnexus__cat",
 			Description: "Display file contents. Claude Code-compatible alias for read_file.",
 			AlwaysOn:    true},
-		{Name: "sed", OriginalName: "sed", Server: "hypercode", AdvertisedName: "hypercode__sed",
+		{Name: "sed", OriginalName: "sed", Server: "tormentnexus", AdvertisedName: "tormentnexus__sed",
 			Description: "Stream editor for file transformations. Claude Code-compatible.",
 			AlwaysOn:    true},
-		{Name: "grep", OriginalName: "grep", Server: "hypercode", AdvertisedName: "hypercode__grep",
+		{Name: "grep", OriginalName: "grep", Server: "tormentnexus", AdvertisedName: "tormentnexus__grep",
 			Description: "Search file contents for patterns. Claude Code-compatible alias for search_files.",
 			AlwaysOn:    true},
-		{Name: "ls", OriginalName: "ls", Server: "hypercode", AdvertisedName: "hypercode__ls",
+		{Name: "ls", OriginalName: "ls", Server: "tormentnexus", AdvertisedName: "tormentnexus__ls",
 			Description: "List directory contents. Claude Code-compatible alias for list_directory.",
 			AlwaysOn:    true},
-		{Name: "find", OriginalName: "find", Server: "hypercode", AdvertisedName: "hypercode__find",
+		{Name: "find", OriginalName: "find", Server: "tormentnexus", AdvertisedName: "tormentnexus__find",
 			Description: "Find files by pattern. Claude Code-compatible alias for find_files.",
 			AlwaysOn:    true},
 
 		// Gemini CLI-compatible
-		{Name: "run_command", OriginalName: "run_command", Server: "hypercode", AdvertisedName: "hypercode__run_command",
+		{Name: "run_command", OriginalName: "run_command", Server: "tormentnexus", AdvertisedName: "tormentnexus__run_command",
 			Description: "Execute a command and return output. Gemini CLI-compatible.",
 			AlwaysOn:    true},
-		{Name: "read_many_files", OriginalName: "read_many_files", Server: "hypercode", AdvertisedName: "hypercode__read_many_files",
+		{Name: "read_many_files", OriginalName: "read_many_files", Server: "tormentnexus", AdvertisedName: "tormentnexus__read_many_files",
 			Description: "Read multiple files at once. Gemini CLI-compatible.",
 			AlwaysOn:    true},
 
 		// Copilot CLI-compatible
-		{Name: "execute_command", OriginalName: "execute_command", Server: "hypercode", AdvertisedName: "hypercode__execute_command",
+		{Name: "execute_command", OriginalName: "execute_command", Server: "tormentnexus", AdvertisedName: "tormentnexus__execute_command",
 			Description: "Execute a shell command with optional timeout. Copilot CLI-compatible.",
 			AlwaysOn:    true},
-		{Name: "get_file_content", OriginalName: "get_file_content", Server: "hypercode", AdvertisedName: "hypercode__get_file_content",
+		{Name: "get_file_content", OriginalName: "get_file_content", Server: "tormentnexus", AdvertisedName: "tormentnexus__get_file_content",
 			Description: "Get the content of a file. Copilot CLI-compatible.",
 			AlwaysOn:    true},
 
 		// Cursor-compatible
-		{Name: "codebase_search", OriginalName: "codebase_search", Server: "hypercode", AdvertisedName: "hypercode__codebase_search",
+		{Name: "codebase_search", OriginalName: "codebase_search", Server: "tormentnexus", AdvertisedName: "tormentnexus__codebase_search",
 			Description: "Semantic code search across the codebase. Cursor-compatible.",
 			AlwaysOn:    true},
-		{Name: "read_file_block", OriginalName: "read_file_block", Server: "hypercode", AdvertisedName: "hypercode__read_file_block",
+		{Name: "read_file_block", OriginalName: "read_file_block", Server: "tormentnexus", AdvertisedName: "tormentnexus__read_file_block",
 			Description: "Read a specific line range from a file. Cursor-compatible.",
 			AlwaysOn:    true},
 
 		// Meta-tools (the permanent decision system surface)
-		{Name: "search_tools", OriginalName: "search_tools", Server: "hypercode", AdvertisedName: "hypercode__search_tools",
+		{Name: "search_tools", OriginalName: "search_tools", Server: "tormentnexus", AdvertisedName: "tormentnexus__search_tools",
 			Description: "Search the tool catalog by keyword. Returns ranked, compact results with match reasons.",
 			AlwaysOn:    true},
-		{Name: "call_tool", OriginalName: "call_tool", Server: "hypercode", AdvertisedName: "hypercode__call_tool",
+		{Name: "call_tool", OriginalName: "call_tool", Server: "tormentnexus", AdvertisedName: "tormentnexus__call_tool",
 			Description: "Call any tool by name. Auto-loads if not yet loaded. Combined search-and-call.",
 			AlwaysOn:    true},
-		{Name: "load_tool", OriginalName: "load_tool", Server: "hypercode", AdvertisedName: "hypercode__load_tool",
+		{Name: "load_tool", OriginalName: "load_tool", Server: "tormentnexus", AdvertisedName: "tormentnexus__load_tool",
 			Description: "Load a tool into the active working set. Required before calling tools not yet loaded.",
 			AlwaysOn:    true},
-		{Name: "list_loaded_tools", OriginalName: "list_loaded_tools", Server: "hypercode", AdvertisedName: "hypercode__list_loaded_tools",
+		{Name: "list_loaded_tools", OriginalName: "list_loaded_tools", Server: "tormentnexus", AdvertisedName: "tormentnexus__list_loaded_tools",
 			Description: "List all currently loaded tools with usage stats.",
 			AlwaysOn:    true},
-		{Name: "unload_tool", OriginalName: "unload_tool", Server: "hypercode", AdvertisedName: "hypercode__unload_tool",
+		{Name: "unload_tool", OriginalName: "unload_tool", Server: "tormentnexus", AdvertisedName: "tormentnexus__unload_tool",
 			Description: "Unload a tool from the active working set to free context.",
 			AlwaysOn:    true},
 
 		// Repograph-native tools
-		{Name: "repograph_build", OriginalName: "repograph_build", Server: "hypercode", AdvertisedName: "hypercode__repograph_build",
+		{Name: "repograph_build", OriginalName: "repograph_build", Server: "tormentnexus", AdvertisedName: "tormentnexus__repograph_build",
 			Description: "Build or rebuild the repository dependency graph. Triggers a full scan of source files.",
 			AlwaysOn:    true},
-		{Name: "repograph_get", OriginalName: "repograph_get", Server: "hypercode", AdvertisedName: "hypercode__repograph_get",
+		{Name: "repograph_get", OriginalName: "repograph_get", Server: "tormentnexus", AdvertisedName: "tormentnexus__repograph_get",
 			Description: "Get the current repository graph structure and statistics.",
 			AlwaysOn:    true},
-		{Name: "repograph_find_references", OriginalName: "repograph_find_references", Server: "hypercode", AdvertisedName: "hypercode__repograph_find_references",
+		{Name: "repograph_find_references", OriginalName: "repograph_find_references", Server: "tormentnexus", AdvertisedName: "tormentnexus__repograph_find_references",
 			Description: "Find all references to a specific code symbol (function, type, interface) in the repository.",
 			AlwaysOn:    true},
-		{Name: "repograph_find_dependents", OriginalName: "repograph_find_dependents", Server: "hypercode", AdvertisedName: "hypercode__repograph_find_dependents",
+		{Name: "repograph_find_dependents", OriginalName: "repograph_find_dependents", Server: "tormentnexus", AdvertisedName: "tormentnexus__repograph_find_dependents",
 			Description: "Find all files that depend on or import a given source file.",
 			AlwaysOn:    true},
-		{Name: "repograph_search", OriginalName: "repograph_search", Server: "hypercode", AdvertisedName: "hypercode__repograph_search",
+		{Name: "repograph_search", OriginalName: "repograph_search", Server: "tormentnexus", AdvertisedName: "tormentnexus__repograph_search",
 			Description: "Search for symbols across the repository using the native Go repograph engine.",
 			AlwaysOn:    true},
 	}

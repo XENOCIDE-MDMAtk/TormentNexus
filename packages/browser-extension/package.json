@@ -1,7 +1,7 @@
 {
-  "name": "@hypercode/browser-extension-pkg",
-  "version": "1.0.0-alpha.64",
-  "description": "hypercode Browser Extension for Hub Connectivity",
+  "name": "@tormentnexus/browser-extension-pkg",
+  "version": "1.0.0-alpha.80",
+  "description": "tormentnexus Browser Extension for Hub Connectivity",
   "scripts": {
     "build": "echo \"stub package\"",
     "dev": "vite build --watch --emptyOutDir false --clearScreen false"

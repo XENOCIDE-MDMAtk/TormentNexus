@@ -1,0 +1,8 @@
+{
+  "id": "manim_code",
+  "version": 1,
+  "description": "Roleplay prompt: Manim Code",
+  "template": "Your task to create a manim code that will explain the chain rule in easy way",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.706703Z"
+}

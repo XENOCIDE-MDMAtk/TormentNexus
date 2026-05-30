@@ -3,7 +3,7 @@
 
 ## Version Sync Checklist
 
-When bumping hypercode, update every active product-facing version reference below in the same change set. This list was refreshed during the `1.0.0-alpha.1` normalization pass to match the files that were actually updated.
+When bumping tormentnexus, update every active product-facing version reference below in the same change set. This list was refreshed during the `1.0.0-alpha.1` normalization pass to match the files that were actually updated.
 
 ### 1. Canonical version files
 - `VERSION`
@@ -14,7 +14,7 @@ When bumping hypercode, update every active product-facing version reference bel
 - `package.json`
 
 ### 3. App package manifests
-- `apps/hypercode-extension/package.json`
+- `apps/tormentnexus-extension/package.json`
 - `apps/vscode/package.json`
 - `apps/web/package.json`
 
@@ -22,7 +22,7 @@ When bumping hypercode, update every active product-facing version reference bel
 - `packages/adk/package.json`
 - `packages/agents/package.json`
 - `packages/ai/package.json`
-- `packages/hypercode-supervisor/package.json`
+- `packages/tormentnexus-supervisor/package.json`
 - `packages/browser/package.json`
 - `packages/browser-extension/package.json`
 - `packages/cli/package.json`

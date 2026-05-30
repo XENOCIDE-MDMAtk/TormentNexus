@@ -1,7 +1,7 @@
 # Go Foundation Assimilation Plan
 
 ## Goal
-Deliver a Go-native harness that can truthfully grow from a Pi-derived foundation into a superior, assimilated coding platform integrated with Hypercode and Hypercode.
+Deliver a Go-native harness that can truthfully grow from a Pi-derived foundation into a superior, assimilated coding platform integrated with TormentNexus and TormentNexus.
 
 ## Workstreams
 
@@ -41,8 +41,8 @@ Deliver a Go-native harness that can truthfully grow from a Pi-derived foundatio
 - [ ] Remote-control / detached session UX
 - [ ] Structured plan/execution state
 
-### Workstream 5: Hypercode integration
-- [x] Initial Hypercode/Hypercode adapter seam with status/config visibility
+### Workstream 5: TormentNexus integration
+- [x] Initial TormentNexus/TormentNexus adapter seam with status/config visibility
 - [x] Initial provider adapter seam with config/env visibility
 - [x] Initial provider-route selection seam
 - [x] Initial provider execution-preparation seam
@@ -100,14 +100,14 @@ Deliver a Go-native harness that can truthfully grow from a Pi-derived foundatio
 - [ ] multiple edit modes
 - [ ] verification-aware edit pipeline
 
-### Milestone 3: Hypercode-native substrate
-- [x] first adapter seam for Hypercode memory/MCP config visibility
+### Milestone 3: TormentNexus-native substrate
+- [x] first adapter seam for TormentNexus memory/MCP config visibility
 - [x] first provider visibility seam
 - [x] first provider-route selection seam
 - [x] first MCP discovery/startup seam
-- [ ] provider routing via Hypercode
-- [ ] MCP inventory/runtime via Hypercode
-- [ ] memory/session continuity via Hypercode
+- [ ] provider routing via TormentNexus
+- [ ] MCP inventory/runtime via TormentNexus
+- [ ] memory/session continuity via TormentNexus
 - [ ] operator observability hooks
 
 ### Milestone 4: Orchestrator-grade autonomy
@@ -125,6 +125,6 @@ Deliver a Go-native harness that can truthfully grow from a Pi-derived foundatio
 
 ## Decision Log
 - Go is the foundation language.
-- Hypercode remains the control-plane substrate.
+- TormentNexus remains the control-plane substrate.
 - Exact tool contracts are explicit data, not implied implementation.
 - Current phase optimizes for truthful architecture and future velocity, not false claims of immediate full parity.

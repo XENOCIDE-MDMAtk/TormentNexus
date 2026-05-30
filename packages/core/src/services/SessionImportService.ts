@@ -6,7 +6,7 @@ import path from 'path';
 import Database from 'better-sqlite3';
 import fg from 'fast-glob';
 
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@tormentnexus/ai';
 import { formatOptionalSqliteFailure, isSqliteUnavailableError } from '../db/sqliteAvailability.js';
 
 import AgentMemoryService from './AgentMemoryService.js';
@@ -565,9 +565,9 @@ function extractWorkingDirectory(metadata: Record<string, unknown>): string | nu
     return null;
 }
 
-function buildPrismLedgerTranscript(row: Record<string, unknown>): string {
+function buildTormentNexusLedgerTranscript(row: Record<string, unknown>): string {
     const lines = [
-        `Prism session ledger for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
+        `TormentNexus session ledger for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
         typeof row.summary === 'string' ? row.summary : '',
     ];
 
@@ -614,9 +614,9 @@ function buildPrismLedgerTranscript(row: Record<string, unknown>): string {
     return lines.filter(Boolean).join('\n');
 }
 
-function buildPrismHandoffTranscript(row: Record<string, unknown>): string {
+function buildTormentNexusHandoffTranscript(row: Record<string, unknown>): string {
     const lines = [
-        `Prism handoff for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
+        `TormentNexus handoff for project ${sanitizeSentence(String(row.project ?? 'default'), 120)}`,
         typeof row.last_summary === 'string' ? row.last_summary : '',
         typeof row.key_context === 'string' ? row.key_context : '',
     ];
@@ -744,12 +744,12 @@ export class SessionImportService {
         this.memoryService = memoryService;
         this.workspaceRoot = workspaceRoot;
         this.store = options.store ?? new ImportedSessionStore(
-            path.join(this.workspaceRoot, '.hypercode', 'imported_sessions', 'archive'),
+            path.join(this.workspaceRoot, '.tormentnexus', 'imported_sessions', 'archive'),
         );
         this.includeHomeDirectories = options.includeHomeDirectories ?? true;
         this.importIntervalMs = options.importIntervalMs ?? DEFAULT_SCAN_INTERVAL_MS;
         this.maxFilesPerRoot = options.maxFilesPerRoot ?? DEFAULT_MAX_FILES_PER_ROOT;
-        this.docsDir = path.join(this.workspaceRoot, '.hypercode', 'imported_sessions', 'docs');
+        this.docsDir = path.join(this.workspaceRoot, '.tormentnexus', 'imported_sessions', 'docs');
 
         if (typeof (this.store as ImportedSessionStore & { compactInlineTranscripts?: unknown }).compactInlineTranscripts === 'function') {
             try {
@@ -991,8 +991,8 @@ export class SessionImportService {
                 fileNameHints: ['openai', 'chatgpt', 'conversation', 'history', 'export', 'session', 'messages'],
             },
             {
-                sourceTool: 'hypercode',
-                roots: [path.join(this.workspaceRoot, '.hypercode')],
+                sourceTool: 'tormentnexus',
+                roots: [path.join(this.workspaceRoot, '.tormentnexus')],
                 filePatterns: ['**/*.{md,txt,log,json,jsonl}'],
                 fileNameHints: ['session', 'memory', 'handoff', 'history'],
             },
@@ -1112,8 +1112,8 @@ export class SessionImportService {
                 importAllFiles: true,
             },
             {
-                sourceTool: 'hypercode',
-                roots: [path.join(homeDir, '.hypercode')],
+                sourceTool: 'tormentnexus',
+                roots: [path.join(homeDir, '.tormentnexus')],
                 filePatterns: ['**/*.{md,txt,log,json,jsonl}'],
                 fileNameHints: ['session', 'memory', 'handoff', 'history'],
             },
@@ -1226,7 +1226,7 @@ export class SessionImportService {
             }
         }
 
-        for (const candidate of await this.discoverPrismDatabaseCandidates()) {
+        for (const candidate of await this.discoverTormentNexusDatabaseCandidates()) {
             discovered.set(candidate.sourcePath, candidate);
         }
 
@@ -1308,10 +1308,10 @@ export class SessionImportService {
         return candidates;
     }
 
-    private async discoverPrismDatabaseCandidates(): Promise<DiscoveryCandidate[]> {
+    private async discoverTormentNexusDatabaseCandidates(): Promise<DiscoveryCandidate[]> {
         const roots = [
-            path.join(this.workspaceRoot, '.prism-mcp', 'data.db'),
-            this.includeHomeDirectories ? path.join(os.homedir(), '.prism-mcp', 'data.db') : null,
+            path.join(this.workspaceRoot, '.tormentnexus-mcp', 'data.db'),
+            this.includeHomeDirectories ? path.join(os.homedir(), '.tormentnexus-mcp', 'data.db') : null,
         ].filter((root): root is string => Boolean(root));
 
         const discovered: DiscoveryCandidate[] = [];
@@ -1323,10 +1323,10 @@ export class SessionImportService {
             }
 
             try {
-                const prismDb = new Database(dbPath, { readonly: true, fileMustExist: true });
+                const tormentnexusDb = new Database(dbPath, { readonly: true, fileMustExist: true });
 
                 try {
-                    const ledgerRows = prismDb
+                    const ledgerRows = tormentnexusDb
                         .prepare('SELECT * FROM session_ledger ORDER BY datetime(created_at) DESC LIMIT ?')
                         .all(this.maxFilesPerRoot) as Array<Record<string, unknown>>;
 
@@ -1338,29 +1338,29 @@ export class SessionImportService {
                         if (seen.has(sourcePath)) continue;
                         seen.add(sourcePath);
 
-                        const transcript = buildPrismLedgerTranscript(row).trim();
+                        const transcript = buildTormentNexusLedgerTranscript(row).trim();
                         if (!transcript) continue;
 
                         const metadata: Record<string, unknown> = {
-                            prismProject: row.project,
-                            prismRole: row.role,
-                            prismTable: 'session_ledger',
-                            prismConversationId: row.conversation_id,
-                            prismEventType: typeof row.event_type === 'string' && row.event_type.trim()
+                            tormentnexusProject: row.project,
+                            tormentnexusRole: row.role,
+                            tormentnexusTable: 'session_ledger',
+                            tormentnexusConversationId: row.conversation_id,
+                            tormentnexusEventType: typeof row.event_type === 'string' && row.event_type.trim()
                                 ? row.event_type
                                 : 'session',
-                            prismConfidenceScore: typeof row.confidence_score === 'number' && Number.isFinite(row.confidence_score)
+                            tormentnexusConfidenceScore: typeof row.confidence_score === 'number' && Number.isFinite(row.confidence_score)
                                 ? row.confidence_score
                                 : null,
-                            prismImportance: typeof row.importance === 'number' && Number.isFinite(row.importance)
+                            tormentnexusImportance: typeof row.importance === 'number' && Number.isFinite(row.importance)
                                 ? row.importance
                                 : 0,
                         };
 
                         if (
-                            metadata.prismEventType === 'correction'
-                            && typeof metadata.prismImportance === 'number'
-                            && metadata.prismImportance >= 3
+                            metadata.tormentnexusEventType === 'correction'
+                            && typeof metadata.tormentnexusImportance === 'number'
+                            && metadata.tormentnexusImportance >= 3
                             && typeof row.summary === 'string'
                             && row.summary.trim()
                         ) {
@@ -1368,9 +1368,9 @@ export class SessionImportService {
                         }
 
                         discovered.push({
-                            sourceTool: 'prism-mcp',
+                            sourceTool: 'tormentnexus-mcp',
                             sourcePath,
-                            sessionFormat: 'prism-ledger',
+                            sessionFormat: 'tormentnexus-ledger',
                             lastModifiedAt: toTimestampMs(row.created_at),
                             externalSessionId: typeof row.conversation_id === 'string' && row.conversation_id.trim()
                                 ? row.conversation_id
@@ -1378,17 +1378,17 @@ export class SessionImportService {
                             transcript,
                             title: typeof row.summary === 'string' && row.summary.trim()
                                 ? sanitizeSentence(row.summary, 120)
-                                : `Prism ledger ${id}`,
+                                : `TormentNexus ledger ${id}`,
                             workingDirectory: path.dirname(dbPath),
                             metadata,
                         });
                     }
                 } catch {
-                    // Table may not exist yet in a freshly initialized Prism install.
+                    // Table may not exist yet in a freshly initialized TormentNexus install.
                 }
 
                 try {
-                    const handoffRows = prismDb
+                    const handoffRows = tormentnexusDb
                         .prepare('SELECT * FROM session_handoffs ORDER BY datetime(COALESCE(updated_at, created_at)) DESC LIMIT ?')
                         .all(this.maxFilesPerRoot) as Array<Record<string, unknown>>;
 
@@ -1400,37 +1400,37 @@ export class SessionImportService {
                         if (seen.has(sourcePath)) continue;
                         seen.add(sourcePath);
 
-                        const transcript = buildPrismHandoffTranscript(row).trim();
+                        const transcript = buildTormentNexusHandoffTranscript(row).trim();
                         if (!transcript) continue;
 
                         const parsedMetadata = parseJsonRecord(row.metadata);
                         const metadata = {
-                            prismProject: project,
-                            prismTable: 'session_handoffs',
-                            prismVersion: row.version,
+                            tormentnexusProject: project,
+                            tormentnexusTable: 'session_handoffs',
+                            tormentnexusVersion: row.version,
                             ...parsedMetadata,
                         };
 
                         discovered.push({
-                            sourceTool: 'prism-mcp',
+                            sourceTool: 'tormentnexus-mcp',
                             sourcePath,
-                            sessionFormat: 'prism-handoff',
+                            sessionFormat: 'tormentnexus-handoff',
                             lastModifiedAt: toTimestampMs(row.updated_at) ?? toTimestampMs(row.created_at),
                             externalSessionId: `handoff:${project}`,
                             transcript,
-                            title: `Prism handoff ${project}`,
+                            title: `TormentNexus handoff ${project}`,
                             workingDirectory: extractWorkingDirectory(parsedMetadata) ?? path.dirname(dbPath),
                             metadata,
                         });
                     }
                 } catch {
-                    // Table may not exist in minimal Prism setups.
+                    // Table may not exist in minimal TormentNexus setups.
                 }
 
-                prismDb.close();
+                tormentnexusDb.close();
             } catch (error) {
                 console.warn(formatOptionalSqliteFailure(
-                    `[SessionImport] Failed to inspect Prism database at ${dbPath}`,
+                    `[SessionImport] Failed to inspect TormentNexus database at ${dbPath}`,
                     error,
                 ));
             }
@@ -1640,8 +1640,8 @@ export class SessionImportService {
     private isGeneratedImportPath(filePath: string): boolean {
         const normalizedPath = path.resolve(filePath).toLowerCase();
         const ignoredRoots = [
-            path.join(this.workspaceRoot, '.hypercode', 'imported_sessions'),
-            path.join(os.homedir(), '.hypercode', 'imported_sessions'),
+            path.join(this.workspaceRoot, '.tormentnexus', 'imported_sessions'),
+            path.join(os.homedir(), '.tormentnexus', 'imported_sessions'),
         ]
             .map((root) => path.resolve(root).toLowerCase());
 
@@ -1859,7 +1859,7 @@ export class SessionImportService {
         }
 
         const prompt = `
-You are Hypercode's session-import memory extractor and archive-retention analyst.
+You are TormentNexus's session-import memory extractor and archive-retention analyst.
 Given an imported transcript from ${session.sourceTool}, extract up to 6 durable technical memories or operator instructions and summarize what should remain archive-only.
 Project context:
 - working directory: ${session.workingDirectory}
@@ -1870,7 +1870,7 @@ Return JSON only as an object:
 {
   "memories": [
     {
-      "fact": "Use port 4000 for the Hypercode control plane.",
+      "fact": "Use port 4000 for the TormentNexus control plane.",
       "tags": ["networking", "runtime"],
       "kind": "instruction"
     }

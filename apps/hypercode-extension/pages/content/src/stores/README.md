@@ -1,7 +1,7 @@
 # Zustand State Management Stores
 
-This directory contains all Zustand state management stores for the Hypercode-Extension content script. The stores provide centralized, reactive, and type-safe state management with optimal performance characteristics.
-This directory contains all Zustand state management stores for the hypercode-Extension content script. The stores provide centralized, reactive, and type-safe state management with optimal performance characteristics.
+This directory contains all Zustand state management stores for the TormentNexus-Extension content script. The stores provide centralized, reactive, and type-safe state management with optimal performance characteristics.
+This directory contains all Zustand state management stores for the tormentnexus-Extension content script. The stores provide centralized, reactive, and type-safe state management with optimal performance characteristics.
 
 ## Overview
 

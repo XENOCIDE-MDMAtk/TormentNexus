@@ -1,0 +1,8 @@
+{
+  "id": "designing_a_feature_testing_page_for_enterprise_wechatdingtalk",
+  "version": 1,
+  "description": "Roleplay prompt: Designing a Feature Testing Page for Enterprise WeChat/DingTalk",
+  "template": "---name: designing-a-feature-testing-page-for-enterprise-wechatdingtalkdescription: Create a feature testing page design for Enterprise WeChat/DingTalk focusing on address book management, calendar/schedule management, and message sending/receiving. The design should be user-friendly, sleek, and have a technological appeal.---# Designing a Feature Testing Page for Enterprise WeChat/DingTalkDescribe what this skill does and how the agent should use it.## Instructions- Step 1: ...- Step 2: ...",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.424643Z"
+}

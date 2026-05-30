@@ -1,8 +1,8 @@
 /**
  * Adapter Plugins Export Module
  *
- * This file exports all available adapter plugins for the Hypercode-Extension.
- * This file exports all available adapter plugins for the hypercode-Extension.
+ * This file exports all available adapter plugins for the TormentNexus-Extension.
+ * This file exports all available adapter plugins for the tormentnexus-Extension.
  */
 
 export { BaseAdapterPlugin } from './base.adapter';

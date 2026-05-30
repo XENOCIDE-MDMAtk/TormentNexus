@@ -1,7 +1,7 @@
 # Plugin System Core
 
-This directory contains the core components for the Hypercode-Extension's plugin architecture, implementing a modern Zustand-based system for extensible website adapters.
-This directory contains the core components for the hypercode-Extension's plugin architecture, implementing a modern Zustand-based system for extensible website adapters.
+This directory contains the core components for the TormentNexus-Extension's plugin architecture, implementing a modern Zustand-based system for extensible website adapters.
+This directory contains the core components for the tormentnexus-Extension's plugin architecture, implementing a modern Zustand-based system for extensible website adapters.
 
 ## Overview
 

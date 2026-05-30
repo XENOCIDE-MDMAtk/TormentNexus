@@ -754,8 +754,8 @@ onMessage('mcp:save-context', async ({ data }) => {
     const memoryPayload = {
       text: content,
       title: name || sourceTitle,
-      project: 'hypercode-browser-memory',
-      project: 'hypercode-browser-memory',
+      project: 'tormentnexus-browser-memory',
+      project: 'tormentnexus-browser-memory',
       metadata: {
         source,
         url: sourceUrl,
@@ -860,7 +860,7 @@ onMessage('mcp:ingest-history', async ({ data }) => {
   try {
     const historyItems = await chrome.history.search({ text: '', maxResults: limit });
     
-    // Send to Hypercode core
+    // Send to TormentNexus core
     const response = await fetch(`${serverUrl}/api/memory/add-history`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

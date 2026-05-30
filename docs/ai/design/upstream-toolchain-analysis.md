@@ -2,7 +2,7 @@
 
 This document is the current clean-room reference map for the imported toolchains. It is intended to guide feature assimilation and architectural borrowing without creating hidden dependency on upstream repos.
 
-## Hypercode
+## TormentNexus
 - **Role**: local-first control plane
 - **Best traits**: MCP aggregation, provider routing, session import, memory substrate, runtime observability
 - **Assimilation guidance**: treat as the substrate for routing, memory, MCP, and operator truth; do not duplicate these concerns inside the new harness unless reliability requires it.
@@ -31,7 +31,7 @@ This document is the current clean-room reference map for the imported toolchain
 ## Azure AI CLI
 - **Role**: cloud/enterprise provider integration
 - **Best traits**: Azure auth and deployment flows
-- **Assimilation guidance**: expose through Hypercode/provider adapters rather than as primary harness behavior.
+- **Assimilation guidance**: expose through TormentNexus/provider adapters rather than as primary harness behavior.
 
 ## Bito CLI
 - **Role**: engineering context layer
@@ -41,7 +41,7 @@ This document is the current clean-room reference map for the imported toolchain
 ## ByteRover CLI
 - **Role**: portable memory system
 - **Best traits**: persistent memory, curation, retrieval
-- **Assimilation guidance**: pair its memory ideas with Hypercode’s local-first memory substrate.
+- **Assimilation guidance**: pair its memory ideas with TormentNexus’s local-first memory substrate.
 
 ## Claude Code mirror / templates
 - **Role**: behavior reference and workflow templates
@@ -76,7 +76,7 @@ This document is the current clean-room reference map for the imported toolchain
 ## Gemini CLI
 - **Role**: Google-integrated coding CLI
 - **Best traits**: provider integration and subscription flow
-- **Assimilation guidance**: bridge auth and model surfaces via Hypercode/provider adapters.
+- **Assimilation guidance**: bridge auth and model surfaces via TormentNexus/provider adapters.
 
 ## Goose
 - **Role**: high-quality agent core
@@ -111,7 +111,7 @@ This document is the current clean-room reference map for the imported toolchain
 ## LiteLLM
 - **Role**: provider normalization/router
 - **Best traits**: broad compatibility and normalization
-- **Assimilation guidance**: overlap heavily with Hypercode; assimilate only gaps, avoid duplicate routing stacks.
+- **Assimilation guidance**: overlap heavily with TormentNexus; assimilate only gaps, avoid duplicate routing stacks.
 
 ## Llamafile
 - **Role**: local model packaging/runtime distribution
@@ -151,7 +151,7 @@ This document is the current clean-room reference map for the imported toolchain
 ## Smithery CLI
 - **Role**: MCP discovery/install ecosystem tool
 - **Best traits**: discovery and install UX for MCP servers
-- **Assimilation guidance**: complement Hypercode runtime truth with better operator discovery UX.
+- **Assimilation guidance**: complement TormentNexus runtime truth with better operator discovery UX.
 
 ## Synthesis
 The overall direction is clear:
@@ -160,4 +160,4 @@ The overall direction is clear:
 - **OpenCode** defines the modern benchmark to beat.
 - **Goose** and **Crush** demonstrate what good native architecture and UX look like.
 - **Factory** and **Grok CLI** define the detached/autonomous frontier.
-- **Hypercode** should stay the control-plane substrate.
+- **TormentNexus** should stay the control-plane substrate.

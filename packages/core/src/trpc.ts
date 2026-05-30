@@ -76,7 +76,7 @@ export const appRouter = t.router({
     graph: graphRouter,
     workflow: workflowRouter,
     tests: testsRouter,
-    hypercodeContext: contextRouter,
+    tormentnexusContext: contextRouter,
     commands: commandsRouter,
     symbols: symbolsRouter,
     autoDev: autoDevRouter,

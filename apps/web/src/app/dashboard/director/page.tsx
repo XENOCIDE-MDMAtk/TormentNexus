@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
-import { Badge } from "@hypercode/ui";
-import { ScrollArea } from "@hypercode/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@tormentnexus/ui";
+import { Badge } from "@tormentnexus/ui";
+import { ScrollArea } from "@tormentnexus/ui";
 import { useState, useEffect } from "react";
 import { BrainCircuit, GitBranch, Shield, Zap } from "lucide-react";
 import { trpc } from '@/utils/trpc';

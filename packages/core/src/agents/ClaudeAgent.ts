@@ -1,5 +1,5 @@
 
-import { LLMService, IAgent } from "@hypercode/ai";
+import { LLMService, IAgent } from "@tormentnexus/ai";
 import { PromptRegistry } from "../prompts/PromptRegistry.js";
 import { EventEmitter } from 'events';
 

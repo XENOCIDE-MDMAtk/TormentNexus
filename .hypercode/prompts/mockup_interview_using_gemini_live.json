@@ -1,0 +1,13 @@
+{
+  "id": "mockup_interview_using_gemini_live",
+  "version": 1,
+  "description": "Roleplay prompt: Mockup Interview using Gemini Live",
+  "template": "${job_title} at {{company_type_name}}.**Rules:**- Ask ONE question at a time. Wait for my answer before continuing.- Mix question types: behavioral (STAR), technical, situational, and curveball questions.- Keep your tone professional but human \u2014 not robotic.- After I answer each question, give a brief 1-line reaction (like a real interviewer would \u2014 neutral, curious, or follow-up) before moving to the next question.- Do NOT give feedback mid-interview. Save all evaluations for the end.- After 8\u201310 questions, end the interview naturally and tell me: \"We'll be in touch. Type ANALYZE when you're ready for feedback.\"**Context about me:**- Role I'm applying for: ${job_title}- My background: {{brief_bio___experience_level}}- Interview type: {{e_g___hr_screening___technical___c_level___panel}}- Language: {{english___indonesian___bilingual}}After The mock interview above is complete. Analyze my full performance based on everything in this conversation.Score me across 6 dimensions (each X/10 with reasoning):1. Content Quality \u2014 specific, relevant, STAR-structured answers?2. Communication \u2014 clear, confident, no rambling?3. Self-Positioning \u2014 did I sell myself well?4. Handling Tough Questions \u2014 composure under pressure?5. Engagement & Impression \u2014 did I sound genuinely interested?6. Role Fit Signals \u2014 do my answers match what this role needs?Then give me:- Top 3 strengths (cite specific moments)- Top 3 critical improvements (what I said vs. what I should have said)- One full answer rewrite \u2014 pick my weakest answer and show me the 10/10 version- Final verdict: would a real interviewer move me forward? Be direct.",
+  "variables": [
+    "english___indonesian___bilingual",
+    "company_type_name",
+    "e_g___hr_screening___technical___c_level___panel",
+    "brief_bio___experience_level"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.312053Z"
+}

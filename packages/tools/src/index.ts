@@ -1,6 +1,6 @@
-// @hypercode/tools — runtime-safe class stubs with full surface area
-// Provides class stubs that @hypercode/core uses as both types and values.
-// Real implementations live in @hypercode/core runtime.
+// @tormentnexus/tools — runtime-safe class stubs with full surface area
+// Provides class stubs that @tormentnexus/core uses as both types and values.
+// Real implementations live in @tormentnexus/core runtime.
 
 // Tool shape for iterable tool groups
 export interface ToolDefinition {
@@ -15,7 +15,7 @@ function defTool(name: string, description: string, handler: (args: any) => Prom
   return { name, description, inputSchema: { type: 'object', properties: {} }, handler };
 }
 
-// ── Classes (used with `new` in @hypercode/core) ────────────────────────────────
+// ── Classes (used with `new` in @tormentnexus/core) ────────────────────────────────
 
 export class BrowserTool {
   async execute(_input: any): Promise<any> { return { result: '[BrowserTool stub]' }; }

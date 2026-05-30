@@ -593,9 +593,9 @@ class KimiCodingQuotaProvider implements ProviderQuotaProvider {
             headers: {
                 Authorization: `Bearer ${connection.accessToken}`,
                 'Content-Type': 'application/json',
-                'X-Msh-Platform': 'hypercode',
+                'X-Msh-Platform': 'tormentnexus',
                 'X-Msh-Version': '0.1.0',
-                'X-Msh-Device-Model': 'hypercode-core',
+                'X-Msh-Device-Model': 'tormentnexus-core',
                 'X-Msh-Device-Id': connection.id,
             },
         });

@@ -1,4 +1,4 @@
-# Hypercode/HyperCode Ideas & Future Enhancements
+# TormentNexus/TormentNexus Ideas & Future Enhancements
 
 ## Phase 2: Autonomy Loop (Self-Healing)
 - [ ] **Verify Loop**: After applying a fix via `HealerService`, automatically run relevant tests. If tests fail, feed the new error back into the healer for a second iteration.

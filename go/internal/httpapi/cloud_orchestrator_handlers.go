@@ -20,8 +20,8 @@ func (s *Server) handleCloudOrchestratorManifest() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]interface{}{
-			"id":      "hypercode-go-orchestrator",
-			"name":    "hypercode Cloud Orchestrator (Go)",
+			"id":      "tormentnexus-go-orchestrator",
+			"name":    "tormentnexus Cloud Orchestrator (Go)",
 			"version": "1.0.0",
 			"capabilities": []string{
 				"cloud_session_management",
@@ -37,7 +37,7 @@ func (s *Server) handleCloudOrchestratorManifest() http.HandlerFunc {
 				"rag":      "/api/rag/query",
 				"reindex":  "/api/rag/reindex",
 			},
-			"hypercodeCompatible": true,
+			"tormentnexusCompatible": true,
 		})
 	}
 }

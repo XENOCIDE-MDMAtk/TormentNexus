@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * hypercode MCP Router CLI - Simplified Mock Version
+ * tormentnexus MCP Router CLI - Simplified Mock Version
  *
  * Temporary implementation using in-memory mock registry
  * Bypasses database dependency to unblock development
@@ -39,7 +39,7 @@ const program = new Command();
 const routerVersion = readCanonicalVersion();
 
 program
-    .name('hypercode-mcp-router')
+    .name('tormentnexus-mcp-router')
     .description('Ultimate MCP Router - Manage MCP servers, configurations, and sessions')
     .version(`${routerVersion}-mock`)
     .option('--data-dir <path>', 'Data directory path', './data')
@@ -220,7 +220,7 @@ program
             detectedConfigs: 3,
             files: [
                 { path: '~/.config/claude/claude_desktop_config.json', format: 'claude' },
-                { path: '~/.hypercode/config.json', format: 'hypercode' },
+                { path: '~/.tormentnexus/config.json', format: 'tormentnexus' },
                 { path: './mcp-config.json', format: 'custom' }
             ]
         }, null, 2));

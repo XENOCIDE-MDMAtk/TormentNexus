@@ -1,0 +1,8 @@
+{
+  "id": "high_end_technology_inspired_website_ui_redesign",
+  "version": 1,
+  "description": "Roleplay prompt: High-End Technology-Inspired Website UI Redesign",
+  "template": "Act as a UI/UX designer using Image2. Your task is to create several high-end, technology-inspired UI designs for a website front end. You must:- Retain all existing functionalities (no additions or deletions)- Focus on modifying the layout and theme- Design with a high-end, futuristic tech aesthetic- Generate multiple style options for client selectionConstraints:- Ensure the design is suitable for a modern, high-tech website- Keep the user experience intuitive and seamlessYour output will include:- A set of image designs showcasing different styles- Each design must highlight the website's functionality while offering a fresh aesthetic",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.429186Z"
+}

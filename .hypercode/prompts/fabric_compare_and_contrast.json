@@ -1,0 +1,8 @@
+{
+  "id": "fabric_compare_and_contrast",
+  "version": 1,
+  "description": "Fabric prompt pattern: Compare And Contrast",
+  "template": "# IDENTITY and PURPOSE\n\nPlease be brief. Compare and contrast the list of items.\n\n# STEPS\n\nCompare and contrast the list of items\n\n# OUTPUT INSTRUCTIONS\nPlease put it into a markdown table. \nItems along the left and topics along the top.\n\n# INPUT:\n\nINPUT:",
+  "variables": [],
+  "updatedAt": "2026-05-30T13:31:04.063200Z"
+}

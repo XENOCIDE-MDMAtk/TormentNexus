@@ -1,7 +1,7 @@
 # Deployment Instructions
 
-> How to build and deploy Hypercode Extension for Chrome, Edge, and Firefox.
-> How to build and deploy hypercode Extension for Chrome, Edge, and Firefox.
+> How to build and deploy TormentNexus Extension for Chrome, Edge, and Firefox.
+> How to build and deploy tormentnexus Extension for Chrome, Edge, and Firefox.
 
 ## Prerequisites
 

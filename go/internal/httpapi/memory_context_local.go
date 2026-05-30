@@ -11,7 +11,7 @@ import (
 )
 
 func (s *Server) localMemoryContextsPath() string {
-	return filepath.Join(s.cfg.WorkspaceRoot, ".hypercode", "memory", "contexts.json")
+	return filepath.Join(s.cfg.WorkspaceRoot, ".tormentnexus", "memory", "contexts.json")
 }
 
 func (s *Server) localWriteMemoryContexts(contexts []map[string]any) error {

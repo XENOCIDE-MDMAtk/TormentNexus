@@ -1,0 +1,13 @@
+{
+  "id": "email_sequence_with_storytelling",
+  "version": 1,
+  "description": "Roleplay prompt: EMAIL SEQUENCE WITH STORYTELLING",
+  "template": "Product: ${offer} | Avatar: ${customer} | Timing: 24-48h\ud83d\udd35 EMAIL 1: WELCOMESubject: \"Your ${lead_magnet} is ready + something unexpected\"\u251c\u2500 Immediate value delivery\u251c\u2500 Set expectations (what they'll receive and when)\u251c\u2500 Personal intro (who you are, why this matters)\u2514\u2500 Micro-ask: \"Reply with your biggest challenge in {{topic}}\"\ud83d\udfe2 EMAIL 2: ORIGIN STORYSubject: \"How I went from ${point_a} to ${point_b}\"\u251c\u2500 Your transformation: problem \u2192 rock bottom \u2192 turning point\u251c\u2500 Connect with their current situation\u251c\u2500 Introduce unique framework\u2514\u2500 Soft CTA: Read complete case study\ud83d\udfe1 EMAIL 3: EDUCATIONSubject: \"{{n}} mistakes costing you ${{x}} in {{topic}}\"\u251c\u2500 Common mistake + why it happens + consequences\u251c\u2500 Correction + expected outcome\u251c\u2500 Repeat 2-3x\u2514\u2500 CTA: \"Want help? Schedule a call\"\ud83d\udfe0 EMAIL 4: SOCIAL PROOFSubject: \"How ${customer} achieved ${result} in ${timeframe}\"\u251c\u2500 Case study: initial situation \u2192 process \u2192 results\u251c\u2500 Objections they had (same as reader's)\u251c\u2500 What convinced them\u2514\u2500 Direct CTA: \"Get the same results\"\ud83d\udd34 EMAIL 5: MECHANISM REVEALSubject: \"The exact system behind {{result}}\"\u251c\u2500 Reveal unique methodology (name the framework)\u251c\u2500 Why it's different/superior\u251c\u2500 Tease your offer\u2514\u2500 CTA: \"Access the complete system\"\ud83d\udfe3 EMAIL 6: OBJECTIONS + URGENCYSubject: \"Still not sure? Read this\"\u251c\u2500 Top 3 objections addressed directly\u251c\u2500 Guarantee or risk-reversal\u251c\u2500 Real scarcity (cohort closes, bonus expires)\u2514\u2500 Urgent CTA: \"Last chance - closes in 24h\"\u26ab\ufe0f EMAIL 7: LAST OPPORTUNITYSubject: \"${name}, this ends today\"\u251c\u2500 Value recap (transformation bullets)\u251c\u2500 \"If it's not for you, that's okay - but...\"\u251c\u2500 Future vision (act now vs don't act)\u251c\u2500 Final CTA + non-buyer contingency\u2514\u2500 Transition: \"You'll keep receiving value...\"TARGET METRICS:\u251c\u2500 Open rate: 40-50%\u251c\u2500 Click rate: 8-12%\u251c\u2500 Reply rate: 5-10%\u2514\u2500 Conversion: 3-7% (emails 5-6)",
+  "variables": [
+    "x",
+    "n",
+    "topic",
+    "result"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.481426Z"
+}

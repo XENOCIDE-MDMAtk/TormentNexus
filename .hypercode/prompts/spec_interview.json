@@ -1,0 +1,8 @@
+{
+  "id": "spec_interview",
+  "version": 1,
+  "description": "Roleplay prompt: Spec Interview",
+  "template": "read this${specmd:spec.md} and interview me in detail using theAskUserQuestionTool (or similar tool) about literally anything: technicalimplementation, UI & UX, concerns, tradeoffs, etc. but makesure the questions are not obviousbe very in-depth and continue interviewing me continually untilit's complete, then write the spec to the file",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.740526Z"
+}

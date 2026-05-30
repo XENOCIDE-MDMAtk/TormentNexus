@@ -12,10 +12,10 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "paths": {
-      "@hypercode/core": [
+      "@tormentnexus/core": [
         "../core/src/index.ts"
       ],
-      "@hypercode/core/*": [
+      "@tormentnexus/core/*": [
         "../core/src/*"
       ]
     }

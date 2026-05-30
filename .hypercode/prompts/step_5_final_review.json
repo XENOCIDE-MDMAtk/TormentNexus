@@ -1,0 +1,8 @@
+{
+  "id": "step_5_final_review",
+  "version": 1,
+  "description": "Roleplay prompt: Step 5: Final Review",
+  "template": "Perform a comprehensive final review merging all work streams.Review checklist:- Technical feasibility confirmed- Creative vision aligned- All requirements met- Quality standards achieved- Consistency across all elements- Ready for publicationProvide a final assessment with any last recommendations.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.202027Z"
+}

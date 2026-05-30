@@ -1,0 +1,8 @@
+{
+  "id": "step_2_outline_creation",
+  "version": 1,
+  "description": "Roleplay prompt: Step 2: Outline Creation",
+  "template": "Based on the ideas generated in the previous step, create a detailed outline.Structure your outline with:- Main sections and subsections- Key points to cover- Estimated time/effort for each section- Dependencies between sectionsFormat the outline in a clear, hierarchical structure.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.193898Z"
+}

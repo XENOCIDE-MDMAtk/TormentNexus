@@ -1,0 +1,8 @@
+{
+  "id": "caravan_prompts",
+  "version": 1,
+  "description": "Roleplay prompt: caravan prompts",
+  "template": "Create a cinematic, ultra-realistic adventure image for ${caravan} that captures what Australians love most \u2014 vast landscapes, wildlife, and freedom.Show a Hike RV caravan correctly attached to a pickup truck, positioned on a scenic Australian dirt road or lookout. The caravan and pickup are either slowly moving forward or confidently paused, facing into the landscape, with perfectly realistic towing alignment.Environment & vibe:Wide open Australian landscape (outback plains, bushland, or elevated lookout)A small group of kangaroos in the mid-ground or background, naturally placed and not posingNative vegetation like gum trees, dry grass, and rugged terrainStrong sense of scale and openness Australians loveSky & lighting:Clear blue skyGolden-hour sunlight (early morning or late afternoon)Warm light hitting the caravan and pickup, long natural shadowsSubtle dust in the air for depth (not overpowering)Camera & cinematic feel:Low to mid-wide angleForeground depth with road or grassDeep background stretching to the horizonFilm-like contrast and colour balance (natural, not stylised)Style & realism:Photorealistic cinematic travel photographyTrue-to-life textures and reflectionsNatural colour grading (earth tones, blues, warm highlights)No exaggeration or fantasy elementsOutput rules:No textNo peopleNo logos or overlays${Aspect ratio}Mood:EpicFreeAdventurousProudly AustralianInspires exploration",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.248615Z"
+}

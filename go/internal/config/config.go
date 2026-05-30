@@ -25,33 +25,33 @@ func Default() Config {
 }
 
 func DefaultConfigDir() string {
-	if configured := os.Getenv("HYPERCODE_GO_CONFIG_DIR"); configured != "" {
+	if configured := os.Getenv("TORMENTNEXUS_GO_CONFIG_DIR"); configured != "" {
 		return configured
 	}
 
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return ".hypercode-go"
+		return ".tormentnexus-go"
 	}
 
-	return filepath.Join(homeDir, ".hypercode-go")
+	return filepath.Join(homeDir, ".tormentnexus-go")
 }
 
 func DefaultMainConfigDir() string {
-	if configured := os.Getenv("HYPERCODE_MAIN_CONFIG_DIR"); configured != "" {
+	if configured := os.Getenv("TORMENTNEXUS_MAIN_CONFIG_DIR"); configured != "" {
 		return configured
 	}
 
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return ".hypercode"
+		return ".tormentnexus"
 	}
 
-	return filepath.Join(homeDir, ".hypercode")
+	return filepath.Join(homeDir, ".tormentnexus")
 }
 
 func DefaultWorkspaceRoot() string {
-	if configured := os.Getenv("HYPERCODE_WORKSPACE_ROOT"); configured != "" {
+	if configured := os.Getenv("TORMENTNEXUS_WORKSPACE_ROOT"); configured != "" {
 		return configured
 	}
 
@@ -76,7 +76,7 @@ func (c Config) MainLockPath() string {
 }
 
 func (c Config) ImportedInstructionsPath() string {
-	return filepath.Join(c.WorkspaceRoot, ".hypercode", "imported_sessions", "docs", "auto-imported-agent-instructions.md")
+	return filepath.Join(c.WorkspaceRoot, ".tormentnexus", "imported_sessions", "docs", "auto-imported-agent-instructions.md")
 }
 
 func browserHost(host string) string {

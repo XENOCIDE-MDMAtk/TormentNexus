@@ -46,7 +46,7 @@ func ExportSessions(workspaceRoot, homeDir, outputDir string) (*ExportResult, er
 	}
 
 	if outputDir == "" {
-		outputDir = filepath.Join(workspaceRoot, ".hypercode", "exports")
+		outputDir = filepath.Join(workspaceRoot, ".tormentnexus", "exports")
 	}
 
 	if err := os.MkdirAll(outputDir, 0755); err != nil {

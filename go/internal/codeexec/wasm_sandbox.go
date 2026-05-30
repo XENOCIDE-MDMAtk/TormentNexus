@@ -95,7 +95,7 @@ func NewWASMSandbox(cfg WASMSandboxConfig) *WASMSandbox {
 	cfg.AllowNetwork = false
 	cfg.AllowFS = false
 
-	cacheDir := filepath.Join(os.TempDir(), "hypercode-wasm-cache")
+	cacheDir := filepath.Join(os.TempDir(), "tormentnexus-wasm-cache")
 	os.MkdirAll(cacheDir, 0755)
 
 	sandbox := &WASMSandbox{
@@ -137,7 +137,7 @@ func (ws *WASMSandbox) Execute(ctx context.Context, code string) (*WASMExecution
 	ws.mu.Unlock()
 
 	// 1. Write Go source to temp file
-	tmpDir, err := os.MkdirTemp("", "hypercode-wasm-build-*")
+	tmpDir, err := os.MkdirTemp("", "tormentnexus-wasm-build-*")
 	if err != nil {
 		return nil, fmt.Errorf("create temp dir: %w", err)
 	}
@@ -347,7 +347,7 @@ func (ws *WASMSandbox) cacheKey(code string) string {
 	for _, ch := range code {
 		hash = hash*31 + uint32(ch)
 	}
-	return fmt.Sprintf("hypercode-%08x", hash)
+	return fmt.Sprintf("tormentnexus-%08x", hash)
 }
 
 // detectWASMRuntime finds an available WASM runtime on the system.

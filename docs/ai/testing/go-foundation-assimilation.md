@@ -26,8 +26,8 @@ For the Pi-derived harness contract:
 - compaction hooks
 
 ## Layer 3: Integration tests
-- Hypercode provider routing integration
-- Hypercode MCP inventory integration
+- TormentNexus provider routing integration
+- TormentNexus MCP inventory integration
 - memory retrieval integration
 - imported session continuity
 - TUI/JSON/RPC mode smoke tests
@@ -61,7 +61,7 @@ go test ./...
 - `foundation/orchestration/planner_test.go`
 - `foundation/orchestration/daemon_plan_test.go`
 - `foundation/orchestration/webhook_plan_test.go`
-- `foundation/adapters/hypercode_test.go`
+- `foundation/adapters/tormentnexus_test.go`
 - `foundation/adapters/providers_test.go`
 - `foundation/adapters/provider_routing_test.go`
 - `foundation/adapters/provider_execution_test.go`
@@ -81,7 +81,7 @@ go test ./...
 2. more tool contract schema/result snapshot tests
 3. more truncation and image-path edge-case tests for `read` and `bash`
 4. JSON/RPC transport tests
-5. compatibility tests against richer Hypercode-backed provider/MCP adapters
+5. compatibility tests against richer TormentNexus-backed provider/MCP adapters
 6. richer top-level `agent` integration tests around exact-schema tool registration and tool-call loops
 7. end-to-end MCP execution tests once richer execution adapters exist
 8. response-shape assertions for foundation-backed MCP HTTP endpoints

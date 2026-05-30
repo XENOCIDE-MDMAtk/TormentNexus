@@ -14,7 +14,7 @@ export class Installer {
     }
 
     async install(): Promise<string> {
-        console.error(`Attempting to install Hypercode Supervisor to: ${this.configPath}`);
+        console.error(`Attempting to install TormentNexus Supervisor to: ${this.configPath}`);
 
         try {
             await fs.access(this.configPath);
@@ -29,7 +29,7 @@ export class Installer {
         const scriptPath = path.resolve(__dirname, 'index.js');
 
         config.servers = config.servers || {};
-        config.servers['hypercode-supervisor'] = {
+        config.servers['tormentnexus-supervisor'] = {
             command: 'node',
             args: [scriptPath],
             env: {
@@ -40,6 +40,6 @@ export class Installer {
         };
 
         await fs.writeFile(this.configPath, JSON.stringify(config, null, 4), 'utf-8');
-        return `Successfully installed 'hypercode-supervisor' to ${this.configPath}`;
+        return `Successfully installed 'tormentnexus-supervisor' to ${this.configPath}`;
     }
 }

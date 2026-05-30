@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/hypercodehq/hypercode-go/internal/sessionimport"
+	"github.com/tormentnexushq/tormentnexus-go/internal/sessionimport"
 )
 
 func (s *Server) handleNativeSessionExport(w http.ResponseWriter, r *http.Request) {

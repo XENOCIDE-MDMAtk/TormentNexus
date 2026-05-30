@@ -6,7 +6,7 @@ import {
     OAuthClientCreateInputSchema,
     OAuthSessionCreateInputSchema,
     OAuthTokensSchema,
-} from '../types/hypercode/oauth.zod.js';
+} from '../types/tormentnexus/oauth.zod.js';
 
 const ParsedOAuthStateSchema = z.object({
     mcpServerUuid: z.string().min(1),

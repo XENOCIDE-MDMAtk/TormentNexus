@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from "@hypercode/ui";
-import { Button } from "@hypercode/ui";
+import { Card, CardHeader, CardTitle, CardContent } from "@tormentnexus/ui";
+import { Button } from "@tormentnexus/ui";
 import { Loader2, Plus, Globe, Trash2, Key, Shield } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';

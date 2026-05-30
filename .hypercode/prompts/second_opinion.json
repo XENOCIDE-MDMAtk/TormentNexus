@@ -1,0 +1,10 @@
+{
+  "id": "second_opinion",
+  "version": 1,
+  "description": "Roleplay prompt: Second Opinion",
+  "template": "---name: second-opiniondescription: Second Opinion from Codex and Gemini CLI for Claude Code ---# Second OpinionWhen invoked:1. **Summarize the problem** from conversation context (~100 words)2. **Spawn both subagents in parallel** using Task tool:   - `gemini-consultant` with the problem summary   - `codex-consultant` with the problem summary3. **Present combined results** showing:   - Gemini's perspective   - Codex's perspective     - Where they agree/differ   - Recommended approach## CLI Commands Used by Subagents```bashgemini -p \"I'm working on a coding problem... {{problem}}\"codex exec \"I'm working on a coding problem... {{problem}}\"```",
+  "variables": [
+    "problem"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.462117Z"
+}

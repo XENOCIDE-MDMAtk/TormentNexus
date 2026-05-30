@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const sqliteUnavailable = new Error(
-    'SQLite runtime is unavailable for Hypercode DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)',
+    'SQLite runtime is unavailable for TormentNexus DB-backed features (Could not locate the bindings file. Tried: better-sqlite3.node)',
 );
 
 const repositoryMock = {
@@ -27,7 +27,7 @@ vi.mock('./auto-reconnect.service.js', () => ({
 }));
 
 vi.mock('./mcp-client.service.js', () => ({
-    connecthypercodeClient: vi.fn(),
+    connecttormentnexusClient: vi.fn(),
 }));
 
 vi.mock('./server-error-tracker.service.js', () => ({

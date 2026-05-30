@@ -20,7 +20,7 @@ export class RepoGraphService {
     private consumers: Map<string, Set<string>> = new Map();
     private dependencies: Map<string, Set<string>> = new Map();
     private isInitialized: boolean = false;
-    private packageMap: Map<string, string> = new Map(); // @hypercode/core -> packages/core
+    private packageMap: Map<string, string> = new Map(); // @tormentnexus/core -> packages/core
 
     constructor(rootDir: string) {
         this.rootDir = rootDir;
@@ -115,7 +115,7 @@ export class RepoGraphService {
 
     private resolveModule(importer: string, moduleSpecifier: string): string | null {
         // 1. Monorepo Alias Resolution
-        if (moduleSpecifier.startsWith('@hypercode/')) {
+        if (moduleSpecifier.startsWith('@tormentnexus/')) {
             const pkgPath = this.packageMap.get(moduleSpecifier);
             if (pkgPath) {
                 // Try explicit entry points first when resolving internal packages

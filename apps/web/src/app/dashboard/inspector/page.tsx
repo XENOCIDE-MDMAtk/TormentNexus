@@ -1,7 +1,7 @@
 "use client";
 
 import { TrafficInspector } from "@/components/TrafficInspector";
-import { resolveCoreWsUrl } from "@hypercode/ui";
+import { resolveCoreWsUrl } from "@tormentnexus/ui";
 import Link from "next/link";
 
 function getBridgeDisplayUrl(): string {

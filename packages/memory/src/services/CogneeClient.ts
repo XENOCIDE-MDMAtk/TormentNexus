@@ -85,12 +85,12 @@ export class CogneeClient {
         });
     }
 
-    public async add(text: string, dataset: string = "hypercode_memory"): Promise<void> {
+    public async add(text: string, dataset: string = "tormentnexus_memory"): Promise<void> {
         const response = await this.execute('add', { text, dataset });
         if (response.error) throw new Error(`Cognee Add Error: ${response.error}`);
     }
 
-    public async cognify(dataset: string = "hypercode_memory"): Promise<void> {
+    public async cognify(dataset: string = "tormentnexus_memory"): Promise<void> {
         const response = await this.execute('cognify', { dataset });
         if (response.error) throw new Error(`Cognee Cognify Error: ${response.error}`);
     }

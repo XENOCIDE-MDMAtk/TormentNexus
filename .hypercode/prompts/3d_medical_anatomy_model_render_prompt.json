@@ -1,0 +1,8 @@
+{
+  "id": "3d_medical_anatomy_model_render_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: 3D Medical Anatomy Model Render Prompt",
+  "template": "{\u00a0 \"fixed_prompt_components\": {\u00a0 \u00a0 \"composition\": \"Wide angle full body shot, the entire figure is visible from head to toe, far shot, vertical portrait framing, centered and symmetrical stance\",\u00a0 \u00a0 \"background\": \"Isolated on a seamless pure white background, studio backdrop, clean white environment\",\u00a0 \u00a0 \"art_style\": \"Photorealistic 3D medical render, ZBrush digital sculpture style, scientific anatomy model aesthetics\",\u00a0 \u00a0 \"texture_and_material\": \"Monochromatic silver-grey skin with brushed metal texture, micro-surface details, highly detailed muscle striation, matte finish\",\u00a0 \u00a0 \"lighting_and_tech\": \"Cinematic rim lighting, global illumination, raytracing, ambient occlusion, 8k resolution, UHD, sharp focus, hyper-detailed\"\u00a0 },\u00a0 \"variables\": {\u00a0 \u00a0 \"gender\": \"${gender:male}\",\u00a0 \u00a0 \"view_angle\": \"${view_angle:Front view}\",\u00a0 \u00a0 \"target_muscle_group\": \"${target_muscle_group:Pectoralis Major (Chest)}\",\u00a0 \u00a0 \"highlight_color\": \"${highlight_color:glowing cyan blue}\"\u00a0 },\u00a0 \"negative_prompt\": \"text, infographic, chart, diagram, labels, arrows, UI, cropped image, close-up, macro shot, headshot, cut off feet, cut off head, partial body, grey background, gradient background, shadows on floor, blurry, low resolution, distortion, watermark\"}",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.801547Z"
+}

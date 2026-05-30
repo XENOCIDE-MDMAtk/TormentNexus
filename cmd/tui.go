@@ -3,16 +3,16 @@ package cmd
 import (
 	"log"
 
-	"github.com/robertpelloni/hypercode/tui"
+	"github.com/robertpelloni/tormentnexus/tui"
 	"github.com/spf13/cobra"
 )
 
 var tuiCmd = &cobra.Command{
 	Use:   "tui",
 	Short: "Launch the highly-advanced Native Go BubbleTea Orchestrator Interface",
-	Long:  "Starts the interactive visual TUI leveraging the Native Node.js-Parity Hypercode Orchestrator engine complete with AutoDrive autonomy.",
+	Long:  "Starts the interactive visual TUI leveraging the Native Node.js-Parity TormentNexus Orchestrator engine complete with AutoDrive autonomy.",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("[Boot] Spinning up Native Hypercode TUI...")
+		log.Println("[Boot] Spinning up Native TormentNexus TUI...")
 		tui.StartREPL()
 	},
 }

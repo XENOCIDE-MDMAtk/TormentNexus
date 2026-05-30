@@ -43,7 +43,7 @@ vi.mock('./transports/process-managed.transport.js', () => {
 });
 
 vi.mock('./services/log-store.service.js', () => ({
-    hypercodeLogStore: {
+    tormentnexusLogStore: {
         addLog: vi.fn(),
     },
 }));

@@ -32,7 +32,7 @@ import {
     type PublishedServerStatusEnum,
     type ValidationRunModeEnum,
     type ValidationRunOutcomeEnum,
-} from "../hypercode-schema.js";
+} from "../tormentnexus-schema.js";
 
 // ---- Type aliases ----
 

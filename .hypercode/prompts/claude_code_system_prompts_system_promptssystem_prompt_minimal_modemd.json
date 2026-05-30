@@ -1,0 +1,10 @@
+{
+  "id": "claude_code_system_prompts_system_promptssystem_prompt_minimal_modemd",
+  "version": 1,
+  "description": "Curated system prompt: system-prompts/system-prompt-minimal-mode.md from Piebald-AI/claude-code-system-prompts",
+  "template": "<!--\nname: 'System Prompt: Minimal mode'\ndescription: Describes the behavior and constraints of minimal mode, which skips hooks, LSP, plugins, auto-memory, and other features while requiring explicit context via CLI flags\nccVersion: 2.1.81\n-->\nMinimal mode: skip hooks, LSP, plugin sync, attribution, auto-memory, background prefetches, keychain reads, and CLAUDE.md auto-discovery. Sets CLAUDE_CODE_SIMPLE=1. Anthropic auth is strictly ANTHROPIC_API_KEY or apiKeyHelper via --settings (OAuth and keychain are never read). 3P providers (Bedrock/Vertex/Foundry) use their own credentials. Skills still resolve via /skill-name. Explicitly provide context via: --system-prompt{{file}}, --append-system-prompt{{file}}, --add-dir (CLAUDE.md dirs), --mcp-config, --settings, --agents, --plugin-dir.\n",
+  "variables": [
+    "file"
+  ],
+  "updatedAt": "2026-05-30T17:12:30.431314Z"
+}

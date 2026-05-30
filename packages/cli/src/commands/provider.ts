@@ -1,13 +1,13 @@
 /**
- * `hypercode provider` - AI provider management
+ * `tormentnexus provider` - AI provider management
  *
  * Configure and manage AI model providers, API keys, OAuth logins,
  * quota tracking, and automatic model fallback chains.
  *
  * @example
- *   hypercode provider list         # List providers with quota status
- *   hypercode provider add openai   # Add a new provider
- *   hypercode provider quota        # Show all quota/billing info
+ *   tormentnexus provider list         # List providers with quota status
+ *   tormentnexus provider add openai   # Add a new provider
+ *   tormentnexus provider quota        # Show all quota/billing info
  */
 
 import type { Command } from 'commander';
@@ -93,9 +93,9 @@ export function registerProviderCommand(program: Command): void {
         if (envProviders.length > 0) {
           console.log(table.toString());
           console.log(chalk.dim(`\n  ${envProviders.length} provider(s) detected from environment variables`));
-          console.log(chalk.dim(`  Use ${chalk.cyan('hypercode provider add <name>')} to configure explicitly\n`));
+          console.log(chalk.dim(`  Use ${chalk.cyan('tormentnexus provider add <name>')} to configure explicitly\n`));
         } else {
-          console.log(chalk.dim('  No providers configured. Use `hypercode provider add` to add one.\n'));
+          console.log(chalk.dim('  No providers configured. Use `tormentnexus provider add` to add one.\n'));
           console.log(chalk.dim('  Supported: openai, anthropic, google, xai, deepseek, mistral,'));
           console.log(chalk.dim('             openrouter, copilot, antigravity, local\n'));
         }
@@ -136,10 +136,10 @@ Supported providers:
   local        Local models (Ollama, LM Studio, etc.)
 
 OAuth-capable subscription services:
-  $ hypercode provider add anthropic --oauth    # Claude Max/Pro subscription
-  $ hypercode provider add google --oauth       # Google AI Plus subscription
-  $ hypercode provider add copilot --oauth      # Copilot Premium Plus
-  $ hypercode provider add openai --oauth       # ChatGPT Plus subscription
+  $ tormentnexus provider add anthropic --oauth    # Claude Max/Pro subscription
+  $ tormentnexus provider add google --oauth       # Google AI Plus subscription
+  $ tormentnexus provider add copilot --oauth      # Copilot Premium Plus
+  $ tormentnexus provider add openai --oauth       # ChatGPT Plus subscription
     `)
     .action(async (name, opts) => {
       const chalk = (await import('chalk')).default;
@@ -156,11 +156,11 @@ OAuth-capable subscription services:
         return;
       }
 
-      // Write provider config to ~/.hypercode/config.jsonc
+      // Write provider config to ~/.tormentnexus/config.jsonc
       const { readFileSync, writeFileSync, mkdirSync } = await import('fs');
       const { resolve, dirname } = await import('path');
       const { homedir } = await import('os');
-      const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), '.hypercode');
+      const configDir = process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), '.tormentnexus');
       const configPath = resolve(configDir, 'config.jsonc');
 
       let config: Record<string, any> = {};
@@ -194,7 +194,7 @@ OAuth-capable subscription services:
       const { resolve, dirname } = await import('path');
       const { homedir } = await import('os');
 
-      const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), '.hypercode');
+      const configDir = process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), '.tormentnexus');
       const configPath = resolve(configDir, 'config.jsonc');
 
       let config: Record<string, any> = {};
@@ -261,7 +261,7 @@ OAuth-capable subscription services:
 
       console.log(table.toString());
       console.log(chalk.dim('\n  Quota tracking requires billing dashboard integration.'));
-      console.log(chalk.dim('  Use hypercode provider test <name> to verify connectivity.\n'));
+      console.log(chalk.dim('  Use tormentnexus provider test <name> to verify connectivity.\n'));
     });
 
   provider
@@ -343,9 +343,9 @@ The fallback chain determines which model to use when the primary model's
 quota is exhausted. Models are tried in order.
 
 Examples:
-  $ hypercode provider fallback --show
-  $ hypercode provider fallback --set claude-opus-4 gpt-5.2 gemini-3-pro grok-4
-  $ hypercode provider fallback --strategy cost-optimized
+  $ tormentnexus provider fallback --show
+  $ tormentnexus provider fallback --set claude-opus-4 gpt-5.2 gemini-3-pro grok-4
+  $ tormentnexus provider fallback --strategy cost-optimized
     `)
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
@@ -356,7 +356,7 @@ Examples:
         const { readFileSync, writeFileSync, mkdirSync } = await import('fs');
         const { resolve, dirname } = await import('path');
         const { homedir } = await import('os');
-        const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), '.hypercode');
+        const configDir = process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), '.tormentnexus');
         const configPath = resolve(configDir, 'config.jsonc');
 
         let config: Record<string, any> = {};
@@ -386,7 +386,7 @@ Examples:
         const { readFileSync } = await import('fs');
         const { resolve } = await import('path');
         const { homedir } = await import('os');
-        const configPath = resolve(process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), '.hypercode'), 'config.jsonc');
+        const configPath = resolve(process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), '.tormentnexus'), 'config.jsonc');
         const raw = readFileSync(configPath, 'utf8');
         const config = JSON.parse(raw.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, ''));
         const chain = config.fallback?.chain ?? [];

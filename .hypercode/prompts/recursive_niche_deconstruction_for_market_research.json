@@ -1,0 +1,12 @@
+{
+  "id": "recursive_niche_deconstruction_for_market_research",
+  "version": 1,
+  "description": "Roleplay prompt: Recursive Niche Deconstruction for Market Research",
+  "template": "{  \"industry\": \"${industry}\",  \"region\": \"${region}\",  \"tree\": {    \"level\": \"Macro\",    \"name\": \"...\",    \"market_valuation\": \"$X\",    \"top_players\": {{name____company_a___________type____incumbent___________focus____broad_________________________name____company_b___________type____incumbent___________focus____broad}},    \"children\": {{level____sub_niche_micro___________name__________________narrowing_variable__________________market_valuation_____x___________top_players____________________________name____startup_c_______________type____specialist_______________focus____verticalized_____________________________________name____tool_d_______________type____micro_saas_______________focus____hyper_specific}},        \"children\": []      }    ]  },  \"keyword_analysis\": {    \"monthly_traffic\": \"{region-specific traffic data}\",    \"competitiveness\": \"{region-specific competitiveness data}\",    \"potential_keywords\": {{keyword__________________traffic__________________competition}}  }}",
+  "variables": [
+    "keyword__________________traffic__________________competition",
+    "level____sub_niche_micro___________name__________________narrowing_variable__________________market_valuation_____x___________top_players____________________________name____startup_c_______________type____specialist_______________focus____verticalized_____________________________________name____tool_d_______________type____micro_saas_______________focus____hyper_specific",
+    "name____company_a___________type____incumbent___________focus____broad_________________________name____company_b___________type____incumbent___________focus____broad"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.381677Z"
+}

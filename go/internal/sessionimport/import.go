@@ -22,7 +22,7 @@ type ImportedSession struct {
 func ImportSession(dbPath string, session ImportedSession) error {
 	db, err := sql.Open("sqlite", dbPath)
 	if err != nil {
-		return fmt.Errorf("failed to open hypercode.db: %w", err)
+		return fmt.Errorf("failed to open tormentnexus.db: %w", err)
 	}
 	defer db.Close()
 

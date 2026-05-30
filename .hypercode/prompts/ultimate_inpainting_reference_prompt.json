@@ -1,0 +1,8 @@
+{
+  "id": "ultimate_inpainting_reference_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: Ultimate Inpainting / Reference Prompt",
+  "template": "A luxurious warm interior scene based on the provided reference image. Maintain exact composition, proportions, and camera angle.Kitchen bar:\t\u2022\tCountertop must strictly use the provided marble reference image.\t\u2022\tMatch exact color, pattern, veining, and realistic scale relative to the bar.\t\u2022\tDo not stylize, alter, or reinterpret the marble.\t\u2022\tMarble should integrate naturally with bar edges, reflections, and ambient lighting.Bar base: warm natural wood.Accent wall: vertical strip cladding in light gray, fully rounded cylindrical profiles (round, not square, no sharp edges).Wall division:\t\u2022\tVertically:\t\u2022\tUpper section: top 2/3 of wall height, strips 0.5 cm diameter\t\u2022\tLower section: bottom 1/3 of wall height, strips 1 cm diameter\t\u2022\tHorizontally (along wall width):\t\u2022\tUpper section spans first two-thirds of wall width\t\u2022\tLower section spans remaining one-third\t\u2022\tSmooth transitions, precise spacing, architectural accuracy.Flooring: polished white Carrara marble.Warm ambient lighting, soft indirect hidden lighting, cozy yet luxurious Italian-style high-end interior. Ultra-realistic architectural visualization.Strict instructions for AI: exact material matching, follow reference image exactly, maintain proportions, do not reinterpret or create new patterns, marble must appear natural and realistic in scale.\u2e3bMidjourney / Inpainting Parameters:--v 6 --style raw --ar 3:4 --quality 2 --iw 2 --no artistic interpretation",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.114837Z"
+}

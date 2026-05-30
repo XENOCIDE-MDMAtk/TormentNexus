@@ -1,0 +1,8 @@
+{
+  "id": "star_marshal_raycast_tactical_shooter",
+  "version": 1,
+  "description": "Roleplay prompt: Star-Marshal: Raycast Tactical Shooter",
+  "template": "Game Concept: A top-down tactical shooter where you play as a \"Star-Marshal\" clearing a space station of rogue drones. The game emphasizes precise hit-scan combat and dynamic lighting.Technical Prompt:Develop a top-down shooter mechanic. Use THREE.Raycaster for instant-hit weapon fire. Implement a muzzle flash light that flickers for 0.05s upon firing.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.442408Z"
+}

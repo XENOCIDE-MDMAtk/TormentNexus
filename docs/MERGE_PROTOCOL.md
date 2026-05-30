@@ -1,6 +1,6 @@
 # 7-Step Merge & Assimilation Protocol
 
-> Standardized procedure for handling upstream forks, submodule updates, and feature integrations in the hypercode monorepo.
+> Standardized procedure for handling upstream forks, submodule updates, and feature integrations in the tormentnexus monorepo.
 
 ## The 7 Steps
 
@@ -16,7 +16,7 @@ git fetch upstream
 git merge upstream/main --allow-unrelated-histories  # if needed
 ```
 
-**Resolve conflicts carefully** — prefer the hypercode-side implementation when in doubt. If upstream merges fail with "unrelated histories," identify the exact reason and formulate a fallback strategy (cherry-pick, manual merge, or archive).
+**Resolve conflicts carefully** — prefer the tormentnexus-side implementation when in doubt. If upstream merges fail with "unrelated histories," identify the exact reason and formulate a fallback strategy (cherry-pick, manual merge, or archive).
 
 ### Step 2: Reanalyze
 Reanalyze the project and history for missing features, regressions, or new capabilities introduced by the merge.

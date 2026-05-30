@@ -1,5 +1,5 @@
 // Package gossip implements a P2P gossip protocol for decentralized memory
-// synchronization across Hypercode nodes. It uses a push-pull anti-entropy model
+// synchronization across TormentNexus nodes. It uses a push-pull anti-entropy model
 // where each node periodically exchanges state digests with random peers,
 // reconciling differences to achieve eventual consistency.
 //

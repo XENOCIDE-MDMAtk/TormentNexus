@@ -20,8 +20,8 @@
 ## Design Preferences (from user)
 
 - **Version in one place**: The `VERSION` file at root is the single source of truth. `pnpm update-version` propagates it to all `package.json` files.
-- **Historical versioning preference**: Earlier repo guidance treated nearly every change as version-bump-worthy. Current Hypercode canon is more selective: bump versions and changelogs when the change is release-relevant, user-visible at that level, or explicitly requested.
-- **Historical versioning preference**: Earlier repo guidance treated nearly every change as version-bump-worthy. Current hypercode canon is more selective: bump versions and changelogs when the change is release-relevant, user-visible at that level, or explicitly requested.
+- **Historical versioning preference**: Earlier repo guidance treated nearly every change as version-bump-worthy. Current TormentNexus canon is more selective: bump versions and changelogs when the change is release-relevant, user-visible at that level, or explicitly requested.
+- **Historical versioning preference**: Earlier repo guidance treated nearly every change as version-bump-worthy. Current tormentnexus canon is more selective: bump versions and changelogs when the change is release-relevant, user-visible at that level, or explicitly requested.
 - **Commit message must reference version**: e.g., `feat: Add Dashboard shortcuts (v0.7.1)`.
 - **Autonomous operation**: Commit, push, and continue to the next task without pausing when possible.
 - **Document everything**: All findings, changes, and decisions should be reflected in documentation.

@@ -1,0 +1,17 @@
+{
+  "id": "the_last_adagio",
+  "version": 1,
+  "description": "Roleplay prompt: The Last Adagio",
+  "template": "{  \"title\": \"The Last Adagio\",  \"description\": \"A hauntingly beautiful scene of a solitary ballerina performing in a flooded, abandoned grand library.\",  \"prompt\": \"You will perform an image edit using the provided subject. Transform Subject 1 (female) into a survivor in a post-apocalyptic world. She is in a massive, decaying library where the floor is flooded with water. Light spills through the collapsed ceiling, illuminating dust motes and water reflections. The image must be photorealistic, utilizing cinematic lighting, highly detailed textures, shot on Arri Alexa with a shallow depth of field to focus on the subject while the background falls into soft bokeh.\",  \"details\": {    \"year\": \"Post-Collapse Era\",    \"genre\": \"Cinematic Photorealism\",    \"location\": \"A grand, abandoned library with towering shelves, crumbling architecture, and a floor flooded with still, reflective water.\",    \"lighting\": {{god_rays_entering_from_a_collapsed_roof_________soft_reflected_light_from_the_water_________high_contrast_cinematic_shadows}},    \"camera_angle\": \"Low angle, wide shot, capturing the reflection in the water.\",    \"emotion\": {{melancholic_________graceful_________solitary}},    \"color_palette\": {{desaturated_concrete_greys_________muted_teal_water_________vibrant_crimson_________dusty_gold_light}},    \"atmosphere\": {{ethereal_________lonely_________quiet_________majestic}},    \"environmental_elements\": \"Floating pages from old books, dust particles dancing in light shafts, ripples in the water.\",    \"subject1\": {      \"costume\": \"A distressed, dirty white ballet leotard paired with pristine red gloves.\",      \"subject_expression\": \"Serene, eyes closed, lost in the movement.\",      \"subject_action\": \"dancing\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{bright_sunshine___________clean_environment___________modern_technology___________spectators}},      \"exclude_styles\": {{cartoon___________painting___________sketch___________3d_render}},      \"exclude_colors\": {{neon_green___________bright_orange}},      \"exclude_objects\": {{cars___________animals___________phones}}    }  }}",
+  "variables": [
+    "cars___________animals___________phones",
+    "cartoon___________painting___________sketch___________3d_render",
+    "melancholic_________graceful_________solitary",
+    "god_rays_entering_from_a_collapsed_roof_________soft_reflected_light_from_the_water_________high_contrast_cinematic_shadows",
+    "neon_green___________bright_orange",
+    "ethereal_________lonely_________quiet_________majestic",
+    "bright_sunshine___________clean_environment___________modern_technology___________spectators",
+    "desaturated_concrete_greys_________muted_teal_water_________vibrant_crimson_________dusty_gold_light"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.145421Z"
+}

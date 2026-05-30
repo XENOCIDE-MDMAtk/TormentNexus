@@ -1,8 +1,8 @@
-# hypercode Frontier-Model Scorecard Template
+# tormentnexus Frontier-Model Scorecard Template
 
 _Last updated: 2026-03-19_
 
-Use this template to compare multiple model responses to the current hypercode roundtable prompt.
+Use this template to compare multiple model responses to the current tormentnexus roundtable prompt.
 
 Recommended inputs per model:
 
@@ -137,7 +137,7 @@ Recommended inputs per model:
 
 | Criterion | Weight | Question |
 |---|---:|---|
-| Kernel clarity | 20% | Did the model correctly define what hypercode fundamentally is? |
+| Kernel clarity | 20% | Did the model correctly define what tormentnexus fundamentally is? |
 | 1.0 realism | 20% | Did it produce a believable near-term ship target? |
 | Architectural coherence | 15% | Did it preserve a control-plane architecture rather than sprawl? |
 | Sequencing quality | 15% | Did it recommend the right order of work? |
@@ -156,7 +156,7 @@ $$
 ## Final maintainer call
 
 1. Which model produced the best recommendation overall?
-2. Which model best understood hypercode’s actual identity?
+2. Which model best understood tormentnexus’s actual identity?
 3. Which model was most dangerous because it encouraged scope inflation?
 4. What should be adopted immediately?
 5. What should be explicitly rejected for now?

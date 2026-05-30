@@ -1,0 +1,8 @@
+{
+  "id": "secteur_bancaire_vrification_de_conformit_de_texte",
+  "version": 1,
+  "description": "Roleplay prompt: Secteur Bancaire - V\u00e9rification de conformit\u00e9 de texte",
+  "template": "V\u00e9rifie le texte suivant selon trois crit\u00e8res : neutralit\u00e9, pr\u00e9cision, et conformit\u00e9 \u00e0 un ton r\u00e9glementaire bancaire.Identifie les formulations potentiellement probl\u00e9matiques ou suggestives, puis reformule\u2011les pour convenir \u00e0 un document officiel.Texte \u00e0 analyser :${texte a analyser}Pr\u00e9sente ta r\u00e9ponse sous deux colonnes :\u2013 Texte original / Texte reformul\u00e9",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.495662Z"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "prepare_for_meetings_key_considerations",
+  "version": 1,
+  "description": "Roleplay prompt: Prepare for Meetings: Key Considerations",
+  "template": "Based on my prior interactions with ${person}, give me 5 things likely top of mind for our next meeting.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.991808Z"
+}

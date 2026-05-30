@@ -16,12 +16,12 @@ import { mcpServersRepository, toolsRepository } from '../db/repositories/index.
 import { buildStartupStatusSnapshot } from './startupStatus.js';
 import { detectLocalExecutionEnvironment } from '../services/execution-environment.js';
 import { getCachedToolInventory } from '../mcp/cachedToolInventory.js';
-import { readBorgStoreStatus } from './memoryRouter.borg.js';
+import { readTormentNexusStoreStatus } from './memoryRouter.tormentnexus.js';
 import { summarizeCachedInventory } from './startupInventorySummary.js';
 import type { MemoryPipelineSummary } from '../services/memory/MemoryManager.js';
 import { mcpServerPool } from '../services/mcp-server-pool.service.js';
 
-const EXECUTION_ENV_CACHE_TTL_MS = Number(process.env.HYPERCODE_EXECUTION_ENV_CACHE_TTL_MS ?? 30_000);
+const EXECUTION_ENV_CACHE_TTL_MS = Number(process.env.TORMENTNEXUS_EXECUTION_ENV_CACHE_TTL_MS ?? 30_000);
 
 let executionEnvironmentCache:
     | {
@@ -69,7 +69,7 @@ async function getCachedExecutionEnvironment() {
 
 export const systemProcedures = {
     health: publicProcedure.query(() => {
-        return { status: 'running', service: '@hypercode/core' };
+        return { status: 'running', service: '@tormentnexus/core' };
     }),
     startupStatus: publicProcedure.query(async () => {
         const mcpServer = getMcpServer();
@@ -82,7 +82,7 @@ export const systemProcedures = {
         const memoryManager = (mcpServer as { memoryManager?: { getPipelineSummary?: () => MemoryPipelineSummary } }).memoryManager;
         const memoryPipelineSummary: MemoryPipelineSummary | null = memoryManager?.getPipelineSummary?.() ?? null;
 
-        const [runtimeServers, sessionCount, browserStatus, persistedServers, persistedTools, executionEnvironment, cachedInventory, borgStoreStatus] = await Promise.all([
+        const [runtimeServers, sessionCount, browserStatus, persistedServers, persistedTools, executionEnvironment, cachedInventory, tormentnexusStoreStatus] = await Promise.all([
             aggregator?.listServers?.().catch(() => []) ?? [],
             Promise.resolve(sessionSupervisor?.listSessions?.().length ?? 0),
             Promise.resolve(browserService?.getStatus?.() ?? { active: false, pageCount: 0, pageIds: [] }),
@@ -90,7 +90,7 @@ export const systemProcedures = {
             toolsRepository.findAll().catch(() => []),
             getCachedExecutionEnvironment(),
             getCachedToolInventory().catch(() => ({ servers: [], tools: [], toolCounts: new Map(), source: 'empty' as const, snapshotUpdatedAt: null })),
-            readBorgStoreStatus(process.cwd(), memoryPipelineSummary).catch(() => null),
+            readTormentNexusStoreStatus(process.cwd(), memoryPipelineSummary).catch(() => null),
         ]);
 
         const liveServerCount = runtimeServers.filter((server) => server.status === 'connected').length;
@@ -142,17 +142,17 @@ export const systemProcedures = {
             inventorySource: cachedInventorySummary.source,
             inventorySnapshotUpdatedAt: cachedInventorySummary.snapshotUpdatedAt,
             executionEnvironment: executionEnvironment?.summary ?? null,
-            borg: borgStoreStatus
+            tormentnexus: tormentnexusStoreStatus
                 ? {
-                    enabled: Boolean(borgStoreStatus.runtimePipeline.borgEnabled),
-                    storePath: borgStoreStatus.storePath,
-                    storeExists: borgStoreStatus.exists,
-                    totalEntries: borgStoreStatus.totalEntries,
-                    sectionCount: borgStoreStatus.sectionCount,
-                    defaultSectionCount: borgStoreStatus.defaultSectionCount,
-                    presentDefaultSectionCount: borgStoreStatus.presentDefaultSectionCount,
-                    missingSections: borgStoreStatus.missingSections,
-                    lastUpdatedAt: borgStoreStatus.lastUpdatedAt,
+                    enabled: Boolean(tormentnexusStoreStatus.runtimePipeline.tormentnexusEnabled),
+                    storePath: tormentnexusStoreStatus.storePath,
+                    storeExists: tormentnexusStoreStatus.exists,
+                    totalEntries: tormentnexusStoreStatus.totalEntries,
+                    sectionCount: tormentnexusStoreStatus.sectionCount,
+                    defaultSectionCount: tormentnexusStoreStatus.defaultSectionCount,
+                    presentDefaultSectionCount: tormentnexusStoreStatus.presentDefaultSectionCount,
+                    missingSections: tormentnexusStoreStatus.missingSections,
+                    lastUpdatedAt: tormentnexusStoreStatus.lastUpdatedAt,
                 }
                 : null,
         });

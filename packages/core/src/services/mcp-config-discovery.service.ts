@@ -2,9 +2,9 @@
  * @file mcp-config-discovery.service.ts
  * @module packages/core/src/services/mcp-config-discovery.service
  *
- * Hypercode-native entry point for loading MCP server definitions from config.
+ * TormentNexus-native entry point for loading MCP server definitions from config.
  * The implementation still lives in the compatibility-named module for now,
- * but active imports can use this generic Hypercode-owned path immediately.
+ * but active imports can use this generic TormentNexus-owned path immediately.
  */
 
-export { getMcpServers } from "./fetch-hypercode.service.js";
+export { getMcpServers } from "./fetch-tormentnexus.service.js";

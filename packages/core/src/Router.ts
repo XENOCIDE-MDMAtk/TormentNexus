@@ -1,6 +1,6 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { ListToolsResult, CallToolResult, Tool } from "@modelcontextprotocol/sdk/types.js";
-import { hypercodeLogStore } from "./services/log-store.service.js";
+import { tormentnexusLogStore } from "./services/log-store.service.js";
 import { ProcessManagedStdioTransport } from "./transports/process-managed.transport.js";
 
 /**
@@ -16,7 +16,7 @@ export interface RouterConfig {
  * Router (MCP Aggregator)
  *
  * The central hub that manages connections to multiple MCP servers and provides
- * a unified tool interface. This is Hypercode's "Meta-MCP" layer.
+ * a unified tool interface. This is TormentNexus's "Meta-MCP" layer.
  *
  * Architecture:
  * - Maintains a Map of named MCP `Client` connections (e.g., "filesystem", "browser", "search").
@@ -63,11 +63,11 @@ export class Router {
                 return;
             }
 
-            hypercodeLogStore.addLog(name, 'error', message);
+            tormentnexusLogStore.addLog(name, 'error', message);
         });
 
         transport.stderr?.on('error', (error: Error) => {
-            hypercodeLogStore.addLog(name, 'error', 'stderr error', error);
+            tormentnexusLogStore.addLog(name, 'error', 'stderr error', error);
         });
 
         transport.stdout?.on('data', (chunk: Buffer) => {
@@ -76,16 +76,16 @@ export class Router {
                 return;
             }
 
-            hypercodeLogStore.addLog(name, 'info', message);
+            tormentnexusLogStore.addLog(name, 'info', message);
         });
 
         transport.stdout?.on('error', (error: Error) => {
-            hypercodeLogStore.addLog(name, 'error', 'stdout error', error);
+            tormentnexusLogStore.addLog(name, 'error', 'stdout error', error);
         });
 
         const client = new Client(
             {
-                name: "hypercode-router",
+                name: "tormentnexus-router",
                 version: "0.99.1",
             },
             {

@@ -1,0 +1,8 @@
+{
+  "id": "claude_code_system_prompts_system_promptssystem_reminder_file_shorter_than_offsetmd",
+  "version": 1,
+  "description": "Curated system prompt: system-prompts/system-reminder-file-shorter-than-offset.md from Piebald-AI/claude-code-system-prompts",
+  "template": "<!--\nname: 'System Reminder: File shorter than offset'\ndescription: Warning when file read offset exceeds file length\nccVersion: 2.1.18\nvariables:\n  - RESULT_OBJECT\n-->\n<system-reminder>Warning: the file exists but is shorter than the provided offset (${RESULT_OBJECT.file.startLine}). The file has ${RESULT_OBJECT.file.totalLines} lines.</system-reminder>\n",
+  "variables": [],
+  "updatedAt": "2026-05-30T17:12:36.827097Z"
+}

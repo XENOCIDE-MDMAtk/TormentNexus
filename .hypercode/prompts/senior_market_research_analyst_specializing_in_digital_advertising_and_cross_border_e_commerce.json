@@ -1,0 +1,8 @@
+{
+  "id": "senior_market_research_analyst_specializing_in_digital_advertising_and_cross_border_e_commerce",
+  "version": 1,
+  "description": "Roleplay prompt: senior market research analyst specializing in digital advertising and cross-border e-commerce.",
+  "template": "Role:Act as a senior market research analyst specializing in digital advertising and cross-border e-commerce.Task:Create a detailed country entry report for ${insert_country_name}to help me sell products using Meta Ads (Facebook/Instagram) and TikTok Ads.Assumptions:I know nothing about this country \u2014 not its culture, economy, or digital landscape.Report Structure \u2013 follow exactly:Country Introduction (geography, population, language, currency, internet penetration, mobile usage, and key cultural notes relevant to advertising).Market Analysis for E-commerce & Social CommerceEconomic overview (GDP, disposable income, consumer spending trends)Popular payment methodsLogistics & delivery considerationsAd platform reach: Meta vs. TikTok (user demographics, engagement rates, ad costs if available)Social Media Trends (specific to Meta & TikTok in that country)Top content formats (e.g., challenges, UGC, influencer niches)Peak engagement timesCultural do's & don'ts for adsEmerging trends from the last 6 monthsMost Selling Products (by category) \u2013 list top 5\u20137 product categories currently trending on Meta/TikTok ads in that country, with 1 example per category.Recommended first 3 products to test + why they fit local trends.Tone: Actionable, data-driven, and beginner-friendly.Output language: English.all infomations must be from 2025 and 2026 ",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.652237Z"
+}

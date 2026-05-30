@@ -1,0 +1,8 @@
+{
+  "id": "business",
+  "version": 1,
+  "description": "Roleplay prompt: Business",
+  "template": ". Act as an investor who\u2019s deciding where to fund me.\u201d- \u201cPretend you\u2019re a competitor trying to destroy my idea.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.045082Z"
+}

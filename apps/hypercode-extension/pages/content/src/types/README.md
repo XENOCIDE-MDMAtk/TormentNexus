@@ -1,7 +1,7 @@
 # Types Directory
 
-This directory contains comprehensive TypeScript type definitions and interfaces used throughout the Hypercode Extension extension, organized by functional domain to ensure type safety and consistency.
-This directory contains comprehensive TypeScript type definitions and interfaces used throughout the hypercode Extension extension, organized by functional domain to ensure type safety and consistency.
+This directory contains comprehensive TypeScript type definitions and interfaces used throughout the TormentNexus Extension extension, organized by functional domain to ensure type safety and consistency.
+This directory contains comprehensive TypeScript type definitions and interfaces used throughout the tormentnexus Extension extension, organized by functional domain to ensure type safety and consistency.
 
 ## Architecture Integration
 

@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/hypercode/hypercode"
-	"github.com/robertpelloni/hypercode/foundation/adapters"
-	"github.com/robertpelloni/hypercode/tools"
+	"github.com/robertpelloni/tormentnexus/tormentnexus"
+	"github.com/robertpelloni/tormentnexus/foundation/adapters"
+	"github.com/robertpelloni/tormentnexus/tools"
 	"github.com/sashabaranov/go-openai"
 )
 
@@ -17,8 +17,8 @@ type Agent struct {
 	client       *openai.Client
 	messages     []openai.ChatCompletionMessage
 	tools        *tools.Registry
-	HypercodeAdapter  *hypercode.Adapter
-	HyperAdapter *adapters.HypercodeAdapter
+	TormentNexusAdapter  *tormentnexus.Adapter
+	HyperAdapter *adapters.TormentNexusAdapter
 }
 
 func NewAgent() *Agent {
@@ -28,11 +28,11 @@ func NewAgent() *Agent {
 	}
 
 	registry := tools.NewRegistry()
-	hypercodeAdapter := hypercode.NewAdapter()
+	tormentnexusAdapter := tormentnexus.NewAdapter()
 	cwd, _ := os.Getwd()
-	hyperAdapter := adapters.NewHypercodeAdapter(cwd)
+	hyperAdapter := adapters.NewTormentNexusAdapter(cwd)
 	systemPrompt := strings.Join([]string{
-		"You are Hypercode, a Go-native coding and terminal assistant integrated with Hypercode and Hypercode.",
+		"You are TormentNexus, a Go-native coding and terminal assistant integrated with TormentNexus and TormentNexus.",
 		"Prefer the exact-name Pi-compatible tools read, write, edit, and bash when solving coding tasks.",
 		"Use repomap for repository-wide context when a condensed map would help.",
 		"Additional legacy tools may exist for compatibility, but exact-contract tools are preferred.",
@@ -48,7 +48,7 @@ func NewAgent() *Agent {
 			},
 		},
 		tools:        registry,
-		HypercodeAdapter:  hypercodeAdapter,
+		TormentNexusAdapter:  tormentnexusAdapter,
 		HyperAdapter: hyperAdapter,
 	}
 }

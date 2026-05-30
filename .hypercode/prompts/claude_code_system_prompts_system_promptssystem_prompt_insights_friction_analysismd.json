@@ -1,0 +1,10 @@
+{
+  "id": "claude_code_system_prompts_system_promptssystem_prompt_insights_friction_analysismd",
+  "version": 1,
+  "description": "Curated system prompt: system-prompts/system-prompt-insights-friction-analysis.md from Piebald-AI/claude-code-system-prompts",
+  "template": "<!--\nname: 'System Prompt: Insights friction analysis'\ndescription: Analyzes aggregated usage data to identify friction patterns and categorize recurring issues\nccVersion: 2.1.30\n-->\nAnalyze this Claude Code usage data and identify friction points for this user. Use second person (\"you\").\n\nRESPOND WITH ONLY A VALID JSON OBJECT:\n{\n  \"intro\": \"1 sentence summarizing friction patterns\",\n  \"categories\": {{category____concrete_category_name____description____1_2_sentences_explaining_this_category_and_what_could_be_done_differently__use__you__not__the_user______examples_____specific_example_with_consequence____another_example}}}\n  ]\n}\n\nInclude 3 friction categories with 2 examples each.\n",
+  "variables": [
+    "category____concrete_category_name____description____1_2_sentences_explaining_this_category_and_what_could_be_done_differently__use__you__not__the_user______examples_____specific_example_with_consequence____another_example"
+  ],
+  "updatedAt": "2026-05-30T17:12:27.703951Z"
+}

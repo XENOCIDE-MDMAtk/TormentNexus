@@ -1,5 +1,5 @@
 import { SpecializedAgent } from '../mesh/SpecializedAgent.js';
-import { LLMService } from '@hypercode/ai';
+import { LLMService } from '@tormentnexus/ai';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -32,7 +32,7 @@ export class CoderAgent extends SpecializedAgent {
         console.log(`[CoderAgent] 🧠 Analyzing task: "${offer.task}"`);
 
         // 1. Think / Generate Code
-        const prompt = `You are a Coder Agent in the Hypercode Collective.
+        const prompt = `You are a Coder Agent in the TormentNexus Collective.
 Task: ${offer.task}
 
 Return JSON with:

@@ -1,0 +1,8 @@
+{
+  "id": "moral_dilemma_choices",
+  "version": 1,
+  "description": "Roleplay prompt: Moral Dilemma Choices",
+  "template": "Make up a moral dilemma scenario and ask me what I'd do if I were in that situation. Use my answer to give me insights about my personality and motivations",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.115976Z"
+}

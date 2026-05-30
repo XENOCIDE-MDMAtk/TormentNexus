@@ -49,6 +49,7 @@ export interface MCPServerState {
     warmupStatus?: MCPServerWarmupStatus;
     lastConnectedAt?: number;
     lastError?: string;
+  lastErrorAt?: number;
     restartCount: number;
 }
 

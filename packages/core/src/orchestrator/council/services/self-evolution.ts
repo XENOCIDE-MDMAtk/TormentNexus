@@ -62,14 +62,14 @@ export class SelfEvolutionService {
   }
 
   /**
-   * Spawns an internal meta-session to modify the codebase of Hypercode itself.
+   * Spawns an internal meta-session to modify the codebase of TormentNexus itself.
    */
   async evolveSystem(description: string): Promise<string> {
     const taskId = `evolve-${Date.now()}`;
     const task: DevelopmentTask = {
       id: taskId,
-      description: `[SELF-EVOLUTION] ${description}\n\nYou are modifying the source code of Hypercode itself. \n\nIMPORTANT INSTRUCTIONS:\n1. Create a new git branch named 'evolve-${taskId}'.\n2. Make the requested changes.\n3. Run 'npm run build' and 'npm run lint' across the monorepo to ensure integrity.\n4. If tests and builds pass, commit the changes and push the branch.`,
-      context: 'Modify Hypercode source code to implement the requested evolution autonomously.',
+      description: `[SELF-EVOLUTION] ${description}\n\nYou are modifying the source code of TormentNexus itself. \n\nIMPORTANT INSTRUCTIONS:\n1. Create a new git branch named 'evolve-${taskId}'.\n2. Make the requested changes.\n3. Run 'npm run build' and 'npm run lint' across the monorepo to ensure integrity.\n4. If tests and builds pass, commit the changes and push the branch.`,
+      context: 'Modify TormentNexus source code to implement the requested evolution autonomously.',
       files: [],
       cliType: 'claude-code'
     };

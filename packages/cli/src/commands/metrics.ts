@@ -1,5 +1,5 @@
 /**
- * `hypercode metrics` — System metrics, performance, and observability
+ * `tormentnexus metrics` — System metrics, performance, and observability
  */
 import type { Command } from 'commander';
 

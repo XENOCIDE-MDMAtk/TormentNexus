@@ -3,7 +3,7 @@
 import {
   detectBrowserExtensionArtifacts,
   getPreferredWebPorts,
-  readHypercodeStartLockRecord,
+  readTormentNexusStartLockRecord,
   summarizeBrowserExtensionArtifacts,
 } from './dev_tabby_ready_helpers.mjs';
 
@@ -70,15 +70,15 @@ function formatLine(service, result) {
 
 function getFailureHint(serviceId) {
   switch (serviceId) {
-    case 'hypercode-web':
-      return 'Dashboard is unreachable. Start the web runtime with `hypercode dashboard` or `pnpm -C apps/web dev`.';
-    case 'hypercode-core':
-      return 'Core control plane is unreachable. Start it with `hypercode start --port 4100`.';
-    case 'hypercode-startup-status':
+    case 'tormentnexus-web':
+      return 'Dashboard is unreachable. Start the web runtime with `tormentnexus dashboard` or `pnpm -C apps/web dev`.';
+    case 'tormentnexus-core':
+      return 'Core control plane is unreachable. Start it with `tormentnexus start --port 4100`.';
+    case 'tormentnexus-startup-status':
       return 'Dashboard can load, but startupStatus is not reachable through the web proxy.';
-    case 'hypercode-go-sidecar':
-            return 'Go sidecar is unreachable. Build with go build ./cmd/hypercode and run bin/hypercode.exe -port 4300.';
-        case 'hypercode-mcp-status':
+    case 'tormentnexus-go-sidecar':
+            return 'Go sidecar is unreachable. Build with go build ./cmd/tormentnexus and run bin/tormentnexus.exe -port 4300.';
+        case 'tormentnexus-mcp-status':
       return 'Dashboard can load, but MCP status is not reachable through the web proxy.';
     default:
       return 'Service did not become ready within the retry window.';
@@ -90,10 +90,10 @@ function buildWebUrls() {
 }
 
 function buildCoreUrls() {
-  const lockRecord = readHypercodeStartLockRecord();
+  const lockRecord = readTormentNexusStartLockRecord();
   return uniquePorts([
     lockRecord?.port,
-    normalizePort(process.env.HYPERCODE_PORT),
+    normalizePort(process.env.TORMENTNEXUS_PORT),
     4100,
   ]).map((port) => `http://127.0.0.1:${port}/health`);
 }
@@ -142,28 +142,28 @@ function collectExtensionArtifacts() {
 }
 
 async function main() {
-  const goSidecarPort = normalizePort(process.env.HYPERCODE_GO_PORT) || 4300;
+  const goSidecarPort = normalizePort(process.env.TORMENTNEXUS_GO_PORT) || 4300;
 const services = [
     {
-      id: 'hypercode-web',
-      description: 'Hypercode Next.js dashboard',
+      id: 'tormentnexus-web',
+      description: 'TormentNexus Next.js dashboard',
       critical: !softMode,
       urls: buildWebUrls(),
     },
     {
-      id: 'hypercode-core',
-      description: 'Hypercode core control plane health',
+      id: 'tormentnexus-core',
+      description: 'TormentNexus core control plane health',
       critical: true,
       urls: buildCoreUrls(),
     },
     {
-        id: 'hypercode-go-sidecar',
+        id: 'tormentnexus-go-sidecar',
         description: 'Go sidecar health',
         critical: false,
         urls: [`http://127.0.0.1:${goSidecarPort}/health`],
     },
     {
-      id: 'hypercode-startup-status',
+      id: 'tormentnexus-startup-status',
       description: 'startupStatus through dashboard proxy',
       critical: !softMode,
       urls: getPreferredWebPorts(REPO_ROOT, WEB_PORT_CANDIDATES).map((port) =>
@@ -171,7 +171,7 @@ const services = [
       ),
     },
     {
-      id: 'hypercode-mcp-status',
+      id: 'tormentnexus-mcp-status',
       description: 'mcp.getStatus through dashboard proxy',
       critical: !softMode,
       urls: getPreferredWebPorts(REPO_ROOT, WEB_PORT_CANDIDATES).map((port) =>
@@ -181,7 +181,7 @@ const services = [
   ];
 
   if (!jsonMode) {
-    console.log(`\n[Hypercode Dev Readiness] timeout=${REQUEST_TIMEOUT_MS}ms mode=${softMode ? 'soft' : 'strict'}`);
+    console.log(`\n[TormentNexus Dev Readiness] timeout=${REQUEST_TIMEOUT_MS}ms mode=${softMode ? 'soft' : 'strict'}`);
   }
 
   const serviceResults = await Promise.all(
@@ -248,6 +248,6 @@ const services = [
 }
 
 main().catch((error) => {
-  console.error('[Hypercode Dev Readiness] Unexpected error:', error);
+  console.error('[TormentNexus Dev Readiness] Unexpected error:', error);
   process.exit(1);
 });

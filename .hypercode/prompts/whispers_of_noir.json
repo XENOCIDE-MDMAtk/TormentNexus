@@ -1,0 +1,17 @@
+{
+  "id": "whispers_of_noir",
+  "version": 1,
+  "description": "Roleplay prompt: Whispers of Noir",
+  "template": "{  \"title\": \"Whispers of Noir\",  \"description\": \"A gritty, cinematic portrait of a hard-boiled detective waiting for a lead in a hazy, underground jazz lounge.\",  \"prompt\": \"You will perform an image edit using the person from the provided photo as the main subject. Preserve the core likeness. Transform Subject 1 (male) into a weary 1950s private investigator seated in a plush velvet booth within a smoke-filled jazz club. Render the image as an ultra-photorealistic movie still, utilizing cinematic lighting that emphasizes the texture of his skin and the swirling smoke around him. The image must be highly detailed, shot on Arri Alexa with a shallow depth of field to blur the band in the background, adhering to a 1:1 aspect ratio.\",  \"details\": {    \"year\": \"1954\",    \"genre\": \"Cinematic Photorealism\",    \"location\": \"The Blue Velvet Lounge, a subterranean club with mahogany walls and dim table lamps.\",    \"lighting\": {{chiaroscuro_________warm_table_lamp_glow_________cool_blue_backlighting_from_the_stage_________volumetric_light_beams_through_smoke}},    \"camera_angle\": \"Eye-level medium close-up, focusing intensely on the subject's face.\",    \"emotion\": {{suspicion_________world_weariness_________focused}},    \"color_palette\": {{whiskey_amber_________velvet_red_________deep_shadow_black_________tobacco_smoke_grey}},    \"atmosphere\": {{sultry_________tense_________claustrophobic_________vintage}},    \"environmental_elements\": \"Thick clouds of cigarette smoke hanging in the air, a crystal tumbler of amber liquid on the table, blurred silhouettes of musicians in the background.\",    \"subject1\": {      \"costume\": \"A textured charcoal trench coat over a rumpled suit, with a loose tie and a fedora tilted slightly forward.\",      \"subject_expression\": \"A piercing, cynical gaze with narrowed eyes and a tight jaw.\",      \"subject_action\": \"Resting one hand near a half-empty glass of whiskey, leaning slightly into the light.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{bright_daylight___________modern_technology___________cell_phones___________neon_signs___________clean_air}},      \"exclude_styles\": {{cartoon___________3d_render___________anime___________sketch___________painting}},      \"exclude_colors\": {{neon_green___________hot_pink___________pure_white}},      \"exclude_objects\": {{cars___________digital_watches___________second_person}}    }  }}",
+  "variables": [
+    "bright_daylight___________modern_technology___________cell_phones___________neon_signs___________clean_air",
+    "cars___________digital_watches___________second_person",
+    "sultry_________tense_________claustrophobic_________vintage",
+    "suspicion_________world_weariness_________focused",
+    "cartoon___________3d_render___________anime___________sketch___________painting",
+    "chiaroscuro_________warm_table_lamp_glow_________cool_blue_backlighting_from_the_stage_________volumetric_light_beams_through_smoke",
+    "whiskey_amber_________velvet_red_________deep_shadow_black_________tobacco_smoke_grey",
+    "neon_green___________hot_pink___________pure_white"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.954894Z"
+}

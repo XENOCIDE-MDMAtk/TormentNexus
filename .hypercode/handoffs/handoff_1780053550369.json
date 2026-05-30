@@ -1,0 +1,161 @@
+{
+  "version": "0.99.1",
+  "timestamp": 1780053550368,
+  "sessionId": "current",
+  "stats": {
+    "totalCount": 9179,
+    "sessionCount": 7,
+    "workingCount": 12,
+    "longTermCount": 9160,
+    "observationCount": 12,
+    "uniqueObservationCount": 12,
+    "promptCount": 0,
+    "sessionSummaryCount": 3672,
+    "session": 7,
+    "working": 12,
+    "long_term": 9160,
+    "user": 0,
+    "agent": 1,
+    "project": 9178,
+    "discovery": 5,
+    "decision": 0,
+    "progress": 4,
+    "warning": 3,
+    "fix": 0
+  },
+  "recentContext": [
+    {
+      "content": "JIT tool context for fetch__fetch:\nFocus query: fetch__fetch\nPotentially relevant observations:\n- fetch__fetch completed — fetch__fetch completed in 6798ms. Content type application/json cannot be simplified to markdown, but here is the raw content: Contents of http://127.0.0.1:4300/version: {\"version\":\"1.0.0-alpha.62\"} (progress · fetch__fetch)\n- fetch__fetch completed — fetch__fetch completed in 3455ms. Content type application/json cannot be simplified to markdown, but here is the raw content: Contents of http://127.0.0.1:4300/health: {\"baseUrl\":\"http://127.0.0.1:4300\",\"ok\":true,\"servi (progress · fetch__fetch)\nPotentially relevant session summaries:\n- { (tormenttormentnexus) ended with status imported. Working directory: C:/Users/hyper/.tormenttormentnexus/handoffs Log tail: ], | \"toolName\": \"get_eviction_history\", | \"query\": \"get_eviction_history\", | \"matchedPaths\": [], | \"observationCount\": 0, | \"summaryC\nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "fetch__fetch"
+        ],
+        "toolName": "fetch__fetch",
+        "query": "fetch__fetch",
+        "matchedPaths": [],
+        "observationCount": 2,
+        "summaryCount": 1,
+        "preview": "JIT context: 2 observations · 1 summary"
+      }
+    },
+    {
+      "content": "JIT tool context for desktop-commander__start_process:\nFocus query: desktop-commander__start_process\nRelevant files: workspace\nPotentially relevant observations:\n- desktop-commander__start_process completed — desktop-commander__start_process completed in 221ms. Error: [ { \"code\": \"invalid_type\", \"expected\": \"number\", \"received\": \"undefined\", \"path\": [ \"timeout_ms\" ], \"message\": \"Required\" } ] (warning · desktop-commander__start_process)\n- desktop-commander__execute_command completed — desktop-commander__execute_command completed in 362ms. Error: Unknown tool: execute_command (warning · desktop-commander__execute_command)\n- filesystem__list_directory completed — filesystem__list_directory completed in 134ms. [DIR] .agent [FILE] .ai-devkit.json [DIR] .autopilot [DIR] .tormentnexus [FILE] .tormentnexus-session.json [FILE] .tormentnexus_startup_marker [DIR] .brv [FILE] .build_success [DIR] .chunkhound [FI (discovery · filesystem__list_directory)\nPotentially relevant session summaries:\n- Waiting for MCP servers to initialize... Slash commands are still available and prompts will be queued. (gemini) ended with status imported. Working directory: C:/Users/hyper/.gemini/tmp/tormentnexus/chats Log tail: **Fixing Database Initialization\n- Waiting for MCP servers to initialize... Slash commands are still available and prompts will be queued. (gemini) ended with status imported. Working directory: C:/Users/hyper/.gemini/tmp/tormentnexus/chats Log tail: **Checking Dashboard on Port 301\nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "desktop-commander__start_process"
+        ],
+        "toolName": "desktop-commander__start_process",
+        "query": "desktop-commander__start_process",
+        "matchedPaths": [
+          "C:/Users/hyper/workspace"
+        ],
+        "observationCount": 3,
+        "summaryCount": 2,
+        "preview": "JIT context: 3 observations · 2 summarysummaries · 1 file hit"
+      }
+    },
+    {
+      "content": "JIT tool context for desktop-commander__start_process:\nFocus query: desktop-commander__start_process\nRelevant files: workspace\nPotentially relevant observations:\n- desktop-commander__execute_command completed — desktop-commander__execute_command completed in 362ms. Error: Unknown tool: execute_command (warning · desktop-commander__execute_command)\n- filesystem__list_directory completed — filesystem__list_directory completed in 134ms. [DIR] .agent [FILE] .ai-devkit.json [DIR] .autopilot [DIR] .tormentnexus [FILE] .tormentnexus-session.json [FILE] .tormentnexus_startup_marker [DIR] .brv [FILE] .build_success [DIR] .chunkhound [FI (discovery · filesystem__list_directory)\nPotentially relevant session summaries:\n- Waiting for MCP servers to initialize... Slash commands are still available and prompts will be queued. (gemini) ended with status imported. Working directory: C:/Users/hyper/.gemini/tmp/tormentnexus/chats Log tail: **Fixing Database Initialization\n- Waiting for MCP servers to initialize... Slash commands are still available and prompts will be queued. (gemini) ended with status imported. Working directory: C:/Users/hyper/.gemini/tmp/tormentnexus/chats Log tail: **Checking Dashboard on Port 301\nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "desktop-commander__start_process"
+        ],
+        "toolName": "desktop-commander__start_process",
+        "query": "desktop-commander__start_process",
+        "matchedPaths": [
+          "C:/Users/hyper/workspace"
+        ],
+        "observationCount": 2,
+        "summaryCount": 2,
+        "preview": "JIT context: 2 observations · 2 summarysummaries · 1 file hit"
+      }
+    },
+    {
+      "content": "JIT tool context for desktop-commander__execute_command:\nFocus query: desktop-commander__execute_command\nPotentially relevant session summaries:\n- Waiting for MCP servers to initialize... Slash commands are still available and prompts will be queued. (gemini) ended with status imported. Working directory: C:/Users/hyper/.gemini/tmp/workspace/chats Log tail: Waiting for MCP servers to \n- Waiting for MCP servers to initialize... Slash commands are still available and prompts will be queued. (gemini) ended with status imported. Working directory: C:/Users/hyper/.gemini/tmp/workspace/chats Log tail: Waiting for MCP servers to \nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "desktop-commander__execute_command"
+        ],
+        "toolName": "desktop-commander__execute_command",
+        "query": "desktop-commander__execute_command",
+        "matchedPaths": [],
+        "observationCount": 0,
+        "summaryCount": 2,
+        "preview": "JIT context: 2 summarysummaries"
+      }
+    },
+    {
+      "content": "JIT tool context for ripgrep__search_files:\nFocus query: ripgrep__search_files tormentnexus\nRelevant files: tormentnexus, workspace, .\nPotentially relevant observations:\n- filesystem__list_directory completed — filesystem__list_directory completed in 134ms. [DIR] .agent [FILE] .ai-devkit.json [DIR] .autopilot [DIR] .tormentnexus [FILE] .tormentnexus-session.json [FILE] .tormentnexus_startup_marker [DIR] .brv [FILE] .build_success [DIR] .chunkhound [FI (discovery · filesystem__list_directory)\n- filesystem__list_allowed_directories completed — filesystem__list_allowed_directories completed in 152ms. Allowed directories: C:\\Users\\hyper\\workspace (discovery · filesystem__list_allowed_directories)\n- list_directory completed — list_directory completed in 20ms. { \"content\": [] } (discovery · list_directory)\n- list_directory completed — list_directory completed in 16ms. { \"content\": [] } (discovery · list_directory)\nPotentially relevant session summaries:\n- <overview> (copilot-cli) ended with status imported. Working directory: C:/Users/hyper/.copilot/session-state/f727cbab-afff-4806-8991-86d17d2963a2/checkpoints Log tail: - focused `go test ./internal/httpapi -run \"(ResearchQueue...)\" -v` | -\n- { (tormenttormentnexus) ended with status imported. Working directory: C:/Users/hyper/workspace/tormentnexus/.tormenttormentnexus/agent_memory Log tail: \"toolName\": \"search_codebase\", | \"filesRead\": [], | \"filesModified\": [], | \"rawInput\": \"{\\n \\\"query\\\": \\\"MCPServer\\\nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "ripgrep__search_files"
+        ],
+        "toolName": "ripgrep__search_files",
+        "query": "ripgrep__search_files tormentnexus",
+        "matchedPaths": [
+          "C:/Users/hyper/workspace/tormentnexus",
+          "C:/Users/hyper/workspace",
+          "."
+        ],
+        "observationCount": 4,
+        "summaryCount": 2,
+        "preview": "JIT context: 4 observations · 2 summarysummaries · 3 file hits"
+      }
+    },
+    {
+      "content": "JIT tool context for filesystem__list_directory:\nFocus query: filesystem__list_directory workspace\nRelevant files: workspace, .\nPotentially relevant observations:\n- filesystem__list_allowed_directories completed — filesystem__list_allowed_directories completed in 152ms. Allowed directories: C:\\Users\\hyper\\workspace (discovery · filesystem__list_allowed_directories)\n- list_directory completed — list_directory completed in 20ms. { \"content\": [] } (discovery · list_directory)\n- list_directory completed — list_directory completed in 16ms. { \"content\": [] } (discovery · list_directory)\nPotentially relevant session summaries:\n- [ (tormenttormentnexus) ended with status imported. Working directory: C:/Users/hyper/workspace/tormentnexus/.tormenttormentnexus Log tail: [ | { | \"command\": \"git worktree list\", | \"cwd\": \"C:\\\\Users\\\\hyper\\\\workspace\\\\tormentnexus\", | \"outputSnippet\": \"C:/Users/hyper/workspa\n- # Checklist: Repository Synchronization & Intelligent Merge (antigravity) ended with status imported. Working directory: C:/Users/hyper/.gemini/antigravity/brain/ea958c79-e13d-43e2-a9ba-4461511b6bd2 Log tail: - `[ ]` Run `sync_forks.py` to \nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "filesystem__list_directory"
+        ],
+        "toolName": "filesystem__list_directory",
+        "query": "filesystem__list_directory workspace",
+        "matchedPaths": [
+          "C:/Users/hyper/workspace",
+          "."
+        ],
+        "observationCount": 3,
+        "summaryCount": 2,
+        "preview": "JIT context: 3 observations · 2 summarysummaries · 2 file hits"
+      }
+    },
+    {
+      "content": "JIT tool context for filesystem__list_allowed_directories:\nFocus query: filesystem__list_allowed_directories\nRelevant files: .\nPotentially relevant observations:\n- list_directory completed — list_directory completed in 20ms. { \"content\": [] } (discovery · list_directory)\n- list_directory completed — list_directory completed in 16ms. { \"content\": [] } (discovery · list_directory)\nPotentially relevant session summaries:\n- <overview> (copilot-cli) ended with status imported. Working directory: C:/Users/hyper/.copilot/session-state/f727cbab-afff-4806-8991-86d17d2963a2/checkpoints Log tail: - consider backfilling existing DB rows by running `compactInlineTransc\n- <overview> (copilot-cli) ended with status imported. Working directory: C:/Users/hyper/.copilot/session-state/f727cbab-afff-4806-8991-86d17d2963a2/checkpoints Log tail: - focused `go test ./internal/httpapi -run \"(ResearchQueue...)\" -v` | -\nUse only the parts that still match the current intent; ignore stale context.",
+      "metadata": {
+        "source": "pre_tool_context",
+        "tags": [
+          "tool-context",
+          "pre-tool",
+          "filesystem__list_allowed_directories"
+        ],
+        "toolName": "filesystem__list_allowed_directories",
+        "query": "filesystem__list_allowed_directories",
+        "matchedPaths": [
+          "."
+        ],
+        "observationCount": 2,
+        "summaryCount": 2,
+        "preview": "JIT context: 2 observations · 2 summarysummaries · 1 file hit"
+      }
+    }
+  ],
+  "notes": "Automatic background handoff"
+}

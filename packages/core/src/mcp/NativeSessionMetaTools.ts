@@ -59,6 +59,10 @@ export class NativeSessionMetaTools {
 
     public refreshCatalog(tools: Tool[]): void {
         this.catalog.clear();
+        // Always include base loading/meta tools in catalog
+        this.listToolDefinitions().forEach((tool) => {
+            this.catalog.set(tool.name, tool);
+        });
         tools.forEach((tool) => {
             this.catalog.set(tool.name, tool);
         });
@@ -142,7 +146,7 @@ export class NativeSessionMetaTools {
             }
 
             if (!this.toolContextResolver) {
-                return createTextResult('Tool context resolver is not available in this Hypercode session.', true);
+                return createTextResult('Tool context resolver is not available in this TormentNexus session.', true);
             }
 
             const payload = this.toolContextResolver({
@@ -168,6 +172,26 @@ export class NativeSessionMetaTools {
 
         if (name === 'list_loaded_tools') {
             return await executeListLoadedToolsCompatibility(this.workingSet);
+        }
+        if (name === 'set_capacity') {
+            const maxLoadedTools = typeof args.maxLoadedTools === 'number' ? args.maxLoadedTools : undefined;
+            const maxHydratedSchemas = typeof args.maxHydratedSchemas === 'number' ? args.maxHydratedSchemas : undefined;
+            const idleEvictionThresholdMs = typeof args.idleEvictionThresholdMs === 'number' ? args.idleEvictionThresholdMs : undefined;
+            this.workingSet.reconfigure({
+                maxLoadedTools: maxLoadedTools ?? this.workingSet.getLimits().maxLoadedTools,
+                maxHydratedSchemas: maxHydratedSchemas ?? this.workingSet.getLimits().maxHydratedSchemas,
+                idleEvictionThresholdMs: idleEvictionThresholdMs ?? this.workingSet.getLimits().idleEvictionThresholdMs,
+            });
+            const limits = this.workingSet.getLimits();
+            return createTextResult(`Capacity updated: maxLoadedTools=${limits.maxLoadedTools}, maxHydratedSchemas=${limits.maxHydratedSchemas}, idleEvictionThresholdMs=${limits.idleEvictionThresholdMs}`);
+        }
+        if (name === 'get_eviction_history') {
+            const history = this.workingSet.getEvictionHistory();
+            return createTextResult(JSON.stringify(history));
+        }
+        if (name === 'clear_eviction_history') {
+            this.workingSet.clearEvictionHistory();
+            return createTextResult('Cleared eviction history.');
         }
 
         return null;

@@ -1,0 +1,10 @@
+{
+  "id": "interdisciplinary_connections_and_applications",
+  "version": 1,
+  "description": "Roleplay prompt: Interdisciplinary Connections and Applications",
+  "template": "\"Explore how {{topic}} connects with other fields or disciplines. Provide examples of cross-disciplinary applications, collaborative opportunities, and how integrating insights from different areas can enhance understanding or innovation in {{topic}}.\"",
+  "variables": [
+    "topic"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.084655Z"
+}

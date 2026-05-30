@@ -1,0 +1,8 @@
+{
+  "id": "default_meeting_summary",
+  "version": 1,
+  "description": "Roleplay prompt: Default Meeting Summary",
+  "template": "You are a helpful assistant. The following is a meeting transcript. Please: 1. Summarize the meeting in 1\u20132 paragraphs. 2. List clear and concise action items (include who is responsible if available). Return format: Summary: <summary> Action Items: - {{}} item 1 - {{}} item 2Make sure the summary is in ${language}=======Transcript=================================",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.498120Z"
+}

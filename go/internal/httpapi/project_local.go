@@ -6,7 +6,7 @@ import (
 )
 
 func localProjectContextPath(workspaceRoot string) string {
-	return filepath.Join(workspaceRoot, ".hypercode", "project_context.md")
+	return filepath.Join(workspaceRoot, ".tormentnexus", "project_context.md")
 }
 
 func localWriteProjectContext(workspaceRoot string, content string) error {

@@ -1,0 +1,13 @@
+{
+  "id": "game_design",
+  "version": 1,
+  "description": "Roleplay prompt: Game design",
+  "template": "Prompt:\"Act as a Lead System Designer. I want to design a {{system_name__e_g___weapon_resonance_system}}.\u200bInputs: > - Genre: {{e_g___action_rpg}}\u200bPlayer Goal: {{e_g___vertical_power_progression}}\u200bTask: > Please provide a structural design covering:\u200bPrimary Loop: How players interact with this system daily.\u200bSystem Constraints: Resource sinks and fountains.\u200bInterconnectivity: How this system feeds into the {{combat_economy}} system.\u200bScalability: How to add new content to this system in the next 2 years without breaking balance.\"",
+  "variables": [
+    "e_g___vertical_power_progression",
+    "combat_economy",
+    "system_name__e_g___weapon_resonance_system",
+    "e_g___action_rpg"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.250544Z"
+}

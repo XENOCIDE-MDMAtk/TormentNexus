@@ -8,7 +8,7 @@ import './globals.css';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
-  title: 'Hypercode',
+  title: 'TormentNexus',
   description: 'The Ultimate Meta-Orchestrator for the Model Context Protocol',
 };
 

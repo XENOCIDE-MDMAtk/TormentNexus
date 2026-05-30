@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
 )
 
 func TestSubmoduleUpdateAllFallsBackToNativeGitReport(t *testing.T) {
@@ -31,11 +31,11 @@ func TestSubmoduleUpdateAllFallsBackToNativeGitReport(t *testing.T) {
 		t.Fatalf("git init failed: %v (%s)", err, string(output))
 	}
 
-	t.Setenv("HYPERCODE_TRPC_UPSTREAM", "http://127.0.0.1:1/trpc")
+	t.Setenv("TORMENTNEXUS_TRPC_UPSTREAM", "http://127.0.0.1:1/trpc")
 	cfg := config.Default()
 	cfg.WorkspaceRoot = workspace
-	cfg.ConfigDir = filepath.Join(workspace, ".hypercode-go")
-	cfg.MainConfigDir = filepath.Join(workspace, ".hypercode")
+	cfg.ConfigDir = filepath.Join(workspace, ".tormentnexus-go")
+	cfg.MainConfigDir = filepath.Join(workspace, ".tormentnexus")
 	server := New(cfg, stubDetector{})
 
 	req := httptest.NewRequest(http.MethodPost, "/api/submodules/update-all", bytes.NewBufferString(`{}`))

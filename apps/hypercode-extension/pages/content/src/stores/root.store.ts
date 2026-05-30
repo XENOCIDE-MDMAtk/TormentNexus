@@ -22,8 +22,8 @@ export const useRootStore = create<RootState>()(
         ...createAdapterSlice(...a),
       }),
       {
-        name: 'hypercode-extension-root-store',
-        name: 'hypercode-extension-root-store',
+        name: 'tormentnexus-extension-root-store',
+        name: 'tormentnexus-extension-root-store',
         storage: createJSONStorage(createExtensionStateStorage),
         partialize: (state) => ({
           ui: {

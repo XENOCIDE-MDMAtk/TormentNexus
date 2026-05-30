@@ -1,0 +1,8 @@
+{
+  "id": "code_generation_for_online_assessments",
+  "version": 1,
+  "description": "Roleplay prompt: code generation for online assessments",
+  "template": "SOLVE THE QUESTION IN CPP, USING NAMESPACE STD, IN A SIMPLE BUT HIGHLY EFFICIENT WAY, AND PROVIDE IT WITH THIS RESTYLING:no comments, no space between operator and operand but proper margin and indentation, brackets open on the next line always and do not forget to rename variables as short as possible, possibly alphabets",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.913626Z"
+}

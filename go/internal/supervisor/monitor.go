@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/mcp"
+	"github.com/tormentnexushq/tormentnexus-go/internal/mcp"
 )
 
 type ConversationMonitor struct {

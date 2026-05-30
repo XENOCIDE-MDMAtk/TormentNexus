@@ -21,8 +21,8 @@ A platform is only marked **Locked** when all fields are complete and reviewed.
 
 ## Related Resources (Phase 1: Foundation)
 
-- **[HYPERCODE_MASTER_INDEX.jsonc](../HYPERCODE_MASTER_INDEX.jsonc)** — Master project index with full evidence lock state tracking, phase status, and artifact inventory.
-- **[HYPERCODE_MASTER_INDEX.jsonc](../HYPERCODE_MASTER_INDEX.jsonc)** — Master project index with full evidence lock state tracking, phase status, and artifact inventory.
+- **[TORMENTNEXUS_MASTER_INDEX.jsonc](../TORMENTNEXUS_MASTER_INDEX.jsonc)** — Master project index with full evidence lock state tracking, phase status, and artifact inventory.
+- **[TORMENTNEXUS_MASTER_INDEX.jsonc](../TORMENTNEXUS_MASTER_INDEX.jsonc)** — Master project index with full evidence lock state tracking, phase status, and artifact inventory.
 - **[EVIDENCE_LOCK_STATUS_2026_03_19.md](./EVIDENCE_LOCK_STATUS_2026_03_19.md)** — Comprehensive status snapshot with metrics and next steps.
 - **[VERSION_PINS.jsonc](./fixtures/VERSION_PINS.jsonc)** — Central registry for version pins across all L2 platforms. Used in CI validation.
 - **[TOOL_CONTRACTS.md](./fixtures/TOOL_CONTRACTS.md)** — Golden fixture template capturing tool signatures, permission patterns, and hook semantics.
@@ -231,8 +231,8 @@ Do not claim parity complete until L1/L0 entries are promoted.
 
 ---
 
-## Hypercode Readiness Gate
-## hypercode Readiness Gate
+## TormentNexus Readiness Gate
+## tormentnexus Readiness Gate
 
 Do not claim “first-class parity complete” until:
 

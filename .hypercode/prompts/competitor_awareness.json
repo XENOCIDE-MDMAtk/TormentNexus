@@ -1,0 +1,8 @@
+{
+  "id": "competitor_awareness",
+  "version": 1,
+  "description": "Roleplay prompt: Competitor Awareness",
+  "template": "give the best prompt to identify the complete company profile of euler, like core aspeccts to focus on, fundraising, growth strategy, series funding, execution plan, vc involvement, etc. Basically complete data about Euler motors",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.517687Z"
+}

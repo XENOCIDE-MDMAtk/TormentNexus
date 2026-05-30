@@ -1,0 +1,17 @@
+{
+  "id": "the_gravediggers_vigil",
+  "version": 1,
+  "description": "Roleplay prompt: The Gravedigger's Vigil",
+  "template": "{  \"title\": \"The Gravedigger's Vigil\",  \"description\": \"A haunting portrait of a lone Victorian figure standing watch over a misty, decrepit cemetery at midnight.\",  \"prompt\": \"You will perform an image edit using the person from the provided photo as the main subject. Preserve his core likeness. Transform Subject 1 (male) into a solemn Victorian gravedigger standing amidst a sprawling, fog-choked necropolis. He holds a rusted lantern that casts long, uncanny shadows against the moss-covered mausoleums behind him. The composition adheres to a cinematic 1:1 aspect ratio, framing him tightly against the decaying iron gates.\",  \"details\": {    \"year\": \"1888\",    \"genre\": \"Gothic Horror\",    \"location\": \"An overgrown, crumbling cemetery gate with twisted iron bars and weeping angel statues.\",    \"lighting\": {{pale__cold_moonlight_cutting_through_fog_________flickering__warm_amber_candlelight_from_a_lantern_________deep__abyssal_shadows}},    \"camera_angle\": \"Eye-level medium shot, creating a direct and confronting connection with the viewer.\",    \"emotion\": {{foreboding_________solitary_________melancholic}},    \"color_palette\": {{obsidian_black_________slate_gray_________pale_moonlight_blue_________sepia_tone_________muted_moss_green}},    \"atmosphere\": {{eerie_________cold_________silent_________supernatural_________decaying}},    \"environmental_elements\": \"Swirling ground mist that obscures the feet, twisted dead oak trees silhouetted against the moon, a lone crow perched on a headstone.\",    \"subject1\": {      \"costume\": \"A tattered, ankle-length black velvet frock coat, a weathered top hat, and worn leather gloves.\",      \"subject_expression\": \"A somber, pale visage with a piercing, weary gaze staring into the darkness.\",      \"subject_action\": \"Raising a lantern high with the right hand while gripping the handle of a spade with the left.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{sunlight___________blooming_flowers___________blue_sky___________modern_infrastructure___________smiling___________lens_flare}},      \"exclude_styles\": {{cartoon___________cyberpunk___________high_fantasy___________anime___________watercolor___________bright_pop_art}},      \"exclude_colors\": {{neon___________pastel_pink___________vibrant_orange___________saturated_red}},      \"exclude_objects\": {{cars___________smartphones___________plastic___________streetlights}}    }  }}",
+  "variables": [
+    "pale__cold_moonlight_cutting_through_fog_________flickering__warm_amber_candlelight_from_a_lantern_________deep__abyssal_shadows",
+    "cars___________smartphones___________plastic___________streetlights",
+    "cartoon___________cyberpunk___________high_fantasy___________anime___________watercolor___________bright_pop_art",
+    "foreboding_________solitary_________melancholic",
+    "neon___________pastel_pink___________vibrant_orange___________saturated_red",
+    "eerie_________cold_________silent_________supernatural_________decaying",
+    "sunlight___________blooming_flowers___________blue_sky___________modern_infrastructure___________smiling___________lens_flare",
+    "obsidian_black_________slate_gray_________pale_moonlight_blue_________sepia_tone_________muted_moss_green"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.063219Z"
+}

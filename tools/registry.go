@@ -10,9 +10,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/robertpelloni/hypercode/foundation/compat"
-	foundationpi "github.com/robertpelloni/hypercode/foundation/pi"
-	foundationrepomap "github.com/robertpelloni/hypercode/foundation/repomap"
+	"github.com/robertpelloni/tormentnexus/foundation/compat"
+	foundationpi "github.com/robertpelloni/tormentnexus/foundation/pi"
+	foundationrepomap "github.com/robertpelloni/tormentnexus/foundation/repomap"
 )
 
 // Registry holds all available tools for the agent.

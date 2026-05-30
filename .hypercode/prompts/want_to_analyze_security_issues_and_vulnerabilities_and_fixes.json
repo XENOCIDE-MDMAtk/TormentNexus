@@ -1,0 +1,8 @@
+{
+  "id": "want_to_analyze_security_issues_and_vulnerabilities_and_fixes",
+  "version": 1,
+  "description": "Roleplay prompt: want to analyze security issues and vulnerabilities and fixes",
+  "template": "Intelligent Vulnerability TriageAnalyze GHAS alerts across repositoriesIdentify dependency vs base image root causesDetect repeated vulnerability patternsPrioritize remediation based on severity and exposureSafe Upgrade RecommendationsAI helped evaluate:Compatible dependency versionsBreaking change risksRuntime impact across servicesRequired code adjustments after upgradesThis significantly reduced trial-and-error upgrades.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.631223Z"
+}

@@ -3,7 +3,7 @@
  * Sync all workspace package.json versions to match the root VERSION file.
  * Run via: node scripts/sync-versions.mjs
  *
- * This ensures every internal @hypercode/*, @extension/*, and app package
+ * This ensures every internal @tormentnexus/*, @extension/*, and app package
  * stays at the same version as the monorepo VERSION file.
  */
 
@@ -28,9 +28,9 @@ const version = readFileSync(versionFile, 'utf8').trim();
 const patterns = [
   'packages/*/package.json',
   'apps/web/package.json',
-  'apps/hypercode-extension/package.json',
+  'apps/tormentnexus-extension/package.json',
   'apps/vscode/package.json',
-  'apps/hypercode-extension/packages/*/package.json',
+  'apps/tormentnexus-extension/packages/*/package.json',
   'cli/mcp-router-cli/package.json',
 ];
 

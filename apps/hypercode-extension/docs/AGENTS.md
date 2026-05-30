@@ -1,12 +1,12 @@
-# AGENTS — `apps/hypercode-extension/docs`
-# AGENTS — `apps/hypercode-extension/docs`
+# AGENTS — `apps/tormentnexus-extension/docs`
+# AGENTS — `apps/tormentnexus-extension/docs`
 
 **Mandatory reading first:**
 - `docs/UNIVERSAL_LLM_INSTRUCTIONS.md`
 - root `AGENTS.md`
 
-This file contains only guidance for documentation under `apps/hypercode-extension/docs`.
-This file contains only guidance for documentation under `apps/hypercode-extension/docs`.
+This file contains only guidance for documentation under `apps/tormentnexus-extension/docs`.
+This file contains only guidance for documentation under `apps/tormentnexus-extension/docs`.
 
 ## Purpose
 
@@ -19,8 +19,8 @@ These docs should describe the browser extension honestly and specifically. They
 - Distinguish clearly between:
   - current extension behavior,
   - planned integration work,
-  - and broader Hypercode vision.
-  - and broader hypercode vision.
+  - and broader TormentNexus vision.
+  - and broader tormentnexus vision.
 - Do not require version bumps or broad project-wide release rituals for routine doc edits.
 
 ## What to emphasize

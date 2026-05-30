@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import path from 'node:path';
 
-export interface HypercodeStartupProvenance {
+export interface TormentNexusStartupProvenance {
     requestedRuntime?: string;
     activeRuntime?: string;
     requestedPort?: number;
@@ -18,16 +18,16 @@ export interface HypercodeStartupProvenance {
     updatedAt?: string;
 }
 
-interface HypercodeStartLockRecord {
+interface TormentNexusStartLockRecord {
     instanceId: string;
     pid: number;
     port: number;
     host: string;
     createdAt: string;
-    startup?: HypercodeStartupProvenance;
+    startup?: TormentNexusStartupProvenance;
 }
 
-function normalizeStartupProvenance(record: HypercodeStartLockRecord | null): HypercodeStartupProvenance | null {
+function normalizeStartupProvenance(record: TormentNexusStartLockRecord | null): TormentNexusStartupProvenance | null {
     if (!record || typeof record.port !== 'number' || record.port <= 0) {
         return null;
     }
@@ -62,14 +62,14 @@ function resolveDataDir(dataDir: string, homeDirectory: string = homedir()): str
     return path.isAbsolute(dataDir) ? dataDir : path.resolve(dataDir);
 }
 
-function readStartLockRecord(dataDir: string): HypercodeStartLockRecord | null {
+function readStartLockRecord(dataDir: string): TormentNexusStartLockRecord | null {
     const lockPath = path.join(resolveDataDir(dataDir), 'lock');
     if (!existsSync(lockPath)) {
         return null;
     }
 
     try {
-        const parsed = JSON.parse(readFileSync(lockPath, 'utf8')) as Partial<HypercodeStartLockRecord>;
+        const parsed = JSON.parse(readFileSync(lockPath, 'utf8')) as Partial<TormentNexusStartLockRecord>;
         if (
             typeof parsed.instanceId !== 'string'
             || typeof parsed.pid !== 'number'
@@ -80,12 +80,12 @@ function readStartLockRecord(dataDir: string): HypercodeStartLockRecord | null {
             return null;
         }
 
-        return parsed as HypercodeStartLockRecord;
+        return parsed as TormentNexusStartLockRecord;
     } catch {
         return null;
     }
 }
 
-export function readLocalStartupProvenance(dataDir: string = process.env.HYPERCODE_DATA_DIR ?? '~/.hypercode'): HypercodeStartupProvenance | null {
+export function readLocalStartupProvenance(dataDir: string = process.env.TORMENTNEXUS_DATA_DIR ?? '~/.tormentnexus'): TormentNexusStartupProvenance | null {
     return normalizeStartupProvenance(readStartLockRecord(dataDir));
 }

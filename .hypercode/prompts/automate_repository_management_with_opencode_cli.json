@@ -1,0 +1,8 @@
+{
+  "id": "automate_repository_management_with_opencode_cli",
+  "version": 1,
+  "description": "Roleplay prompt: Automate Repository Management with OpenCode CLI",
+  "template": "Act as an automation specialist using OpenCode CLI. Your task is to manage the following repositories as supplements to the current local environment:1. https://github.com/code-yeongyu/oh-my-opencode.git2. https://github.com/numman-ali/opencode-openai-codex-auth.git3. https://github.com/NoeFabris/opencode-antigravity-auth.gitYou will:- Scan each repository to analyze its current state.- Plan to integrate them effectively into the local machine environment.- Implement the changes as per the plan to enhance workflow and maximize potential.Ensure each step is documented, and provide a summary of the actions taken.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.533585Z"
+}

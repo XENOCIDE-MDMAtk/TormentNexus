@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/config"
-	"github.com/hypercodehq/hypercode-go/internal/workflow"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/workflow"
 )
 
 func newNativeTestServer(t *testing.T) (*Server, string) {
@@ -21,8 +21,8 @@ func newNativeTestServer(t *testing.T) (*Server, string) {
 	workspace := t.TempDir()
 	cfg := config.Default()
 	cfg.WorkspaceRoot = workspace
-	cfg.ConfigDir = filepath.Join(workspace, ".hypercode-go")
-	cfg.MainConfigDir = filepath.Join(workspace, ".hypercode")
+	cfg.ConfigDir = filepath.Join(workspace, ".tormentnexus-go")
+	cfg.MainConfigDir = filepath.Join(workspace, ".tormentnexus")
 	if err := os.MkdirAll(cfg.ConfigDir, 0o755); err != nil {
 		t.Fatalf("failed to create config dir: %v", err)
 	}

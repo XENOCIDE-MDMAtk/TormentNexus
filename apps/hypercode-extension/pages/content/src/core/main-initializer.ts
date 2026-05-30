@@ -1,8 +1,8 @@
 /**
  * Main Application Initializer (Session 10)
  *
- * This module orchestrates the complete initialization sequence for the Hypercode Extension
- * This module orchestrates the complete initialization sequence for the hypercode Extension
+ * This module orchestrates the complete initialization sequence for the TormentNexus Extension
+ * This module orchestrates the complete initialization sequence for the tormentnexus Extension
  * application, ensuring all components are initialized in the correct order with proper
  * dependency management and error handling.
  */

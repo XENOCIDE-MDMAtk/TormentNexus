@@ -1,4 +1,4 @@
-module github.com/hypercodehq/hypercode-go
+module github.com/tormentnexushq/tormentnexus-go
 
 go 1.25.0
 

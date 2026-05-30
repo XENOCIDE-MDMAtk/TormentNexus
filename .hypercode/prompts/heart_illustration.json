@@ -1,0 +1,11 @@
+{
+  "id": "heart_illustration",
+  "version": 1,
+  "description": "Roleplay prompt: Heart Illustration",
+  "template": "{{00_00___00_03}}Hyper-realistic 8K 3D human heart anatomy, beating slowly, detailed muscle texture with coronary arteries, Golden Hour Cinematic lighting, fisheye distortion effect, 35mm storytelling lens, professional medical infographic style, blurred futuristic laboratory background. --ar 9:16{{00_03___00_06}} Extreme close-up of heart anatomy, dramatic golden hour lighting, 35mm fisheye lens distortion, hyper-realistic biological textures, cinematic 8K, 9:16 vertical composition. --ar 9:16",
+  "variables": [
+    "00_03___00_06",
+    "00_00___00_03"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.607234Z"
+}

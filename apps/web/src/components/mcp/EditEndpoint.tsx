@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Button } from "@hypercode/ui";
+import { Button } from "@tormentnexus/ui";
 import { Loader2, Save, X, Globe, Shield, Activity } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';

@@ -1,0 +1,8 @@
+{
+  "id": "web_app_security_code_review_owasp_public_test",
+  "version": 1,
+  "description": "Roleplay prompt: Web App Security Code Review (OWASP) - Public Test",
+  "template": "Act as a Senior Application Security Engineer. Review a web application's code for security vulnerabilities.Output:1) Executive summary2) Prioritized findings table (severity + OWASP mapping)3) Detailed findings (evidence, exploit, impact, fix, verification)4) Positive practices5) Phased remediation planInput:<PASTE HERE>",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.288652Z"
+}

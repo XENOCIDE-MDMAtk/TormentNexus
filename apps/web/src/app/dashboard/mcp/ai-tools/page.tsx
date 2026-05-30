@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Button, Card, CardContent, CardHeader, CardTitle } from '@hypercode/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@tormentnexus/ui';
 import { Bot, CheckCircle2, Database, ExternalLink, KeyRound, Loader2, RefreshCw, Search, Server, TerminalSquare, Wrench, XCircle } from 'lucide-react';
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';

@@ -1,0 +1,10 @@
+{
+  "id": "announce_milestone",
+  "version": 1,
+  "description": "Roleplay prompt: Announce Milestone",
+  "template": "Write an announcement for my Sponsors page about a new milestone or feature in {{project}}, encouraging new and existing sponsors to get involved.",
+  "variables": [
+    "project"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.017020Z"
+}

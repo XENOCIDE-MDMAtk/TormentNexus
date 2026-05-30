@@ -1,13 +1,13 @@
 /**
- * `hypercode config` - Configuration management
+ * `tormentnexus config` - Configuration management
  *
- * View, set, and manage Hypercode HYPERCODE configuration including
+ * View, set, and manage TormentNexus TORMENTNEXUS configuration including
  * all subsystem settings, secrets, and environment variables.
  *
  * @example
- *   hypercode config show                # Show current config
- *   hypercode config set server.port 8080
- *   hypercode config secrets             # Manage secrets
+ *   tormentnexus config show                # Show current config
+ *   tormentnexus config set server.port 8080
+ *   tormentnexus config secrets             # Manage secrets
  */
 
 import type { Command } from "commander";
@@ -17,12 +17,12 @@ export function registerConfigCommand(program: Command): void {
 		.command("config")
 		.alias("cfg")
 		.description(
-			"Config — view and manage Hypercode configuration, secrets, and environment variables",
+			"Config — view and manage TormentNexus configuration, secrets, and environment variables",
 		);
 
 	config
 		.command("show")
-		.description("Display the current Hypercode configuration")
+		.description("Display the current TormentNexus configuration")
 		.option("--json", "Output as raw JSON")
 		.option(
 			"--section <section>",
@@ -87,7 +87,7 @@ export function registerConfigCommand(program: Command): void {
 					checkIntervalMs: 60000,
 				},
 				logLevel: "info",
-				dataDir: "~/.hypercode",
+				dataDir: "~/.tormentnexus",
 			};
 
 			// Merge server config if available
@@ -104,7 +104,7 @@ export function registerConfigCommand(program: Command): void {
 			}
 
 			const chalk = (await import("chalk")).default;
-			console.log(chalk.bold.cyan("\n  Hypercode Configuration\n"));
+			console.log(chalk.bold.cyan("\n  TormentNexus Configuration\n"));
 			const printConfig = (obj: Record<string, unknown>, prefix = "  ") => {
 				for (const [key, val] of Object.entries(obj)) {
 					if (typeof val === "object" && val !== null && !Array.isArray(val)) {
@@ -133,11 +133,11 @@ export function registerConfigCommand(program: Command): void {
 			"after",
 			`
 Examples:
-  $ hypercode config set server.port 8080
-  $ hypercode config set mcp.toonFormat true
-  $ hypercode config set memory.primaryBackend sqlite
-  $ hypercode config set director.enabled true
-  $ hypercode config set logLevel debug
+  $ tormentnexus config set server.port 8080
+  $ tormentnexus config set mcp.toonFormat true
+  $ tormentnexus config set memory.primaryBackend sqlite
+  $ tormentnexus config set director.enabled true
+  $ tormentnexus config set logLevel debug
     `,
 		)
 		.action(async (key, value) => {
@@ -146,7 +146,7 @@ Examples:
 			const { resolve, dirname } = await import("path");
 			const { homedir } = await import("os");
 
-			const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), ".hypercode");
+			const configDir = process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), ".tormentnexus");
 			const configPath = resolve(configDir, "config.jsonc");
 
 			let config: Record<string, any> = {};
@@ -184,7 +184,7 @@ Examples:
 			const { homedir } = await import("os");
 			const chalk = (await import("chalk")).default;
 
-			const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), ".hypercode");
+			const configDir = process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), ".tormentnexus");
 			const configPath = resolve(configDir, "config.jsonc");
 
 			let config: Record<string, any> = {};
@@ -223,13 +223,13 @@ Examples:
 		.addHelpText(
 			"after",
 			`
-Secrets are stored encrypted in ~/.hypercode/secrets.enc
+Secrets are stored encrypted in ~/.tormentnexus/secrets.enc
 
 Examples:
-  $ hypercode config secrets --list
-  $ hypercode config secrets --set OPENAI_API_KEY
-  $ hypercode config secrets --delete GITHUB_TOKEN
-  $ hypercode config secrets --env
+  $ tormentnexus config secrets --list
+  $ tormentnexus config secrets --set OPENAI_API_KEY
+  $ tormentnexus config secrets --delete GITHUB_TOKEN
+  $ tormentnexus config secrets --env
     `,
 		)
 		.action(async (opts) => {
@@ -255,7 +255,7 @@ Examples:
 				const { readFileSync, writeFileSync, mkdirSync } = await import("fs");
 				const { resolve, dirname } = await import("path");
 				const { homedir } = await import("os");
-				const configDir = process.env.HYPERCODE_CONFIG_DIR || resolve(homedir(), ".hypercode");
+				const configDir = process.env.TORMENTNEXUS_CONFIG_DIR || resolve(homedir(), ".tormentnexus");
 				const configPath = resolve(configDir, "config.jsonc");
 				let config: Record<string, any> = {};
 				try {
@@ -291,10 +291,10 @@ Examples:
 	config
 		.command("init")
 		.description(
-			"Initialize Hypercode configuration in current directory or globally",
+			"Initialize TormentNexus configuration in current directory or globally",
 		)
-		.option("--global", "Initialize global config at ~/.hypercode/")
-		.option("--local", "Initialize local .hypercode/ config in current directory")
+		.option("--global", "Initialize global config at ~/.tormentnexus/")
+		.option("--local", "Initialize local .tormentnexus/ config in current directory")
 		.action(async (opts) => {
 			const chalk = (await import("chalk")).default;
 			const { mkdirSync, existsSync, writeFileSync } = await import("fs");
@@ -302,8 +302,8 @@ Examples:
 			const { homedir } = await import("os");
 			const home = homedir();
 
-			const scope = opts.global ? "global (~/.hypercode/)" : "local (.hypercode/)";
-			const baseDir = opts.global ? resolve(home, ".hypercode") : resolve(process.cwd(), ".hypercode");
+			const scope = opts.global ? "global (~/.tormentnexus/)" : "local (.tormentnexus/)";
+			const baseDir = opts.global ? resolve(home, ".tormentnexus") : resolve(process.cwd(), ".tormentnexus");
 
 			// Create directory
 			mkdirSync(baseDir, { recursive: true });

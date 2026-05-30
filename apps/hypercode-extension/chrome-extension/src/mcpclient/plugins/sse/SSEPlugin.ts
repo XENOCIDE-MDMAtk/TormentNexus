@@ -15,8 +15,8 @@ export class SSEPlugin implements ITransportPlugin {
     version: '1.0.0',
     transportType: 'sse',
     description: 'Server-Sent Events transport for MCP protocol',
-    author: 'Hypercode Extension',
-    author: 'hypercode Extension',
+    author: 'TormentNexus Extension',
+    author: 'tormentnexus Extension',
   };
 
   private config: SSEPluginConfig = {};

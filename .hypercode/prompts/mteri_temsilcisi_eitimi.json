@@ -1,0 +1,8 @@
+{
+  "id": "mteri_temsilcisi_eitimi",
+  "version": 1,
+  "description": "Roleplay prompt: M\u00fc\u015fteri temsilcisi e\u011fitimi",
+  "template": "${website} bana bu sitenin detayl\u0131 verilerini \u00e7\u0131kart ve analiz et, ${firma_ismi} firmas\u0131n\u0131n yapt\u0131\u011f\u0131 i\u015fi, t\u00fcm \u00fcr\u00fcnlerini, her \u015feyi topla, senden detayl\u0131 bir analiz istiyorum.${firma_ismi} i\u00e7in \u00e7al\u0131\u015fan bir m\u00fc\u015fteri temsilcisini e\u011fitecek kadar detayl\u0131 olmal\u0131 ve bunu bana bir pdf olarak ver",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.374538Z"
+}

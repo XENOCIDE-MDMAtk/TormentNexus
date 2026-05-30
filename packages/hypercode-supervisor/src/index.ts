@@ -23,7 +23,7 @@ class SupervisorServer {
         this.uiAutomationManager = new UiAutomationManager();
         this.server = new Server(
             {
-                name: "hypercode-supervisor",
+                name: "tormentnexus-supervisor",
                 version: "0.1.0",
             },
             {
@@ -42,7 +42,7 @@ class SupervisorServer {
                 tools: [
                     {
                         name: "install_supervisor",
-                        description: "Install Hypercode Supervisor into Antigravity MCP Config",
+                        description: "Install TormentNexus Supervisor into Antigravity MCP Config",
                         inputSchema: {
                             type: "object",
                             properties: {
@@ -476,10 +476,10 @@ class SupervisorServer {
     }
 
     async start() {
-        logger.info("Hypercode Supervisor Starting...");
+        logger.info("TormentNexus Supervisor Starting...");
         const transport = new StdioServerTransport();
         await this.server.connect(transport);
-        logger.info("Hypercode Supervisor Connected to Stdio");
+        logger.info("TormentNexus Supervisor Connected to Stdio");
     }
 }
 

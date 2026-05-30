@@ -21,7 +21,7 @@ const fatalLines = lines.filter(
     line.toLowerCase().includes('out of memory')
 );
 if (fatalLines.length > 0) {
-  console.error('[@hypercode/agents] Fatal build errors:\n' + fatalLines.join('\n'));
+  console.error('[@tormentnexus/agents] Fatal build errors:\n' + fatalLines.join('\n'));
 }
 
 process.exit(0);

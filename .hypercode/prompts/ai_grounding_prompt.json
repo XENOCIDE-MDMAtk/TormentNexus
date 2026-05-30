@@ -1,0 +1,12 @@
+{
+  "id": "ai_grounding_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: AI Grounding Prompt",
+  "template": "1. Base your answer ONLY on the uploaded documents. Nothing else.2. If info isn't found, say \"Not found.\" Don't guess.3. For each claim, cite: {{document__page_section__quote}}4. If uncertain, mark as {{unverified}}5. {{your_question}}Re-scan the document. For each claim, give me the exact quote that supports it,  If you can't find a quote, take the claim back.",
+  "variables": [
+    "unverified",
+    "your_question",
+    "document__page_section__quote"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.625079Z"
+}

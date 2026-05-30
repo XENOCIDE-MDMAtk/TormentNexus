@@ -1,0 +1,10 @@
+{
+  "id": "tell_your_story",
+  "version": 1,
+  "description": "Roleplay prompt: Tell Your Story",
+  "template": "Write a personal story about why I started contributing to open source, what drives me, and how sponsorship helps me continue this journey in {{field_technology}}.",
+  "variables": [
+    "field_technology"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.013085Z"
+}

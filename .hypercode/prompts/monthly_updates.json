@@ -1,0 +1,10 @@
+{
+  "id": "monthly_updates",
+  "version": 1,
+  "description": "Roleplay prompt: Monthly Updates",
+  "template": "Create a template for monthly sponsor updates that includes progress, challenges, wins, and upcoming features for {{project}}.",
+  "variables": [
+    "project"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.014544Z"
+}

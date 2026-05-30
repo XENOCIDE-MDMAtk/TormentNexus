@@ -1,0 +1,10 @@
+{
+  "id": "pixel_dissolve_minimalist_3d_food_transformation",
+  "version": 1,
+  "description": "Roleplay prompt: Pixel Dissolve: Minimalist 3D Food Transformation",
+  "template": "Minimalist food photograph, {{1080x1080}} \u2013 a single ${food} rests on a light, matte surface and is captured mid-transformation into a 3D pixelized form: one half remains intact while the other organically fragments into large, floating cubes that drift outward, each cube revealing the object\u2019s texture, ingredients, and colors. Studio lighting with soft, realistic shadows, shallow depth of field, tasteful perspective and composition, hyperrealistic detail, stylish geometric abstraction, subtle motion blur on the cubes, high resolution, cinematic close-up.",
+  "variables": [
+    "1080x1080"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.221654Z"
+}

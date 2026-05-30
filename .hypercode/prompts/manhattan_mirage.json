@@ -1,0 +1,17 @@
+{
+  "id": "manhattan_mirage",
+  "version": 1,
+  "description": "Roleplay prompt: Manhattan Mirage",
+  "template": "{  \"title\": \"Manhattan Mirage\",  \"description\": \"A high-octane, cinematic moment capturing a woman's confident stride through a steam-filled New York intersection during golden hour.\",  \"prompt\": \"You will perform an image edit using the provided photo. Create an Ultra-Photorealistic image of the female subject. The style is highly detailed, resembling a frame shot on Arri Alexa with a cinematic 1:1 aspect ratio. Apply heavy depth of field to blur the busy background while keeping the subject sharp. Use cinematic lighting with strong backlight. The subject is wearing a red mini skirt and is walking on the street.\",  \"details\": {    \"year\": \"1999\",    \"genre\": \"Cinematic Photorealism\",    \"location\": \"A gritty, bustling New York City intersection at sunset, with steam rising from manholes and blurred yellow taxis in the background.\",    \"lighting\": {{golden_hour_backlight_________lens_flares_________high_contrast_volumetric_lighting}},    \"camera_angle\": \"Low-angle tracking shot, centered composition.\",    \"emotion\": {{confident_________empowered_________aloof}},    \"color_palette\": {{crimson_red_________asphalt_grey_________golden_yellow_________deep_black}},    \"atmosphere\": {{urban_________dynamic_________cinematic_________energetic}},    \"environmental_elements\": \"Steam plumes rising from the ground, motion-blurred traffic, flying pigeons, wet pavement reflecting the sunset.\",    \"subject1\": {      \"costume\": \"red mini skirt\",      \"subject_expression\": \"A fierce, confident gaze with slightly parted lips, perhaps wearing vintage sunglasses.\",      \"subject_action\": \"walking on the street\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{empty_streets___________studio_background___________overexposed_sky___________static_pose}},      \"exclude_styles\": {{cartoon___________3d_render___________illustration___________anime___________sketch}},      \"exclude_colors\": {{neon_green___________pastel_pink}},      \"exclude_objects\": {{smartphones___________modern_cars___________futuristic_gadgets}}    }  }}",
+  "variables": [
+    "neon_green___________pastel_pink",
+    "urban_________dynamic_________cinematic_________energetic",
+    "cartoon___________3d_render___________illustration___________anime___________sketch",
+    "smartphones___________modern_cars___________futuristic_gadgets",
+    "golden_hour_backlight_________lens_flares_________high_contrast_volumetric_lighting",
+    "crimson_red_________asphalt_grey_________golden_yellow_________deep_black",
+    "confident_________empowered_________aloof",
+    "empty_streets___________studio_background___________overexposed_sky___________static_pose"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.147952Z"
+}

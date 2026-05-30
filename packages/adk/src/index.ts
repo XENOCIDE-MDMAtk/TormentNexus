@@ -1,6 +1,6 @@
-// @hypercode/adk — runtime-safe stubs with proper type/exports
-// Provides interfaces and const enums that @hypercode/core uses.
-// Real implementations live in @hypercode/core runtime.
+// @tormentnexus/adk — runtime-safe stubs with proper type/exports
+// Provides interfaces and const enums that @tormentnexus/core uses.
+// Real implementations live in @tormentnexus/core runtime.
 
 // ── A2A Protocol Types ──────────────────────────────────────────────────────
 

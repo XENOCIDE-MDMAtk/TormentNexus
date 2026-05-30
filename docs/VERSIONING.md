@@ -1,6 +1,6 @@
-# hypercode Versioning Checklist
+# tormentnexus Versioning Checklist
 
-Use this checklist any time hypercode version changes (e.g. `0.9.1` -> `0.9.2`).
+Use this checklist any time tormentnexus version changes (e.g. `0.9.1` -> `0.9.2`).
 
 ## Source of truth
 

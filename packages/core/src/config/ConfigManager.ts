@@ -19,9 +19,9 @@ export class ConfigManager {
 
     constructor() {
         // Use user home or workspace root? 
-        // MCPServer uses process.cwd()/.hypercode/skills
-        // Let's use process.cwd()/.hypercode/config.json
-        this.configPath = path.join(process.cwd(), '.hypercode', 'config.json');
+        // MCPServer uses process.cwd()/.tormentnexus/skills
+        // Let's use process.cwd()/.tormentnexus/config.json
+        this.configPath = path.join(process.cwd(), '.tormentnexus', 'config.json');
     }
 
     loadConfig(): ConfigData | null {

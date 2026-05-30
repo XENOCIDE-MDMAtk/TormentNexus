@@ -1,0 +1,8 @@
+{
+  "id": "comparison_of_social_groups",
+  "version": 1,
+  "description": "Roleplay prompt: comparison of social groups",
+  "template": "Compare the values and behaviors of ${group_a} and ${group_b} in online spaces.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.164030Z"
+}

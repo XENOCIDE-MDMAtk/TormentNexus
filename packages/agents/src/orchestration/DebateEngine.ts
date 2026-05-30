@@ -1,4 +1,4 @@
-import { LLMService } from "@hypercode/ai";
+import { LLMService } from "@tormentnexus/ai";
 import { RiskEvaluator, RiskResult } from "./RiskEvaluator.js";
 
 export interface Participant {
@@ -132,7 +132,7 @@ export class DebateEngine {
         }
 
         // Final Synthesis
-        const synthesisPrompt = `You are the hypercode Collective Moderator. 
+        const synthesisPrompt = `You are the tormentnexus Collective Moderator. 
         Synthesize the following debate into a final consensus or recommendation.
         TOPIC: ${topic}
         
@@ -149,7 +149,7 @@ export class DebateEngine {
         const synthesisResponse = await this.llmService.generateText(
             synthesisSelection.provider,
             synthesisSelection.modelId,
-            'You are the hypercode Collective Moderator.',
+            'You are the tormentnexus Collective Moderator.',
             synthesisPrompt,
             {
                 taskType: 'supervisor',

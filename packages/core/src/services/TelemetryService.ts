@@ -97,7 +97,7 @@ export class TelemetryService extends EventEmitter {
             status: 'unset',
             startTime: Date.now(),
             attributes: {
-                'service.name': 'hypercode-core',
+                'service.name': 'tormentnexus-core',
             },
             events: [],
         };

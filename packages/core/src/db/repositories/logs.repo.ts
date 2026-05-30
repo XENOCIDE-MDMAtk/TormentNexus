@@ -2,7 +2,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { db } from "../index.js";
 import { mcpServersTable, toolCallLogsTable } from "../mcp-admin-schema.js";
-import { BorgLogEntry } from "../../types/hypercode/logs.zod.js";
+import { TormentNexusLogEntry } from "../../types/tormentnexus/logs.zod.js";
 
 type ToolCallLogInsert = typeof toolCallLogsTable.$inferInsert;
 
@@ -38,7 +38,7 @@ export class LogsRepository {
         limit?: number;
         sessionId?: string;
         serverName?: string;
-    }): Promise<BorgLogEntry[]> {
+    }): Promise<TormentNexusLogEntry[]> {
         const limit = input?.limit ?? 100;
         const filters = [
             input?.sessionId ? eq(toolCallLogsTable.session_id, input.sessionId) : undefined,

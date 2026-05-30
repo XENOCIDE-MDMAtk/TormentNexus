@@ -1,0 +1,8 @@
+{
+  "id": "gravity_shift_low_poly_physics_platformer",
+  "version": 1,
+  "description": "Roleplay prompt: Gravity Shift: Low-Poly Physics Platformer",
+  "template": "Game Concept: A puzzle-platformer named \"Gravity Shift\" where players rotate the entire world to navigate a 3D low-poly labyrinth. The environment is minimalist, using pastel gradients and sharp geometric shapes.Technical Prompt:Build a 3D platformer using Three.js and Cannon.js. The world is a cube-shaped maze. When the user presses 'R', rotate the world.gravity vector by 90 degrees.JavaScript// Gravity rotation logicworld.gravity.set(0, -9.82, 0); // Defaultfunction rotateGravity() {  let newG = new CANNON.Vec3(-world.gravity.y, world.gravity.x, 0);  world.gravity.copy(newG);}Include smooth camera interpolation using Lerp to follow the player's rigid body during shifts.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.440333Z"
+}

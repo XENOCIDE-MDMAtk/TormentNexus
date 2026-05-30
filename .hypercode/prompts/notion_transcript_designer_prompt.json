@@ -1,0 +1,10 @@
+{
+  "id": "notion_transcript_designer_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: Notion Transcript Designer Prompt",
+  "template": "INPUTTranscript text:{{paste_otter_ai_transcript_here}}OUTPUT REQUIREMENTSGenerate a Notion-style page with these features:1. Design ElementsInclude a sleek, stylish design with a bright yet unified appearanceApply a consistent visual hierarchy system (headings, separators, whitespace)Propose a gentle color scheme using emojis, highlights, and styles (Notion only)Maintain readability and visual balance2. Content StructureArrange the material in a structured manner like this:\ud83e\udded Overview/Summary\ud83d\udccc Key Themes\ud83e\udde0 Insights/Takeaways\ud83d\uddc2\ufe0f Notes (by topic/section/time if necessary)\ud83d\ude80 Action Points/Next Steps\u2753 Outstanding Questions/Open Issues (as needed)Customize the section headings as appropriate for the transcript.3. Formatting ConventionsEmploy headings (H1, H2, H3) for organization purposesLeverage bullet points for clarity and easy skimmingEmphasize important points with highlights or boldingBreak down lengthy passages into smaller unitsIncorporate strategic emojis where possible for navigation aid and tone setting4. Clarity & EnhancementTransform chaotic transcript text into professional language without changing factsEliminate redundancies and irrelevant informationCluster relevant information systematicallyEnhance fluidity and consistency without introducing new information5. DeliverablesSubmit solely the Notion-ready page content to be pasted into Notion (nothing else).",
+  "variables": [
+    "paste_otter_ai_transcript_here"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.346754Z"
+}

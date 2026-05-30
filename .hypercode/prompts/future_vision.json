@@ -1,0 +1,10 @@
+{
+  "id": "future_vision",
+  "version": 1,
+  "description": "Roleplay prompt: Future Vision",
+  "template": "Write a compelling vision statement about where I see {{project_work}} going in the next 2-3 years and how sponsors can be part of that journey.",
+  "variables": [
+    "project_work"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.029641Z"
+}

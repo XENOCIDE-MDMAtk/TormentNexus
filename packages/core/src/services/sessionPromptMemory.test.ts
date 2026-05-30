@@ -34,14 +34,14 @@ describe('sessionPromptMemory', () => {
             role: 'objective',
             content: 'Wire goal saving into structured prompt memory.',
             promptNumber: 2,
-            activeGoal: 'Improve hypercode parity',
+            activeGoal: 'Improve tormentnexus parity',
             lastObjective: 'Add pre-tool memory injection',
             contentHash: 'hash',
             recordedAt: 50,
         });
 
         expect(content).toContain('Captured objective prompt #2');
-        expect(content).toContain('Improve hypercode parity');
+        expect(content).toContain('Improve tormentnexus parity');
         expect(content).toContain('Add pre-tool memory injection');
     });
 

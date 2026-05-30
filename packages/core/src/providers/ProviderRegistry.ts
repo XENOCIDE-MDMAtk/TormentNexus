@@ -1,4 +1,4 @@
-import { DEFAULT_OPENROUTER_FREE_MODEL } from '@hypercode/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL } from '@tormentnexus/ai';
 
 import {
     type FallbackCandidateSnapshot,
@@ -7,6 +7,7 @@ import {
     type ProviderDefinition,
     type ProviderModelDefinition,
     type ProviderTaskType,
+    type ProviderCapability,
 } from './types.js';
 
 export const DEFAULT_PROVIDER_CATALOG: ProviderDefinition[] = [
@@ -246,6 +247,136 @@ export const DEFAULT_PROVIDER_CATALOG: ProviderDefinition[] = [
                 qualityScore: 7,
             },
             {
+                id: 'openrouter/nousresearch/hermes-3-llama-3.1-405b:free',
+                provider: 'openrouter',
+                name: 'Hermes 3 Llama 3.1 405B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 131072,
+                tier: 'free',
+                recommendedFor: ['worker', 'general', 'planning'],
+                capabilities: ['reasoning', 'coding'],
+                executable: true,
+                qualityScore: 8,
+            },
+            {
+                id: 'openrouter/liquid/lfm-2.5-1.2b-instruct:free',
+                provider: 'openrouter',
+                name: 'LFM 2.5 1.2B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 32000,
+                tier: 'free',
+                recommendedFor: ['worker'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 6,
+            },
+            {
+                id: 'openrouter/qwen/qwen3-coder:free',
+                provider: 'openrouter',
+                name: 'Qwen 3 Coder (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 32000,
+                tier: 'free',
+                recommendedFor: ['worker', 'coding'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 7,
+            },
+            {
+                id: 'openrouter/deepseek/deepseek-v4-flash:free',
+                provider: 'openrouter',
+                name: 'DeepSeek V4 Flash (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 64000,
+                tier: 'free',
+                recommendedFor: ['worker', 'coding', 'general'],
+                capabilities: ['coding', 'reasoning'],
+                executable: true,
+                qualityScore: 8,
+            },
+            {
+                id: 'openrouter/google/gemma-2-9b-it:free',
+                provider: 'openrouter',
+                name: 'Gemma 2 9B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 8192,
+                tier: 'free',
+                recommendedFor: ['worker', 'general'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 6,
+            },
+            {
+                id: 'openrouter/meta-llama/llama-3-8b-instruct:free',
+                provider: 'openrouter',
+                name: 'Llama 3 8B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 8192,
+                tier: 'free',
+                recommendedFor: ['worker'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 6,
+            },
+            {
+                id: 'openrouter/microsoft/phi-3-medium-128k-instruct:free',
+                provider: 'openrouter',
+                name: 'Phi 3 Medium 128K (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 128000,
+                tier: 'free',
+                recommendedFor: ['worker', 'general'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 6,
+            },
+            {
+                id: 'openrouter/mistralai/mistral-7b-instruct:free',
+                provider: 'openrouter',
+                name: 'Mistral 7B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 32000,
+                tier: 'free',
+                recommendedFor: ['worker'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 6,
+            },
+            {
+                id: 'openrouter/openai/gpt-oss-120b:free',
+                provider: 'openrouter',
+                name: 'GPT OSS 120B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 131072,
+                tier: 'free',
+                recommendedFor: ['worker', 'general'],
+                capabilities: ['coding', 'reasoning'],
+                executable: true,
+                qualityScore: 7,
+            },
+            {
+                id: 'openrouter/nvidia/nemotron-3-super-120b-a12b:free',
+                provider: 'openrouter',
+                name: 'Nemotron 3 Super 120B (Free)',
+                inputPrice: 0,
+                outputPrice: 0,
+                contextWindow: 1000000,
+                tier: 'free',
+                recommendedFor: ['worker', 'general'],
+                capabilities: ['coding'],
+                executable: true,
+                qualityScore: 7,
+            },
+            {
                 id: 'openrouter/auto',
                 provider: 'openrouter',
                 name: 'OpenRouter Auto (Best Overall)',
@@ -377,12 +508,135 @@ export const DEFAULT_PROVIDER_CATALOG: ProviderDefinition[] = [
 export class ProviderRegistry {
     private readonly catalog: ProviderDefinition[];
     private readonly modelIndex: Map<string, ProviderModelDefinition>;
+    private refreshInterval: NodeJS.Timeout | null = null;
 
     constructor(catalog: ProviderDefinition[] = DEFAULT_PROVIDER_CATALOG) {
         this.catalog = catalog;
         this.modelIndex = new Map(
             catalog.flatMap((provider) => provider.models.map((model) => [model.id, model] as const)),
         );
+        this.startPeriodicRefresh();
+    }
+
+    public async refreshFreeModels(): Promise<void> {
+        try {
+            if (typeof fetch !== 'function') {
+                console.warn('[ProviderRegistry] fetch is not available; skipping free models refresh');
+                return;
+            }
+            const response = await fetch('https://openrouter.ai/api/v1/models');
+            if (!response.ok) {
+                console.warn(`[ProviderRegistry] Failed to fetch OpenRouter models: HTTP ${response.status}`);
+                return;
+            }
+            const payload = await response.json() as { data?: any[] };
+            if (!payload || !Array.isArray(payload.data)) {
+                console.warn('[ProviderRegistry] Invalid OpenRouter models response payload');
+                return;
+            }
+
+            const openrouterProvider = this.catalog.find(p => p.id === 'openrouter');
+            if (!openrouterProvider) {
+                console.warn('[ProviderRegistry] OpenRouter provider definition not found in catalog');
+                return;
+            }
+
+            const incomingFreeModels = payload.data.filter((model: any) => {
+                const isFreeId = typeof model.id === 'string' && model.id.endsWith(':free');
+                const pricing = model.pricing;
+                const isFreePricing = pricing &&
+                    parseFloat(pricing.prompt || '0') === 0 &&
+                    parseFloat(pricing.completion || '0') === 0;
+                return isFreeId || isFreePricing;
+            });
+
+            const newModels: ProviderModelDefinition[] = incomingFreeModels.map((model: any) => {
+                const rawId = model.id;
+                const existing = openrouterProvider.models.find(m => 
+                    m.id === rawId || 
+                    m.id === `openrouter/${rawId}` || 
+                    `openrouter/${m.id}` === rawId
+                );
+
+                const finalId = existing ? existing.id : (rawId.startsWith('openrouter/') ? rawId : `openrouter/${rawId}`);
+
+                const capabilities: ProviderCapability[] = ['coding'];
+                const nameLower = (model.name || '').toLowerCase();
+                const descLower = (model.description || '').toLowerCase();
+                if (nameLower.includes('reasoning') || descLower.includes('reasoning') || nameLower.includes('thinking') || descLower.includes('thinking') || nameLower.includes('opus') || nameLower.includes('llama-3.3') || nameLower.includes('hermes-3')) {
+                    capabilities.push('reasoning');
+                }
+                if (descLower.includes('vision') || descLower.includes('multimodal')) {
+                    capabilities.push('vision');
+                }
+                if (descLower.includes('tool') || descLower.includes('function call')) {
+                    capabilities.push('tools');
+                }
+
+                const contextWindow = typeof model.context_length === 'number' ? model.context_length : 8192;
+
+                return {
+                    id: finalId,
+                    provider: 'openrouter',
+                    name: model.name || rawId,
+                    inputPrice: 0,
+                    outputPrice: 0,
+                    contextWindow,
+                    tier: 'free',
+                    recommendedFor: ['worker', 'general'] as ProviderTaskType[],
+                    capabilities,
+                    executable: true,
+                    qualityScore: existing?.qualityScore ?? 7
+                };
+            });
+
+            const nonFreeOrMeta = openrouterProvider.models.filter(m => m.tier !== 'free');
+            
+            const uniqueNewModelsMap = new Map<string, ProviderModelDefinition>();
+            for (const m of newModels) {
+                uniqueNewModelsMap.set(m.id, m);
+            }
+            const uniqueNewModels = Array.from(uniqueNewModelsMap.values());
+
+            openrouterProvider.models = [...uniqueNewModels, ...nonFreeOrMeta];
+
+            this.modelIndex.clear();
+            for (const provider of this.catalog) {
+                for (const model of provider.models) {
+                    this.modelIndex.set(model.id, model);
+                }
+            }
+
+            console.log(`[ProviderRegistry] Successfully refreshed ${uniqueNewModels.length} free OpenRouter models.`);
+        } catch (error) {
+            console.error('[ProviderRegistry] Error refreshing free models:', error);
+        }
+    }
+
+    public startPeriodicRefresh(intervalMs: number = 6 * 60 * 60 * 1000): void {
+        this.stopPeriodicRefresh();
+        
+        this.refreshFreeModels().catch(err => {
+            console.error('[ProviderRegistry] Initial free model refresh failed:', err);
+        });
+
+        const timer = setInterval(() => {
+            this.refreshFreeModels().catch(err => {
+                console.error('[ProviderRegistry] Periodic free model refresh failed:', err);
+            });
+        }, intervalMs);
+
+        if (typeof timer.unref === 'function') {
+            timer.unref();
+        }
+        this.refreshInterval = timer;
+    }
+
+    public stopPeriodicRefresh(): void {
+        if (this.refreshInterval) {
+            clearInterval(this.refreshInterval);
+            this.refreshInterval = null;
+        }
     }
 
     public getCatalog(): ProviderDefinition[] {

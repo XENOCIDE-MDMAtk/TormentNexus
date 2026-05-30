@@ -1,5 +1,5 @@
 /**
- * hypercode MCP Session Service
+ * tormentnexus MCP Session Service
  *
  * Enhanced session lifecycle management for MCP servers:
  * - Auto-start servers on system boot

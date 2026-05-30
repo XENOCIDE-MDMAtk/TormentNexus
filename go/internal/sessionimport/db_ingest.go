@@ -22,14 +22,14 @@ func buildImportedSessionRecordInputsFromDatabase(ctx context.Context, candidate
 	switch candidate.SourceTool {
 	case "llm-cli":
 		return buildLLMDatabaseRecordInputs(ctx, db, candidate)
-	case "prism-mcp":
-		return buildPrismDatabaseRecordInputs(ctx, db, candidate)
+	case "tormentnexus-mcp":
+		return buildTormentNexusDatabaseRecordInputs(ctx, db, candidate)
 	default:
 		return nil, fmt.Errorf("database-log ingestion is not yet implemented natively for %s", candidate.SourceTool)
 	}
 }
 
-func buildPrismDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate Candidate) ([]ImportedSessionRecordInput, error) {
+func buildTormentNexusDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate Candidate) ([]ImportedSessionRecordInput, error) {
 	results := make([]ImportedSessionRecordInput, 0)
 	seen := map[string]struct{}{}
 
@@ -39,7 +39,7 @@ func buildPrismDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate C
 		if id == "" {
 			continue
 		}
-		transcript := strings.TrimSpace(buildPrismLedgerTranscript(row))
+		transcript := strings.TrimSpace(buildTormentNexusLedgerTranscript(row))
 		if transcript == "" {
 			continue
 		}
@@ -50,20 +50,20 @@ func buildPrismDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate C
 		seen[sourcePath] = struct{}{}
 		lastModified := toTimestampMs(row["created_at"])
 		externalSessionID := nonEmptyString(stringValue(row["conversation_id"]), id)
-		title := nonEmptyString(sanitizeSentence(stringValue(row["summary"]), 120), "Prism ledger "+id)
+		title := nonEmptyString(sanitizeSentence(stringValue(row["summary"]), 120), "TormentNexus ledger "+id)
 		metadata := map[string]any{
-			"prismProject":         row["project"],
-			"prismRole":            row["role"],
-			"prismTable":           "session_ledger",
-			"prismConversationId":  row["conversation_id"],
-			"prismEventType":       nonEmptyString(stringValue(row["event_type"]), "session"),
-			"prismConfidenceScore": row["confidence_score"],
-			"prismImportance":      row["importance"],
+			"tormentnexusProject":         row["project"],
+			"tormentnexusRole":            row["role"],
+			"tormentnexusTable":           "session_ledger",
+			"tormentnexusConversationId":  row["conversation_id"],
+			"tormentnexusEventType":       nonEmptyString(stringValue(row["event_type"]), "session"),
+			"tormentnexusConfidenceScore": row["confidence_score"],
+			"tormentnexusImportance":      row["importance"],
 		}
-		if metadata["prismEventType"] == "correction" && intValueOr(row["importance"], 0) >= 3 && strings.TrimSpace(stringValue(row["summary"])) != "" {
+		if metadata["tormentnexusEventType"] == "correction" && intValueOr(row["importance"], 0) >= 3 && strings.TrimSpace(stringValue(row["summary"])) != "" {
 			metadata["behavioralWarnings"] = []string{sanitizeSentence(stringValue(row["summary"]), 220)}
 		}
-		input, err := buildImportedSessionRecordInputFromTranscript(candidate.SourceTool, sourcePath, "prism-ledger", title, transcript, filepath.Dir(candidate.SourcePath), externalSessionID, lastModified, metadata, nil)
+		input, err := buildImportedSessionRecordInputFromTranscript(candidate.SourceTool, sourcePath, "tormentnexus-ledger", title, transcript, filepath.Dir(candidate.SourcePath), externalSessionID, lastModified, metadata, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -76,7 +76,7 @@ func buildPrismDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate C
 		if project == "" {
 			continue
 		}
-		transcript := strings.TrimSpace(buildPrismHandoffTranscript(row))
+		transcript := strings.TrimSpace(buildTormentNexusHandoffTranscript(row))
 		if transcript == "" {
 			continue
 		}
@@ -87,9 +87,9 @@ func buildPrismDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate C
 		seen[sourcePath] = struct{}{}
 		parsedMetadata := parseJSONObject(stringValue(row["metadata"]))
 		metadata := map[string]any{
-			"prismProject": project,
-			"prismTable":   "session_handoffs",
-			"prismVersion": row["version"],
+			"tormentnexusProject": project,
+			"tormentnexusTable":   "session_handoffs",
+			"tormentnexusVersion": row["version"],
 		}
 		for key, value := range parsedMetadata {
 			metadata[key] = value
@@ -99,7 +99,7 @@ func buildPrismDatabaseRecordInputs(ctx context.Context, db *sql.DB, candidate C
 		if extracted := extractWorkingDirectory(parsedMetadata); extracted != nil {
 			workingDirectory = *extracted
 		}
-		input, err := buildImportedSessionRecordInputFromTranscript(candidate.SourceTool, sourcePath, "prism-handoff", "Prism handoff "+project, transcript, workingDirectory, "handoff:"+project, lastModified, metadata, nil)
+		input, err := buildImportedSessionRecordInputFromTranscript(candidate.SourceTool, sourcePath, "tormentnexus-handoff", "TormentNexus handoff "+project, transcript, workingDirectory, "handoff:"+project, lastModified, metadata, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -393,9 +393,9 @@ func parseJSONStringArrayLoose(value any) []string {
 	}
 }
 
-func buildPrismLedgerTranscript(row map[string]any) string {
+func buildTormentNexusLedgerTranscript(row map[string]any) string {
 	lines := []string{
-		fmt.Sprintf("Prism session ledger for project %s", sanitizeSentence(nonEmptyString(stringValue(row["project"]), "default"), 120)),
+		fmt.Sprintf("TormentNexus session ledger for project %s", sanitizeSentence(nonEmptyString(stringValue(row["project"]), "default"), 120)),
 		stringValue(row["summary"]),
 	}
 	if eventType := stringValue(row["event_type"]); strings.TrimSpace(eventType) != "" && eventType != "session" {
@@ -437,9 +437,9 @@ func buildPrismLedgerTranscript(row map[string]any) string {
 	return strings.Join(filterNonEmpty(lines), "\n")
 }
 
-func buildPrismHandoffTranscript(row map[string]any) string {
+func buildTormentNexusHandoffTranscript(row map[string]any) string {
 	lines := []string{
-		fmt.Sprintf("Prism handoff for project %s", sanitizeSentence(nonEmptyString(stringValue(row["project"]), "default"), 120)),
+		fmt.Sprintf("TormentNexus handoff for project %s", sanitizeSentence(nonEmptyString(stringValue(row["project"]), "default"), 120)),
 		stringValue(row["last_summary"]),
 		stringValue(row["key_context"]),
 	}

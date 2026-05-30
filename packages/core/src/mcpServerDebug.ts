@@ -1,5 +1,5 @@
-const MCP_SERVER_DEBUG_ENV = 'HYPERCODE_MCP_SERVER_DEBUG';
-const MCP_SERVER_DEBUG_NAMESPACE = 'hypercode:mcp-server';
+const MCP_SERVER_DEBUG_ENV = 'TORMENTNEXUS_MCP_SERVER_DEBUG';
+const MCP_SERVER_DEBUG_NAMESPACE = 'tormentnexus:mcp-server';
 
 export function isMcpServerDebugEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
     const rawFlag = env[MCP_SERVER_DEBUG_ENV]?.trim().toLowerCase();

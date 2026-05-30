@@ -1,0 +1,10 @@
+{
+  "id": "time_commitment",
+  "version": 1,
+  "description": "Roleplay prompt: Time Commitment",
+  "template": "Explain how sponsorship would allow me to dedicate {{x_hours_days}} per week/month to open source, comparing current volunteer time vs. potential sponsored time.",
+  "variables": [
+    "x_hours_days"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.019818Z"
+}

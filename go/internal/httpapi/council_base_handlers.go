@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/hypercodehq/hypercode-go/internal/orchestration"
+	"github.com/tormentnexushq/tormentnexus-go/internal/orchestration"
 )
 
 func (s *Server) handleCouncilBaseStatus(w http.ResponseWriter, r *http.Request) {

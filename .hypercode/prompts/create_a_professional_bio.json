@@ -1,0 +1,10 @@
+{
+  "id": "create_a_professional_bio",
+  "version": 1,
+  "description": "Roleplay prompt: Create a Professional Bio",
+  "template": "Write a GitHub Sponsors bio for my profile that highlights my experience in {{your_field}}, the impact of my open source work, and my commitment to community growth.",
+  "variables": [
+    "your_field"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.018234Z"
+}

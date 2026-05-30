@@ -1,0 +1,8 @@
+{
+  "id": "improve_the_following_code",
+  "version": 1,
+  "description": "Roleplay prompt: Improve the following code",
+  "template": "Improve the following code```${selectedText}```Please suggest improvements for:1. Code readability and maintainability2. Performance optimization3. Best practices and patterns4. Error handling and edge casesProvide the improved code along with explanations for each enhancement.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.317524Z"
+}

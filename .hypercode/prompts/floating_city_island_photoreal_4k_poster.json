@@ -1,0 +1,8 @@
+{
+  "id": "floating_city_island_photoreal_4k_poster",
+  "version": 1,
+  "description": "Roleplay prompt: Floating City Island - Photoreal 4K Poster",
+  "template": "Design a \"floating miniature island\" shaped like the ${city:denizli} map/silhouette, gliding above white clouds. On the island, seamlessly blend ${city:denizli}\u2019s most iconic landmarks, architectural structures, and natural landscapes (parks, waterfronts, hills). Integrate large white 3D letters spelling \"${city:denizli}\" into the island\u2019s surface or geographic texture. Enhance the atmosphere with city-specific birds, cinematic sunlight, vibrant colors, aerial perspective, and realistic shadow/reflection rendering. Ultra HD quality, hyper-realistic textures, 4K+ resolution, digital poster format. Square 1\u00d71 composition, photoreal, volumetric lighting, global illumination, ray tracing.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.083712Z"
+}

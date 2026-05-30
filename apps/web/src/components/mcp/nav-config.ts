@@ -56,14 +56,14 @@ export interface NavSection {
 
 export const META_MCP_NAV: NavItem[] = [
     {
-        title: "Hypercode Dashboard",
+        title: "TormentNexus Dashboard",
         href: "/dashboard/mcp",
         icon: Server,
         variant: "default",
     },
     {
-        title: "Hypercode Servers",
-        href: "/dashboard/mcp/hypercode",
+        title: "TormentNexus Servers",
+        href: "/dashboard/mcp/tormentnexus",
         icon: Network,
         variant: "ghost",
     },
@@ -267,7 +267,7 @@ export const MAIN_DASHBOARD_NAV: NavItem[] = [
 
 export const SIDEBAR_SECTIONS: NavSection[] = [
     {
-        title: "Hypercode Tools",
+        title: "TormentNexus Tools",
         items: META_MCP_NAV,
     },
     {

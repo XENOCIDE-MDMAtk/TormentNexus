@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
-import { Button, Input } from '@hypercode/ui';
+import { Button, Input } from '@tormentnexus/ui';
 
 export default function ResetPasswordPageWrapper() {
     return (

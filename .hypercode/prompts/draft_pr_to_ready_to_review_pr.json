@@ -1,0 +1,8 @@
+{
+  "id": "draft_pr_to_ready_to_review_pr",
+  "version": 1,
+  "description": "Roleplay prompt: Draft PR to Ready to Review PR",
+  "template": "How do I transition a draft PR to a ready to review to allow my team to review it before merging it into the main branch?",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.514336Z"
+}

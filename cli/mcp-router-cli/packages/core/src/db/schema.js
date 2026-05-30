@@ -1,6 +1,6 @@
 /**
- * hypercode Database Schema
- * Migrated from Hypercode PostgreSQL/Drizzle to SQLite/better-sqlite3
+ * tormentnexus Database Schema
+ * Migrated from TormentNexus PostgreSQL/Drizzle to SQLite/better-sqlite3
  *
  * Tables:
  * - mcp_servers: MCP server configurations (STDIO, SSE, StreamableHTTP)

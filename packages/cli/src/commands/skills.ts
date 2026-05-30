@@ -1,5 +1,5 @@
 /**
- * `hypercode skills` — Manage and browse AI skills
+ * `tormentnexus skills` — Manage and browse AI skills
  */
 import type { Command } from 'commander';
 

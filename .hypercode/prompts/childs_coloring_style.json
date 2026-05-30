@@ -1,0 +1,8 @@
+{
+  "id": "childs_coloring_style",
+  "version": 1,
+  "description": "Roleplay prompt: Childs Coloring Style",
+  "template": "A cartoon ${setting} scene with crayon colored ${detail1} and ${detail2} and ${detail3}, like that of a learning child.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.355293Z"
+}

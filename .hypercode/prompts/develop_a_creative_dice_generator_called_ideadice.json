@@ -1,0 +1,8 @@
+{
+  "id": "develop_a_creative_dice_generator_called_ideadice",
+  "version": 1,
+  "description": "Roleplay prompt: Develop a creative dice generator called \u201cIdeaDice\u201d.",
+  "template": "Develop a creative dice generator called \u201cIdeaDice\u201d.Features an eye-catching industrial-style interface, with a fluorescent green title prominently displayed at the top of the page:\ud83c\udfb2\u201cIdeaDice \u00b7 Inspiration Throwing Tool\u201d, featuring monospaced font and a futuristic design, includes a 3D rotating inspiration die with a raised texture. Each side of the die features a different keyword. Clicking the \u201cRoll\u201d button initiates the rotation of the die. Upon hovering over a card, an explanatory view appears, such as \u201cAmnesia = a protagonist who has lost their memories.\u201d The tool also supports exporting and generating posters.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.127372Z"
+}

@@ -145,7 +145,7 @@ export class NamespaceMappingsRepository {
 
     /**
      * Bulk upsert namespace tool mappings for a namespace
-     * Used when refreshing tools from Hypercode connection
+     * Used when refreshing tools from TormentNexus connection
      */
     async bulkUpsertNamespaceToolMappings(input: {
         namespaceUuid: string;

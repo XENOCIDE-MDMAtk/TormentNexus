@@ -1,0 +1,8 @@
+{
+  "id": "personalized_digital_avatar_generator",
+  "version": 1,
+  "description": "Roleplay prompt: Personalized Digital Avatar Generator",
+  "template": "Build a web app called \"Alter\" \u2014 a personalized digital avatar creation tool.Core features:- Style selector: 8 avatar styles presented as visual cards (professional headshot, anime, pixel art, oil painting, cyberpunk, minimalist line art, illustrated character, watercolor)- Input panel: text description of desired look and vibe (mood, colors, personality) \u2014 no photo upload required in MVP- Generation: calls fal.ai FLUX API with a structured prompt built from the style selection and description \u2014 generates 4 variants per request- Customization: background color picker overlay, optional username/tagline text added via Canvas API- Download: PNG at 400px, 800px, and 1500px square- History: last 12 generated packs saved in localStorage \u2014 click any to view and re-downloadUI: bright, expressive, fun. Large visual cards for style selection. Results shown in a 2x2 grid. Mobile-responsive.Stack: React, fal.ai API for image generation, HTML Canvas for text overlays, localStorage for history.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.067630Z"
+}

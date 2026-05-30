@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-echo Building Hypercode HYPERCODE...
+echo Building TormentNexus TORMENTNEXUS...
 
 REM Build Go sidecar
 where go >nul 2>nul
@@ -13,14 +13,14 @@ if errorlevel 1 (
 echo [1/2] Building Go sidecar...
 for /f "tokens=*" %%v in ('type VERSION') do set VER=%%v
 cd go
-go build -ldflags "-s -w -X github.com/hypercodehq/hypercode-go/internal/buildinfo.Version=%VER%" -buildvcs=false -o ..\bin\hypercode.exe ./cmd/hypercode
+go build -ldflags "-s -w -X github.com/tormentnexushq/tormentnexus-go/internal/buildinfo.Version=%VER%" -buildvcs=false -o ..\bin\tormentnexus.exe ./cmd/tormentnexus
 if errorlevel 1 (
     echo [FAIL] Go build failed
     cd ..
     exit /b 1
 )
 cd ..
-echo OK - bin\hypercode.exe built
+echo OK - bin\tormentnexus.exe built
 
 :ts_build
 REM Build TypeScript core

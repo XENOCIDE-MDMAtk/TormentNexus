@@ -1,0 +1,16 @@
+{
+  "id": "the_fighter",
+  "version": 1,
+  "description": "Roleplay prompt: The Fighter",
+  "template": "{{00_00___00_2_0}}Intense boxing exchange mid-ring, Red Trunks vs Blue Trunks, smoky arena atmosphere with high-contrast backlighting, sweat glistening under spotlights. {{audio__canvas_footwork_scuffs__leather_on_leather_punches__heavy_breathing___tense_crowd_ambience}} --ar 9:16{{00_2_0___00_4_0}}Extreme close-up of Red Trunks' right hook impacting Blue Trunks' jaw, facial distortion on impact, beads of sweat exploding from the head. {{dialogue___grit___got_you}}. {{audio__deep_bassy_thud__slow_motion_warp_effect__thumping_heartbeat}} --ar 9:16{{00_4_0___00_6_0}}Blue Trunks reeling back, massive spray of sweat and water hitting the camera lens directly, creating water distortion on the frame, blurred ring background. {{audio__wet_splatter_sound_on_mic__high_pitched_tinnitus_ringing__explosive_crowd_roar}} --ar 9:16",
+  "variables": [
+    "00_2_0___00_4_0",
+    "audio__wet_splatter_sound_on_mic__high_pitched_tinnitus_ringing__explosive_crowd_roar",
+    "00_00___00_2_0",
+    "dialogue___grit___got_you",
+    "audio__deep_bassy_thud__slow_motion_warp_effect__thumping_heartbeat",
+    "audio__canvas_footwork_scuffs__leather_on_leather_punches__heavy_breathing___tense_crowd_ambience",
+    "00_4_0___00_6_0"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.603065Z"
+}

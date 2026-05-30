@@ -2,16 +2,16 @@
 setlocal EnableDelayedExpansion
 
 REM ==============================================
-REM  HyperCode HYPERCODE - TypeScript Core + Dashboard
+REM  TormentNexus TORMENTNEXUS - TypeScript Core + Dashboard
 REM  Starts the TS control plane and Next.js web UI
 REM ==============================================
 
 REM -- Configuration ----------------------------------
-set TS_PORT=%HYPERCODE_TS_PORT%
+set TS_PORT=%TORMENTNEXUS_TS_PORT%
 if "%TS_PORT%"=="" set TS_PORT=4100
-set DASH_PORT=%HYPERCODE_DASH_PORT%
+set DASH_PORT=%TORMENTNEXUS_DASH_PORT%
 if "%DASH_PORT%"=="" set DASH_PORT=3000
-set TS_DIR=%HYPERCODE_TS_DIR%
+set TS_DIR=%TORMENTNEXUS_TS_DIR%
 if "%TS_DIR%"=="" set TS_DIR=archive\ts-legacy
 
 REM -- 1. Check Node/pnpm ----------------------------
@@ -31,9 +31,9 @@ if errorlevel 1 (
 
 REM -- 2. Install Dependencies -----------------------
 set SKIP_INSTALL=0
-if /I "%HYPERCODE_SKIP_INSTALL%"=="1" set SKIP_INSTALL=1
+if /I "%TORMENTNEXUS_SKIP_INSTALL%"=="1" set SKIP_INSTALL=1
 if "%SKIP_INSTALL%"=="1" (
-    echo [2/5] Skipping install (HYPERCODE_SKIP_INSTALL=1)
+    echo [2/5] Skipping install (TORMENTNEXUS_SKIP_INSTALL=1)
 ) else (
     echo [2/5] Installing dependencies...
     cd %TS_DIR%
@@ -48,9 +48,9 @@ if "%SKIP_INSTALL%"=="1" (
 
 REM -- 3. Build TypeScript ---------------------------
 set SKIP_BUILD=0
-if /I "%HYPERCODE_SKIP_BUILD%"=="1" set SKIP_BUILD=1
+if /I "%TORMENTNEXUS_SKIP_BUILD%"=="1" set SKIP_BUILD=1
 if "%SKIP_BUILD%"=="1" (
-    echo [3/5] Skipping build (HYPERCODE_SKIP_BUILD=1)
+    echo [3/5] Skipping build (TORMENTNEXUS_SKIP_BUILD=1)
 ) else (
     echo [3/5] Building TypeScript packages...
     cd %TS_DIR%

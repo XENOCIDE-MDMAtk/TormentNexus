@@ -1,1 +1,1 @@
-export * from "../hypercode-middleware/functional-middleware.js";
+export * from "../tormentnexus-middleware/functional-middleware.js";

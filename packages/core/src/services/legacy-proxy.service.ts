@@ -1,1 +1,1 @@
-export * from "./hypercode-proxy.service.js";
+export * from "./tormentnexus-proxy.service.js";

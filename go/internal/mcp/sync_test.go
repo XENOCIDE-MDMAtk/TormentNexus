@@ -8,7 +8,7 @@ import (
 )
 
 func TestResolveClientTargets(t *testing.T) {
-	tempDir, err := os.MkdirTemp("", "hypercode-mcp-sync-test-*")
+	tempDir, err := os.MkdirTemp("", "tormentnexus-mcp-sync-test-*")
 	if err != nil {
 		t.Fatalf("failed to create temp dir: %v", err)
 	}
@@ -51,7 +51,7 @@ func TestResolveClientTargets(t *testing.T) {
 }
 
 func TestSyncToClient(t *testing.T) {
-	tempDir, err := os.MkdirTemp("", "hypercode-mcp-sync-write-test-*")
+	tempDir, err := os.MkdirTemp("", "tormentnexus-mcp-sync-write-test-*")
 	if err != nil {
 		t.Fatalf("failed to create temp dir: %v", err)
 	}

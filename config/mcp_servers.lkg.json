@@ -1,13 +1,4 @@
 {
-  "test_stdio_import": {
-    "command": "npx",
-    "args": [
-      "-y",
-      "@modelcontextprotocol/server-memory"
-    ],
-    "env": {},
-    "enabled": true
-  },
   "filesystem": {
     "command": "npx",
     "args": [
@@ -43,10 +34,10 @@
     "env": {},
     "enabled": true
   },
-  "hypercode-supervisor": {
+  "tormentnexus-supervisor": {
     "command": "node",
     "args": [
-      "C:\\Users\\hyper\\workspace\\hypercode\\packages\\hypercode-supervisor\\dist\\index.js"
+      "C:\\Users\\hyper\\workspace\\tormentnexus\\packages\\tormentnexus-supervisor\\dist\\index.js"
     ],
     "env": {
       "NODE_ENV": "production"
@@ -587,7 +578,7 @@
   "serena": {
     "command": "uvx",
     "args": [
-      "--from git+https://github.com/orhypercode/serena",
+      "--from git+https://github.com/ortormentnexus/serena",
       "serena",
       "start-mcp-server",
       "--context",
@@ -596,11 +587,11 @@
     "env": {},
     "enabled": true
   },
-  "prism-mcp": {
+  "tormentnexus-mcp": {
     "command": "npx",
     "args": [
       "-y",
-      "prism-mcp-server"
+      "tormentnexus-mcp-server"
     ],
     "env": {},
     "enabled": true

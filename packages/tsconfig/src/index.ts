@@ -1,1 +1,1 @@
-// @hypercode/tsconfig stub
+// @tormentnexus/tsconfig stub

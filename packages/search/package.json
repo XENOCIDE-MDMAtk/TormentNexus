@@ -1,6 +1,6 @@
 {
-  "name": "@hypercode/search",
-  "version": "1.0.0-alpha.64",
+  "name": "@tormentnexus/search",
+  "version": "1.0.0-alpha.80",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
     "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
   },
   "dependencies": {
-    "@hypercode/adk": "workspace:*",
+    "@tormentnexus/adk": "workspace:*",
     "@vscode/ripgrep": "^1.17.0"
   },
   "devDependencies": {

@@ -4,5 +4,5 @@ export default defineConfig({
     schema: "./src/db/index.ts",
     out: "./drizzle",
     dialect: "sqlite",
-    dbCredentials: { url: "./hypercode.db" },
+    dbCredentials: { url: "./tormentnexus.db" },
 });

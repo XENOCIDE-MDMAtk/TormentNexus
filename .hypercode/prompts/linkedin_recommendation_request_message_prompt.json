@@ -1,0 +1,8 @@
+{
+  "id": "linkedin_recommendation_request_message_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: LinkedIn: Recommendation request message prompt",
+  "template": "Help me write a message asking my former supervisor and mentor to recommend me for the role of ${job_title} in the ${sector} in which we both worked. Be modest and respectful in asking, \u2018Could you please highlight the parts of my background that are most applicable to the role of ${job_title} in ${industry}?",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.346400Z"
+}

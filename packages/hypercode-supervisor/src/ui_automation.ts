@@ -96,7 +96,7 @@ Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 
-public static class HypercodeNativeAutomation {
+public static class TormentNexusNativeAutomation {
     [DllImport("user32.dll")]
     public static extern IntPtr GetForegroundWindow();
 
@@ -231,7 +231,7 @@ function Test-IsLikelyChatInput($element) {
 }
 
 function Get-ForegroundAutomationWindow() {
-    $handle = [HypercodeNativeAutomation]::GetForegroundWindow()
+    $handle = [TormentNexusNativeAutomation]::GetForegroundWindow()
     if ($handle -eq [IntPtr]::Zero) {
         throw 'No foreground window available'
     }
@@ -398,10 +398,10 @@ function Invoke-Element([System.Windows.Automation.AutomationElement]$element) {
     if ($rect.Width -gt 0 -and $rect.Height -gt 0) {
         $x = [int][Math]::Round($rect.Left + ($rect.Width / 2))
         $y = [int][Math]::Round($rect.Top + ($rect.Height / 2))
-        [HypercodeNativeAutomation]::SetCursorPos($x, $y) | Out-Null
+        [TormentNexusNativeAutomation]::SetCursorPos($x, $y) | Out-Null
         Start-Sleep -Milliseconds 50
-        [HypercodeNativeAutomation]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)
-        [HypercodeNativeAutomation]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)
+        [TormentNexusNativeAutomation]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)
+        [TormentNexusNativeAutomation]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)
         return 'mouse-click'
     }
 

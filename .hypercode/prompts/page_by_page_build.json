@@ -1,0 +1,11 @@
+{
+  "id": "page_by_page_build",
+  "version": 1,
+  "description": "Roleplay prompt: Page-by-Page Build",
+  "template": "Based on the approved concept, build the {{homepage_about_etc}} page.Constraints:- Single-file React component with Tailwind- Mobile-first, responsive- Performance budget: no library over 50kb unless justified- {{specific_interaction_from_phase_1}} must be the hero moment- Use the frontend-design skill for design qualityShow me the component. I'll review before moving to the next page.",
+  "variables": [
+    "specific_interaction_from_phase_1",
+    "homepage_about_etc"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.864567Z"
+}

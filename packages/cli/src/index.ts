@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Hypercode CLI - The Neural Operating System Command Interface
- * @module @hypercode/cli
+ * TormentNexus CLI - The Neural Operating System Command Interface
+ * @module @tormentnexus/cli
  * @version 2.5.0
  *
- * Main entry point for the `hypercode` command. Provides comprehensive CLI access
- * to all HYPERCODE subsystems: MCP router, memory, agents, sessions, providers,
+ * Main entry point for the `tormentnexus` command. Provides comprehensive CLI access
+ * to all TORMENTNEXUS subsystems: MCP router, memory, agents, sessions, providers,
  * tools, skills, configuration, and the web dashboard.
  */
 
@@ -61,11 +61,11 @@ const version = getVersion();
 const program = new Command();
 
 program
-  .name('hypercode')
-  .description('Hypercode — The Neural Operating System / HYPERCODE\n\nThe ultimate AI tool dashboard & development orchestrator.\nManage MCP servers, memory, agents, sessions, providers, and more.')
-  .version(version, '-v, --version', 'Display the current Hypercode version')
+  .name('tormentnexus')
+  .description('TormentNexus — The Neural Operating System / TORMENTNEXUS\n\nThe ultimate AI tool dashboard & development orchestrator.\nManage MCP servers, memory, agents, sessions, providers, and more.')
+  .version(version, '-v, --version', 'Display the current TormentNexus version')
   .option('--json', 'Output results as JSON (applies to list/status commands)')
-  .option('--config <path>', 'Path to hypercode config file', '~/.hypercode/config.jsonc')
+  .option('--config <path>', 'Path to tormentnexus config file', '~/.tormentnexus/config.jsonc')
   .option('--log-level <level>', 'Log level: debug, info, warn, error', 'info')
   .option('--no-color', 'Disable colored output');
 

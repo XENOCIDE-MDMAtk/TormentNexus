@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, Button, Badge, ScrollArea } from "@hypercode/ui";
+import { Card, CardContent, CardHeader, CardTitle, Button, Badge, ScrollArea } from "@tormentnexus/ui";
 import { FlaskConical, Play, Square, Loader2, RefreshCw, CheckCircle2, XCircle, Clock, AlertCircle, RotateCcw, ChevronDown, ChevronRight } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';

@@ -1,0 +1,8 @@
+{
+  "id": "secteur_bancaire_analyse_rapide_dun_tableau_de_donnes",
+  "version": 1,
+  "description": "Roleplay prompt: Secteur Bancaire - Analyse rapide d\u2019un tableau de donn\u00e9es",
+  "template": "Analyse le tableau suivant et identifie :\u2013 Les principales tendances\u2013 Les \u00e9volutions remarquables\u2013 Les points d\u2019attention \u00e9ventuelsPr\u00e9sente ensuite un r\u00e9sum\u00e9 ex\u00e9cutif de 5 \u00e0 7 phrases adapt\u00e9 \u00e0 un public financier.Donn\u00e9es \u00e0 analyser :",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.494339Z"
+}

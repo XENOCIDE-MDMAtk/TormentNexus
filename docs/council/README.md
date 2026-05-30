@@ -2,8 +2,8 @@
 
 A multi-model AI council for autonomous development guidance. Multiple AI supervisors debate and vote on code changes through a democratic process.
 
-This document describes the legacy standalone council architecture that has now been assimilated into the Hypercode monorepo. The canonical product name is **cli-orchestrator**. Legacy `AUTOPILOT_*` environment variables remain supported for compatibility, but new deployments should prefer `HYPERCODE_ORCHESTRATOR_*`. This is no longer documented as a separate `hypercode-orchestrator` repository.
-This document describes the legacy standalone council architecture that has now been assimilated into the hypercode monorepo. The canonical product name is **cli-orchestrator**. Legacy `AUTOPILOT_*` environment variables remain supported for compatibility, but new deployments should prefer `HYPERCODE_ORCHESTRATOR_*`. This is no longer documented as a separate `hypercode-orchestrator` repository.
+This document describes the legacy standalone council architecture that has now been assimilated into the TormentNexus monorepo. The canonical product name is **cli-orchestrator**. Legacy `AUTOPILOT_*` environment variables remain supported for compatibility, but new deployments should prefer `TORMENTNEXUS_ORCHESTRATOR_*`. This is no longer documented as a separate `tormentnexus-orchestrator` repository.
+This document describes the legacy standalone council architecture that has now been assimilated into the tormentnexus monorepo. The canonical product name is **cli-orchestrator**. Legacy `AUTOPILOT_*` environment variables remain supported for compatibility, but new deployments should prefer `TORMENTNEXUS_ORCHESTRATOR_*`. This is no longer documented as a separate `tormentnexus-orchestrator` repository.
 
 ## Architecture
 
@@ -62,18 +62,18 @@ KIMI_API_KEY            # Kimi supervisor (or MOONSHOT_API_KEY)
 
 ### Server Configuration
 ```bash
-HYPERCODE_ORCHESTRATOR_PORT=3847           # API server port
-HYPERCODE_ORCHESTRATOR_HOST=0.0.0.0        # Bind address
-HYPERCODE_ORCHESTRATOR_BASE_PORT=4096      # Session base port
-HYPERCODE_ORCHESTRATOR_DEBATE_ROUNDS=2     # Number of debate rounds
-HYPERCODE_ORCHESTRATOR_CONSENSUS=0.7       # Consensus threshold (70%)
-HYPERCODE_ORCHESTRATOR_SMART_PILOT=false   # Enable auto-continue
-HYPERCODE_ORCHESTRATOR_PORT=3847           # API server port
-HYPERCODE_ORCHESTRATOR_HOST=0.0.0.0        # Bind address
-HYPERCODE_ORCHESTRATOR_BASE_PORT=4096      # Session base port
-HYPERCODE_ORCHESTRATOR_DEBATE_ROUNDS=2     # Number of debate rounds
-HYPERCODE_ORCHESTRATOR_CONSENSUS=0.7       # Consensus threshold (70%)
-HYPERCODE_ORCHESTRATOR_SMART_PILOT=false   # Enable auto-continue
+TORMENTNEXUS_ORCHESTRATOR_PORT=3847           # API server port
+TORMENTNEXUS_ORCHESTRATOR_HOST=0.0.0.0        # Bind address
+TORMENTNEXUS_ORCHESTRATOR_BASE_PORT=4096      # Session base port
+TORMENTNEXUS_ORCHESTRATOR_DEBATE_ROUNDS=2     # Number of debate rounds
+TORMENTNEXUS_ORCHESTRATOR_CONSENSUS=0.7       # Consensus threshold (70%)
+TORMENTNEXUS_ORCHESTRATOR_SMART_PILOT=false   # Enable auto-continue
+TORMENTNEXUS_ORCHESTRATOR_PORT=3847           # API server port
+TORMENTNEXUS_ORCHESTRATOR_HOST=0.0.0.0        # Bind address
+TORMENTNEXUS_ORCHESTRATOR_BASE_PORT=4096      # Session base port
+TORMENTNEXUS_ORCHESTRATOR_DEBATE_ROUNDS=2     # Number of debate rounds
+TORMENTNEXUS_ORCHESTRATOR_CONSENSUS=0.7       # Consensus threshold (70%)
+TORMENTNEXUS_ORCHESTRATOR_SMART_PILOT=false   # Enable auto-continue
 
 # Legacy compatibility aliases still accepted:
 AUTOPILOT_PORT=3847

@@ -1,0 +1,13 @@
+{
+  "id": "xcodemessageaction",
+  "version": 1,
+  "description": "System Prompt: Xcode/MessageAction.txt",
+  "template": "The user is curently inside this file: {{filename}}\nThe contents are below:\n```swift:{{filename}}\n{{filecontent}}\n```\n\nThe user has selected the following code from that file:\n```swift\n{{selected}}\n```\n\nThe user has asked:\n{{message}}\n",
+  "variables": [
+    "filename",
+    "selected",
+    "filecontent",
+    "message"
+  ],
+  "updatedAt": "2026-05-30T13:01:58.769194Z"
+}

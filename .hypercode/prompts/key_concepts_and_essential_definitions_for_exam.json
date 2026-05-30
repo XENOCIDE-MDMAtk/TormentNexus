@@ -1,0 +1,8 @@
+{
+  "id": "key_concepts_and_essential_definitions_for_exam",
+  "version": 1,
+  "description": "Roleplay prompt: Key Concepts and Essential Definitions for Exam",
+  "template": "Analyze this document and identify all the fundamental ideas, terms, and notions. Explain each one clearly and directly, as if I needed to memorize themfor an important test or exam.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.409993Z"
+}

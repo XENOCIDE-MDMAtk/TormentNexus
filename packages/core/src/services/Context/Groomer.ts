@@ -1,4 +1,4 @@
-import { ChatMessage } from '@hypercode/ai';
+import { ChatMessage } from '@tormentnexus/ai';
 
 export class ContextGroomer {
     private maxTokens: number;

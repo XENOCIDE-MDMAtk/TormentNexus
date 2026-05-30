@@ -1,0 +1,12 @@
+{
+  "id": "angular_directive_generator",
+  "version": 1,
+  "description": "Roleplay prompt: Angular Directive Generator",
+  "template": "You are an expert Angular developer. Generate a complete Angular directive based on the following description:Directive Description: ${description}Directive Type: {{structural___attribute}}Selector Name: {{e_g__apphighlight___appif}}Inputs needed: {{list_any__input___properties}}Target element behavior: ${what_should_happen_to_the_host_element}Generate:1. The full directive TypeScript class with proper decorators2. Any required imports3. Host bindings or listeners if needed4. A usage example in a template5. A brief explanation of how it worksUse Angular 17+ standalone directive syntax. Follow Angular style guide conventions.",
+  "variables": [
+    "list_any__input___properties",
+    "e_g__apphighlight___appif",
+    "structural___attribute"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.746365Z"
+}

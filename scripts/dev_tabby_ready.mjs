@@ -4,29 +4,29 @@ import { execFile, spawn } from 'node:child_process';
 
 import {
   detectBrowserExtensionArtifacts,
-  getHypercodeStartLockPath,
+  getTormentNexusStartLockPath,
   getPreferredWebPorts,
   getWaitingReasons,
   chooseStaleCoreRefreshTarget,
   isCompatibleStartupStatusContract,
-  isLikelyHypercodeCoreCommand,
+  isLikelyTormentNexusCoreCommand,
   isHttpProbeResponsive,
   isDirectExecution,
   parseListeningPidFromLsof,
   parseListeningPidFromNetstat,
-  readHypercodeStartLockRecord,
+  readTormentNexusStartLockRecord,
   summarizeBrowserExtensionArtifacts,
   waitForCoreBridgeShutdown,
 } from './dev_tabby_ready_helpers.mjs';
 
 const WEB_PORT_CANDIDATES = [3000, 3010, 3020, 3030, 3040];
 const CORE_HTTP_BASE = 'http://127.0.0.1:3001';
-const POLL_INTERVAL_MS = Number(process.env.HYPERCODE_DEV_READY_POLL_MS || 2000);
-const READY_TIMEOUT_MS = Number(process.env.HYPERCODE_DEV_READY_TIMEOUT_MS || 600000);
-const WEB_DETECT_TIMEOUT_MS = Number(process.env.HYPERCODE_DEV_READY_WEB_TIMEOUT_MS || 15000);
-const TRPC_QUERY_TIMEOUT_MS = Number(process.env.HYPERCODE_DEV_READY_TRPC_TIMEOUT_MS || 12000);
-const AUTO_OPEN_DASHBOARD = process.env.HYPERCODE_DEV_READY_OPEN_BROWSER !== '0';
-const AUTO_REFRESH_STALE_CORE = process.env.HYPERCODE_DEV_READY_RESTART_STALE_CORE !== '0';
+const POLL_INTERVAL_MS = Number(process.env.TORMENTNEXUS_DEV_READY_POLL_MS || 2000);
+const READY_TIMEOUT_MS = Number(process.env.TORMENTNEXUS_DEV_READY_TIMEOUT_MS || 600000);
+const WEB_DETECT_TIMEOUT_MS = Number(process.env.TORMENTNEXUS_DEV_READY_WEB_TIMEOUT_MS || 15000);
+const TRPC_QUERY_TIMEOUT_MS = Number(process.env.TORMENTNEXUS_DEV_READY_TRPC_TIMEOUT_MS || 12000);
+const AUTO_OPEN_DASHBOARD = process.env.TORMENTNEXUS_DEV_READY_OPEN_BROWSER !== '0';
+const AUTO_REFRESH_STALE_CORE = process.env.TORMENTNEXUS_DEV_READY_RESTART_STALE_CORE !== '0';
 const REPO_ROOT = process.cwd();
 const CORE_BRIDGE_PROBE_URLS = [
   `${CORE_HTTP_BASE}/api/mesh/stream`,
@@ -263,14 +263,14 @@ function runPnpmCommand(commandArgs, cwd = REPO_ROOT) {
 }
 
 async function ensureOfficialBrowserExtensionArtifacts() {
-  const extensionRoot = `${REPO_ROOT}${process.platform === 'win32' ? '\\' : '/'}apps${process.platform === 'win32' ? '\\' : '/'}hypercode-extension`;
+  const extensionRoot = `${REPO_ROOT}${process.platform === 'win32' ? '\\' : '/'}apps${process.platform === 'win32' ? '\\' : '/'}tormentnexus-extension`;
 
-  console.log('[Hypercode Dev Ready] official browser-extension artifacts missing; building Chromium + Firefox bundles...');
+  console.log('[TormentNexus Dev Ready] official browser-extension artifacts missing; building Chromium + Firefox bundles...');
 
-  await runPnpmCommand(['-C', 'apps/hypercode-extension', 'run', 'build'], REPO_ROOT);
-  await runPnpmCommand(['-C', 'apps/hypercode-extension', 'run', 'build:firefox'], REPO_ROOT);
+  await runPnpmCommand(['-C', 'apps/tormentnexus-extension', 'run', 'build'], REPO_ROOT);
+  await runPnpmCommand(['-C', 'apps/tormentnexus-extension', 'run', 'build:firefox'], REPO_ROOT);
 
-  console.log(`[Hypercode Dev Ready] browser-extension artifacts refreshed from ${extensionRoot}`);
+  console.log(`[TormentNexus Dev Ready] browser-extension artifacts refreshed from ${extensionRoot}`);
 }
 
 async function warmMcpAndMemory(webPort) {
@@ -373,24 +373,24 @@ function printReadySummary(state) {
   const webPort = state.web?.port;
   const dashboardUrl = webPort ? `http://127.0.0.1:${webPort}` : 'unavailable';
 
-  console.log('\n[Hypercode Dev Ready] ✅ stack is ready');
-  console.log(`[Hypercode Dev Ready] Dashboard: ${dashboardUrl}`);
-  console.log('[Hypercode Dev Ready] Core bridge: ws://127.0.0.1:3001 (HTTP probe: /api/mesh/stream or /health)');
-  console.log(`[Hypercode Dev Ready] Startup telemetry API: ${state.startupStatus.url ?? 'unavailable'}`);
-  console.log(`[Hypercode Dev Ready] MCP telemetry API: ${state.mcpStatus.url ?? 'unavailable'}`);
-  console.log(`[Hypercode Dev Ready] Memory telemetry API: ${state.memoryStatus.url ?? 'unavailable'}`);
-  console.log(`[Hypercode Dev Ready] Browser telemetry API: ${state.browserStatus.url ?? 'unavailable'}`);
-  console.log(`[Hypercode Dev Ready] Session telemetry API: ${state.sessionStatus.url ?? 'unavailable'}`);
-  console.log(`[Hypercode Dev Ready] Extension artifacts: ${state.extension.summary ?? 'unavailable'}`);
+  console.log('\n[TormentNexus Dev Ready] ✅ stack is ready');
+  console.log(`[TormentNexus Dev Ready] Dashboard: ${dashboardUrl}`);
+  console.log('[TormentNexus Dev Ready] Core bridge: ws://127.0.0.1:3001 (HTTP probe: /api/mesh/stream or /health)');
+  console.log(`[TormentNexus Dev Ready] Startup telemetry API: ${state.startupStatus.url ?? 'unavailable'}`);
+  console.log(`[TormentNexus Dev Ready] MCP telemetry API: ${state.mcpStatus.url ?? 'unavailable'}`);
+  console.log(`[TormentNexus Dev Ready] Memory telemetry API: ${state.memoryStatus.url ?? 'unavailable'}`);
+  console.log(`[TormentNexus Dev Ready] Browser telemetry API: ${state.browserStatus.url ?? 'unavailable'}`);
+  console.log(`[TormentNexus Dev Ready] Session telemetry API: ${state.sessionStatus.url ?? 'unavailable'}`);
+  console.log(`[TormentNexus Dev Ready] Extension artifacts: ${state.extension.summary ?? 'unavailable'}`);
   for (const artifact of state.extensions) {
-    console.log(`[Hypercode Dev Ready] ${artifact.label}: ${artifact.artifactPath ?? 'unavailable'}`);
+    console.log(`[TormentNexus Dev Ready] ${artifact.label}: ${artifact.artifactPath ?? 'unavailable'}`);
   }
 }
 
 function printWaitingSummary(state, elapsedMs) {
   const missing = getWaitingReasons(state);
 
-  console.log(`[Hypercode Dev Ready] connecting ${Math.floor(elapsedMs / 1000)}s: ${missing.join(' | ')}`);
+  console.log(`[TormentNexus Dev Ready] connecting ${Math.floor(elapsedMs / 1000)}s: ${missing.join(' | ')}`);
 }
 
 function spawnTurboDev() {
@@ -410,7 +410,7 @@ function spawnTurboDev() {
     '--filter=!mcp-superassistant',
     '--filter=!@extension/hmr',
     '--filter=!opencode-autopilot',
-    '--filter=!@hypercode/cli',
+    '--filter=!@tormentnexus/cli',
     '--filter=!@opencode-autopilot/cli',
     '--filter=!@opencode-autopilot/server',
     '--filter=!@opencode-autopilot/shared',
@@ -498,7 +498,7 @@ async function detectCoreBridgeOwner() {
   return {
     pid,
     commandLine,
-    trusted: isLikelyHypercodeCoreCommand(commandLine),
+    trusted: isLikelyTormentNexusCoreCommand(commandLine),
   };
 }
 
@@ -510,7 +510,7 @@ async function stopExistingCoreBridge(pid, sourceLabel) {
   try {
     process.kill(pid, 'SIGTERM');
   } catch (error) {
-    console.warn(`[Hypercode Dev Ready] could not terminate stale Hypercode core PID ${pid} from ${sourceLabel}: ${error instanceof Error ? error.message : String(error)}`);
+    console.warn(`[TormentNexus Dev Ready] could not terminate stale TormentNexus core PID ${pid} from ${sourceLabel}: ${error instanceof Error ? error.message : String(error)}`);
     return false;
   }
 
@@ -527,7 +527,7 @@ async function stopExistingCoreBridge(pid, sourceLabel) {
   );
 
   if (!stopped) {
-    console.warn(`[Hypercode Dev Ready] stale Hypercode core PID ${pid} from ${sourceLabel} did not release the bridge within ${Math.floor(TRPC_QUERY_TIMEOUT_MS / 1000)}s.`);
+    console.warn(`[TormentNexus Dev Ready] stale TormentNexus core PID ${pid} from ${sourceLabel} did not release the bridge within ${Math.floor(TRPC_QUERY_TIMEOUT_MS / 1000)}s.`);
   }
 
   return stopped;
@@ -560,7 +560,7 @@ async function main() {
   let attemptedStaleCoreRefresh = false;
 
   if (reuseExistingCoreBridge) {
-    console.log('[Hypercode Dev Ready] reusing existing core bridge on port 3001; skipping duplicate CLI launch.');
+    console.log('[TormentNexus Dev Ready] reusing existing core bridge on port 3001; skipping duplicate CLI launch.');
   }
 
   const attachCliChild = (nextCliChild) => {
@@ -572,7 +572,7 @@ async function main() {
     }
 
     nextCliChild.on('error', (error) => {
-      console.error(`[Hypercode Dev Ready] failed to start CLI server: ${error instanceof Error ? error.message : String(error)}`);
+      console.error(`[TormentNexus Dev Ready] failed to start CLI server: ${error instanceof Error ? error.message : String(error)}`);
       process.exit(1);
     });
 
@@ -595,7 +595,7 @@ async function main() {
   process.on('SIGTERM', () => terminateChild('SIGTERM'));
 
   child.on('error', (error) => {
-    console.error(`[Hypercode Dev Ready] failed to start dev stack: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`[TormentNexus Dev Ready] failed to start dev stack: ${error instanceof Error ? error.message : String(error)}`);
     process.exit(1);
   });
 
@@ -631,7 +631,7 @@ async function main() {
 
     if (!state.extension.ready && !extensionBuildPromise) {
       extensionBuildPromise = ensureOfficialBrowserExtensionArtifacts().catch((error) => {
-        console.warn(`[Hypercode Dev Ready] browser-extension build failed: ${error instanceof Error ? error.message : String(error)}`);
+        console.warn(`[TormentNexus Dev Ready] browser-extension build failed: ${error instanceof Error ? error.message : String(error)}`);
       });
     }
 
@@ -657,8 +657,8 @@ async function main() {
     ) {
       if (!attemptedStaleCoreRefresh && AUTO_REFRESH_STALE_CORE) {
         attemptedStaleCoreRefresh = true;
-        const lockPath = getHypercodeStartLockPath();
-        const lockRecord = readHypercodeStartLockRecord(lockPath);
+        const lockPath = getTormentNexusStartLockPath();
+        const lockRecord = readTormentNexusStartLockRecord(lockPath);
         const owner = lockRecord ? null : await detectCoreBridgeOwner();
         const refreshTarget = chooseStaleCoreRefreshTarget({
           lockRecord,
@@ -667,7 +667,7 @@ async function main() {
         });
 
         if (refreshTarget.kind === 'lock' && lockRecord) {
-          console.warn(`[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; stopping Hypercode core PID ${lockRecord.pid} from ${lockPath} and starting a fresh CLI instance.`);
+          console.warn(`[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; stopping TormentNexus core PID ${lockRecord.pid} from ${lockPath} and starting a fresh CLI instance.`);
           const stopped = await stopExistingCoreBridge(refreshTarget.pid, lockPath);
 
           if (stopped) {
@@ -677,9 +677,9 @@ async function main() {
             continue;
           }
 
-          console.warn('[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; the locked Hypercode core could not be stopped automatically.');
+          console.warn('[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; the locked TormentNexus core could not be stopped automatically.');
         } else if (refreshTarget.kind === 'owner') {
-          console.warn(`[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; stopping Hypercode-owned bridge PID ${refreshTarget.pid} discovered from port 3001 and starting a fresh CLI instance.`);
+          console.warn(`[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; stopping TormentNexus-owned bridge PID ${refreshTarget.pid} discovered from port 3001 and starting a fresh CLI instance.`);
           const stopped = await stopExistingCoreBridge(refreshTarget.pid, refreshTarget.sourceLabel);
 
           if (stopped) {
@@ -689,15 +689,15 @@ async function main() {
             continue;
           }
 
-          console.warn('[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; the Hypercode-owned port listener could not be stopped automatically.');
+          console.warn('[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; the TormentNexus-owned port listener could not be stopped automatically.');
         } else if (refreshTarget.kind === 'skip-untrusted-owner') {
-          console.warn(`[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; port 3001 is owned by PID ${refreshTarget.pid}, but its command line did not look Hypercode-owned, so automatic refresh was skipped.`);
+          console.warn(`[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; port 3001 is owned by PID ${refreshTarget.pid}, but its command line did not look TormentNexus-owned, so automatic refresh was skipped.`);
         } else {
-          console.warn('[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; no Hypercode startup lock or port owner PID was found, so automatic refresh was skipped.');
+          console.warn('[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; no TormentNexus startup lock or port owner PID was found, so automatic refresh was skipped.');
         }
       }
 
-      console.warn('[Hypercode Dev Ready] existing core bridge is healthy but serving an older startup contract; restart the Hypercode CLI/core bridge so `pnpm run dev` can validate the current readiness payload.');
+      console.warn('[TormentNexus Dev Ready] existing core bridge is healthy but serving an older startup contract; restart the TormentNexus CLI/core bridge so `pnpm run dev` can validate the current readiness payload.');
     }
 
     printWaitingSummary(state, Date.now() - startedAt);
@@ -705,7 +705,7 @@ async function main() {
   }
 
   if (!warmed) {
-    console.warn(`\n[Hypercode Dev Ready] ⚠ readiness timeout (${Math.floor(READY_TIMEOUT_MS / 1000)}s). Keeping dev stack running for manual inspection.`);
+    console.warn(`\n[TormentNexus Dev Ready] ⚠ readiness timeout (${Math.floor(READY_TIMEOUT_MS / 1000)}s). Keeping dev stack running for manual inspection.`);
   }
 
   await Promise.all([
@@ -716,7 +716,7 @@ async function main() {
 
 if (isDirectExecution(import.meta.url, process.argv[1])) {
   main().catch((error) => {
-    console.error(`[Hypercode Dev Ready] unexpected error: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`[TormentNexus Dev Ready] unexpected error: ${error instanceof Error ? error.message : String(error)}`);
     process.exit(1);
   });
 }

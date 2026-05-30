@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hypercodehq/hypercode-go/internal/interop"
+	"github.com/tormentnexushq/tormentnexus-go/internal/interop"
 )
 
 type SessionBootstrapPayload struct {

@@ -19,8 +19,8 @@ func NewDisclosureProxy(base ILLMProvider, allTools []Tool) *DisclosureProxy {
 	}
 }
 
-// FormatHypercodeNativeTools overrides the massive 649+ array with one deterministic access point
-func (d *DisclosureProxy) FormatHypercodeNativeTools() []Tool {
+// FormatTormentNexusNativeTools overrides the massive 649+ array with one deterministic access point
+func (d *DisclosureProxy) FormatTormentNexusNativeTools() []Tool {
 	var visibleTools []Tool
 
 	// Phase 3: "Always On" Strict Parity constraint
@@ -65,12 +65,12 @@ func (d *DisclosureProxy) FormatHypercodeNativeTools() []Tool {
 func (d *DisclosureProxy) Chat(ctx context.Context, messages []Message, tools []Tool) (Message, error) {
 	// The core TS Hono backend parity logic:
 	// We override 'tools' natively and send just search_tools.
-	minimalTools := d.FormatHypercodeNativeTools()
+	minimalTools := d.FormatTormentNexusNativeTools()
 	return d.BaseProvider.Chat(ctx, messages, minimalTools)
 }
 
 func (d *DisclosureProxy) Stream(ctx context.Context, messages []Message, tools []Tool, chunkChan chan<- string) error {
-	minimalTools := d.FormatHypercodeNativeTools()
+	minimalTools := d.FormatTormentNexusNativeTools()
 	return d.BaseProvider.Stream(ctx, messages, minimalTools, chunkChan)
 }
 

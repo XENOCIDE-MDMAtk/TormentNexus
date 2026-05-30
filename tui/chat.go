@@ -8,7 +8,7 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/robertpelloni/hypercode/agents"
+	"github.com/robertpelloni/tormentnexus/agents"
 )
 
 type model struct {
@@ -25,7 +25,7 @@ func initialModel() model {
 	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 
 	return model{
-		director: agents.NewDirector(agents.NewHypercodeProvider()),
+		director: agents.NewDirector(agents.NewTormentNexusProvider()),
 		input:    "",
 		history:  []string{},
 		loading:  false,
@@ -84,11 +84,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	case string:
 		m.loading = false
-		m.history = append(m.history, "Hypercode-Go-Director: "+msg)
+		m.history = append(m.history, "TormentNexus-Go-Director: "+msg)
 
 	case PromptDisplayMsg:
 		m.loading = false
-		m.history = append(m.history, "Hypercode-Go-Director: "+msg.Display)
+		m.history = append(m.history, "TormentNexus-Go-Director: "+msg.Display)
 
 	case ShellProposalMsg:
 		m.loading = false

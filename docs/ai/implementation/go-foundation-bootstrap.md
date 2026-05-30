@@ -41,7 +41,7 @@
   - updated to `native` maturity for the default tool set
 
 - `foundation/assimilation/inventory.go`
-  - upstream assimilation inventory covering imported toolchains and Hypercode
+  - upstream assimilation inventory covering imported toolchains and TormentNexus
 
 - `foundation/assimilation/summary.go`
   - category summarization helpers
@@ -129,7 +129,7 @@
 - `agent/agent.go`
   - top-level agent now advertises the native exact-name tools preferentially
   - OpenAI tool registration now uses per-tool schemas instead of one fake generic schema
-  - system prompt now incorporates Hypercode/Hypercode and provider adapter context
+  - system prompt now incorporates TormentNexus/TormentNexus and provider adapter context
 
 - `agent/pipe.go`
   - pipe processing now uses provider execution-preparation hints before invoking the agent
@@ -152,9 +152,9 @@
 - `orchestrator/orchestration_bridge.go`
   - daemon/autodrive bridge now converts foundation plans into execution objectives for sandboxed runs
 
-- `foundation/adapters/hypercode.go`
-  - first Hypercode/Hypercode adapter seam for the Go foundation
-  - exposes assimilation status, memory context, provider status, MCP config visibility, and adjacent Hypercode repo discovery
+- `foundation/adapters/tormentnexus.go`
+  - first TormentNexus/TormentNexus adapter seam for the Go foundation
+  - exposes assimilation status, memory context, provider status, MCP config visibility, and adjacent TormentNexus repo discovery
 
 - `foundation/adapters/providers.go`
   - provider adapter seam for current provider/model visibility
@@ -175,7 +175,7 @@
 - `foundation/adapters/mcp.go`
   - MCP adapter seam for configured server discovery, tool hints, route hints, mediated tool-call preparation, and configured-server startup
 
-- `foundation/adapters/hypercode_test.go`
+- `foundation/adapters/tormentnexus_test.go`
   - validates adapter status, routing, and system-context construction
 
 - `foundation/adapters/providers_test.go`
@@ -198,7 +198,7 @@
 
 - `agent/agent_test.go`
   - verifies top-level OpenAI tool registration exposes exact-schema tool definitions
-  - verifies Hypercode adapter presence on the top-level agent
+  - verifies TormentNexus adapter presence on the top-level agent
 
 - `mcp/client_test.go`
   - verifies MCP client tool hint listing and mediated call routing through the adapter seam
@@ -259,7 +259,7 @@ These issues were observed and documented, not silently ignored or misrepresente
 - daemon/autodrive orchestration bridge tests
 - top-level tool registry tests confirming native exact-name tool exposure
 - top-level agent tool-schema registration tests
-- Hypercode/Hypercode adapter seam tests
+- TormentNexus/TormentNexus adapter seam tests
 - provider adapter seam tests
 - provider-route selection tests
 - provider execution-preparation tests
@@ -274,6 +274,6 @@ These issues were observed and documented, not silently ignored or misrepresente
 ## Recommended next implementation sequence
 1. continue routing remaining top-level placeholder orchestration surfaces to `foundation/pi` runtime packages,
 2. deepen repo-map ranking toward richer Aider-style graph semantics and add edit strategies,
-3. expand `foundation/adapters` from visibility and route-selection seams into richer Hypercode/Hypercode provider routing and richer MCP execution adapters,
+3. expand `foundation/adapters` from visibility and route-selection seams into richer TormentNexus/TormentNexus provider routing and richer MCP execution adapters,
 4. expand snapshot/result-shape coverage plus HTTP/CLI smoke coverage,
 5. layer in delegation, verification, detached/background runs, and JSON/RPC transport.

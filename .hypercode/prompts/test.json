@@ -1,0 +1,8 @@
+{
+  "id": "test",
+  "version": 1,
+  "description": "Roleplay prompt: test",
+  "template": "---name: testdescription: A clear description of what this skill does and when to use it---# testDescribe what this skill does and how the agent should use it.## Instructions- Step 1: ...- Step 2: ...${\u540d\u79f0}",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.735227Z"
+}

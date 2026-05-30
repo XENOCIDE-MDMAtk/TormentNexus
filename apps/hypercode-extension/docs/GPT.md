@@ -14,8 +14,8 @@
 - Always describe what you're about to do before doing it.
 
 ## Tool Usage
-- ChatGPT / GPT models are often used via the Hypercode Extension extension itself.
-- ChatGPT / GPT models are often used via the hypercode Extension extension itself.
+- ChatGPT / GPT models are often used via the TormentNexus Extension extension itself.
+- ChatGPT / GPT models are often used via the tormentnexus Extension extension itself.
 - When writing adapter code for OpenAI/ChatGPT, reference `pages/content/src/plugins/adapters/` for patterns.
 
 ## Commit Style

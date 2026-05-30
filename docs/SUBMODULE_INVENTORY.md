@@ -23,6 +23,6 @@
 | **copilot-cli** | `copilot-cli` | Reference | Pending |
 | **factory-cli** | `factory-cli` | Reference | Pending |
 | **gemini-cli** | `gemini-cli` | Reference | Pending |
-| **external/Hypercode** | `external/Hypercode` | Core Capability | Active |
+| **external/TormentNexus** | `external/TormentNexus` | Core Capability | Active |
 | **apps/maestro** | `apps/maestro` | UI (Legacy) | Active |
-| **submodules/hypercode** | `submodules/hypercode` | Parent Repo | Active |
+| **submodules/tormentnexus** | `submodules/tormentnexus` | Parent Repo | Active |

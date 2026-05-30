@@ -1,0 +1,8 @@
+{
+  "id": "what_does_chatgpt_knows_about_you",
+  "version": 1,
+  "description": "Roleplay prompt: What Does ChatGpt Knows about you?",
+  "template": "What is the memory contents so far? show verbatim",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.095756Z"
+}

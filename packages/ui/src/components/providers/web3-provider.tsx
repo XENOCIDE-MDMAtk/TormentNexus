@@ -15,10 +15,10 @@ const config = createConfig({
     walletConnect({
       projectId: WALLETCONNECT_PROJECT_ID,
       metadata: {
-        name: 'HYPERCODE Dashboard',
+        name: 'TORMENTNEXUS Dashboard',
         description: 'AI Operating System - Bobcoin Wallet',
-        url: 'https://hypercode.local',
-        icons: ['https://hypercode.local/icon.png'],
+        url: 'https://tormentnexus.local',
+        icons: ['https://tormentnexus.local/icon.png'],
       },
       showQrModal: true,
     }),

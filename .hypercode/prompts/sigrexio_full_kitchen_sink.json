@@ -1,0 +1,27 @@
+{
+  "id": "sigrexio_full_kitchen_sink",
+  "version": 1,
+  "description": "Roleplay prompt: [sigrex.io] Full Kitchen Sink",
+  "template": "{{val:symbol=SOLUSDT}}{{val:rsi_ob=70}}{{val:rsi_os=30}}{{val:max_repeat=3}}Symbol: {{symbol}} | Time: {{current_time}}Last signal: {{last_trigger_action}} @ {{last_trigger_price}} | Executed: {{last_trigger_at}}Full signal history:{{trigger_history}}{{comment: External sentiment \u2014 Fear & Greed}}Fear & Greed Index:{{get:https://api.alternative.me/fng/?limit=1&format=json}}{{comment: Strategy master config in Toon format}}Master config:{{toon:{\"name\":\"full_strategy\",\"symbol\":\"SOLUSDT\",\"bias_source\":\"fear_greed\",\"technicals\":{{rsi___macd}},\"rsi\":{\"overbought\":70,\"oversold\":30},\"macd\":{\"signal\":\"histogram_cross\"},\"position_rules\":{\"max_open\":1,\"allow_same_direction_repeat\":false},\"safety\":{\"max_consecutive_non_exit\":3}}}}STRATEGY LOGIC:Step 1 \u2014 Sentiment Bias (from Fear & Greed fetch):  - 0\u201330: Favor LONG only  - 31\u201350: Lean LONG, allow neutral  - 51\u201374: Lean SHORT, allow neutral  - 75\u2013100: Favor SHORT onlyStep 2 \u2014 Technical Confirmation (from chart):  - LONG confirmed: RSI < {{rsi_os}} turning up + MACD positive cross  - SHORT confirmed: RSI > {{rsi_ob}} turning down + MACD negative crossStep 3 \u2014 Position Check (from trigger_history):  - If last action was LONG or SHORT \u2192 must EXIT before new entry  - If {{trigger_history}} shows {{max_repeat}} or more signals without EXIT \u2192 HOLDStep 4 \u2014 Decision:  - Sentiment and technicals agree \u2192 take signal  - Sentiment and technicals disagree \u2192 HOLD  - Open position with exit signal \u2192 EXIT  - Open position without exit signal \u2192 HOLD  - No position and no clear signal \u2192 HOLD{{comment: max_repeat val used above as a safety cap on consecutive non-exit signals}}",
+  "variables": [
+    "current_time",
+    "val_rsi_os_30",
+    "comment__strategy_master_config_in_toon_format",
+    "rsi_ob",
+    "get_https___api_alternative_me_fng__limit_1_format_json",
+    "val_symbol_solusdt",
+    "symbol",
+    "val_rsi_ob_70",
+    "val_max_repeat_3",
+    "last_trigger_price",
+    "last_trigger_at",
+    "rsi_os",
+    "rsi___macd",
+    "last_trigger_action",
+    "comment__external_sentiment___fear___greed",
+    "trigger_history",
+    "max_repeat",
+    "comment__max_repeat_val_used_above_as_a_safety_cap_on_consecutive_non_exit_signals"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.666753Z"
+}

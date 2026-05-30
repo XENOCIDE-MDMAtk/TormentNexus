@@ -1,0 +1,10 @@
+{
+  "id": "dating_profile_optimization_suite",
+  "version": 1,
+  "description": "Roleplay prompt: Dating Profile Optimization Suite",
+  "template": "Build a web app called \"First Impression\" \u2014 a dating profile audit and optimization tool.Core features:- Photo audit: user describes their photos (up to 6) \u2014 AI scores each on energy, approachability, social proof, and uniqueness. Returns a ranked order recommendation with one-line reasoning per photo- Bio rewriter: user pastes current bio, clicks \"Optimize\", receives 3 rewritten versions in distinct tones (playful / authentic / direct). Each version includes a word count and a predicted \"swipe right rate\" label (Low / Medium / High)- Icebreaker generator: user describes a match's profile in a few sentences \u2014 AI generates 5 personalized openers ranked by predicted response rate, each with a one-line explanation of why it works- Profile score dashboard: a 0\u2013100 composite score across bio quality, photo strength, and opener effectiveness \u2014 updates live- Export: formatted PDF of all assets titled \"My Profile Package\"Stack: React, {{llm_api}} for all AI calls, jsPDF for export. Mobile-first UI with a card-based layout \u2014 warm colors, modern dating app feel.",
+  "variables": [
+    "llm_api"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.064700Z"
+}

@@ -1,5 +1,5 @@
 import { SpecializedAgent } from '../mesh/SpecializedAgent.js';
-import { LLMService } from '@hypercode/ai';
+import { LLMService } from '@tormentnexus/ai';
 import { MCPServer } from '../MCPServer.js';
 
 export class McpWorkerAgent extends SpecializedAgent {

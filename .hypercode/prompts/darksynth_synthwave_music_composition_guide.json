@@ -1,0 +1,16 @@
+{
+  "id": "darksynth_synthwave_music_composition_guide",
+  "version": 1,
+  "description": "Roleplay prompt: Darksynth Synthwave Music Composition Guide",
+  "template": "Style: darksynth synthwave with electronic and ambient influences, nostalgic, mysterious, hopeful, building energy, 108 BPM, moderato, driving feel, synthesizer, electric-guitar, featuring synthesizer, male and breathy vocals, polished, atmospheric, layered production, 1980s sound, lush and cinematic with analog warmth, in the key of Am, retrowave, outrun, 80s nostalgia, neon, night driveStructure:{{intro}} Atmospheric synth pad fade-in{{verse}} Driving beat with vocals{{pre_chorus}} Building tension{{chorus}} Full arrangement, soaring melody{{verse}} Second verse, added elements{{chorus}} Repeat chorus with variations{{bridge}} Breakdown, stripped back{{drop}} Final chorus with extra energy{{outro}} Fade out with reverb tailLyrics:Theme: memories of a neon-lit city that never was",
+  "variables": [
+    "drop",
+    "outro",
+    "pre_chorus",
+    "bridge",
+    "intro",
+    "chorus",
+    "verse"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.512082Z"
+}

@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { trpc } from '@/utils/trpc';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@hypercode/ui';
-import { Input } from '@hypercode/ui';
-import { Button } from '@hypercode/ui';
-import { Badge } from "@hypercode/ui";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@tormentnexus/ui';
+import { Input } from '@tormentnexus/ui';
+import { Button } from '@tormentnexus/ui';
+import { Badge } from "@tormentnexus/ui";
 import { Hammer, BookOpen, Terminal, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 
 interface SkillListItem {

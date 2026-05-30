@@ -1,7 +1,7 @@
 /**
- * SectionedMemoryAdapter – IMemoryProvider backed by a Hypercode-managed sectioned store.
+ * SectionedMemoryAdapter – IMemoryProvider backed by a TormentNexus-managed sectioned store.
  *
- * This provider persists structured project context in a single Hypercode-owned JSON
+ * This provider persists structured project context in a single TormentNexus-owned JSON
  * snapshot so it can participate in the redundant memory pipeline alongside the
  * JSON provider and future vector/database stores.
  */
@@ -48,8 +48,8 @@ export class SectionedMemoryAdapter implements IMemoryProvider {
     private initialized = false;
 
     constructor(workspaceRoot: string) {
-        this.storePath = path.join(workspaceRoot, '.hypercode', 'sectioned_memory.json');
-        this.legacyStorePath = path.join(workspaceRoot, '.hypercode', LEGACY_STORE_FILE);
+        this.storePath = path.join(workspaceRoot, '.tormentnexus', 'sectioned_memory.json');
+        this.legacyStorePath = path.join(workspaceRoot, '.tormentnexus', LEGACY_STORE_FILE);
     }
 
     async init(): Promise<void> {

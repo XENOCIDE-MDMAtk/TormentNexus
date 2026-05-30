@@ -5,8 +5,8 @@
     },
     "extensionName": {
         "description": "Extension name",
-        "message": "Hypercode Extension"
-        "message": "hypercode Extension"
+        "message": "TormentNexus Extension"
+        "message": "tormentnexus Extension"
     },
     "navDashboard": {
         "message": "Panel"

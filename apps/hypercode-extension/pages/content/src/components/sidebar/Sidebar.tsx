@@ -855,14 +855,14 @@ const Sidebar: React.FC<SidebarProps> = ({ initialPreferences }) => {
             <div className="flex items-center space-x-2">
               {/* Always show the header content immediately */}
               <a
-                href="https://github.com/srbhptl39/Hypercode-Extension"
+                href="https://github.com/srbhptl39/TormentNexus-Extension"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Visit Hypercode Extension repository"
-                href="https://github.com/srbhptl39/hypercode-Extension"
+                aria-label="Visit TormentNexus Extension repository"
+                href="https://github.com/srbhptl39/tormentnexus-Extension"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Visit hypercode Extension repository"
+                aria-label="Visit tormentnexus Extension repository"
                 className="block">
                 {' '}
                 {/* Make link block for sizing */}
@@ -875,34 +875,34 @@ const Sidebar: React.FC<SidebarProps> = ({ initialPreferences }) => {
               <>
                 {/* Wrap title in link */}
                 <a
-                  href="https://github.com/srbhptl39/Hypercode-Extension"
+                  href="https://github.com/srbhptl39/TormentNexus-Extension"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-800 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150 no-underline"
-                  aria-label="Visit Hypercode Extension repository">
+                  aria-label="Visit TormentNexus Extension repository">
                   <Typography variant="h4" className="font-semibold">
-                    Hypercode Extension
-                  href="https://github.com/srbhptl39/hypercode-Extension"
+                    TormentNexus Extension
+                  href="https://github.com/srbhptl39/tormentnexus-Extension"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-800 dark:text-slate-100 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-150 no-underline"
-                  aria-label="Visit hypercode Extension repository">
+                  aria-label="Visit tormentnexus Extension repository">
                   <Typography variant="h4" className="font-semibold">
-                    hypercode Extension
+                    tormentnexus Extension
                   </Typography>
                 </a>
                 {/* Existing icon link */}
                 <a
-                  href="https://github.com/srbhptl39/Hypercode-Extension"
+                  href="https://github.com/srbhptl39/TormentNexus-Extension"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors duration-150"
-                  aria-label="Visit Hypercode Extension repository">
-                  href="https://github.com/srbhptl39/hypercode-Extension"
+                  aria-label="Visit TormentNexus Extension repository">
+                  href="https://github.com/srbhptl39/tormentnexus-Extension"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors duration-150"
-                  aria-label="Visit hypercode Extension repository">
+                  aria-label="Visit tormentnexus Extension repository">
                   <Icon name="arrow-up-right" size="xs" className="inline-block align-baseline" />
                 </a>
               </>

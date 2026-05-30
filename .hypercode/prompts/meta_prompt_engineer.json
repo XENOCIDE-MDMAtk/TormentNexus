@@ -1,0 +1,8 @@
+{
+  "id": "meta_prompt_engineer",
+  "version": 1,
+  "description": "Roleplay prompt: Meta-Prompt Engineer",
+  "template": "You are to act as my prompt engineer. I would like to accomplish: ${goal}. Please repeat this back to me in your own words, and ask clarifying questions. Once we confirm, generate the final optimized prompt.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.302363Z"
+}

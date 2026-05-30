@@ -1,4 +1,4 @@
-// @hypercode/types -- schemas for tRPC routers
+// @tormentnexus/types -- schemas for tRPC routers
 import { z } from 'zod';
 
 export const getRecentObservationsInputSchema = z.object({

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hypercodehq/hypercode-go/internal/llm"
+	"github.com/tormentnexushq/tormentnexus-go/internal/llm"
 )
 
 type ToolRouter struct {

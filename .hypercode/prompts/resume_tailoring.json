@@ -1,0 +1,10 @@
+{
+  "id": "resume_tailoring",
+  "version": 1,
+  "description": "Roleplay prompt: Resume tailoring",
+  "template": "\"Act as an expert recruiter in the {{insert_industry__e_g___tech}} industry. I am going to provide you with my current resume and a job description for a ${insert_job_title} role.Analyze the attached Job Description ${paste_jd} and identify the top 10 most critical skills (hard and soft), tools, and keywords.Compare them to my resume ${paste_resume} and identify gaps.Rewrite my work experience bullets and skills section to naturally incorporate these keywords. Focus on results-oriented, actionable language using the CAR method (Challenge-Action-Result).\"",
+  "variables": [
+    "insert_industry__e_g___tech"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.377362Z"
+}

@@ -1,7 +1,7 @@
 # Adapter Plugins
 
-This directory contains concrete implementations of Adapter Plugins for the Hypercode-Extension. Adapters are specialized plugins designed to tailor the assistant's behavior and capabilities to specific websites or types of websites.
-This directory contains concrete implementations of Adapter Plugins for the hypercode-Extension. Adapters are specialized plugins designed to tailor the assistant's behavior and capabilities to specific websites or types of websites.
+This directory contains concrete implementations of Adapter Plugins for the TormentNexus-Extension. Adapters are specialized plugins designed to tailor the assistant's behavior and capabilities to specific websites or types of websites.
+This directory contains concrete implementations of Adapter Plugins for the tormentnexus-Extension. Adapters are specialized plugins designed to tailor the assistant's behavior and capabilities to specific websites or types of websites.
 
 ## Overview
 

@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertpelloni/hypercode/foundation/adapters"
+	"github.com/robertpelloni/tormentnexus/foundation/adapters"
 )
 
 // Client represents a Model Context Protocol client.

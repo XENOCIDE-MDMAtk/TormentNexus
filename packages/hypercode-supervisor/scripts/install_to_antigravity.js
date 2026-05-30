@@ -1,7 +1,7 @@
 import { Installer } from '../dist/installer.js';
 
 async function install() {
-    console.log("Installing Hypercode Supervisor to Antigravity...");
+    console.log("Installing TormentNexus Supervisor to Antigravity...");
     // Default path is already set in Installer class to:
     // C:\Users\hyper\AppData\Roaming\Antigravity\User\mcp.json
     const installer = new Installer();

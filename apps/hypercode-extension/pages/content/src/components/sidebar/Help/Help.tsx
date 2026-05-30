@@ -51,16 +51,16 @@ const Help: React.FC = () => {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>What is Hypercode Extension?</CardTitle>
+              <CardTitle>What is TormentNexus Extension?</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <Typography variant="body" className="text-sm">
-                Hypercode Extension is a Chrome extension that bridges the Model Context Protocol (MCP) with web-based AI
-              <CardTitle>What is hypercode Extension?</CardTitle>
+                TormentNexus Extension is a Chrome extension that bridges the Model Context Protocol (MCP) with web-based AI
+              <CardTitle>What is tormentnexus Extension?</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <Typography variant="body" className="text-sm">
-                hypercode Extension is a Chrome extension that bridges the Model Context Protocol (MCP) with web-based AI
+                tormentnexus Extension is a Chrome extension that bridges the Model Context Protocol (MCP) with web-based AI
                 platforms like ChatGPT, Claude, Perplexity, and others.
               </Typography>
               <Typography variant="body" className="text-sm">
@@ -97,16 +97,16 @@ const Help: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-2">
               <Typography variant="body" className="text-sm">
-                To connect to local MCP servers, you need to run the Hypercode Extension Proxy. This proxy bridges the
+                To connect to local MCP servers, you need to run the TormentNexus Extension Proxy. This proxy bridges the
                 browser (extension) to your local MCP servers.
               </Typography>
               <div className="bg-slate-100 dark:bg-slate-900 p-2 rounded-md text-xs font-mono overflow-x-auto border border-slate-200 dark:border-slate-700">
-                npx -y @srbhptl39/hypercode-extension-proxy@latest --config ./config.json
-                To connect to local MCP servers, you need to run the hypercode Extension Proxy. This proxy bridges the
+                npx -y @srbhptl39/tormentnexus-extension-proxy@latest --config ./config.json
+                To connect to local MCP servers, you need to run the tormentnexus Extension Proxy. This proxy bridges the
                 browser (extension) to your local MCP servers.
               </Typography>
               <div className="bg-slate-100 dark:bg-slate-900 p-2 rounded-md text-xs font-mono overflow-x-auto border border-slate-200 dark:border-slate-700">
-                npx -y @srbhptl39/hypercode-extension-proxy@latest --config ./config.json
+                npx -y @srbhptl39/tormentnexus-extension-proxy@latest --config ./config.json
               </div>
               <Typography variant="caption" className="block mt-2">
                 Create a <code>config.json</code> file defining your MCP servers (e.g., filesystem, postgres) and point
@@ -522,8 +522,8 @@ const Help: React.FC = () => {
               </Typography>
               <div className="flex flex-col gap-3 mt-4">
                 <a
-                  href="https://github.com/srbhptl39/Hypercode-Extension/issues"
-                  href="https://github.com/srbhptl39/hypercode-Extension/issues"
+                  href="https://github.com/srbhptl39/TormentNexus-Extension/issues"
+                  href="https://github.com/srbhptl39/tormentnexus-Extension/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="no-underline">
@@ -536,8 +536,8 @@ const Help: React.FC = () => {
                   </Button>
                 </a>
                 <a
-                  href="https://github.com/srbhptl39/Hypercode-Extension"
-                  href="https://github.com/srbhptl39/hypercode-Extension"
+                  href="https://github.com/srbhptl39/TormentNexus-Extension"
+                  href="https://github.com/srbhptl39/tormentnexus-Extension"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="no-underline">

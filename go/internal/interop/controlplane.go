@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/lockfile"
+	"github.com/tormentnexushq/tormentnexus-go/internal/lockfile"
 )
 
 type ControlPlaneStatus struct {
@@ -21,8 +21,8 @@ type ControlPlaneStatus struct {
 
 func DiscoverControlPlanes(mainLockPath, goLockPath string) []ControlPlaneStatus {
 	return []ControlPlaneStatus{
-		readStatus("hypercode-node", mainLockPath),
-		readStatus("hypercode-go", goLockPath),
+		readStatus("tormentnexus-node", mainLockPath),
+		readStatus("tormentnexus-go", goLockPath),
 	}
 }
 

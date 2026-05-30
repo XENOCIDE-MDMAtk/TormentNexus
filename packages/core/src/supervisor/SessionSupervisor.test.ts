@@ -67,7 +67,7 @@ describe('SessionSupervisor', () => {
             clearTimeout: () => undefined,
         };
 
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-session-supervisor-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tormentnexus-session-supervisor-'));
         tempDirs.push(tempDir);
 
         const supervisor = new SessionSupervisor({
@@ -126,7 +126,7 @@ describe('SessionSupervisor', () => {
     });
 
     it('captures execution shell policy and exports it into the supervised environment', async () => {
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-session-supervisor-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tormentnexus-session-supervisor-'));
         tempDirs.push(tempDir);
 
         const supervisor = new SessionSupervisor({
@@ -192,15 +192,15 @@ describe('SessionSupervisor', () => {
             shellLabel: 'Cygwin Bash',
         }));
         expect(session.env).toEqual(expect.objectContaining({
-            HYPERCODE_EXECUTION_PROFILE_REQUESTED: 'posix',
-            HYPERCODE_EXECUTION_SHELL_ID: 'cygwin-bash',
-            HYPERCODE_SUPPORTS_POWERSHELL: '1',
-            HYPERCODE_SUPPORTS_POSIX_SHELL: '1',
+            TORMENTNEXUS_EXECUTION_PROFILE_REQUESTED: 'posix',
+            TORMENTNEXUS_EXECUTION_SHELL_ID: 'cygwin-bash',
+            TORMENTNEXUS_SUPPORTS_POWERSHELL: '1',
+            TORMENTNEXUS_SUPPORTS_POSIX_SHELL: '1',
         }));
     });
 
     it('persists metadata patches for a running session', async () => {
-        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hypercode-session-supervisor-'));
+        const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tormentnexus-session-supervisor-'));
         tempDirs.push(tempDir);
 
         const supervisor = new SessionSupervisor({

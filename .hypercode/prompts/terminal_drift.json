@@ -1,0 +1,17 @@
+{
+  "id": "terminal_drift",
+  "version": 1,
+  "description": "Roleplay prompt: Terminal Drift",
+  "template": "{  \"title\": \"Terminal Drift\",  \"description\": \"A haunting visualization of a lone traveler stuck in an infinite, empty airport terminal that defies logic.\",  \"prompt\": \"You will perform an image edit using the person from the provided photo as the main subject. Preserve her core likeness. Transform Subject 1 (female) into a solitary figure standing in an endless, windowless airport terminal. The surrounding space is a repetitive hallway of beige walls, low ceilings, and patterned carpet. There are no exits, only the endless stretch of artificial lighting and empty waiting chairs. The composition should adhere to a cinematic 1:1 aspect ratio.\",  \"details\": {    \"year\": \"Indeterminate 1990s\",    \"genre\": \"Liminal Space\",    \"location\": \"A vast, curving airport corridor with no windows, endless beige walls, and complex patterned carpet.\",    \"lighting\": {{flat_fluorescent_overheads_________uniform_artificial_glow_________no_natural_light_source}},    \"camera_angle\": \"Wide shot, symmetrical center-framed composition.\",    \"emotion\": {{disassociation_________unease_________solitude}},    \"color_palette\": {{beige_________muted_teal_________faded_maroon_________off_white}},    \"atmosphere\": {{uncanny_________sterile_________silent_________timeless}},    \"environmental_elements\": \"Rows of empty connected waiting chairs, commercial carpeting with a confusing pattern, generic signage with indecipherable text.\",    \"subject1\": {      \"costume\": \"A slightly oversized pastel sweater and loose trousers, appearing mundane and timeless.\",      \"subject_expression\": \"A vacant, glazed-over stare, looking slightly past the camera into the void.\",      \"subject_action\": \"Standing perfectly still, arms hanging loosely at her sides, holding a generic roller suitcase.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{crowds___________sunlight___________deep_shadows___________dirt___________clutter___________windows_looking_outside___________lens_flare}},      \"exclude_styles\": {{high_contrast___________action_movie___________vibrant_saturation___________cyberpunk___________horror_gore}},      \"exclude_colors\": {{neon_red___________pitch_black___________vibrant_green}},      \"exclude_objects\": {{airplanes___________trash___________blood___________animals}}    }  }}",
+  "variables": [
+    "crowds___________sunlight___________deep_shadows___________dirt___________clutter___________windows_looking_outside___________lens_flare",
+    "flat_fluorescent_overheads_________uniform_artificial_glow_________no_natural_light_source",
+    "uncanny_________sterile_________silent_________timeless",
+    "disassociation_________unease_________solitude",
+    "airplanes___________trash___________blood___________animals",
+    "neon_red___________pitch_black___________vibrant_green",
+    "beige_________muted_teal_________faded_maroon_________off_white",
+    "high_contrast___________action_movie___________vibrant_saturation___________cyberpunk___________horror_gore"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.069004Z"
+}

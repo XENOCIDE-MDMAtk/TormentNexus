@@ -88,30 +88,30 @@
 [submodule "qwen-code-cli"]
 	path = qwen-code-cli
 	url = https://github.com/dinoanderson/qwen_cli_coder
-[submodule "external/Hypercode"]
-        path = external/Hypercode
-        url = https://github.com/robertpelloni/Hypercode
+[submodule "external/TormentNexus"]
+        path = external/TormentNexus
+        url = https://github.com/robertpelloni/TormentNexus
 [submodule "submodules/mcpproxy"]
 	path = archive/submodules/mcpproxy
         url = https://github.com/Dumbris/mcpproxy
 [submodule "submodules/litellm"]
 	path = archive/submodules/litellm
         url = https://github.com/BerriAI/litellm
-[submodule "external/hypercode"]
-	path = archive/hypercode
-        url = https://github.com/robertpelloni/hypercode
+[submodule "external/tormentnexus"]
+	path = archive/tormentnexus
+        url = https://github.com/robertpelloni/tormentnexus
 [submodule "external/OmniRoute"]
 	path = archive/OmniRoute
         url = https://github.com/diegosouzapw/OmniRoute
-[submodule "packages/hypercode"]
-        path = packages/hypercode
-        url = https://github.com/robertpelloni/hypercode
+[submodule "packages/tormentnexus"]
+        path = packages/tormentnexus
+        url = https://github.com/robertpelloni/tormentnexus
 [submodule "apps/maestro"]
 	path = apps/maestro
 	url = https://github.com/robertpelloni/Maestro
-[submodule "submodules/prism-mcp"]
-	path = submodules/prism-mcp
-	url = https://github.com/dcostenco/prism-mcp
-[submodule "submodules/hypercode"]
-	path = submodules/hypercode
-	url = https://github.com/robertpelloni/hypercode.git
+[submodule "submodules/tormentnexus-mcp"]
+	path = submodules/tormentnexus-mcp
+	url = https://github.com/dcostenco/tormentnexus-mcp
+[submodule "submodules/tormentnexus"]
+	path = submodules/tormentnexus
+	url = https://github.com/robertpelloni/tormentnexus.git

@@ -1,4 +1,4 @@
-# hypercode Frontier-Model Roundtable Debate Prompt
+# tormentnexus Frontier-Model Roundtable Debate Prompt
 
 _Last updated: 2026-03-19_
 
@@ -6,7 +6,7 @@ Use this prompt with multiple frontier models **after** providing `docs/PROJECT_
 
 ## Prompt
 
-You are participating in a structured architecture and product roundtable about **hypercode**, a local AI operations control plane for builders.
+You are participating in a structured architecture and product roundtable about **tormentnexus**, a local AI operations control plane for builders.
 
 You are not here to hype the repo, and you are not here to recommend “build everything.”
 
@@ -14,15 +14,15 @@ You are reviewing a real codebase with substantial implemented breadth, meaningf
 
 Assume the following are true unless you can justify a correction:
 
-- hypercode is fundamentally a **local AI control plane**, not a chatbot app.
+- tormentnexus is fundamentally a **local AI control plane**, not a chatbot app.
 - The most credible kernel today is:
   1. **MCP Router / Aggregator**
   2. **Provider Router / Fallback Engine**
   3. **Session Supervisor**
   4. **Operator Dashboard**
   5. **Memory / Context Layer**
-- hypercode already has real implementations for startup/readiness, MCP inspection, session supervision, billing/provider surfaces, and memory search/timeline/pivot flows.
-- hypercode’s largest near-term risks are:
+- tormentnexus already has real implementations for startup/readiness, MCP inspection, session supervision, billing/provider surfaces, and memory search/timeline/pivot flows.
+- tormentnexus’s largest near-term risks are:
   - documentation drift
   - scope inflation
   - product truth drift
@@ -33,10 +33,10 @@ Assume the following are true unless you can justify a correction:
   - session supervisor worktree/attach reliability
   - startup truthfulness regression prevention
 
-Also assume the following adjacent systems contain useful ideas, but hypercode does **not** need full parity with them before 1.0:
+Also assume the following adjacent systems contain useful ideas, but tormentnexus does **not** need full parity with them before 1.0:
 
-- **Hypercode / MCP routers** — search, progressive disclosure, middleware, lifecycle ideas
-- **hypercode / memory systems** — capture, compression, context harvesting
+- **TormentNexus / MCP routers** — search, progressive disclosure, middleware, lifecycle ideas
+- **tormentnexus / memory systems** — capture, compression, context harvesting
 - **MCP-SuperAssistant / browser integrations** — browser automation and web-chat bridging
 - **Jules / cloud-dev / autonomy systems** — session portability, replay, keeper loops, operator-safe autonomy
 
@@ -46,7 +46,7 @@ Produce the **best realistic roadmap from this point forward**.
 
 Optimize for:
 
-1. a believable hypercode 1.0
+1. a believable tormentnexus 1.0
 2. truthful operator UX over breadth theater
 3. correct sequencing of hardening work vs expansion work
 4. selective assimilation, not uncontrolled scope absorption
@@ -54,13 +54,13 @@ Optimize for:
 
 ## Required questions
 
-1. What is hypercode’s smallest compelling 1.0?
+1. What is tormentnexus’s smallest compelling 1.0?
 2. Which current subsystems are already kernel-grade and should be protected?
 3. Which surfaces are visible but should be demoted, quarantined, or explicitly deferred?
 4. Which current open blocker matters more right now: MCP runtime robustness or session attach/worktree reliability?
 5. Which parts of the broad vision belong in 1.5 rather than 1.0?
 6. Which 3 to 6 next slices should the maintainer prioritize next?
-7. What are the top ways hypercode could still fail from here?
+7. What are the top ways tormentnexus could still fail from here?
 
 ## Hard constraints
 
@@ -68,7 +68,7 @@ Optimize for:
 - Do **not** assume every existing route should remain a 1.0 surface.
 - Do **not** optimize for impressive demo breadth over runtime truthfulness.
 - Prefer boring, inspectable infrastructure over speculative autonomy.
-- If you recommend a feature, explain why it strengthens hypercode as a control plane.
+- If you recommend a feature, explain why it strengthens tormentnexus as a control plane.
 - If you reject or defer a feature, explain the distraction/risk it introduces.
 
 ## Required output format
@@ -76,13 +76,13 @@ Optimize for:
 Use exactly these sections:
 
 ### 1. Verdict
-Give a blunt 1-paragraph judgment on hypercode’s current state.
+Give a blunt 1-paragraph judgment on tormentnexus’s current state.
 
 ### 2. Kernel
-List the 3 to 6 core things hypercode fundamentally should be.
+List the 3 to 6 core things tormentnexus fundamentally should be.
 
 ### 3. Stop doing
-List what hypercode should demote, quarantine, or stop pretending is product-complete.
+List what tormentnexus should demote, quarantine, or stop pretending is product-complete.
 
 ### 4. Kernel vs ornament
 Provide a 2-column table:
@@ -90,7 +90,7 @@ Provide a 2-column table:
 - **Ornament: defer, shrink, or quarantine**
 
 ### 5. Proposed roadmap
-Describe hypercode **1.0**, **1.5**, and **2.0** from this point forward.
+Describe tormentnexus **1.0**, **1.5**, and **2.0** from this point forward.
 
 ### 6. Next slices
 List the next 3 to 6 implementation slices in order, with a short reason for each.

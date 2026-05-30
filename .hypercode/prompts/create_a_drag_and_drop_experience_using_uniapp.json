@@ -1,0 +1,8 @@
+{
+  "id": "create_a_drag_and_drop_experience_using_uniapp",
+  "version": 1,
+  "description": "Roleplay prompt: create a drag-and-drop experience using UniApp",
+  "template": "I want to create a drag-and-drop experience using UniApp, where cards can be dropped into a washing machine for cleaning. It should include drag-and-drop feedback, background bubble animations, gurgling sound effects, and a washing machine animation.1. Play the \u201cgulp-gulp\u201d sound.2. The card gradually fades away. 12.3. A pop-up message reads, \u201cClean!\u201d.4. Bottom update: \u201cCleaned X items today\u201d statistics.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.126124Z"
+}

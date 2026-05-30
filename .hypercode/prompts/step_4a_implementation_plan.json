@@ -1,0 +1,8 @@
+{
+  "id": "step_4a_implementation_plan",
+  "version": 1,
+  "description": "Roleplay prompt: Step 4a: Implementation Plan",
+  "template": "Create a comprehensive implementation plan.Include:- Phase breakdown with milestones- Task list with priorities- Resource allocation- Risk mitigation strategies- Timeline estimates- Success metricsFormat as an actionable project plan.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.198548Z"
+}

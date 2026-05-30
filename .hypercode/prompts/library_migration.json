@@ -1,0 +1,8 @@
+{
+  "id": "library_migration",
+  "version": 1,
+  "description": "Roleplay prompt: library migration",
+  "template": "\ud83d\udd34 1. Data Access & Connection ManagementThese are critical because they affect performance, scalability, and outages.\ud83d\udd39 Redis\u274c Jedis (older pattern, topology issues)\u2705 Lettuce (reactive, auto-reconnect)\u2705 Valkey Glide (AWS recommended)\ud83d\udd39 JDBC Connection Pool\u274c Apache DBCP\u274c C3P0\u2705 HikariCP (default in Spring Boot, fastest, stable) \ud83d\udd39 ORM / Persistence\u274c Old Hibernate 4.x\u274c MyBatis legacy configs\u2705 Hibernate 6+\u2705 Spring Data JPA latest",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.814271Z"
+}

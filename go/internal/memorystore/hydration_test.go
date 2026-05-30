@@ -185,7 +185,7 @@ require (
 	}
 
 	// Verify the store was persisted
-	data, err := os.ReadFile(filepath.Join(tmpDir, ".hypercode", "hydration", "context.json"))
+	data, err := os.ReadFile(filepath.Join(tmpDir, ".tormentnexus", "hydration", "context.json"))
 	if err != nil {
 		t.Fatalf("hydration store file should exist: %v", err)
 	}

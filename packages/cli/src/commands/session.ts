@@ -1,13 +1,13 @@
 /**
- * `hypercode session` - Development session management
+ * `tormentnexus session` - Development session management
  *
  * Track, manage, and control development sessions across local
  * and cloud environments with auto-restart and export capabilities.
  *
  * @example
- *   hypercode session list               # List all sessions
- *   hypercode session start ./my-project  # Start new session
- *   hypercode session export sess_123     # Export session history
+ *   tormentnexus session list               # List all sessions
+ *   tormentnexus session start ./my-project  # Start new session
+ *   tormentnexus session export sess_123     # Export session history
  */
 
 import type { Command } from "commander";
@@ -70,7 +70,7 @@ export function registerSessionCommand(program: Command): void {
 				console.log(chalk.bold.cyan("\n  Development Sessions\n"));
 				console.log(
 					chalk.dim(
-						"  No sessions found. Use `hypercode session start` to create one.\n",
+						"  No sessions found. Use `tormentnexus session start` to create one.\n",
 					),
 				);
 				return;
@@ -122,9 +122,9 @@ export function registerSessionCommand(program: Command): void {
 			"after",
 			`
 Examples:
-  $ hypercode session start ./my-app
-  $ hypercode session start ./my-app --harness claude --model claude-opus-4
-  $ hypercode session start ./my-app --supervisor --auto-restart
+  $ tormentnexus session start ./my-app
+  $ tormentnexus session start ./my-app --harness claude --model claude-opus-4
+  $ tormentnexus session start ./my-app --supervisor --auto-restart
     `,
 		)
 		.action(async (workdir, opts) => {
@@ -166,7 +166,7 @@ Examples:
 			console.log(chalk.dim(`    Harness:  ${opts.harness}`));
 			console.log(chalk.dim(`    Model:    ${opts.model || "auto"}`));
 			console.log(chalk.dim(`    Restart:  ${opts.autoRestart ? "enabled" : "disabled"}`));
-			console.log(chalk.yellow(`    ⚠ Session supervisor not initialized - use hypercode start (without --no-mcp)`));
+			console.log(chalk.yellow(`    ⚠ Session supervisor not initialized - use tormentnexus start (without --no-mcp)`));
 		});
 
 	session
@@ -218,7 +218,7 @@ Examples:
 		.action(async (id) => {
 			const chalk = (await import("chalk")).default;
 			console.log(chalk.yellow(`  ○ Session '${id}' paused`));
-			console.log(chalk.dim(`    Use hypercode session resume ${id} to continue`));
+			console.log(chalk.dim(`    Use tormentnexus session resume ${id} to continue`));
 		});
 
 	session
@@ -246,7 +246,7 @@ Examples:
 						console.log(chalk.dim(`    Format: ${opts.format} | Size: ${JSON.stringify(exportData).length} bytes`));
 					} else {
 						console.log(chalk.red(`  ✗ Session '${id}' not found`));
-						console.log(chalk.dim(`    Use hypercode session list to see available sessions`));
+						console.log(chalk.dim(`    Use tormentnexus session list to see available sessions`));
 					}
 				} else {
 					console.log(chalk.yellow(`  ⚠ Could not reach Go sidecar`));

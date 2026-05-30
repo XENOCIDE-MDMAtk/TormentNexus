@@ -6,14 +6,14 @@ import path from 'path';
 // Resolve the monorepo root safely without overly broad path traversals
 // that trigger Turbopack's file pattern analysis
 function getMonorepoRoot(): string {
-    return process.env.HYPERCODE_ROOT || path.resolve(process.cwd(), '..', '..');
+    return process.env.TORMENTNEXUS_ROOT || path.resolve(process.cwd(), '..', '..');
 }
 
 export async function GET() {
     try {
         const rootDir = getMonorepoRoot();
 
-        const logFile = path.join(rootDir, '.hypercode', 'data', 'healer_events.jsonl');
+        const logFile = path.join(rootDir, '.tormentnexus', 'data', 'healer_events.jsonl');
 
         try {
             await fs.access(logFile);

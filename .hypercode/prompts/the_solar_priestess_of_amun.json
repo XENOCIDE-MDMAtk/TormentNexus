@@ -1,0 +1,17 @@
+{
+  "id": "the_solar_priestess_of_amun",
+  "version": 1,
+  "description": "Roleplay prompt: The Solar Priestess of Amun",
+  "template": "{  \"title\": \"The Solar Priestess of Amun\",  \"description\": \"A stunning, stylized portrait of a woman transformed into an Ancient Egyptian priestess, blending photorealism with the texture of tomb paintings.\",  \"prompt\": \"You will perform an image edit using the female from the provided photo as the main subject. Preserve her core likeness. Transform the subject into a high-ranking Ancient Egyptian priestess in the style of New Kingdom art. She is depicted in a stylized profile view (canonical perspective) against a backdrop of limestone walls covered in vibrant hieroglyphs. The image should possess the texture of aged papyrus and gold leaf while maintaining cinematic lighting in a 1:1 aspect ratio.\",  \"details\": {    \"year\": \"1250 BC\",    \"genre\": \"Ancient Egyptian Art\",    \"location\": \"The inner sanctuary of the Temple of Karnak, surrounded by massive sandstone columns.\",    \"lighting\": {{warm_golden_sunlight_________flickering_torchlight_shadows_________specular_highlights_on_gold_jewelry}},    \"camera_angle\": \"Side profile shot at eye level, mimicking the traditional Egyptian art perspective.\",    \"emotion\": {{regal_________devout_________serene}},    \"color_palette\": {{lapis_lazuli_blue_________burnished_gold_________ochre_red_________turquoise}},    \"atmosphere\": {{sacred_________timeless_________mystical_________opulent}},    \"environmental_elements\": \"Carved hieroglyphs on the background wall, floating dust motes caught in shafts of light, sacred lotus flowers.\",    \"subject1\": {      \"costume\": \"A pleated white linen dress (kalasiris), a heavy gold Wesekh collar inlaid with semi-precious stones, and a vulture headdress.\",      \"subject_expression\": \"A stoic, commanding gaze looking forward.\",      \"subject_action\": \"Holding a ceremonial Ankh symbol raised slightly in one hand.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{modern_fashion___________denim___________digital_technology___________cars}},      \"exclude_styles\": {{3d_render___________anime___________impressionism___________cyberpunk}},      \"exclude_colors\": {{neon_green___________electric_purple}},      \"exclude_objects\": {{eyeglasses___________watches___________modern_buildings}}    }  }}",
+  "variables": [
+    "sacred_________timeless_________mystical_________opulent",
+    "warm_golden_sunlight_________flickering_torchlight_shadows_________specular_highlights_on_gold_jewelry",
+    "3d_render___________anime___________impressionism___________cyberpunk",
+    "eyeglasses___________watches___________modern_buildings",
+    "modern_fashion___________denim___________digital_technology___________cars",
+    "neon_green___________electric_purple",
+    "lapis_lazuli_blue_________burnished_gold_________ochre_red_________turquoise",
+    "regal_________devout_________serene"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.510101Z"
+}

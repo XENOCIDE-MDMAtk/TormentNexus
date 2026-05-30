@@ -1,4 +1,4 @@
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@tormentnexus/ai';
 import type { MCPServer } from '../MCPServer.js';
 import path from 'path';
 import fs from 'fs';

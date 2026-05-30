@@ -1,0 +1,17 @@
+{
+  "id": "miniature_artist",
+  "version": 1,
+  "description": "Roleplay prompt: Miniature Artist",
+  "template": "{{00_00___00_02}}{{extreme_close_up}} of Komar's face, an 18-year-old Indonesian teenage boy, short hair, wearing black-framed glasses with minus lenses reflecting the light of a desk lamp. A very meticulous and focused expression. Warm lighting from a desk lamp, ${cinematic_bokeh}, ${volumetric_lighting}, {{8k_resolution}}, {{ultra_realistic_skin_texture}}.{{00_02___00_04}} ${macro_shot} of the hands of Komar, an 18-year-old Indonesian teenage boy, wearing a dark blue short-sleeved t-shirt, assembling a miniature Indonesian train locomotive using tweezers. Precise plastic miniature texture details, dramatic side lighting, {{50mm}} lens, {{f_2_8}}, ${professional_studio_lighting}, intricate mechanical details.{{00_04___00_06}}${medium_shot} Komar, an 18-year-old Indonesian man with short hair, wearing black-framed glasses with minus lenses, wearing a plain navy blue short-sleeved t-shirt with a regular fit. Sitting at a wooden workbench filled with model kit equipment. Warm atmosphere, ${dust_motes} visible in light beams, ${cinematic_color_grading}, ${soft_shadows}.",
+  "variables": [
+    "f_2_8",
+    "ultra_realistic_skin_texture",
+    "50mm",
+    "00_04___00_06",
+    "extreme_close_up",
+    "00_00___00_02",
+    "00_02___00_04",
+    "8k_resolution"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.604414Z"
+}

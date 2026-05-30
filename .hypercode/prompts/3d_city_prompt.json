@@ -1,0 +1,8 @@
+{
+  "id": "3d_city_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: 3D City Prompt",
+  "template": "Hyper-realistic 3D square diorama of ${city_name:Istanbul}, carved out with exposed soil cross-section beneath showing rocks, roots, and earth layers. Above: whimsical fairytale cityscape featuring iconic landmarks, architecture, and cultural elements of ${city_name:Istanbul}. Modern white \u201c${city_name:Istanbul}\u201d label integrated naturally. Pure white studio background with soft natural lighting. DSLR photograph quality - crisp, vibrant, magical realism style. 1080x1080 dimensions",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.120938Z"
+}

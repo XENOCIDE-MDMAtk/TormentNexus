@@ -12,8 +12,8 @@ export class StreamableHttpPlugin implements ITransportPlugin {
     version: '1.0.0',
     transportType: 'streamable-http',
     description: 'Streamable HTTP transport for MCP protocol',
-    author: 'Hypercode Extension',
-    author: 'hypercode Extension',
+    author: 'TormentNexus Extension',
+    author: 'tormentnexus Extension',
   };
 
   private transport: Transport | null = null;

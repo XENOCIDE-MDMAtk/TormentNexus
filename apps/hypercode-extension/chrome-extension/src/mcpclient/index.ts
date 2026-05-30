@@ -236,8 +236,8 @@ export async function runWithBackwardsCompatibility(
     const transport = (client as any).transport;
     if (transport && typeof transport.on === 'function') {
       transport.on('message', async (message: any) => {
-        // Detect non-standard JSON-RPC calls from Hypercode Core (e.g. read_page, browser_*)
-        // Detect non-standard JSON-RPC calls from hypercode Core (e.g. read_page, browser_*)
+        // Detect non-standard JSON-RPC calls from TormentNexus Core (e.g. read_page, browser_*)
+        // Detect non-standard JSON-RPC calls from tormentnexus Core (e.g. read_page, browser_*)
         if (message.jsonrpc === '2.0' && message.method && message.id && !message.result && !message.error) {
           const { method, params, id } = message;
           

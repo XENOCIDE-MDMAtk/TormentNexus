@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/hypercodehq/hypercode-go/internal/git"
+	"github.com/tormentnexushq/tormentnexus-go/internal/git"
 )
 
 func (s *Server) handleSubmoduleUpdateAll(w http.ResponseWriter, r *http.Request) {

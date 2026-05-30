@@ -1,0 +1,92 @@
+[
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus e4707dfc4 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 106,
+    "id": "lrzzxbom8",
+    "timestamp": 1779883470499
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus e4707dfc4 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 94,
+    "id": "jxr45amhy",
+    "timestamp": 1779884739988
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus e4707dfc4 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 94,
+    "id": "zbg0ojmpm",
+    "timestamp": 1779885678521
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus e4707dfc4 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 108,
+    "id": "yfte129g2",
+    "timestamp": 1779886169106
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus 7177e737c [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 260,
+    "id": "yr52ubrnh",
+    "timestamp": 1780145998998
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus 7177e737c [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 123,
+    "id": "si2zh2dgi",
+    "timestamp": 1780148046313
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus 18b072883 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 151,
+    "id": "158d805xb",
+    "timestamp": 1780150297005
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus 18b072883 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 104,
+    "id": "rh0b8kcuw",
+    "timestamp": 1780151054809
+  },
+  {
+    "command": "git worktree list",
+    "cwd": "C:\\Users\\hyper\\workspace\\tormentnexus",
+    "outputSnippet": "C:/Users/hyper/workspace/.git/modules/tormentnexus 18b072883 [main]\n",
+    "session": "api-call",
+    "exitCode": 0,
+    "duration": 128,
+    "id": "mpdzdcdb1",
+    "timestamp": 1780152503143
+  }
+]

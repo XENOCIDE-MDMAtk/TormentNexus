@@ -41,9 +41,9 @@ func (s *Server) handleDirectorConfigGet(w http.ResponseWriter, r *http.Request)
 		"success": true,
 		"data":    result,
 		"bridge": map[string]any{
-			"fallback":  "go-local-hypercode-config",
+			"fallback":  "go-local-tormentnexus-config",
 			"procedure": "directorConfig.get",
-			"reason":    "upstream unavailable; using local .hypercode/config.json",
+			"reason":    "upstream unavailable; using local .tormentnexus/config.json",
 		},
 	})
 }

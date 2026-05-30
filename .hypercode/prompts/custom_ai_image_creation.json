@@ -1,0 +1,8 @@
+{
+  "id": "custom_ai_image_creation",
+  "version": 1,
+  "description": "Roleplay prompt: Custom AI Image Creation",
+  "template": "Create an AI-generated picture. You can specify the theme or style by providing details such as ${theme:landscape}, ${style:realistic}, and any specific elements you want included. The AI will use these inputs to craft a unique visual masterpiece.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.857779Z"
+}

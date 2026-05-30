@@ -1,7 +1,7 @@
-# Hypercode HYPERCODE Architecture
+# TormentNexus TORMENTNEXUS Architecture
 
 ## Overview
-Hypercode HYPERCODE is a "Go-Powered Modular Monolith" designed for high-performance AI orchestration. It separates high-level user interaction and visualization (TypeScript/React) from low-level control, tool execution, and state management (Go).
+TormentNexus TORMENTNEXUS is a "Go-Powered Modular Monolith" designed for high-performance AI orchestration. It separates high-level user interaction and visualization (TypeScript/React) from low-level control, tool execution, and state management (Go).
 
 ## Core Components
 
@@ -26,7 +26,7 @@ Reactive management interface.
 - **Universal Responsiveness**: Uses `useResizeObserver` for dynamic canvas-based visualizations like the `KnowledgeGraph`.
 - **Swarm Visualizer**: Real-time neural transcript viewer.
 
-### 4. Hypercode Supervisor - `packages/hypercode-supervisor`
+### 4. TormentNexus Supervisor - `packages/tormentnexus-supervisor`
 Watchdog and automation agent.
 - **Automation**: Uses PowerShell and Windows UI Automation to interact with external AI chat surfaces (Antigravity, Gemini, Claude).
 - **Autopilot**: Implements an intelligent "bump" cycle to maintain development momentum autonomously.

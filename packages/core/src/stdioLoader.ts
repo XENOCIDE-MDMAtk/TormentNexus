@@ -14,7 +14,7 @@ import {
     type BackgroundCoreBootstrapResult,
 } from './backgroundCoreBootstrap.js';
 import { getBridgeHealthUrl, getBridgeToolExecuteUrl } from './bridge/bridgePort.js';
-import { type HypercodeMcpJsonConfig, loadHypercodeMcpConfig, loadToolCache, type HypercodeMcpToolMetadata } from './mcp/mcpJsonConfig.js';
+import { type TormentNexusMcpJsonConfig, loadTormentNexusMcpConfig, loadToolCache, type TormentNexusMcpToolMetadata } from './mcp/mcpJsonConfig.js';
 import { namespaceToolName } from './mcp/namespaces.js';
 
 const CORE_HEALTH_URL = getBridgeHealthUrl();
@@ -22,7 +22,7 @@ const CORE_TOOL_EXECUTE_URL = getBridgeToolExecuteUrl();
 const DEFAULT_TOOL_CALL_READY_TIMEOUT_MS = 1_500;
 const DEFAULT_TOOL_CALL_POLL_INTERVAL_MS = 250;
 
-export const HYPERCODE_CORE_LOADER_STATUS_TOOL = 'hypercode_core_loader_status';
+export const TORMENTNEXUS_CORE_LOADER_STATUS_TOOL = 'tormentnexus_core_loader_status';
 
 export type LoaderBootstrapState = {
     lastBootstrapStatus: BackgroundCoreBootstrapResult['status'] | 'idle';
@@ -97,7 +97,7 @@ function normalizeInputSchema(inputSchema: unknown): LoaderToolInputSchema {
     return { type: 'object', properties: {} };
 }
 
-function toToolDefinition(serverName: string, tool: HypercodeMcpToolMetadata): Tool {
+function toToolDefinition(serverName: string, tool: TormentNexusMcpToolMetadata): Tool {
     return {
         name: namespaceToolName(serverName, tool.name),
         description: tool.description ?? `Cached tool discovered for downstream server '${serverName}'.`,
@@ -107,8 +107,8 @@ function toToolDefinition(serverName: string, tool: HypercodeMcpToolMetadata): T
 
 export function buildLoaderStatusToolDefinition(): Tool {
     return {
-        name: HYPERCODE_CORE_LOADER_STATUS_TOOL,
-        description: 'Report whether the lightweight stdio loader is serving cached tools or proxying to a live Hypercode Core control plane.',
+        name: TORMENTNEXUS_CORE_LOADER_STATUS_TOOL,
+        description: 'Report whether the lightweight stdio loader is serving cached tools or proxying to a live TormentNexus Core control plane.',
         inputSchema: { type: 'object', properties: {} },
     } as Tool;
 }
@@ -131,7 +131,7 @@ export function createEmptyLoaderRuntimeState(): LoaderRuntimeState {
     };
 }
 
-export function buildCachedLoaderCatalog(config: HypercodeMcpJsonConfig): CachedLoaderCatalog {
+export function buildCachedLoaderCatalog(config: TormentNexusMcpJsonConfig): CachedLoaderCatalog {
     const toolMap = new Map<string, Tool>();
     let snapshotUpdatedAt: string | null = null;
     let enabledServerCount = 0;
@@ -179,13 +179,13 @@ export function buildCachedLoaderCatalog(config: HypercodeMcpJsonConfig): Cached
 }
 
 export async function loadCachedLoaderCatalog(
-    loadConfigImpl: typeof loadHypercodeMcpConfig = loadHypercodeMcpConfig,
+    loadConfigImpl: typeof loadTormentNexusMcpConfig = loadTormentNexusMcpConfig,
 ): Promise<CachedLoaderCatalog> {
     const cache = await loadToolCache();
     if (cache) {
         return buildCachedLoaderCatalog(cache);
     }
-    const config = await loadConfigImpl().catch(() => ({ mcpServers: {} } satisfies HypercodeMcpJsonConfig));
+    const config = await loadConfigImpl().catch(() => ({ mcpServers: {} } satisfies TormentNexusMcpJsonConfig));
     return buildCachedLoaderCatalog(config);
 }
 
@@ -220,7 +220,7 @@ async function proxyToolCallToCore(name: string, args: Record<string, unknown>):
     if (!response.ok) {
         const body = await response.text().catch(() => '');
         return asTextResult(
-            `Hypercode Core returned HTTP ${response.status} while executing '${name}'.${body ? `\n${body}` : ''}`,
+            `TormentNexus Core returned HTTP ${response.status} while executing '${name}'.${body ? `\n${body}` : ''}`,
             true,
         );
     }
@@ -238,7 +238,7 @@ async function proxyToolCallToCore(name: string, args: Record<string, unknown>):
 
 function buildLoaderStatusResult(state: LoaderRuntimeState, coreHealthy: boolean): CallToolResult {
     return asTextResult(JSON.stringify({
-        loader: 'hypercode-core-stdio-loader',
+        loader: 'tormentnexus-core-stdio-loader',
         coreHealthy,
         bootstrap: state.bootstrap,
         cache: {
@@ -290,7 +290,7 @@ export async function callLoaderTool(
     const proxyToolCallImpl = deps.proxyToolCall ?? proxyToolCallToCore;
 
     const coreHealthy = await isCoreHealthyImpl(CORE_HEALTH_URL);
-    if (name === HYPERCODE_CORE_LOADER_STATUS_TOOL) {
+    if (name === TORMENTNEXUS_CORE_LOADER_STATUS_TOOL) {
         return buildLoaderStatusResult(state, coreHealthy);
     }
 
@@ -307,7 +307,7 @@ export async function callLoaderTool(
 
     if (!readyAfterBootstrap) {
         return asTextResult(
-            `Hypercode Core is still warming in the background, so '${name}' is not ready yet. Cached tools are available immediately, and the control plane has been ${bootstrap.status === 'already-running' ? 'detected' : 'requested'}${bootstrap.pid ? ` (PID ${bootstrap.pid})` : ''}. Retry this tool call in a moment.`,
+            `TormentNexus Core is still warming in the background, so '${name}' is not ready yet. Cached tools are available immediately, and the control plane has been ${bootstrap.status === 'already-running' ? 'detected' : 'requested'}${bootstrap.pid ? ` (PID ${bootstrap.pid})` : ''}. Retry this tool call in a moment.`,
             true,
         );
     }
@@ -317,7 +317,7 @@ export async function callLoaderTool(
 
 export async function startStdioLoader(): Promise<void> {
     const server = new Server(
-        { name: 'hypercode-core-loader', version: '0.99.1' },
+        { name: 'tormentnexus-core-loader', version: '0.99.1' },
         {
             capabilities: {
                 tools: {},
@@ -330,7 +330,7 @@ export async function startStdioLoader(): Promise<void> {
     server.setRequestHandler(ListToolsRequestSchema, async () => {
         runtimeState.cache = await loadCachedLoaderCatalog();
         void ensureLoaderBootstrap(runtimeState).catch((error) => {
-            console.error('[Hypercode Core] Background control-plane bootstrap failed:', error);
+            console.error('[TormentNexus Core] Background control-plane bootstrap failed:', error);
         });
 
         return {
@@ -351,6 +351,6 @@ export async function startStdioLoader(): Promise<void> {
     await server.connect(transport);
 
     void ensureLoaderBootstrap(runtimeState).catch((error) => {
-        console.error('[Hypercode Core] Background control-plane bootstrap failed:', error);
+        console.error('[TormentNexus Core] Background control-plane bootstrap failed:', error);
     });
 }

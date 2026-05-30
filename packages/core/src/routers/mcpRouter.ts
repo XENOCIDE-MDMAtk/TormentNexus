@@ -5,7 +5,7 @@ import { getCachedToolInventory } from '../mcp/cachedToolInventory.js';
 import { parseNamespacedToolName } from '../mcp/namespaces.js';
 import { evaluateAutoLoadCandidate, rankToolSearchCandidates, type ToolSearchProfile } from '../mcp/toolSearchRanking.js';
 import { toolSelectionTelemetry } from '../mcp/toolSelectionTelemetry.js';
-import { getHypercodeMcpJsoncPath, loadHypercodeMcpConfig, stripJsonComments, writeHypercodeMcpConfig } from '../mcp/mcpJsonConfig.js';
+import { getTormentNexusMcpJsoncPath, loadTormentNexusMcpConfig, stripJsonComments, writeTormentNexusMcpConfig } from '../mcp/mcpJsonConfig.js';
 import {
     buildToolPreferenceSettings,
     mergeToolPreferences,
@@ -169,7 +169,7 @@ const toolSearchProfileSchema = z.enum(['web-research', 'repo-coding', 'browser-
 
 async function readToolPreferences(): Promise<ToolPreferences> {
     try {
-        const config = await loadHypercodeMcpConfig();
+        const config = await loadTormentNexusMcpConfig();
         const settings = config.settings as { toolSelection?: { importantTools?: unknown; alwaysLoadedTools?: unknown; autoLoadMinConfidence?: unknown; maxLoadedTools?: unknown; maxHydratedSchemas?: unknown } } | undefined;
         return readToolPreferencesFromSettings(settings?.toolSelection);
     } catch {
@@ -178,7 +178,7 @@ async function readToolPreferences(): Promise<ToolPreferences> {
 }
 
 async function writeToolPreferences(nextPreferences: ToolPreferences): Promise<ToolPreferences> {
-    const config = await loadHypercodeMcpConfig();
+    const config = await loadTormentNexusMcpConfig();
     const existingSettings = config.settings && typeof config.settings === 'object'
         ? config.settings as Record<string, unknown>
         : {};
@@ -186,7 +186,7 @@ async function writeToolPreferences(nextPreferences: ToolPreferences): Promise<T
     const normalized = readToolPreferencesFromSettings(nextPreferences);
     const nextSettings = buildToolPreferenceSettings(existingSettings, normalized);
 
-    await writeHypercodeMcpConfig({
+    await writeTormentNexusMcpConfig({
         ...config,
         settings: nextSettings,
     });
@@ -719,17 +719,17 @@ export const mcpRouter = t.router({
     }),
 
     getJsoncEditor: publicProcedure.query(async () => {
-        const jsoncPath = getHypercodeMcpJsoncPath();
+        const jsoncPath = getTormentNexusMcpJsoncPath();
         try {
             const content = await fs.readFile(jsoncPath, 'utf-8');
             return { path: jsoncPath, content };
         } catch (error) {
             const errorCode = (error as NodeJS.ErrnoException).code;
             if (errorCode === 'ENOENT') {
-                const fallbackConfig = await loadHypercodeMcpConfig();
+                const fallbackConfig = await loadTormentNexusMcpConfig();
                 return {
                     path: jsoncPath,
-                    content: `// Hypercode MCP configuration\n${JSON.stringify(fallbackConfig, null, 2)}\n`,
+                    content: `// TormentNexus MCP configuration\n${JSON.stringify(fallbackConfig, null, 2)}\n`,
                 };
             }
             throw error;
@@ -740,7 +740,7 @@ export const mcpRouter = t.router({
         content: z.string().min(2),
     })).mutation(async ({ input }) => {
         const parsed = JSON.parse(stripJsonComments(input.content)) as Record<string, unknown>;
-        await writeHypercodeMcpConfig(parsed as never);
+        await writeTormentNexusMcpConfig(parsed as never);
         return { ok: true };
     }),
 
@@ -784,9 +784,9 @@ export const mcpRouter = t.router({
                 }
                 : {},
             target: input.targetKind === 'router'
-                ? 'hypercode-router'
+                ? 'tormentnexus-router'
                 : input.serverName ?? 'unknown-server',
-            via: input.targetKind === 'router' ? 'hypercode-router' : 'direct-downstream',
+            via: input.targetKind === 'router' ? 'tormentnexus-router' : 'direct-downstream',
         };
 
         if (input.targetKind === 'server' && !input.serverName) {
@@ -816,9 +816,9 @@ export const mcpRouter = t.router({
                 success: false,
                 target: {
                     kind: input.targetKind,
-                    displayName: input.targetKind === 'router' ? 'Hypercode router' : input.serverName ?? 'Unknown downstream server',
+                    displayName: input.targetKind === 'router' ? 'TormentNexus router' : input.serverName ?? 'Unknown downstream server',
                     serverName: input.serverName ?? null,
-                    via: input.targetKind === 'router' ? 'hypercode-router' : 'direct-downstream',
+                    via: input.targetKind === 'router' ? 'tormentnexus-router' : 'direct-downstream',
                 },
                 operation: input.operation,
                 startedAt,
@@ -843,7 +843,7 @@ export const mcpRouter = t.router({
                 } | null;
 
                 if (!aggregator) {
-                    throw new Error('Hypercode MCP router is not initialized.');
+                    throw new Error('TormentNexus MCP router is not initialized.');
                 }
 
                 if (input.operation === 'tools/list') {
@@ -884,9 +884,9 @@ export const mcpRouter = t.router({
                 success: true,
                 target: {
                     kind: input.targetKind,
-                    displayName: input.targetKind === 'router' ? 'Hypercode router' : input.serverName!,
+                    displayName: input.targetKind === 'router' ? 'TormentNexus router' : input.serverName!,
                     serverName: input.serverName ?? null,
-                    via: input.targetKind === 'router' ? 'hypercode-router' : 'direct-downstream',
+                    via: input.targetKind === 'router' ? 'tormentnexus-router' : 'direct-downstream',
                 },
                 operation: input.operation,
                 startedAt,
@@ -912,9 +912,9 @@ export const mcpRouter = t.router({
                 success: false,
                 target: {
                     kind: input.targetKind,
-                    displayName: input.targetKind === 'router' ? 'Hypercode router' : input.serverName ?? 'Unknown downstream server',
+                    displayName: input.targetKind === 'router' ? 'TormentNexus router' : input.serverName ?? 'Unknown downstream server',
                     serverName: input.serverName ?? null,
-                    via: input.targetKind === 'router' ? 'hypercode-router' : 'direct-downstream',
+                    via: input.targetKind === 'router' ? 'tormentnexus-router' : 'direct-downstream',
                 },
                 operation: input.operation,
                 startedAt,
@@ -1077,7 +1077,7 @@ export const mcpRouter = t.router({
         if (!aggregator) throw new Error('MCP Aggregator not initialized');
 
         // Find server config from the JSONC config
-        const config = await loadHypercodeMcpConfig();
+        const config = await loadTormentNexusMcpConfig();
         const serverConfig = config.mcpServers?.[input.name];
         if (!serverConfig) {
             throw new Error(`Server '${input.name}' not found in configuration. Use mcp.listServers to see available servers.`);

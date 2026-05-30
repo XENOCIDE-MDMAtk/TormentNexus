@@ -1,0 +1,8 @@
+{
+  "id": "recognize_sponsors",
+  "version": 1,
+  "description": "Roleplay prompt: Recognize Sponsors",
+  "template": "List ways I can recognize or involve sponsors in my project's community (e.g., special Discord roles, early feature access, private Q&A sessions).",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.028783Z"
+}

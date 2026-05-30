@@ -1,0 +1,17 @@
+{
+  "id": "crimson_waltz_in_the_rain",
+  "version": 1,
+  "description": "Roleplay prompt: Crimson Waltz in the Rain",
+  "template": "{  \"title\": \"Crimson Waltz in the Rain\",  \"description\": \"A visually stunning, cinematic moment of a woman finding joy in solitude, dancing on a rain-slicked European street at twilight.\",  \"prompt\": \"You will perform an image edit creating an Ultra-Photorealistic masterpiece. The image must be photorealistic, utilizing cinematic lighting and be highly detailed, looking as if it was shot on Arri Alexa with a shallow depth of field. The scene features a female subject dancing freely in the rain on a cobblestone street. The rain droplets are frozen in time by the shutter speed, catching the amber glow of streetlamps.\",  \"details\": {    \"year\": \"Timeless Modern\",    \"genre\": \"Cinematic Photorealism\",    \"location\": \"A narrow, empty cobblestone street in Paris at dusk, wet with rain, reflecting the warm glow of vintage streetlamps and shop windows.\",    \"lighting\": {{cinematic_rim_lighting_________warm_amber_streetlights_________soft_blue_ambient_twilight_________volumetric_fog}},    \"camera_angle\": \"Eye-level medium shot, emphasizing the subject's movement against the bokeh background.\",    \"emotion\": {{liberated_________joyful_________serene}},    \"color_palette\": {{deep_obsidian_________amber_gold_________rainy_blue_________vibrant_crimson}},    \"atmosphere\": {{romantic_________melancholic_yet_joyful_________atmospheric_________wet}},    \"environmental_elements\": \"Rain falling diagonally, puddles reflecting lights on the ground, mist swirling around ankles.\",    \"subject1\": {      \"costume\": \"red hat\",      \"subject_expression\": \"Eyes closed in pure bliss, a soft smile on her lips, raindrops on her cheeks.\",      \"subject_action\": \"dancing\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{bright_daylight___________dry_pavement___________crowds___________vehicles___________sunglasses}},      \"exclude_styles\": {{cartoon___________3d_render___________illustration___________oil_painting___________sketch}},      \"exclude_colors\": {{neon_green___________hot_pink}},      \"exclude_objects\": {{umbrellas___________modern_cars___________trash_cans}}    }  }}",
+  "variables": [
+    "neon_green___________hot_pink",
+    "cinematic_rim_lighting_________warm_amber_streetlights_________soft_blue_ambient_twilight_________volumetric_fog",
+    "umbrellas___________modern_cars___________trash_cans",
+    "romantic_________melancholic_yet_joyful_________atmospheric_________wet",
+    "cartoon___________3d_render___________illustration___________oil_painting___________sketch",
+    "liberated_________joyful_________serene",
+    "deep_obsidian_________amber_gold_________rainy_blue_________vibrant_crimson",
+    "bright_daylight___________dry_pavement___________crowds___________vehicles___________sunglasses"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.146743Z"
+}

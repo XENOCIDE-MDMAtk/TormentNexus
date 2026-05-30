@@ -5,7 +5,7 @@ import { observable } from '@trpc/server/observable';
 import type { AnyTRPCRouter } from '@trpc/server';
 import type * as _TRPCCore from '@trpc/server/unstable-core-do-not-import';
 
-const SIDECAR_URL = process.env.HYPERCODE_SIDECAR_URL || 'http://127.0.0.1:4300';
+const SIDECAR_URL = process.env.TORMENTNEXUS_SIDECAR_URL || 'http://127.0.0.1:4300';
 
 export const healerRouter = t.router({
     diagnose: t.procedure.input(z.object({ error: z.string(), context: z.string().optional() })).mutation(async ({ input }) => {
@@ -109,7 +109,7 @@ export const healerRouter = t.router({
             };
             // Safely fetch internal EventBus from active Orchestrator Context
             const server = getHealerService() as any; 
-            // In Hypercode, either the server or generic system holds event bus. We use MCPServer fallback.
+            // In TormentNexus, either the server or generic system holds event bus. We use MCPServer fallback.
             const mcpServer = (global as any).mcpServerInstance;
             if (mcpServer && mcpServer.eventBus) {
                 mcpServer.eventBus.on('system:llm_quota_exhausted', onEvent);

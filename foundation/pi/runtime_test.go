@@ -31,7 +31,7 @@ func TestRuntimeExecuteReadWriteEditAndBashTools(t *testing.T) {
 		t.Fatalf("unexpected read result: %q", got)
 	}
 
-	editInput, _ := json.Marshal(EditToolInput{Path: "notes.txt", Edits: []EditReplacement{{OldText: "world", NewText: "hypercode"}}})
+	editInput, _ := json.Marshal(EditToolInput{Path: "notes.txt", Edits: []EditReplacement{{OldText: "world", NewText: "tormentnexus"}}})
 	editResult, err := runtime.ExecuteTool(context.Background(), "", "edit", editInput, nil)
 	if err != nil {
 		t.Fatalf("edit failed: %v", err)
@@ -43,8 +43,8 @@ func TestRuntimeExecuteReadWriteEditAndBashTools(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(data), "hypercode") {
-		t.Fatalf("expected file to contain hypercode, got %q", string(data))
+	if !strings.Contains(string(data), "tormentnexus") {
+		t.Fatalf("expected file to contain tormentnexus, got %q", string(data))
 	}
 
 	bashInput, _ := json.Marshal(BashToolInput{Command: shellEchoCommand("foundation-ok")})

@@ -1,7 +1,7 @@
 /**
- * HYPERCODE MCP Router - CLI Integration
+ * TORMENTNEXUS MCP Router - CLI Integration
  *
- * Integrates MCP Router CLI commands into the main hypercode CLI
+ * Integrates MCP Router CLI commands into the main tormentnexus CLI
  */
 
 import { spawn } from 'child_process';

@@ -1,5 +1,5 @@
 /**
- * HYPERCODE MCP Router - CLI Integration
+ * TORMENTNEXUS MCP Router - CLI Integration
  *
  * Fixing webui imports to use correct relative paths to core services
  */
@@ -251,7 +251,7 @@ export default function MCPRouterPage() {
         }
     };
 
-    const handleExportConfigs = async (format: 'hypercode' | 'claude' | 'openai' | 'google') => {
+    const handleExportConfigs = async (format: 'tormentnexus' | 'claude' | 'openai' | 'google') => {
         try {
             setLoading(true);
             const res = await fetch('/api/mcp-router/export-configs', {
@@ -643,11 +643,11 @@ export default function MCPRouterPage() {
                                 </p>
                                 <div className="grid grid-cols-2 gap-4 mt-4">
                                     <button
-                                        onClick={() => console.log('Export: HYPERCODE format')}
+                                        onClick={() => console.log('Export: TORMENTNEXUS format')}
                                         disabled={loading}
                                         className="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
                                     >
-                                        {loading ? 'Exporting...' : 'HYPERCODE'}
+                                        {loading ? 'Exporting...' : 'TORMENTNEXUS'}
                                     </button>
                                     <button
                                         onClick={() => console.log('Export: Claude format')}

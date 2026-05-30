@@ -1,0 +1,10 @@
+{
+  "id": "enterprise_sponsorship",
+  "version": 1,
+  "description": "Roleplay prompt: Enterprise Sponsorship",
+  "template": "Design enterprise-level sponsorship tiers ($500, $1000, $5000) with benefits like priority support, custom features, and brand visibility for my {{project}}.",
+  "variables": [
+    "project"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.021244Z"
+}

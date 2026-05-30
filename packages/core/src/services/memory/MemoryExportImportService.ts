@@ -3,7 +3,7 @@
  *
  * Supports:
  * - Canonical exports: JSON, CSV, JSONL
- * - Provider-native snapshots: Hypercode JSON provider, sectioned memory store
+ * - Provider-native snapshots: TormentNexus JSON provider, sectioned memory store
  * - Conversion between all supported formats via a canonical intermediate form
  */
 
@@ -30,7 +30,7 @@ export const MEMORY_INTERCHANGE_FORMATS: Array<{
         label: 'Canonical JSON',
         kind: 'canonical',
         extension: 'json',
-        description: 'Portable Hypercode memory export with metadata preserved.',
+        description: 'Portable TormentNexus memory export with metadata preserved.',
     },
     {
         id: 'csv',
@@ -48,17 +48,17 @@ export const MEMORY_INTERCHANGE_FORMATS: Array<{
     },
     {
         id: 'json-provider',
-        label: 'Hypercode JSON Provider',
+        label: 'TormentNexus JSON Provider',
         kind: 'provider',
         extension: 'json',
-        description: 'Native snapshot of Hypercode\'s flat-file memory provider.',
+        description: 'Native snapshot of TormentNexus\'s flat-file memory provider.',
     },
     {
         id: 'sectioned-memory-store',
         label: 'Sectioned Memory Store',
         kind: 'provider',
         extension: 'json',
-        description: 'Native Hypercode sectioned memory snapshot.',
+        description: 'Native TormentNexus sectioned memory snapshot.',
     },
 ];
 

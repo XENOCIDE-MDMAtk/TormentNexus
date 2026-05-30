@@ -1,8 +1,8 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@hypercode/ui";
-import { Badge } from "@hypercode/ui";
-import { Button } from "@hypercode/ui";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@tormentnexus/ui";
+import { Badge } from "@tormentnexus/ui";
+import { Button } from "@tormentnexus/ui";
 import { Activity, Server, AlertTriangle, RefreshCcw, HardDrive, Cpu, Network, Radio } from "lucide-react";
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
@@ -68,7 +68,7 @@ export default function HealthDashboard() {
                         System Health
                     </h1>
                     <p className="text-zinc-500 mt-1">
-                        Monitor Hypercode infrastructure status, component uptime, and server crash rates.
+                        Monitor TormentNexus infrastructure status, component uptime, and server crash rates.
                     </p>
                 </div>
                 <Button 

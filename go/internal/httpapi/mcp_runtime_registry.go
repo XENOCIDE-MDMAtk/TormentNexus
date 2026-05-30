@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/mcp"
+	"github.com/tormentnexushq/tormentnexus-go/internal/mcp"
 )
 
 type runtimeServerRecord struct {

@@ -17,14 +17,14 @@ type Status struct {
 	WorkspaceRoot        PathStatus `json:"workspaceRoot"`
 	ConfigDir            PathStatus `json:"configDir"`
 	MainConfigDir        PathStatus `json:"mainConfigDir"`
-	HypercodeConfigFile       PathStatus `json:"hypercodeConfigFile"`
+	TormentNexusConfigFile       PathStatus `json:"tormentnexusConfigFile"`
 	MCPConfigFile        PathStatus `json:"mcpConfigFile"`
 	GoLockPath           PathStatus `json:"goLockPath"`
 	MainLockPath         PathStatus `json:"mainLockPath"`
 	ImportedInstructions PathStatus `json:"importedInstructions"`
 	SectionedMemoryStore PathStatus `json:"sectionedMemoryStore"`
 	LegacyMemoryStore    PathStatus `json:"legacyMemoryStore"`
-	HypercodeSubmodule        PathStatus `json:"hypercodeSubmodule"`
+	TormentNexusSubmodule        PathStatus `json:"tormentnexusSubmodule"`
 }
 
 func Snapshot(cfg Config) Status {
@@ -35,14 +35,14 @@ func Snapshot(cfg Config) Status {
 		WorkspaceRoot:        buildPathStatus(cfg.WorkspaceRoot),
 		ConfigDir:            buildPathStatus(cfg.ConfigDir),
 		MainConfigDir:        buildPathStatus(cfg.MainConfigDir),
-		HypercodeConfigFile:       buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "hypercode.config.json")),
+		TormentNexusConfigFile:       buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "tormentnexus.config.json")),
 		MCPConfigFile:        buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "mcp.jsonc")),
 		GoLockPath:           buildPathStatus(cfg.LockPath()),
 		MainLockPath:         buildPathStatus(cfg.MainLockPath()),
 		ImportedInstructions: buildPathStatus(cfg.ImportedInstructionsPath()),
-		SectionedMemoryStore: buildPathStatus(filepath.Join(cfg.WorkspaceRoot, ".hypercode", "sectioned_memory.json")),
-		LegacyMemoryStore:    buildPathStatus(filepath.Join(cfg.WorkspaceRoot, ".hypercode", "claude_mem.json")),
-		HypercodeSubmodule:        buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "submodules", "hypercode")),
+		SectionedMemoryStore: buildPathStatus(filepath.Join(cfg.WorkspaceRoot, ".tormentnexus", "sectioned_memory.json")),
+		LegacyMemoryStore:    buildPathStatus(filepath.Join(cfg.WorkspaceRoot, ".tormentnexus", "claude_mem.json")),
+		TormentNexusSubmodule:        buildPathStatus(filepath.Join(cfg.WorkspaceRoot, "submodules", "tormentnexus")),
 	}
 }
 

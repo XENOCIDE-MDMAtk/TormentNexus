@@ -1,7 +1,7 @@
 # MCP Registry Intelligence Research Notes (2026-03-20)
 
 ## Why this note exists
-This captures implementation patterns from external MCP ecosystem projects and maps them to hypercode P0 catalog/validation work.
+This captures implementation patterns from external MCP ecosystem projects and maps them to tormentnexus P0 catalog/validation work.
 
 ## External patterns worth adopting
 
@@ -10,7 +10,7 @@ Observed in MCPProxy docs:
 - explicit server-type split (`stdio`, `http`, OAuth-backed HTTP)
 - consistent per-server shape: `name`, `command/url`, `args`, `env`, `enabled`, optional OAuth, optional isolation
 
-Adopt in hypercode:
+Adopt in tormentnexus:
 - canonical normalized shape per published server variant
 - transport and auth modeled independently from install method
 
@@ -21,7 +21,7 @@ Observed in MCPProxy docker isolation:
 - explicit lifecycle handling and cleanup labels
 - security hardening knobs (`network_mode`, capability dropping)
 
-Adopt in hypercode:
+Adopt in tormentnexus:
 - validation harness should support isolation profiles
 - classify results by profile (`native`, `isolated`, `network-none`)
 
@@ -29,7 +29,7 @@ Adopt in hypercode:
 Observed in MCPProxy quarantine model:
 - newly added servers may start in quarantined state
 
-Adopt in hypercode:
+Adopt in tormentnexus:
 - published catalog state machine includes non-promoted state before installability claims
 - optional manual review gate for risky auth/execution patterns
 
@@ -40,17 +40,17 @@ Observed in MCPProxy sensitive-data docs:
 - redaction in activity logs
 - compliance export flows
 
-Adopt in hypercode:
+Adopt in tormentnexus:
 - validation run logs should store detections as redacted findings, not raw secrets
 - add severity-based badge/warnings in catalog UI
 
 ### 5) Namespace + endpoint composition model
-Observed in Hypercode and MCPHub:
+Observed in TormentNexus and MCPHub:
 - group servers into namespaces/groups
 - expose unified endpoint and scoped endpoints
 - selective tool curation per namespace
 
-Adopt in hypercode:
+Adopt in tormentnexus:
 - config recipes should support grouping/composition metadata
 - published catalog should track if a server is best used standalone vs grouped
 
@@ -58,10 +58,10 @@ Adopt in hypercode:
 Observed in mcp-use:
 - disallowed tools, server manager, bounded steps, memory toggles
 
-Adopt in hypercode:
+Adopt in tormentnexus:
 - operator flow should include optional safe defaults for tool exposure when first enabling a server
 
-## Proposed hypercode data model additions (P0)
+## Proposed tormentnexus data model additions (P0)
 
 1. `published_mcp_servers`
 - canonical_id, display_name, normalized_transport, install_method, auth_model

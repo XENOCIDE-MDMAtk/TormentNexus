@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
 )
 
 // handleServiceConnectivity reports the health of connections between
@@ -146,11 +146,11 @@ func (s *Server) handleMCPClientSync(w http.ResponseWriter, r *http.Request) {
 	sd := config.DefaultServiceDiscovery()
 	sidecarBase := sd.GoSidecarBaseURL()
 
-	// Build Hypercode MCP server entries for the target client
+	// Build TormentNexus MCP server entries for the target client
 	servers := map[string]any{
-		"hypercode": map[string]any{
+		"tormentnexus": map[string]any{
 			"url":   fmt.Sprintf("%s/mcp", sidecarBase),
-			"notes": "Hypercode Go Control Plane — aggregated MCP router",
+			"notes": "TormentNexus Go Control Plane — aggregated MCP router",
 		},
 	}
 

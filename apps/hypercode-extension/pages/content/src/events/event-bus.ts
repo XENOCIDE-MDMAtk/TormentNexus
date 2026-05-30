@@ -261,7 +261,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'd
 
 // Optional: Global initialization function (can be called from app initializer)
 export async function initializeEventBus(): Promise<void> {
-  logger.debug('[MCPHypercode] Event bus initialized.');
+  logger.debug('[MCPTormentNexus] Event bus initialized.');
   // Example: eventBus.setMaxListeners(100);
   // Add any other global setup for the event bus here if needed.
 }

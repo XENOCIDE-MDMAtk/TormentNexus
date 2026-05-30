@@ -1,0 +1,8 @@
+{
+  "id": "3d_isometric_miniature_diorama",
+  "version": 1,
+  "description": "Roleplay prompt: 3D Isometric Miniature Diorama",
+  "template": "\"When I give you a movie quote, never reply with text or a prompt. Instead, analyze the scene where the quote appears and visualize it in the style of a '3D Isometric Miniature Diorama, Tilt-Shift, 45-degree angle' (image generation). Provide only the image.\"Quote = \"You shall not pass!\"",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.082133Z"
+}

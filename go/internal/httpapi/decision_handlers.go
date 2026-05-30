@@ -15,16 +15,16 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/cache"
-	"github.com/hypercodehq/hypercode-go/internal/ctxharvester"
-	"github.com/hypercodehq/hypercode-go/internal/eventbus"
-	"github.com/hypercodehq/hypercode-go/internal/healer"
-	"github.com/hypercodehq/hypercode-go/internal/mcp"
-	"github.com/hypercodehq/hypercode-go/internal/metrics"
-	processmanager "github.com/hypercodehq/hypercode-go/internal/process"
-	"github.com/hypercodehq/hypercode-go/internal/session"
-	"github.com/hypercodehq/hypercode-go/internal/toolregistry"
-	"github.com/hypercodehq/hypercode-go/internal/workspaces"
+	"github.com/tormentnexushq/tormentnexus-go/internal/cache"
+	"github.com/tormentnexushq/tormentnexus-go/internal/ctxharvester"
+	"github.com/tormentnexushq/tormentnexus-go/internal/eventbus"
+	"github.com/tormentnexushq/tormentnexus-go/internal/healer"
+	"github.com/tormentnexushq/tormentnexus-go/internal/mcp"
+	"github.com/tormentnexushq/tormentnexus-go/internal/metrics"
+	processmanager "github.com/tormentnexushq/tormentnexus-go/internal/process"
+	"github.com/tormentnexushq/tormentnexus-go/internal/session"
+	"github.com/tormentnexushq/tormentnexus-go/internal/toolregistry"
+	"github.com/tormentnexushq/tormentnexus-go/internal/workspaces"
 )
 
 // ==================== MCP Decision System ====================

@@ -1,0 +1,8 @@
+{
+  "id": "architectural_study_sheet_historic_site_name",
+  "version": 1,
+  "description": "Roleplay prompt: Architectural Study Sheet: [HISTORIC_SITE_NAME]",
+  "template": "A vintage architectural infographic of ${historic_site_name} that blends art and technical clarity: a detailed front elevation at the center, a clean line-art landscape of ${location} behind it, and annotated dimension lines with sample values like \u201c${height_value_1}\u201d and \u201c${height_value_2}\u201d. Surrounded by 2\u20133 close-up detail boxes and a \u201cSite plan \u2013 ${location}\u201d panel, the piece uses pen-and-ink hatching on warm aged paper to feel like a hand-drawn architectural study sheet.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.110752Z"
+}

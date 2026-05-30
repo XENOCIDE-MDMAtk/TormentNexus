@@ -2,7 +2,7 @@
 // ported from packages/core/src/services/WorkspaceTracker.ts.
 //
 // It maintains a registry of recently-accessed workspaces in
-// ~/.hypercode/workspaces.json, verifying they still exist on disk.
+// ~/.tormentnexus/workspaces.json, verifying they still exist on disk.
 package workspaces
 
 import (
@@ -31,14 +31,14 @@ type WorkspaceTracker struct {
 }
 
 // NewWorkspaceTracker creates a new tracker.
-// If registryPath is empty, defaults to ~/.hypercode/workspaces.json.
+// If registryPath is empty, defaults to ~/.tormentnexus/workspaces.json.
 func NewWorkspaceTracker(registryPath string) *WorkspaceTracker {
 	if registryPath == "" {
 		home, _ := os.UserHomeDir()
 		if home == "" {
 			home = "."
 		}
-		registryPath = filepath.Join(home, ".hypercode", "workspaces.json")
+		registryPath = filepath.Join(home, ".tormentnexus", "workspaces.json")
 	}
 	return &WorkspaceTracker{
 		registryPath: registryPath,

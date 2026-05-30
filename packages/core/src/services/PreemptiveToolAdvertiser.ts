@@ -1,5 +1,5 @@
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
-import { SearchService, type SearchResult } from '@hypercode/search';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@tormentnexus/ai';
+import { SearchService, type SearchResult } from '@tormentnexus/search';
 
 export class PreemptiveToolAdvertiser {
     private llmService: LLMService;

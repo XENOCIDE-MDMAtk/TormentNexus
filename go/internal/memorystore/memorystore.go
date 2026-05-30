@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/hypercodehq/hypercode-go/internal/controlplane"
+	"github.com/tormentnexushq/tormentnexus-go/internal/controlplane"
 )
 
 type Manager struct {

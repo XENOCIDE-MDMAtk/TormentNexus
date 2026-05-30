@@ -8,10 +8,10 @@
             "disabled": false,
             "autoApprove": []
         },
-        "hypercode-supervisor": {
+        "tormentnexus-supervisor": {
             "command": "node",
             "args": [
-                "C:\\Users\\hyper\\workspace\\hypercode\\packages\\hypercode-supervisor\\dist\\index.js"
+                "C:\\Users\\hyper\\workspace\\tormentnexus\\packages\\tormentnexus-supervisor\\dist\\index.js"
             ],
             "env": {
                 "NODE_ENV": "production"

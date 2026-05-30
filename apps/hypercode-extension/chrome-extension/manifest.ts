@@ -20,22 +20,22 @@ const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 const manifest = {
   manifest_version: 3,
   default_locale: 'en',
-  name: 'Hypercode Extension',
+  name: 'TormentNexus Extension',
   browser_specific_settings: {
     gecko: {
-      id: 'extension@hypercode.local',
+      id: 'extension@tormentnexus.local',
     },
   },
   version: packageJson.version,
-  description: 'Hypercode Extension',
-  name: 'hypercode Extension',
+  description: 'TormentNexus Extension',
+  name: 'tormentnexus Extension',
   browser_specific_settings: {
     gecko: {
-      id: 'extension@hypercode.local',
+      id: 'extension@tormentnexus.local',
     },
   },
   version: packageJson.version,
-  description: 'hypercode Extension',
+  description: 'tormentnexus Extension',
   host_permissions: [
     '*://*.perplexity.ai/*',
     '*://*.chat.openai.com/*',

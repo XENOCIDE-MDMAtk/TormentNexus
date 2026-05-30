@@ -1,0 +1,8 @@
+{
+  "id": "lego_movie_style_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: Lego Movie Style Prompt",
+  "template": "{\u00a0 \"TASK\": \"Reimagine as a scene from The LEGO Movie.\",\u00a0 \"VISUAL_ID\": \"Macro photography of plastic bricks. Stop-motion feel.\",\u00a0 \"CHARACTERS\": \"Lego Minifigures. C-shaped hands, cylindrical heads, painted faces.\",\u00a0 \"SURFACE\": \"Glossy plastic texture, fingerprints, scratches on plastic.\",\u00a0 \"BG\": \"Built entirely of Lego bricks. Depth of field focus.\",\u00a0 \"NEG\": \"Human skin, cloth texture, realistic anatomy, 2d, drawing, cartoon, anime, soft.\"}",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.253439Z"
+}

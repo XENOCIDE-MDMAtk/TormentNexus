@@ -1,4 +1,4 @@
-import { QuotaService, type QuotaConfig } from '@hypercode/ai';
+import { QuotaService, type QuotaConfig } from '@tormentnexus/ai';
 
 import { ProviderBalanceService } from './ProviderBalanceService.js';
 import { ProviderRegistry } from './ProviderRegistry.js';

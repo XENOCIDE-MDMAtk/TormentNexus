@@ -1,0 +1,11 @@
+{
+  "id": "sticker_image_generator",
+  "version": 1,
+  "description": "Roleplay prompt: Sticker Image Generator",
+  "template": "{  \"role\": \"Image Designer\",  \"task\": \"Create a detailed sticker image with a transparent background.\",  \"style\": \"Colorful, vibrant, similar to Stickermule\",  \"variables\": {    \"text\": \"Custom text for the sticker\",    \"icon\": \"Icon to be included in the sticker\",    \"colorPalette\": \"Color palette to be used for the sticker\"  },  \"constraints\": {{must_have_a_transparent_background_______should_be_colorful_and_vibrant_______text_should_be_readable_regardless_of_the_background_______icon_should_complement_the_text_style}},  \"output_format\": \"PNG\",  \"examples\": {{text______text_hello_world__________icon______icon_smiley_face__________colorpalette______colorpalette_vibrant__________result____a_colorful_sticker_with____text_hello_world___text_and_a___icon_smiley_face__icon_using_a___colorpalette_vibrant__color_palette__it_s_an_image_of___details}},  \"details\": {    \"resolution\": \"300 DPI\",    \"dimensions\": \"1024x1024 pixels\",    \"layers\": \"Text and icon should be on separate layers for easy editing\"  }}",
+  "variables": [
+    "must_have_a_transparent_background_______should_be_colorful_and_vibrant_______text_should_be_readable_regardless_of_the_background_______icon_should_complement_the_text_style",
+    "text______text_hello_world__________icon______icon_smiley_face__________colorpalette______colorpalette_vibrant__________result____a_colorful_sticker_with____text_hello_world___text_and_a___icon_smiley_face__icon_using_a___colorpalette_vibrant__color_palette__it_s_an_image_of___details"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.251280Z"
+}

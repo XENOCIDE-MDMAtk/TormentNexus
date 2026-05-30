@@ -1,0 +1,8 @@
+{
+  "id": "question_list_for_reaserch",
+  "version": 1,
+  "description": "Roleplay prompt: question list for reaserch",
+  "template": "Create a list of interview questions for researching ${topic} in ${community}.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.166141Z"
+}

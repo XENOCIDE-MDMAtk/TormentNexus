@@ -1,0 +1,8 @@
+{
+  "id": "claude_code_skill_slash_command_review_and_commitmd",
+  "version": 1,
+  "description": "Roleplay prompt: Claude Code Skill (Slash Command): review-and-commit.md",
+  "template": "---allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)description: Create a git commit---## Context- Current git status: !`git status`- Current git diff (staged and unstaged changes): !`git diff HEAD`- Current branch: !`git branch --show-current`- Recent commits: !`git log --oneline -10`## Your taskReview the existing changes and then create a git commit following the conventional commit format. If you think there are more than one distinct change you can create multiple commits.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.123188Z"
+}

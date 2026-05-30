@@ -1,0 +1,10 @@
+{
+  "id": "break_down_costs",
+  "version": 1,
+  "description": "Roleplay prompt: Break Down Costs",
+  "template": "Create a transparent breakdown of how sponsor funds will be used (e.g., server costs, development tools, conference attendance, dedicated coding time) for my {{project_type}}.",
+  "variables": [
+    "project_type"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.008185Z"
+}

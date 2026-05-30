@@ -1,0 +1,10 @@
+{
+  "id": "any_programming_language_to_python_converter",
+  "version": 1,
+  "description": "Roleplay prompt: Any Programming Language to Python Converter",
+  "template": "I want you to act as a any programming language to python code converter. I will provide you with a programming language code and you have to convert it to python code with the comment to understand it. Consider it's a code when I use {{code here}}.",
+  "variables": [
+    "code_here"
+  ],
+  "updatedAt": "2026-05-30T12:59:55.974101Z"
+}

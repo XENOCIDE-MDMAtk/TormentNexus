@@ -1,12 +1,12 @@
 /**
- * `hypercode dashboard` - Open the web dashboard
+ * `tormentnexus dashboard` - Open the web dashboard
  *
- * Launches the Hypercode WebUI dashboard in the default browser.
+ * Launches the TormentNexus WebUI dashboard in the default browser.
  * If the server isn't running, optionally starts it first.
  *
  * @example
- *   hypercode dashboard            # Open dashboard in browser
- *   hypercode dashboard --port 8080
+ *   tormentnexus dashboard            # Open dashboard in browser
+ *   tormentnexus dashboard --port 8080
  */
 
 import type { Command } from 'commander';
@@ -65,13 +65,13 @@ export function registerDashboardCommand(program: Command): void {
   program
     .command('dashboard')
     .alias('ui')
-    .description('Open the Hypercode WebUI dashboard in the default browser')
+    .description('Open the TormentNexus WebUI dashboard in the default browser')
     .option('-p, --port <number>', 'Dashboard port', '3000')
     .option('-H, --host <address>', 'Dashboard host', 'localhost')
     .option('--no-open', 'Start dashboard server without opening browser')
     .option('--dev', 'Start in development mode with hot reload')
     .addHelpText('after', `
-The dashboard provides a comprehensive visual interface to all Hypercode subsystems:
+The dashboard provides a comprehensive visual interface to all TormentNexus subsystems:
   - System overview with health metrics
   - MCP Router management (servers, tools, traffic, config, directory)
   - Memory browser and search
@@ -83,21 +83,21 @@ The dashboard provides a comprehensive visual interface to all Hypercode subsyst
   - Submodule dashboard
 
 Examples:
-  $ hypercode dashboard                  Open in browser at localhost:3000
-  $ hypercode dashboard --port 8080      Custom port
-  $ hypercode dashboard --dev            Development mode with HMR
-  $ hypercode dashboard --no-open        Start without opening browser
+  $ tormentnexus dashboard                  Open in browser at localhost:3000
+  $ tormentnexus dashboard --port 8080      Custom port
+  $ tormentnexus dashboard --dev            Development mode with HMR
+  $ tormentnexus dashboard --no-open        Start without opening browser
     `)
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
       const { spawn } = await import('child_process');
       const webDir = resolve(process.cwd(), 'apps/web');
       const url = `http://${opts.host}:${opts.port}`;
-      const upstreamTrpc = process.env.HYPERCODE_TRPC_UPSTREAM?.trim() || 'http://127.0.0.1:4100/trpc';
+      const upstreamTrpc = process.env.TORMENTNEXUS_TRPC_UPSTREAM?.trim() || 'http://127.0.0.1:4100/trpc';
       const scriptPath = resolve(webDir, 'scripts', opts.dev ? 'dev.mjs' : 'start.mjs');
       const coreReachable = await isCoreReachable(upstreamTrpc);
 
-      console.log(chalk.bold.cyan('\n  ⬡ Hypercode Dashboard\n'));
+      console.log(chalk.bold.cyan('\n  ⬡ TormentNexus Dashboard\n'));
       console.log(chalk.dim(`  URL: ${url}`));
       console.log(chalk.dim(`  Mode: ${opts.dev ? 'development' : 'production'}`));
       console.log(chalk.dim(`  Core: ${upstreamTrpc}`));
@@ -105,7 +105,7 @@ Examples:
 
       if (!coreReachable) {
         console.log(chalk.yellow('  ⚠ Core control plane is not responding yet.'));
-        console.log(chalk.dim('    Start it with: hypercode start --port 4100'));
+        console.log(chalk.dim('    Start it with: tormentnexus start --port 4100'));
         console.log('');
       }
 
@@ -115,7 +115,7 @@ Examples:
         cwd: webDir,
         env: {
           ...process.env,
-          HYPERCODE_TRPC_UPSTREAM: upstreamTrpc,
+          TORMENTNEXUS_TRPC_UPSTREAM: upstreamTrpc,
         },
       });
 
@@ -139,53 +139,53 @@ Examples:
   // About command (bonus)
   program
     .command('about')
-    .description('Show Hypercode HYPERCODE version, project info, and submodule status')
+    .description('Show TormentNexus TORMENTNEXUS version, project info, and submodule status')
     .option('--json', 'Output as JSON')
     .action(async (opts) => {
       const chalk = (await import('chalk')).default;
 
       if (opts.json) {
         console.log(JSON.stringify({
-          name: 'Hypercode',
+          name: 'TormentNexus',
           subtitle: 'The Neural Operating System',
           version: getVersion(),
-          codename: 'HYPERCODE',
-          packages: ['@hypercode/core', '@hypercode/cli', '@hypercode/types', '@hypercode/ai', '@hypercode/agents', '@hypercode/tools', '@hypercode/search', '@hypercode/memory', '@hypercode/adk'],
-          repository: 'https://github.com/robertpelloni/hypercode',
+          codename: 'TORMENTNEXUS',
+          packages: ['@tormentnexus/core', '@tormentnexus/cli', '@tormentnexus/types', '@tormentnexus/ai', '@tormentnexus/agents', '@tormentnexus/tools', '@tormentnexus/search', '@tormentnexus/memory', '@tormentnexus/adk'],
+          repository: 'https://github.com/robertpelloni/tormentnexus',
         }, null, 2));
         return;
       }
 
-      console.log(chalk.bold.cyan('\n  ⬡ Hypercode — The Neural Operating System'));
-      console.log(chalk.dim(`  Version: ${getVersion()} | Codename: HYPERCODE\n`));
+      console.log(chalk.bold.cyan('\n  ⬡ TormentNexus — The Neural Operating System'));
+      console.log(chalk.dim(`  Version: ${getVersion()} | Codename: TORMENTNEXUS\n`));
       console.log(chalk.dim('  "The Ultimate AI Tool Dashboard & Development Orchestrator"\n'));
 
       console.log(chalk.bold('  Packages:'));
       const pkgs = [
-        ['@hypercode/core', 'Backend server, MCP router, orchestrator'],
-        ['@hypercode/cli', 'Command-line interface'],
-        ['@hypercode/types', 'Shared TypeScript types & Zod schemas'],
-        ['@hypercode/ai', 'LLM service, model selector'],
-        ['@hypercode/agents', 'Director, Council, Supervisor'],
-        ['@hypercode/tools', 'File, terminal, browser, chain executor'],
-        ['@hypercode/search', 'Semantic & text search service'],
-        ['@hypercode/memory', 'Multi-backend memory system'],
-        ['@hypercode/adk', 'Agent Development Kit'],
+        ['@tormentnexus/core', 'Backend server, MCP router, orchestrator'],
+        ['@tormentnexus/cli', 'Command-line interface'],
+        ['@tormentnexus/types', 'Shared TypeScript types & Zod schemas'],
+        ['@tormentnexus/ai', 'LLM service, model selector'],
+        ['@tormentnexus/agents', 'Director, Council, Supervisor'],
+        ['@tormentnexus/tools', 'File, terminal, browser, chain executor'],
+        ['@tormentnexus/search', 'Semantic & text search service'],
+        ['@tormentnexus/memory', 'Multi-backend memory system'],
+        ['@tormentnexus/adk', 'Agent Development Kit'],
       ];
 
       for (const [name, desc] of pkgs) {
         console.log(chalk.cyan(`    ${name.padEnd(20)}`) + chalk.dim(desc));
       }
 
-      console.log(chalk.dim('\n  Repository: https://github.com/robertpelloni/hypercode'));
+      console.log(chalk.dim('\n  Repository: https://github.com/robertpelloni/tormentnexus'));
       console.log(chalk.dim('  License: MIT'));
 
       // Quick-start hints
       console.log(chalk.bold.cyan('\n  Quick Start:'));
-      console.log(chalk.dim('    hypercode start                # Launch the control plane'));
-      console.log(chalk.dim('    hypercode info                 # System overview'));
-      console.log(chalk.dim('    hypercode provider test openai  # Verify API keys'));
-      console.log(chalk.dim('    hypercode catalog search memory # Browse MCP servers'));
-      console.log(chalk.dim('    hypercode dashboard --dev       # Launch Web UI\n'));
+      console.log(chalk.dim('    tormentnexus start                # Launch the control plane'));
+      console.log(chalk.dim('    tormentnexus info                 # System overview'));
+      console.log(chalk.dim('    tormentnexus provider test openai  # Verify API keys'));
+      console.log(chalk.dim('    tormentnexus catalog search memory # Browse MCP servers'));
+      console.log(chalk.dim('    tormentnexus dashboard --dev       # Launch Web UI\n'));
     });
 }

@@ -1,0 +1,8 @@
+{
+  "id": "claude_code_system_prompts_system_promptssystem_reminder_agent_mentionmd",
+  "version": 1,
+  "description": "Curated system prompt: system-prompts/system-reminder-agent-mention.md from Piebald-AI/claude-code-system-prompts",
+  "template": "<!--\nname: 'System Reminder: Agent mention'\ndescription: Notification that user wants to invoke an agent\nccVersion: 2.1.18\nvariables:\n  - ATTACHMENT_OBJECT\n-->\nThe user has expressed a desire to invoke the agent \"${ATTACHMENT_OBJECT.agentType}\". Please invoke the agent appropriately, passing in the required context to it. \n",
+  "variables": [],
+  "updatedAt": "2026-05-30T17:12:35.198693Z"
+}

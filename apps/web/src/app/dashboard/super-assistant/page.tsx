@@ -2,11 +2,11 @@
 
 import React from "react";
 import { trpc } from "@/utils/trpc";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@hypercode/ui";
-import { Badge } from "@hypercode/ui";
-import { Button } from "@hypercode/ui";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@hypercode/ui";
-import { ScrollArea } from "@hypercode/ui";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@tormentnexus/ui";
+import { Badge } from "@tormentnexus/ui";
+import { Button } from "@tormentnexus/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@tormentnexus/ui";
+import { ScrollArea } from "@tormentnexus/ui";
 import { Bot, Wrench, Server, Cpu, Activity, Zap, Loader2, RefreshCw, AlertTriangle } from "lucide-react";
 
 interface ToolItem {

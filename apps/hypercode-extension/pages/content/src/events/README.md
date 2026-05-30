@@ -1,7 +1,7 @@
 # Events Module
 
-This directory contains the core event management system for the Hypercode-Extension content script.
-This directory contains the core event management system for the hypercode-Extension content script.
+This directory contains the core event management system for the TormentNexus-Extension content script.
+This directory contains the core event management system for the tormentnexus-Extension content script.
 
 ## Overview
 

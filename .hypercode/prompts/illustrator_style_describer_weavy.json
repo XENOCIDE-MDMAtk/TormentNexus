@@ -1,0 +1,8 @@
+{
+  "id": "illustrator_style_describer_weavy",
+  "version": 1,
+  "description": "Roleplay prompt: Illustrator Style Describer Weavy",
+  "template": "**\u201cAnalyze the provided images and extract ONLY the unified visual style.Although the image is composed of a grid of images, treat them as one cohesive style reference - do NOT describe or reference the characters individually, and do NOT mention the panel layout or that there are four sections.Focus exclusively on the global stylistic qualities, including:illustration style (flat, graphic, painterly, vector-like, etc.)contrast behaviorBackground style and colorshapes, proportions, and stylizationline quality and outline treatmentshading/lighting approachtexture use (if any)mood and visual tonepattern usageany recurring artistic conventionsHex colors and their use (skin tone, background, patterns, etc)Produce a clean, standalone style description that can be used to generate new images in the same style but with entirely new characters or scenes.DO NOT mention specific characters, poses, clothing, or objects from the original image\u2014ONLY the style.Output this in two parts:STYLE DESCRIPTION (4\u20137 sentences):A detailed explanation of the unified artistic style.KEY STYLE TAGS (10\u201320 keywords):Short labels that summarize the style.Hex colors",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.096005Z"
+}

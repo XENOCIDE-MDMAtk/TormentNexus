@@ -1,5 +1,5 @@
 import { ICommand, CommandResult, CommandRegistry } from "../CommandRegistry.js";
-import { Director } from "@hypercode/agents";
+import { Director } from "@tormentnexus/agents";
 
 interface DirectorStatusView {
     active?: boolean;

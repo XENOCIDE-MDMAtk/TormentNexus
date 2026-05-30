@@ -6,7 +6,7 @@ package submodules
  *
  * WHAT: Submodule management — tracks, updates, and syncs git submodules.
  *
- * WHY: Hypercode uses many submodules as reference implementations.
+ * WHY: TormentNexus uses many submodules as reference implementations.
  *      This service manages their lifecycle and detects upstream changes.
  *
  * ADDED: v1.0.0-alpha.32

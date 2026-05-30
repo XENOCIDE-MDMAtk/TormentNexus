@@ -1,0 +1,8 @@
+{
+  "id": "develop_a_live_video_streaming_website",
+  "version": 1,
+  "description": "Roleplay prompt: Develop a Live Video Streaming Website",
+  "template": "Act as a website development expert. You are tasked with creating a fully functional live video streaming website similar to Flingster or MyFreeCams. Your task is to design, develop, and deploy a platform that provides:\u2014 **Live Streaming Capabilities:** Implement high-quality, low-latency video streaming with options for private and public shows.\u2014 **User Accounts and Profiles:** Enable users to create profiles, manage their content, and interact with other users.\u2014 **Payment Integration:** Integrate secure payment systems for user subscriptions and donations.\u2014 **Moderation Tools:** Develop tools for content moderation, user reporting, and account management.\u2014 **Responsive Design:** Ensure the website is fully responsive and accessible across various devices and browsers.  Rules:\u2014 Use best practices in web development, ensuring security, scalability, and performance.\u2014 Incorporate modern design principles for an engaging user experience.\u2014 Ensure compliance with legal and ethical standards for content and user privacy.Variables:\u2014 ${hubscam}\u2014the name of the project\u2014 ${tipping token system, fast reliable connection, custom profiles, autho login and sign-up, region selection} specific features to include\u2014 ${designStyle:Dark modern}\u2014the design style for the website",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.472983Z"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "claude_code_system_prompts_system_promptssystem_prompt_insights_on_the_horizonmd",
+  "version": 1,
+  "description": "Curated system prompt: system-prompts/system-prompt-insights-on-the-horizon.md from Piebald-AI/claude-code-system-prompts",
+  "template": "<!--\nname: 'System Prompt: Insights on the horizon'\ndescription: Identifies ambitious future workflows and opportunities for autonomous AI-assisted development\nccVersion: 2.1.30\n-->\nAnalyze this Claude Code usage data and identify future opportunities.\n\nRESPOND WITH ONLY A VALID JSON OBJECT:\n{\n  \"intro\": \"1 sentence about evolving AI-assisted development\",\n  \"opportunities\": {{title____short_title__4_8_words_____whats_possible____2_3_ambitious_sentences_about_autonomous_workflows____how_to_try____1_2_sentences_mentioning_relevant_tooling____copyable_prompt____detailed_prompt_to_try}}\n}\n\nInclude 3 opportunities. Think BIG - autonomous workflows, parallel agents, iterating against tests.\n",
+  "variables": [
+    "title____short_title__4_8_words_____whats_possible____2_3_ambitious_sentences_about_autonomous_workflows____how_to_try____1_2_sentences_mentioning_relevant_tooling____copyable_prompt____detailed_prompt_to_try"
+  ],
+  "updatedAt": "2026-05-30T17:12:27.865902Z"
+}

@@ -87,13 +87,13 @@ async function resolveLastModifiedAt(workspaceRoot: string, relativePath: string
 
 export async function detectInstallSurfaceArtifacts(workspaceRoot: string = findMonorepoRoot()): Promise<InstallSurfaceArtifactStatus[]> {
     const chromiumBundlePath = resolveExistingRelativePath(workspaceRoot, [
-        path.join('apps', 'hypercode-extension', 'dist-chromium'),
+        path.join('apps', 'tormentnexus-extension', 'dist-chromium'),
         path.join('apps', 'extension', 'dist'),
-        path.join('apps', 'hypercode-extension', 'dist'),
+        path.join('apps', 'tormentnexus-extension', 'dist'),
     ]);
 
     const firefoxBundlePath = resolveExistingRelativePath(workspaceRoot, [
-        path.join('apps', 'hypercode-extension', 'dist-firefox'),
+        path.join('apps', 'tormentnexus-extension', 'dist-firefox'),
     ]);
     const firefoxManifestPath = resolveExistingRelativePath(workspaceRoot, [
         path.join('apps', 'extension', 'manifest.firefox.json'),
@@ -108,7 +108,7 @@ export async function detectInstallSurfaceArtifacts(workspaceRoot: string = find
     const mcpConfigPath = resolveExistingRelativePath(workspaceRoot, ['mcp.jsonc', 'mcp.json']);
 
     const [browserExtensionVersion, vscodeExtensionVersion] = await Promise.all([
-        readPackageVersion(workspaceRoot, path.join('apps', 'hypercode-extension', 'package.json')),
+        readPackageVersion(workspaceRoot, path.join('apps', 'tormentnexus-extension', 'package.json')),
         readPackageVersion(workspaceRoot, path.join('packages', 'vscode', 'package.json')),
     ]);
 
@@ -129,12 +129,12 @@ export async function detectInstallSurfaceArtifacts(workspaceRoot: string = find
             id: 'browser-extension-chromium',
             status: chromiumBundlePath ? 'ready' : 'missing',
             artifactPath: chromiumBundlePath,
-            artifactKind: chromiumBundlePath === path.join('apps', 'hypercode-extension', 'dist-chromium')
+            artifactKind: chromiumBundlePath === path.join('apps', 'tormentnexus-extension', 'dist-chromium')
                 ? 'Chromium unpacked bundle'
                 : chromiumBundlePath === path.join('apps', 'extension', 'dist')
                     ? 'Legacy extension dist bundle'
-                    : chromiumBundlePath === path.join('apps', 'hypercode-extension', 'dist')
-                        ? 'Generic hypercode-extension dist bundle'
+                    : chromiumBundlePath === path.join('apps', 'tormentnexus-extension', 'dist')
+                        ? 'Generic tormentnexus-extension dist bundle'
                         : null,
             detail: chromiumBundlePath
                 ? 'Unpacked Chromium-compatible browser extension output is available.'
@@ -186,8 +186,8 @@ export async function detectInstallSurfaceArtifacts(workspaceRoot: string = find
                     ? 'JSON config source'
                     : null,
             detail: mcpConfigPath
-                ? 'Hypercode-managed MCP config source is present for dashboard sync and preview flows.'
-                : 'No Hypercode MCP config source file was detected yet.',
+                ? 'TormentNexus-managed MCP config source is present for dashboard sync and preview flows.'
+                : 'No TormentNexus MCP config source file was detected yet.',
             declaredVersion: null,
             lastModifiedAt: mcpConfigLastModifiedAt,
         },

@@ -4,14 +4,14 @@ _Last updated: 2026-05-25, version 1.0.0-alpha.63_
 
 ## P0 — Must do now (Stability & Truth)
 
-- [x] **Protocol Scaffolding**: Implement the basic `hypercode://` handler in the Go kernel to support session attachment.
+- [x] **Protocol Scaffolding**: Implement the basic `tormentnexus://` handler in the Go kernel to support session attachment.
 - [x] **Dashboard Truth Pass**: Verify that the "Immune System" status card in the dashboard shows real-time data from the Go `HealerService`.
 - [x] **L2 Vault Visualization**: Wire the `vaultRecords` query to the Next.js frontend to show persistent heal history.
 - [x] **Mobile Style Audit**: Fix overlapping elements in the Sidebar and KernelStats on small viewports.
 
 ## P1 — Should do next (Features & Parity)
 
-- [x] **Browser Extension Attach**: Implement the DOM injection to add a "Hypercode Kernel" button to Claude.ai and ChatGPT.
+- [x] **Browser Extension Attach**: Implement the DOM injection to add a "TormentNexus Kernel" button to Claude.ai and ChatGPT.
 - [x] **Wails Migration**: Scaffold the `apps/native-ui` directory using Wails for the Go-native dashboard.
 - [x] **A2A Mesh Protocol**: Implement the discovery layer for agents running on different local network hosts.
 - [x] **TOON Format**: Implement the native Go encoder/decoder for the TOON (Thread-Oriented Object Notation) context format.

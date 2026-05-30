@@ -1,8 +1,8 @@
 import { JSDOM } from 'jsdom';
 import { db } from '../../db/index.js';
-import { linksBacklogTable } from '../../db/hypercode-schema.js';
+import { linksBacklogTable } from '../../db/tormentnexus-schema.js';
 import { eq, asc } from 'drizzle-orm';
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@tormentnexus/ai';
 import { formatOptionalSqliteFailure, isSqliteUnavailableError } from '../../db/sqliteAvailability.js';
 
 export class LinkCrawlerWorker {

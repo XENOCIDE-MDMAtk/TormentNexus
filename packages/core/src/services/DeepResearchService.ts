@@ -1,6 +1,6 @@
 
-import { LLMService } from '@hypercode/ai';
-import { SearchService } from '@hypercode/search';
+import { LLMService } from '@tormentnexus/ai';
+import { SearchService } from '@tormentnexus/search';
 import { MemoryManager } from './MemoryManager.js';
 import type { MCPServer } from '../MCPServer.js';
 

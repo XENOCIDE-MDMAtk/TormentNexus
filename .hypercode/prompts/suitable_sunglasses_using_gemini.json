@@ -1,0 +1,8 @@
+{
+  "id": "suitable_sunglasses_using_gemini",
+  "version": 1,
+  "description": "Roleplay prompt: suitable sunglasses using gemini",
+  "template": "Provide an image using upload image with suitable sunglass frames to the face",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.412509Z"
+}

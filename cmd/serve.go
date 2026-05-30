@@ -8,15 +8,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/websocket/v2"
-	foundationrepomap "github.com/robertpelloni/hypercode/foundation/repomap"
-	"github.com/robertpelloni/hypercode/mcp"
-	"github.com/robertpelloni/hypercode/orchestrator"
+	foundationrepomap "github.com/robertpelloni/tormentnexus/foundation/repomap"
+	"github.com/robertpelloni/tormentnexus/mcp"
+	"github.com/robertpelloni/tormentnexus/orchestrator"
 	"github.com/spf13/cobra"
 )
 
 var serveCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "Start the monolithic Hypercode Daemon Backend (Port 8080)",
+	Short: "Start the monolithic TormentNexus Daemon Backend (Port 8080)",
 	Long:  "Fires up the Go-native replacement for the legacy Bun/Hono TS backend.",
 	Run: func(cmd *cobra.Command, args []string) {
 		app := fiber.New(fiber.Config{
@@ -29,12 +29,12 @@ var serveCmd = &cobra.Command{
 			AllowHeaders: "Origin, Content-Type, Accept",
 		}))
 
-		// Initialize Database/Queues natively substituting BullMQ & Prisma
-		if err := orchestrator.InitDatabase("./.hypercode_queue.db"); err != nil {
-			log.Fatalf("Prisma Parity Core mapping failed: %v", err)
+		// Initialize Database/Queues natively substituting BullMQ & TormentNexusa
+		if err := orchestrator.InitDatabase("./.tormentnexus_queue.db"); err != nil {
+			log.Fatalf("TormentNexusa Parity Core mapping failed: %v", err)
 		}
 
-		queue, err := orchestrator.NewTaskQueue("./.hypercode_queue.db")
+		queue, err := orchestrator.NewTaskQueue("./.tormentnexus_queue.db")
 		if err != nil {
 			log.Fatalf("Queue Initialization Failure: %v", err)
 		}
@@ -79,7 +79,7 @@ var serveCmd = &cobra.Command{
 					"rag":      "/api/v1/rag/query",
 					"reindex":  "/api/v1/rag/reindex",
 				},
-				"hypercodeCompatible": true,
+				"tormentnexusCompatible": true,
 			})
 		})
 
@@ -106,7 +106,7 @@ var serveCmd = &cobra.Command{
 
 		api.Get("/sessions", func(c *fiber.Ctx) error {
 			var sessions []orchestrator.Session
-			// Natively mapping Prisma's listSessions
+			// Natively mapping TormentNexusa's listSessions
 			if err := orchestrator.DB.Order("created_at desc").Find(&sessions).Error; err != nil {
 				return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 			}
@@ -330,7 +330,7 @@ var serveCmd = &cobra.Command{
 					"totalChunks": chunkCount,
 					"isIndexed":   chunkCount > 0,
 				},
-				"hypercodeReady": true,
+				"tormentnexusReady": true,
 			})
 		})
 
@@ -342,12 +342,12 @@ var serveCmd = &cobra.Command{
 			return c.JSON(fiber.Map{"submodules": subs})
 		})
 
-		api.Post("/webhooks/hypercode", func(c *fiber.Ctx) error {
+		api.Post("/webhooks/tormentnexus", func(c *fiber.Ctx) error {
 			var payload orchestrator.WebhookPayload
 			if err := c.BodyParser(&payload); err != nil {
 				return c.Status(400).JSON(fiber.Map{"error": "Invalid JSON format"})
 			}
-			result, err := orchestrator.HandleHypercodeWebhook(payload, queue, wsSvc)
+			result, err := orchestrator.HandleTormentNexusWebhook(payload, queue, wsSvc)
 			if err != nil {
 				return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 			}
@@ -505,7 +505,7 @@ var serveCmd = &cobra.Command{
 		})
 
 		app.Get("/health", func(c *fiber.Ctx) error {
-			return c.JSON(fiber.Map{"status": "hypercode_active", "version": "1.0.0", "daemon": "fiber"})
+			return c.JSON(fiber.Map{"status": "tormentnexus_active", "version": "1.0.0", "daemon": "fiber"})
 		})
 
 		// Render the compiled React Single Page App bridging Localhost execution replacing Vite/Next!

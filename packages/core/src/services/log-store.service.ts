@@ -1,4 +1,4 @@
-export interface HypercodeLogEntry {
+export interface TormentNexusLogEntry {
     id: string;
     timestamp: Date;
     serverName: string;
@@ -7,18 +7,18 @@ export interface HypercodeLogEntry {
     error?: string;
 }
 
-class HypercodeLogStore {
-    private logs: HypercodeLogEntry[] = [];
+class TormentNexusLogStore {
+    private logs: TormentNexusLogEntry[] = [];
     private readonly maxLogs = 1000; // Keep only the last 1000 logs
-    private readonly listeners: Set<(log: HypercodeLogEntry) => void> = new Set();
+    private readonly listeners: Set<(log: TormentNexusLogEntry) => void> = new Set();
 
     addLog(
         serverName: string,
-        level: HypercodeLogEntry["level"],
+        level: TormentNexusLogEntry["level"],
         message: string,
         error?: unknown,
     ) {
-        const logEntry: HypercodeLogEntry = {
+        const logEntry: TormentNexusLogEntry = {
             id: crypto.randomUUID(),
             timestamp: new Date(),
             serverName,
@@ -40,7 +40,7 @@ class HypercodeLogStore {
         }
 
         // Also log to console for debugging
-        const fullMessage = `[Hypercode][${serverName}] ${message}`;
+        const fullMessage = `[TormentNexus][${serverName}] ${message}`;
         switch (level) {
             case "error":
                 console.error(fullMessage, error || "");
@@ -63,7 +63,7 @@ class HypercodeLogStore {
         });
     }
 
-    getLogs(limit?: number): HypercodeLogEntry[] {
+    getLogs(limit?: number): TormentNexusLogEntry[] {
         const logsToReturn = limit ? this.logs.slice(-limit) : this.logs;
         return [...logsToReturn].reverse(); // Return newest first
     }
@@ -72,7 +72,7 @@ class HypercodeLogStore {
         this.logs = [];
     }
 
-    addListener(listener: (log: HypercodeLogEntry) => void): () => void {
+    addListener(listener: (log: TormentNexusLogEntry) => void): () => void {
         this.listeners.add(listener);
         return () => this.listeners.delete(listener);
     }
@@ -83,4 +83,4 @@ class HypercodeLogStore {
 }
 
 // Singleton instance
-export const hypercodeLogStore = new HypercodeLogStore();
+export const tormentnexusLogStore = new TormentNexusLogStore();

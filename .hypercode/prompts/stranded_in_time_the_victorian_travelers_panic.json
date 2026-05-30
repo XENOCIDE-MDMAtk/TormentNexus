@@ -1,0 +1,17 @@
+{
+  "id": "stranded_in_time_the_victorian_travelers_panic",
+  "version": 1,
+  "description": "Roleplay prompt: Stranded in Time: The Victorian Traveler\u2019s Panic",
+  "template": "{  \"prompt\": \"You will perform an image edit using the person from the provided photo as the main subject. Preserve his core likeness. The scene depicts Subject 1 as a beleaguered Victorian time traveler checking a complicated brass chronometer in a dense, misty prehistoric jungle. The image must be ultra-photorealistic and highly detailed, capturing the texture of fraying velvet, sweating skin, and wet tropical leaves. Use cinematic lighting with dappled sunlight breaking through the canopy to illuminate the subject. The style is that of a high-budget movie, shot on Arri Alexa with a shallow depth of field.\",  \"details\": {    \"year\": \"The Late Cretaceous Period (via 1890)\",    \"genre\": \"Cinematic Photorealism\",    \"location\": \"A dense, humid jungle floor with giant ferns and ancient cycads.\",    \"lighting\": {{dappled_sunlight_filtering_through_canopy_________atmospheric_volumetric_fog_________high_contrast_shadows}},    \"camera_angle\": \"Eye-level close-up with focus on the face and device.\",    \"emotion\": {{panic_________urgency_________disbelief}},    \"color_palette\": {{deep_emerald_greens_________muddy_browns_________tarnished_brass_gold_________rich_burgundy}},    \"atmosphere\": {{humid_________dangerous_________claustrophobic_________sweltering}},    \"environmental_elements\": \"Giant fern fronds, hovering prehistoric insects, rising steam from the damp ground, a blurred massive shape moving in the background.\",    \"subject1\": {      \"costume\": \"A torn and muddy three-piece Victorian velvet suit, a loose cravat, and brass steampunk goggles around the neck.\",      \"subject_expression\": \"Wide-eyed desperation, sweat beading on the forehead.\",      \"subject_action\": \"Frantically tapping the glass dial of a glowing, smoking brass chronometer held in his hand.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{modern_buildings___________paved_roads___________digital_watches___________sneakers___________plastic}},      \"exclude_styles\": {{cartoon___________sketch___________oil_painting___________anime___________low_resolution}},      \"exclude_colors\": {{neon_blue___________hot_pink}},      \"exclude_objects\": {{cars___________modern_weaponry}}    }  }}",
+  "variables": [
+    "dappled_sunlight_filtering_through_canopy_________atmospheric_volumetric_fog_________high_contrast_shadows",
+    "modern_buildings___________paved_roads___________digital_watches___________sneakers___________plastic",
+    "deep_emerald_greens_________muddy_browns_________tarnished_brass_gold_________rich_burgundy",
+    "panic_________urgency_________disbelief",
+    "cartoon___________sketch___________oil_painting___________anime___________low_resolution",
+    "humid_________dangerous_________claustrophobic_________sweltering",
+    "neon_blue___________hot_pink",
+    "cars___________modern_weaponry"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.344039Z"
+}

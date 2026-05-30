@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/config"
-	"github.com/hypercodehq/hypercode-go/internal/interop"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/interop"
 )
 
 var (
@@ -206,7 +206,7 @@ func (s *Service) localCapabilities() []string {
 
 func deriveLocalNodeID(cfg config.Config) string {
 	sum := sha1.Sum([]byte(cfg.ConfigDir + "|" + cfg.WorkspaceRoot))
-	return "hypercode-go-" + hex.EncodeToString(sum[:6])
+	return "tormentnexus-go-" + hex.EncodeToString(sum[:6])
 }
 
 func normalizeCapabilities(values []string) []string {

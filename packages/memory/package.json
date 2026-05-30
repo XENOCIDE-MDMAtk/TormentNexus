@@ -1,6 +1,6 @@
 {
-  "name": "@hypercode/memory",
-  "version": "1.0.0-alpha.64",
+  "name": "@tormentnexus/memory",
+  "version": "1.0.0-alpha.80",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
     "test": "vitest run test/"
   },
   "dependencies": {
-    "@hypercode/ai": "workspace:*",
+    "@tormentnexus/ai": "workspace:*",
     "@lancedb/lancedb": "^0.23.0",
     "@xenova/transformers": "^2.14.0",
     "apache-arrow": "^21.1.0",

@@ -1,0 +1,21 @@
+{
+  "id": "sigrexio_fear_greed_sentiment_filter",
+  "version": 1,
+  "description": "Roleplay prompt: [sigrex.io] Fear & Greed Sentiment Filter",
+  "template": "{{val:symbol=BTCUSDT}}{{val:rsi_ob=68}}{{val:rsi_os=32}}Symbol: {{symbol}} | Time: {{current_time}}Last signal: {{last_trigger_action}} @ {{last_trigger_price}} | Executed: {{last_trigger_at}}Signal history:{{trigger_history}}Current market sentiment data:{{get:https://api.alternative.me/fng/?limit=1&format=json}}STRATEGY RULES:Use the Fear & Greed value fetched above as a sentiment filter:- Value 0\u201330 = Extreme Fear \u2192 favor LONG setups only- Value 31\u201350 = Fear \u2192 allow LONG, avoid SHORT- Value 51\u201374 = Greed \u2192 allow SHORT, be cautious with LONG- Value 75\u2013100 = Extreme Greed \u2192 favor SHORT setups onlyLONG when:  - Sentiment is Extreme Fear or Fear  - RSI is below {{rsi_os}} and turning up  - MACD histogram crosses positive  - No open positionSHORT when:  - Sentiment is Extreme Greed or Greed  - RSI is above {{rsi_ob}} and turning down  - MACD histogram crosses negative  - No open positionEXIT when:  - RSI crosses back to neutral (45\u201355 range)  - OR sentiment flips against current position directionHOLD if sentiment and technicals disagree, or no clear signal.",
+  "variables": [
+    "current_time",
+    "rsi_ob",
+    "get_https___api_alternative_me_fng__limit_1_format_json",
+    "symbol",
+    "val_rsi_os_32",
+    "last_trigger_price",
+    "last_trigger_at",
+    "rsi_os",
+    "val_rsi_ob_68",
+    "last_trigger_action",
+    "trigger_history",
+    "val_symbol_btcusdt"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.663973Z"
+}

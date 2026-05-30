@@ -1,0 +1,10 @@
+{
+  "id": "explain_funding_impact",
+  "version": 1,
+  "description": "Roleplay prompt: Explain Funding Impact",
+  "template": "Create a section for my Sponsors page that explains how funding will help me dedicate more time to {{project_topics}}, support new contributors, and ensure the sustainability of my open source work.",
+  "variables": [
+    "project_topics"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.024094Z"
+}

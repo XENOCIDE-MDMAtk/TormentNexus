@@ -8,8 +8,8 @@ build/
 *.tsbuildinfo
 bin/*.exe
 bin/*.exe~
-go/hypercode
-go/hypercode.exe
+go/tormentnexus
+go/tormentnexus.exe
 !bin/.gitkeep
 
 # === Environment and secrets ===
@@ -71,35 +71,35 @@ audit-*.jsonl
 .turbo/
 **/.turbo/
 
-# === Hypercode runtime state ===
-.hypercode/
-**/.hypercode/
-.hypercode-session.json
-.hypercode_startup_marker
-**/.hypercode_startup_marker
+# === TormentNexus runtime state ===
+.tormentnexus/
+**/.tormentnexus/
+.tormentnexus-session.json
+.tormentnexus_startup_marker
+**/.tormentnexus_startup_marker
 .cli_startup_marker
 **/.cli_startup_marker
-.hypercode_boot_check
-**/.hypercode_boot_check
-.hypercode/skills/
-.hypercode/db/
-.hypercode/agent_memory/
-.hypercode/handoffs/
-.hypercode/memory/
-.hypercode/worktrees/
-.hypercode/workflows_test_*/
-.hypercode/shell_history.json
-.hypercode/policy.json
-.hypercode/imported_sessions/
+.tormentnexus_boot_check
+**/.tormentnexus_boot_check
+.tormentnexus/skills/
+.tormentnexus/db/
+.tormentnexus/agent_memory/
+.tormentnexus/handoffs/
+.tormentnexus/memory/
+.tormentnexus/worktrees/
+.tormentnexus/workflows_test_*/
+.tormentnexus/shell_history.json
+.tormentnexus/policy.json
+.tormentnexus/imported_sessions/
 
-# === Hypercode legacy (deprecated) ===
-.hypercode/
-**/.hypercode/
+# === TormentNexus legacy (deprecated) ===
+.tormentnexus/
+**/.tormentnexus/
 .antigravity/
-.hypercode-session.json
-.tmp-hypercode-dist-probe.mjs
-apps/web/.hypercode-dev-port.json
-apps/web/.hypercode-dev-port.json
+.tormentnexus-session.json
+.tmp-tormentnexus-dist-probe.mjs
+apps/web/.tormentnexus-dev-port.json
+apps/web/.tormentnexus-dev-port.json
 
 # === Database runtime ===
 *.db
@@ -119,7 +119,7 @@ data/vectordb/
 
 # === Session state ===
 .pi/
-.hypercode/
+.tormentnexus/
 .git-rewrite/
 **/.git-rewrite/
 
@@ -150,10 +150,10 @@ archive/
 
 # === Reference material (not part of project) ===
 collection-claude-code-source-code-main/
-hypercode-mcp-server/
+tormentnexus-mcp-server/
 
 # === Stale submodule dirs ===
-hypercode/research/
+tormentnexus/research/
 hyperingest/
 hypermcp/
 hypermem/
@@ -163,7 +163,7 @@ jules-autopilot/
 # === Misc generated ===
 **/dist-chromium/
 **/dist-firefox/
-hypercode.db
+tormentnexus.db
 tmp_*.ts
 tmp_*.tsx
 tmp_*.js

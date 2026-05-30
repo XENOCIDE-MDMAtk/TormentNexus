@@ -1,0 +1,15 @@
+{
+  "id": "claude_code_system_prompts_claudemd",
+  "version": 1,
+  "description": "Curated system prompt: CLAUDE.md from Piebald-AI/claude-code-system-prompts",
+  "template": "# Claude Code System Prompts\n\n## What this repository is\n\nSystem prompts extracted via script from the Claude Code npm package's compiled JavaScript source. Maintained by {{piebald_ai}}(https://piebald.ai/), not by Anthropic.\n\nSee the {{extraction_section_in_readme_md}}(./README.md#extraction) for details on the extraction method.\n\n## What Claude Code is\n\nClaude Code is Anthropic's CLI tool for agentic coding. It is distributed as a compiled npm package (`@anthropic-ai/claude-code`). Source code is not publicly available. The {{anthropics_claude_code}}(https://github.com/anthropics/claude-code) GitHub repository contains issues and releases only.\n\n## How to use these files\n\n- **Reference:** Understand what prompts Claude Code uses and how they change across versions\n- **Local patching:** Use {{tweakcc}}(https://github.com/Piebald-AI/tweakcc) to customize individual prompt pieces in your local Claude Code installation\n- **Feature requests:** For changes to Claude Code's prompts, file issues at {{anthropics_claude_code_issues}}(https://github.com/anthropics/claude-code/issues)\n\n## For AI agents working with this repository\n\n- These files are **extracted reference material**, not modifiable source code\n- Editing files here does not change Claude Code's behavior\n- The `system-prompts/` directory contains markdown files with YAML frontmatter noting the Claude Code version and template variables\n- Template variables like `${BASH_TOOL_NAME}` are interpolated at runtime by Claude Code \u2014 they appear as literal strings in these files\n- The {{changelog_md}}(./CHANGELOG.md) tracks prompt changes across Claude Code versions\n",
+  "variables": [
+    "piebald_ai",
+    "extraction_section_in_readme_md",
+    "anthropics_claude_code",
+    "anthropics_claude_code_issues",
+    "changelog_md",
+    "tweakcc"
+  ],
+  "updatedAt": "2026-05-30T17:11:49.222214Z"
+}

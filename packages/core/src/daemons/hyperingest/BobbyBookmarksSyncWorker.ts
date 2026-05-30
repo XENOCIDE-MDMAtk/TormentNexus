@@ -16,7 +16,7 @@ export class BobbyBookmarksSyncWorker {
     public start(intervalMs: number = 60 * 60 * 1000): void {
         if (this.isRunning) return;
         this.isRunning = true;
-        console.log('[hypercodeingest] Starting BobbyBookmarks local DB sync worker...');
+        console.log('[tormentnexusingest] Starting BobbyBookmarks local DB sync worker...');
         
         // Run immediately
         void this.sync();
@@ -32,7 +32,7 @@ export class BobbyBookmarksSyncWorker {
             clearInterval(this.interval);
             this.interval = null;
         }
-        console.log('[hypercodeingest] Stopped BobbyBookmarks local DB sync worker.');
+        console.log('[tormentnexusingest] Stopped BobbyBookmarks local DB sync worker.');
     }
 
     private async sync(): Promise<void> {
@@ -46,7 +46,7 @@ export class BobbyBookmarksSyncWorker {
             const rows = db.prepare(`SELECT * FROM bookmarks`).all() as any[];
             db.close();
 
-            console.log(`[hypercodeingest] Found ${rows.length} raw URLs in local BobbyBookmarks DB. Syncing to hypercode...`);
+            console.log(`[tormentnexusingest] Found ${rows.length} raw URLs in local BobbyBookmarks DB. Syncing to tormentnexus...`);
 
             let synced = 0;
             let errors = 0;
@@ -75,12 +75,12 @@ export class BobbyBookmarksSyncWorker {
                 }
             }
 
-            console.log(`[hypercodeingest] Successfully synced ${synced} bookmarks to the Links Backlog (${errors} errors).`);
+            console.log(`[tormentnexusingest] Successfully synced ${synced} bookmarks to the Links Backlog (${errors} errors).`);
         } catch (error: any) {
             if (error.code === 'SQLITE_CANTOPEN') {
-                console.warn(`[hypercodeingest] BobbyBookmarks DB not found at ${this.dbPath}. Skipping sync.`);
+                console.warn(`[tormentnexusingest] BobbyBookmarks DB not found at ${this.dbPath}. Skipping sync.`);
             } else {
-                console.error('[hypercodeingest] Error during sync:', error);
+                console.error('[tormentnexusingest] Error during sync:', error);
             }
         }
     }

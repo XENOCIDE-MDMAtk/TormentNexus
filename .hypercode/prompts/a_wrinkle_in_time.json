@@ -1,0 +1,17 @@
+{
+  "id": "a_wrinkle_in_time",
+  "version": 1,
+  "description": "Roleplay prompt: A Wrinkle in Time",
+  "template": "{  \"prompt\": \"You will perform an image edit using the person from the provided photo as the main subject. Preserve his core likeness. Transform Subject 1 (male) into a Victorian time traveler who has just materialized in a dense, prehistoric jungle. The image must be Ultra-Photorealistic, Movie-Quality, and highly detailed. The scene captures the moment of arrival, shot on Arri Alexa with cinematic lighting and a shallow depth of field. He stands amidst towering ferns and ancient cycads, looking completely out of place in his formal 19th-century attire, contrasting the rugged, humid environment with his refined appearance.\",  \"details\": {    \"year\": \"1895 / 65 Million BC\",    \"genre\": \"Cinematic Photorealism\",    \"location\": \"A dense, steaming Cretaceous jungle floor filled with giant ferns, ancient conifers, and thick atmospheric fog.\",    \"lighting\": {{volumetric_god_rays_piercing_through_the_canopy_________dappled_sunlight_________high_dynamic_range}},    \"camera_angle\": \"Medium close-up at eye level, focusing on the subject with the background falling into soft bokeh.\",    \"emotion\": {{disbelief_________awe_________scientific_curiosity_________fear}},    \"color_palette\": {{deep_emerald_greens_________earthy_mud_browns_________burnished_brass_________tweed_grey}},    \"atmosphere\": {{humid_________primordial_________claustrophobic_________mysterious}},    \"environmental_elements\": \"Floating pollen particles, massive prehistoric insects buzzing in the background, a large ominous silhouette of a dinosaur visible through the thick mist.\",    \"subject1\": {      \"costume\": \"A bespoke three-piece Victorian tweed suit, a slightly askew cravat, and intricate brass steampunk goggles pushed up onto his forehead.\",      \"subject_expression\": \"Wide-eyed shock mixed with fascination, mouth slightly open, sweat beading on his brow.\",      \"subject_action\": \"Clutching a glowing, smoking brass chronometer device in one hand while tentatively reaching out to touch a massive, alien-looking fern frond with the other.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{modern_buildings___________paved_roads___________cars___________cell_phones___________contemporary_fashion___________cleanliness}},      \"exclude_styles\": {{cartoon___________3d_render___________illustration___________painting___________low_resolution___________blur___________sketch}},      \"exclude_colors\": {{neon___________pastel_pinks___________artificial_brights}},      \"exclude_objects\": {{spaceships___________aliens___________modern_weapons}}    }  }}",
+  "variables": [
+    "disbelief_________awe_________scientific_curiosity_________fear",
+    "spaceships___________aliens___________modern_weapons",
+    "volumetric_god_rays_piercing_through_the_canopy_________dappled_sunlight_________high_dynamic_range",
+    "humid_________primordial_________claustrophobic_________mysterious",
+    "cartoon___________3d_render___________illustration___________painting___________low_resolution___________blur___________sketch",
+    "deep_emerald_greens_________earthy_mud_browns_________burnished_brass_________tweed_grey",
+    "modern_buildings___________paved_roads___________cars___________cell_phones___________contemporary_fashion___________cleanliness",
+    "neon___________pastel_pinks___________artificial_brights"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.464001Z"
+}

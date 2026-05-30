@@ -1,0 +1,8 @@
+{
+  "id": "write_tier_descriptions",
+  "version": 1,
+  "description": "Roleplay prompt: Write Tier Descriptions",
+  "template": "Write descriptions for three GitHub Sponsors tiers ($5, $25, $100) that offer increasing value and recognition to supporters.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.025845Z"
+}

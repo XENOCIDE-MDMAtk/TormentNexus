@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Cross-platform build wrapper for @hypercode/core
+// Cross-platform build wrapper for @tormentnexus/core
 // Runs tsc and always exits 0. TS diagnostics are suppressed from the
 // turbo build log — only fatal/catastrophic errors are shown.
 import { spawnSync } from 'node:child_process';
@@ -24,7 +24,7 @@ const fatalLines = lines.filter(
     line.toLowerCase().includes('out of memory')
 );
 if (fatalLines.length > 0) {
-  console.error('[@hypercode/core] Fatal build errors:\n' + fatalLines.join('\n'));
+  console.error('[@tormentnexus/core] Fatal build errors:\n' + fatalLines.join('\n'));
 }
 
 process.exit(0);

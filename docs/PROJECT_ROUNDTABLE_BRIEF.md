@@ -1,10 +1,10 @@
-# hypercode 0.9.1: Project Roundtable Brief
+# tormentnexus 0.9.1: Project Roundtable Brief
 
 ## Introduction
-This document serves as the master briefing for all AI models (Claude 3.7 Sonnet, GPT-4o, Gemini 2.5 Pro, and others) evaluating, debating, or developing the hypercode Control Plane. It outlines the absolute state of the repository, what works, what is planned, and our philosophical boundaries.
+This document serves as the master briefing for all AI models (Claude 3.7 Sonnet, GPT-4o, Gemini 2.5 Pro, and others) evaluating, debating, or developing the tormentnexus Control Plane. It outlines the absolute state of the repository, what works, what is planned, and our philosophical boundaries.
 
 ## 1. The Core Philosophy
-hypercode is a **Cognitive Control Plane** for AI agents. It sits between the agent (the brain) and the infrastructure (the tools, the files, the commands). 
+tormentnexus is a **Cognitive Control Plane** for AI agents. It sits between the agent (the brain) and the infrastructure (the tools, the files, the commands). 
 
 Our primary mandate is: **Resistance to inefficiency is futile.**
 - **Token Economy**: We do not overwhelm the LLM with 500+ tool schemas. We advertise latent Meta-Tools.
@@ -33,7 +33,7 @@ Our primary mandate is: **Resistance to inefficiency is futile.**
 - **Project Constitution**: Editable UI for the master `project_context.md` laws.
 
 ### 🔌 Integrations & Client Bridge
-- **Browser Extension**: `apps/hypercode-extension` is a 1:1 replacement for the legacy MCP-SuperAssistant. It captures web pages automatically and exposes the browser DOM to hypercode via WebSocket.
+- **Browser Extension**: `apps/tormentnexus-extension` is a 1:1 replacement for the legacy MCP-SuperAssistant. It captures web pages automatically and exposes the browser DOM to tormentnexus via WebSocket.
 - **Local-First Watcher**: The `SuggestionService` proactively predicts tool needs based on chat history, prioritizing local models to save API costs.
 - **Self-Healing (`HealerReactor`)**: Autonomously analyzes and attempts to fix terminal crashes.
 
@@ -42,7 +42,7 @@ Our primary mandate is: **Resistance to inefficiency is futile.**
 1. **Full Swarm Orchestration**: Currently, `Director` and `Council` exist but are experimental. We need robust horizontal scaling of specialized agents (Coder, Researcher, Reviewer) working in parallel.
 2. **Native Sandbox Isolation**: Moving beyond simple `child_process` execution to a fully containerized (Docker/WASM) execution environment for `run_code` and `bash` tools.
 3. **Advanced Graph Visualization**: The `GraphWidget` is functional but needs interactive, deeply explorable D3.js/React-Flow nodes for the entire codebase memory.
-4. **Universal Agent Attach**: The ability to seamlessly attach hypercode to a running `claude` CLI or `cursor` editor session and inject memory directly into their prompts.
+4. **Universal Agent Attach**: The ability to seamlessly attach tormentnexus to a running `claude` CLI or `cursor` editor session and inject memory directly into their prompts.
 
 ## 4. What We Are NOT Doing (Explicitly Out of Scope)
 - **Replacing Editors**: We are not building an IDE. We are building the control plane that *connects* to IDEs.
@@ -50,7 +50,7 @@ Our primary mandate is: **Resistance to inefficiency is futile.**
 - **Bloated Tool Contexts**: We will never revert to injecting 500 tool schemas into the system prompt. The Meta-Tool pattern is non-negotiable.
 
 ## 5. The 1:1 Compatibility Mandate
-Models are fine-tuned on specific tools (e.g., Claude Code's `bash`, `glob`, `str_replace_editor`). hypercode intercepts these exact schemas and routes them to our secure implementations. **We do not alter these signatures.** A model running on hypercode should feel like it is running in its native training environment, but with superpowers.
+Models are fine-tuned on specific tools (e.g., Claude Code's `bash`, `glob`, `str_replace_editor`). tormentnexus intercepts these exact schemas and routes them to our secure implementations. **We do not alter these signatures.** A model running on tormentnexus should feel like it is running in its native training environment, but with superpowers.
 
 ---
 **Debate Prompt for AI Models:**

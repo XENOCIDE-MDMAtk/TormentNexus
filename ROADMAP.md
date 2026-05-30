@@ -1,4 +1,4 @@
-# Roadmap: AI Hypercode (Hypercode & HyperCode)
+# Roadmap: AI TormentNexus (TormentNexus & TormentNexus)
 
 _Last updated: 2026-05-17, version 1.0.0-alpha.62_
 
@@ -11,7 +11,7 @@ _Last updated: 2026-05-17, version 1.0.0-alpha.62_
 
 ## Completed (v1.0.0-alpha.62)
 
-### 1. Hypercode Kernel: Active Memory Substrate (STABLE)
+### 1. TormentNexus Kernel: Active Memory Substrate (STABLE)
 - **Biological Tiered Memory**: L1 (Scratchpad), L2 (Vault), L3 (Archive) implementation in Go.
 - **Heat Mechanics**: Implemented utility-based scoring and temporal decay for all memories.
 - **Semantic Search**: Integrated `sqlite-vec` for hyper-fast, local-first context matching.
@@ -34,9 +34,9 @@ _Last updated: 2026-05-17, version 1.0.0-alpha.62_
 ## Active Sprint: Phase 5 - Native Integration
 
 ### A. Universal Protocol & Attachment (BETA)
-- [x] Implement `hypercode://` protocol handlers for deep-linking.
-- [ ] Browser Extension: Implement `hypercode-attach` to link web-based AI chats directly to the local Hypercode Kernel.
-- [ ] Implement Global Command Hub (Cmd+K) for system-wide HyperCode access.
+- [x] Implement `tormentnexus://` protocol handlers for deep-linking.
+- [ ] Browser Extension: Implement `tormentnexus-attach` to link web-based AI chats directly to the local TormentNexus Kernel.
+- [ ] Implement Global Command Hub (Cmd+K) for system-wide TormentNexus access.
 
 ### B. UI Consolidation (EXPERIMENTAL)
 - [ ] Port Maestro logic to Wails/Tauri native runtime (replacing Electron).

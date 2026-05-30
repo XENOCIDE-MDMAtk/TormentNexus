@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `hypercode-session-${new Date().toISOString().split('T')[0]}.md`;
+      a.download = `tormentnexus-session-${new Date().toISOString().split('T')[0]}.md`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (e) {

@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/robertpelloni/hypercode/foundation/adapters"
+	"github.com/robertpelloni/tormentnexus/foundation/adapters"
 	"github.com/sashabaranov/go-openai"
 )
 
-// GeminiHypercodeProvider implements ILLMProvider targeting Gemini (default) or OpenAI endpoints.
-// It exposes all of our newly ported native CLI parity tools exactly as the Hypercode TS Core did.
-type GeminiHypercodeProvider struct {
+// GeminiTormentNexusProvider implements ILLMProvider targeting Gemini (default) or OpenAI endpoints.
+// It exposes all of our newly ported native CLI parity tools exactly as the TormentNexus TS Core did.
+type GeminiTormentNexusProvider struct {
 	Client *openai.Client
 	Model  string
 }
 
-func NewGeminiHypercodeProvider() ILLMProvider {
+func NewGeminiTormentNexusProvider() ILLMProvider {
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	if apiKey == "" {
 		apiKey = "dummy_for_compilation"
@@ -25,7 +25,7 @@ func NewGeminiHypercodeProvider() ILLMProvider {
 	config := openai.DefaultConfig(apiKey)
 	config.BaseURL = "https://generativelanguage.googleapis.com/v1beta/"
 
-	baseLayer := &GeminiHypercodeProvider{
+	baseLayer := &GeminiTormentNexusProvider{
 		Client: openai.NewClientWithConfig(config),
 		Model:  "gemini-1.5-pro",
 	}
@@ -35,7 +35,7 @@ func NewGeminiHypercodeProvider() ILLMProvider {
 }
 
 // FetchLegacyToolArray holds the actual 649+ internal commands securely blocked from the JSON request loop natively.
-func (p *GeminiHypercodeProvider) FetchLegacyToolArray() []Tool {
+func (p *GeminiTormentNexusProvider) FetchLegacyToolArray() []Tool {
 	return []Tool{
 		{
 			Name:        "apply_search_replace",
@@ -55,7 +55,7 @@ func (p *GeminiHypercodeProvider) FetchLegacyToolArray() []Tool {
 	}
 }
 
-func (p *GeminiHypercodeProvider) Chat(ctx context.Context, messages []Message, tools []Tool) (Message, error) {
+func (p *GeminiTormentNexusProvider) Chat(ctx context.Context, messages []Message, tools []Tool) (Message, error) {
 	prompt := ""
 	if len(messages) > 0 {
 		prompt = messages[len(messages)-1].Content
@@ -67,7 +67,7 @@ func (p *GeminiHypercodeProvider) Chat(ctx context.Context, messages []Message, 
 	}, nil
 }
 
-func (p *GeminiHypercodeProvider) Stream(ctx context.Context, messages []Message, tools []Tool, chunkChan chan<- string) error {
+func (p *GeminiTormentNexusProvider) Stream(ctx context.Context, messages []Message, tools []Tool, chunkChan chan<- string) error {
 	defer close(chunkChan)
 	// Example bypass
 	chunkChan <- "Stream initialized... "
@@ -75,6 +75,6 @@ func (p *GeminiHypercodeProvider) Stream(ctx context.Context, messages []Message
 	return nil
 }
 
-func (p *GeminiHypercodeProvider) GetModelName() string {
+func (p *GeminiTormentNexusProvider) GetModelName() string {
 	return p.Model
 }

@@ -1,6 +1,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
-import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@hypercode/ai';
+import { DEFAULT_OPENROUTER_FREE_MODEL, LLMService } from '@tormentnexus/ai';
 import fs from 'fs';
 import path from 'path';
 
@@ -15,7 +15,7 @@ export interface Suggestion {
     status: 'PENDING' | 'APPROVED' | 'REJECTED';
 }
 
-import { Director } from '@hypercode/agents';
+import { Director } from '@tormentnexus/agents';
 
 interface LlmTextResponse {
     text?: string;

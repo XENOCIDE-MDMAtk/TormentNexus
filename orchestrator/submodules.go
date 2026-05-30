@@ -17,7 +17,7 @@ type SubmoduleStatus struct {
 
 // ExtractSubmoduleIntelligence natively shells out to pull repository health metadata completely replacing node/simple-git parity natively.
 func ExtractSubmoduleIntelligence() ([]SubmoduleStatus, error) {
-	// The Go process executes from submodules/hypercode, so we explicitly command Git
+	// The Go process executes from submodules/tormentnexus, so we explicitly command Git
 	// to query the top-level parent monorepo.
 	cmd := exec.Command("git", "-C", "../..", "submodule", "status")
 	outputBytes, err := cmd.CombinedOutput()

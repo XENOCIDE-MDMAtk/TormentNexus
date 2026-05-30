@@ -14,8 +14,8 @@ interface OnboardingStep {
 
 const steps: OnboardingStep[] = [
   {
-    title: 'Welcome to Hypercode Extension',
-    title: 'Welcome to hypercode Extension',
+    title: 'Welcome to TormentNexus Extension',
+    title: 'Welcome to tormentnexus Extension',
     description:
       'Empower your AI with real-world tools. This sidebar is your control center for connecting local data, files, and APIs to ChatGPT, Claude, and more.',
     icon: 'lightning',

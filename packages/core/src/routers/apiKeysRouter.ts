@@ -5,7 +5,7 @@ import { rethrowSqliteUnavailableAsTrpc } from './sqliteTrpc.js';
 import {
     ApiKeyCreateInputSchema,
     ApiKeyUpdateInputSchema
-} from '../types/hypercode/api-keys.zod.js';
+} from '../types/tormentnexus/api-keys.zod.js';
 
 export const apiKeysRouter = t.router({
     list: publicProcedure.query(async () => {

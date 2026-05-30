@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/ai"
-	"github.com/hypercodehq/hypercode-go/internal/codeexec"
-	"github.com/hypercodehq/hypercode-go/internal/controlplane"
+	"github.com/tormentnexushq/tormentnexus-go/internal/ai"
+	"github.com/tormentnexushq/tormentnexus-go/internal/codeexec"
+	"github.com/tormentnexushq/tormentnexus-go/internal/controlplane"
 )
 
 // Diagnosis represents an LLM-generated diagnosis of an error.

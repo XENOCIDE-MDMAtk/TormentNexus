@@ -20,7 +20,7 @@ import {
     searchObservationsInputSchema, 
     getRecentUserPromptsInputSchema, 
     searchUserPromptsInputSchema
-} from '@hypercode/types';
+} from '@tormentnexus/types';
 
 function requireAgentMemoryService(contextLabel: string) {
     const service = getAgentMemoryService();

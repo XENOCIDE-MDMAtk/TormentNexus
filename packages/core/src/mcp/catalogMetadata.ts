@@ -142,7 +142,7 @@ const GENERIC_TOKENS = new Set([
     'tools',
     'server',
     'mcp',
-    'hypercode',
+    'tormentnexus',
     'meta',
     'data',
     'service',

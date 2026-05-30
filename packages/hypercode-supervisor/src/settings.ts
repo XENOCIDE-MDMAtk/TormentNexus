@@ -51,7 +51,7 @@ export class SupervisorSettingsManager {
     private readonly settingsPath: string;
 
     constructor(settingsPath?: string) {
-        this.settingsPath = settingsPath ?? path.join(os.homedir(), '.hypercode', 'supervisor-settings.json');
+        this.settingsPath = settingsPath ?? path.join(os.homedir(), '.tormentnexus', 'supervisor-settings.json');
     }
 
     getSettingsPath(): string {

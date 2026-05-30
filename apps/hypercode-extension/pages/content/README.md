@@ -1,7 +1,7 @@
 # Content Scripts
 
-This directory contains the content scripts and core functionality for the Hypercode Extension Chrome extension.
-This directory contains the content scripts and core functionality for the hypercode Extension Chrome extension.
+This directory contains the content scripts and core functionality for the TormentNexus Extension Chrome extension.
+This directory contains the content scripts and core functionality for the tormentnexus Extension Chrome extension.
 
 ## Overview
 

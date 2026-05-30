@@ -7,7 +7,7 @@
  * 3. Generating an answer with inline citations [1], [2], etc.
  * 4. Returning the answer + citation metadata for UI rendering
  *
- * This is the Hypercode equivalent of NotebookLM's "Grounded Answers" feature.
+ * This is the TormentNexus equivalent of NotebookLM's "Grounded Answers" feature.
  */
 
 export interface CitationSource {
@@ -128,9 +128,9 @@ export class CitationService {
     constructor(config?: Partial<CitationServiceConfig>) {
         this.config = { ...DEFAULT_CONFIG, ...config };
         
-        // Store vector DB locally in the global user .hypercode directory
+        // Store vector DB locally in the global user .tormentnexus directory
         const os = require('os');
-        this.lancedbPath = `${os.homedir()}/.hypercode/citations_db`;
+        this.lancedbPath = `${os.homedir()}/.tormentnexus/citations_db`;
     }
 
     getConfig(): CitationServiceConfig {

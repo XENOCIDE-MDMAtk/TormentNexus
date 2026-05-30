@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * hypercode MCP Router CLI
+ * tormentnexus MCP Router CLI
  *
  * A simple CLI to interact with the Ultimate MCP Router services.
  * This provides immediate access to all 4 core services without requiring
@@ -46,7 +46,7 @@ function readCanonicalVersion(): string {
 }
 
 program
-    .name('hypercode-mcp-router')
+    .name('tormentnexus-mcp-router')
     .description('Ultimate MCP Router - Manage MCP servers, configurations, and sessions')
     .version(readCanonicalVersion())
     .option('--data-dir <path>', 'Data directory path', './data')
@@ -58,7 +58,7 @@ program
 
 const dataDir = program.opts().dataDir || './data';
 
-console.log('Initializing hypercode MCP Router...');
+console.log('Initializing tormentnexus MCP Router...');
 console.log(`Data directory: ${dataDir}`);
 
 const registry = MCPRegistryService.getInstance(dataDir);
@@ -260,9 +260,9 @@ program
 program
     .command('export-configs <format>')
     .description('Export configurations')
-    .option('--format <type>', 'Export format (hypercode, claude, openai, google)', 'hypercode')
+    .option('--format <type>', 'Export format (tormentnexus, claude, openai, google)', 'tormentnexus')
     .action(async (options, command) => {
-        const requestedFormat = command.args[0] || program.opts().format || 'hypercode';
+        const requestedFormat = command.args[0] || program.opts().format || 'tormentnexus';
         const format = requestedFormat;
         console.log(`📤 Exporting to ${requestedFormat} format...`);
 
@@ -432,11 +432,11 @@ program.parseAsync().then(async () => {
     console.log('    shutdown-sessions - Shutdown all sessions');
     console.log('');
     console.log('Examples:');
-    console.log('  hypercode-mcp-router discover          - Discover all servers');
-    console.log('  hypercode-mcp-router search "file"    - Search for file servers');
-    console.log('  hypercode-mcp-router install fs-server   - Install filesystem server');
-    console.log('  hypercode-mcp-router init-sessions       - Auto-start all servers');
-    console.log('  hypercode-mcp-router session-stats       - Get session statistics');
+    console.log('  tormentnexus-mcp-router discover          - Discover all servers');
+    console.log('  tormentnexus-mcp-router search "file"    - Search for file servers');
+    console.log('  tormentnexus-mcp-router install fs-server   - Install filesystem server');
+    console.log('  tormentnexus-mcp-router init-sessions       - Auto-start all servers');
+    console.log('  tormentnexus-mcp-router session-stats       - Get session statistics');
 }).catch(err => {
     console.error('❌ Error:', err.message);
     process.exit(1);

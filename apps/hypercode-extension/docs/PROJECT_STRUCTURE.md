@@ -1,15 +1,15 @@
 # Project Structure & Dependencies
 
-This document provides a detailed overview of the `hypercode-extension` monorepo structure, its submodules (packages), and their relationships.
-This document provides a detailed overview of the `hypercode-extension` monorepo structure, its submodules (packages), and their relationships.
+This document provides a detailed overview of the `tormentnexus-extension` monorepo structure, its submodules (packages), and their relationships.
+This document provides a detailed overview of the `tormentnexus-extension` monorepo structure, its submodules (packages), and their relationships.
 
 ## Directory Layout
 
 The project is structured as a monorepo managed by `turbo` and `pnpm`.
 
 ```
-hypercode-extension/
-hypercode-extension/
+tormentnexus-extension/
+tormentnexus-extension/
 ├── chrome-extension/       # The core Chrome Extension logic (manifest, background, build config)
 │   ├── src/
 │   │   ├── background/     # Service worker logic (connection management, context menus, analytics)

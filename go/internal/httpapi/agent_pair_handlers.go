@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/orchestration"
+	"github.com/tormentnexushq/tormentnexus-go/internal/orchestration"
 )
 
 func (s *Server) handlePairSessionRun(w http.ResponseWriter, r *http.Request) {

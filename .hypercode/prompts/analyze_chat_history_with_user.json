@@ -1,0 +1,8 @@
+{
+  "id": "analyze_chat_history_with_user",
+  "version": 1,
+  "description": "Roleplay prompt: Analyze Chat History With User",
+  "template": "I'd like you to analyze this file containing all of my chat history with a friend of mine. Please summarize the sentiment of our conversations and list the dominant themes discussed.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.113289Z"
+}

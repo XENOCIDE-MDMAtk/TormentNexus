@@ -20,24 +20,24 @@ function normalizePinnedFiles(value: unknown): string[] {
 export function ContextPanel() {
     const [newFile, setNewFile] = useState('');
 
-    const contextQuery = trpc.hypercodeContext.list.useQuery(undefined, {
+    const contextQuery = trpc.tormentnexusContext.list.useQuery(undefined, {
         refetchInterval: 5000
     });
     const { data: rawPinnedFiles, refetch } = contextQuery;
     const pinnedFiles = normalizePinnedFiles(rawPinnedFiles);
 
-    const addMutation = trpc.hypercodeContext.add.useMutation({
+    const addMutation = trpc.tormentnexusContext.add.useMutation({
         onSuccess: () => {
             setNewFile('');
             refetch();
         }
     });
 
-    const removeMutation = trpc.hypercodeContext.remove.useMutation({
+    const removeMutation = trpc.tormentnexusContext.remove.useMutation({
         onSuccess: () => refetch()
     });
 
-    const clearMutation = trpc.hypercodeContext.clear.useMutation({
+    const clearMutation = trpc.tormentnexusContext.clear.useMutation({
         onSuccess: () => refetch()
     });
 

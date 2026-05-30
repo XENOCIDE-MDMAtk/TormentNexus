@@ -1,1 +1,1 @@
-export * from "../hypercode-middleware/policy.functional.js";
+export * from "../tormentnexus-middleware/policy.functional.js";

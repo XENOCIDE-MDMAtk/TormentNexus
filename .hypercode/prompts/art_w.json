@@ -1,0 +1,10 @@
+{
+  "id": "art_w",
+  "version": 1,
+  "description": "Roleplay prompt: Art-W",
+  "template": "{  \"colors\": {    \"dominant_palette\": {{coral_pink_________cerulean_blue_________olive_green_________forest_green_________cream_white}},    \"application\": \"Flat, blocks of color with minimal gradients, defined contours.\"  },  \"typography\": {    \"style\": \"None present in the image.\"  },  \"composition\": {    \"structure\": \"Three horizontal bands: sky/mountain, figures/orange trees, large fruit/table.\",    \"perspective\": \"Flattened, layered planes with stylized depth.\",    \"elements\": \"Simplified forms of people, trees, fruit, and landscape.\"  },  \"effects\": {    \"texture\": \"Impasto oil painting texture, visible brushstrokes.\",    \"lighting\": \"Stylized, strong shadows and highlights, non-realistic.\"  }}",
+  "variables": [
+    "coral_pink_________cerulean_blue_________olive_green_________forest_green_________cream_white"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.598712Z"
+}

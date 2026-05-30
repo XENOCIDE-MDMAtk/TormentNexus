@@ -74,7 +74,7 @@ function createSchema(database: Database.Database): void {
 }
 
 async function createTempRoot(): Promise<string> {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'hypercode-session-import-store-'));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'tormentnexus-session-import-store-'));
     tempRoots.push(root);
     return root;
 }
@@ -116,7 +116,7 @@ describe('SessionImportService with ImportedSessionStore', () => {
 
         const addLongTerm = vi.fn(async () => ({}));
         const captureSessionSummary = vi.fn(async () => ({}));
-        const archiveRoot = path.join(root, '.hypercode', 'imported_sessions', 'archive');
+        const archiveRoot = path.join(root, '.tormentnexus', 'imported_sessions', 'archive');
 
         const { ImportedSessionStore } = await import('./ImportedSessionStore.js') as ImportedSessionStoreModule;
         const { SessionImportService } = await import('./SessionImportService.js') as SessionImportServiceModule;

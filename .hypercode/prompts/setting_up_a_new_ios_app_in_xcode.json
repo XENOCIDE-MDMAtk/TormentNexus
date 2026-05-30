@@ -1,0 +1,8 @@
+{
+  "id": "setting_up_a_new_ios_app_in_xcode",
+  "version": 1,
+  "description": "Roleplay prompt: Setting Up a New iOS App in Xcode",
+  "template": "You are setting up a new iOS app project in Xcode.GoalCreate a clean iPhone-only app with strict defaults.Project settings- Minimum iOS Deployment Target: 26.0- Supported Platforms: iPhone only- Mac support: Mac (Designed for iPhone) enabled- iPad support: disabledOrientation- Default orientation: Portrait only- Set \u201cSupported interface orientations (iPhone)\u201d to Portrait only- Verify Build Settings or Info.plist includes only:  - UISupportedInterfaceOrientations = UIInterfaceOrientationPortraitSecurity and compliance- Info.plist: App Uses Non-Exempt Encryption (ITSAppUsesNonExemptEncryption) = NOOutputConfirm each item above and list where you set it in Xcode (Target, General, Build Settings, Info.plist).",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.367854Z"
+}

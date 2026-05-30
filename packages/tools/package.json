@@ -1,6 +1,6 @@
 {
-  "name": "@hypercode/tools",
-  "version": "1.0.0-alpha.64",
+  "name": "@tormentnexus/tools",
+  "version": "1.0.0-alpha.80",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
     "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
   },
   "dependencies": {
-    "@hypercode/adk": "workspace:*",
+    "@tormentnexus/adk": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "active-win": "^8.2.0",
     "jsdom": "^27.4.0",

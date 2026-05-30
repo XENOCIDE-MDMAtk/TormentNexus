@@ -1,0 +1,8 @@
+{
+  "id": "remotion",
+  "version": 1,
+  "description": "Roleplay prompt: Remotion",
+  "template": "Minimal Countdown Scene:Count down from 3 \u2192 2 \u2192 1 using a clean, modern font.Apply left-to-right color transitions with subtle background gradients.Keep the design minimal \u2014 shift font and background colors smoothly between counts.Start with a pure white background,Then transition quickly into lively, elegant tones: yellow, pink, blue, orange \u2014 fast, energetic transitions to build excitement.After the countdown, display\u201cIntroducing\u201dIn a monospace font with a sleek text animation.Next Scene:Center the Mitte.ai and Remotion logos on a white background.Place them side by side \u2014 Mitte.ai on the left, Remotion on the right.First, fade in both logos.Then animate a vertical line drawing from bottom to top between them.Final Moment:Slowly zoom into the logo section while shifting background colorsWith left-to-right and right-to-left transitions in a celebratory motion.Overall Style:Startup vibes \u2014 elegant, creative, modern, and confident.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.211512Z"
+}

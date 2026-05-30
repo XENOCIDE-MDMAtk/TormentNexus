@@ -1,0 +1,12 @@
+{
+  "id": "xcodeexplainaction",
+  "version": 1,
+  "description": "System Prompt: Xcode/ExplainAction.txt",
+  "template": "The user is curently inside this file: {{filename}}\nThe contents are below:\n```swift:{{filename}}\n{{filecontent}}\n```\n\nThe user has selected the following code from that file:\n```swift\n{{selected}}\n```\n\nThe user has asked:\n\nExplain this to me.\n\n",
+  "variables": [
+    "filename",
+    "filecontent",
+    "selected"
+  ],
+  "updatedAt": "2026-05-30T13:01:58.625369Z"
+}

@@ -4,11 +4,11 @@ import path from 'node:path';
 import type { RegisteredBridgeClient } from '../bridge/bridge-manifest.js';
 import type { ExecutionEnvironmentSummary } from '../services/execution-environment.js';
 
-let hypercodeVersionPromise: Promise<string> | null = null;
+let tormentnexusVersionPromise: Promise<string> | null = null;
 
-async function getHypercodeVersion(): Promise<string> {
-    if (!hypercodeVersionPromise) {
-        hypercodeVersionPromise = (async () => {
+async function getTormentNexusVersion(): Promise<string> {
+    if (!tormentnexusVersionPromise) {
+        tormentnexusVersionPromise = (async () => {
             try {
                 const version = await readFile(path.join(process.cwd(), 'VERSION'), 'utf-8');
                 const trimmed = version.trim();
@@ -32,7 +32,7 @@ async function getHypercodeVersion(): Promise<string> {
         })();
     }
 
-    return hypercodeVersionPromise;
+    return tormentnexusVersionPromise;
 }
 
 type StartupStatusInput = {
@@ -87,7 +87,7 @@ type StartupStatusInput = {
     inventorySource?: 'database' | 'config' | 'empty';
     inventorySnapshotUpdatedAt?: string | null;
     executionEnvironment?: ExecutionEnvironmentSummary | null;
-    borg?: {
+    tormentnexus?: {
         enabled: boolean;
         storePath: string | null;
         storeExists: boolean;
@@ -106,7 +106,7 @@ type StartupBlockingReasonCode =
     | 'mcp_resident_runtime_not_ready'
     | 'mcp_config_sync_pending'
     | 'memory_not_ready'
-    | 'borg_not_ready'
+    | 'tormentnexus_not_ready'
     | 'browser_service_not_ready'
     | 'session_restore_not_ready'
     | 'extension_bridge_not_ready'
@@ -138,7 +138,7 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
         inventorySource,
         inventorySnapshotUpdatedAt,
         executionEnvironment,
-        borg,
+        tormentnexus,
     } = input;
     const mcpServerRuntime = mcpServer as {
         memoryManager?: unknown;
@@ -199,12 +199,12 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
         || (!input.lazyMode && inventoryReady && configuredServerCount > 0 && liveServerCount < configuredServerCount),
     );
     const executionReady = Boolean(executionEnvironment?.ready);
-    const borgEnabled = Boolean(borg?.enabled);
-    const borgStoreExists = Boolean(borg?.storeExists);
-    const borgDefaultSectionsReady = borgEnabled
-        ? Number(borg?.presentDefaultSectionCount ?? 0) >= Number(borg?.defaultSectionCount ?? 0)
+    const tormentnexusEnabled = Boolean(tormentnexus?.enabled);
+    const tormentnexusStoreExists = Boolean(tormentnexus?.storeExists);
+    const tormentnexusDefaultSectionsReady = tormentnexusEnabled
+        ? Number(tormentnexus?.presentDefaultSectionCount ?? 0) >= Number(tormentnexus?.defaultSectionCount ?? 0)
         : true;
-    const borgReady = !borgEnabled || (borgStoreExists && borgDefaultSectionsReady);
+    const tormentnexusReady = !tormentnexusEnabled || (tormentnexusStoreExists && tormentnexusDefaultSectionsReady);
 
     const blockingReasons: StartupBlockingReason[] = [];
 
@@ -249,12 +249,12 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
         });
     }
 
-    if (!borgReady) {
+    if (!tormentnexusReady) {
         blockingReasons.push({
-            code: 'borg_not_ready',
-            detail: !borgStoreExists
-                ? 'hypercode store has not been created yet.'
-                : 'hypercode default sections are still being seeded.',
+            code: 'tormentnexus_not_ready',
+            detail: !tormentnexusStoreExists
+                ? 'tormentnexus store has not been created yet.'
+                : 'tormentnexus default sections are still being seeded.',
         });
     }
 
@@ -290,13 +290,13 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
         ? 'All startup checks passed.'
         : `Startup pending: ${blockingReasons.map((reason) => reason.detail).join(' ')}`;
 
-    const version = await getHypercodeVersion();
+    const version = await getTormentNexusVersion();
 
     return {
         status: 'running',
         ready: residentReady
             && memoryReady
-            && borgReady
+            && tormentnexusReady
             && browserReady
             && sessionReady
             && bridgeReady
@@ -343,30 +343,30 @@ export async function buildStartupStatusSnapshot(input: StartupStatusInput) {
                 ready: memoryReady,
                 initialized: memoryInitialized,
                 agentMemory: Boolean(agentMemory),
-                borg: {
-                    ready: borgReady,
-                    enabled: borgEnabled,
-                    storeExists: borgStoreExists,
-                    storePath: borg?.storePath ?? null,
-                    totalEntries: Number(borg?.totalEntries ?? 0),
-                    sectionCount: Number(borg?.sectionCount ?? 0),
-                    defaultSectionCount: Number(borg?.defaultSectionCount ?? 0),
-                    presentDefaultSectionCount: Number(borg?.presentDefaultSectionCount ?? 0),
-                    missingSections: borg?.missingSections ?? [],
-                    lastUpdatedAt: borg?.lastUpdatedAt ?? null,
+                tormentnexus: {
+                    ready: tormentnexusReady,
+                    enabled: tormentnexusEnabled,
+                    storeExists: tormentnexusStoreExists,
+                    storePath: tormentnexus?.storePath ?? null,
+                    totalEntries: Number(tormentnexus?.totalEntries ?? 0),
+                    sectionCount: Number(tormentnexus?.sectionCount ?? 0),
+                    defaultSectionCount: Number(tormentnexus?.defaultSectionCount ?? 0),
+                    presentDefaultSectionCount: Number(tormentnexus?.presentDefaultSectionCount ?? 0),
+                    missingSections: tormentnexus?.missingSections ?? [],
+                    lastUpdatedAt: tormentnexus?.lastUpdatedAt ?? null,
                 },
             },
-            borg: {
-                ready: borgReady,
-                enabled: borgEnabled,
-                storeExists: borgStoreExists,
-                storePath: borg?.storePath ?? null,
-                totalEntries: Number(borg?.totalEntries ?? 0),
-                sectionCount: Number(borg?.sectionCount ?? 0),
-                defaultSectionCount: Number(borg?.defaultSectionCount ?? 0),
-                presentDefaultSectionCount: Number(borg?.presentDefaultSectionCount ?? 0),
-                missingSections: borg?.missingSections ?? [],
-                lastUpdatedAt: borg?.lastUpdatedAt ?? null,
+            tormentnexus: {
+                ready: tormentnexusReady,
+                enabled: tormentnexusEnabled,
+                storeExists: tormentnexusStoreExists,
+                storePath: tormentnexus?.storePath ?? null,
+                totalEntries: Number(tormentnexus?.totalEntries ?? 0),
+                sectionCount: Number(tormentnexus?.sectionCount ?? 0),
+                defaultSectionCount: Number(tormentnexus?.defaultSectionCount ?? 0),
+                presentDefaultSectionCount: Number(tormentnexus?.presentDefaultSectionCount ?? 0),
+                missingSections: tormentnexus?.missingSections ?? [],
+                lastUpdatedAt: tormentnexus?.lastUpdatedAt ?? null,
             },
             browser: {
                 ready: browserReady,

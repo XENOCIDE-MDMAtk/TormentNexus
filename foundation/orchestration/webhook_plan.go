@@ -20,7 +20,7 @@ func BuildWebhookPlan(eventType, source string) WebhookPlan {
 	plan := WebhookPlan{
 		Type:      cleanType,
 		Source:    cleanSource,
-		EmitEvent: "hypercode_signal_received",
+		EmitEvent: "tormentnexus_signal_received",
 		Summary:   "Unhandled signal received; recorded for operator review.",
 	}
 	switch cleanType {

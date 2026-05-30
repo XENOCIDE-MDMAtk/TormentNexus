@@ -1,13 +1,13 @@
 /**
- * `hypercode tools` - Tool management
+ * `tormentnexus tools` - Tool management
  *
  * Browse, search, enable/disable, and group tools across all MCP servers.
  * Supports semantic search, tool reranking, and progressive disclosure.
  *
  * @example
- *   hypercode tools list                   # List all tools
- *   hypercode tools search "file editing"  # Semantic search
- *   hypercode tools groups                 # List tool groups
+ *   tormentnexus tools list                   # List all tools
+ *   tormentnexus tools search "file editing"  # Semantic search
+ *   tormentnexus tools groups                 # List tool groups
  */
 
 import type { Command } from 'commander';
@@ -58,7 +58,7 @@ export function registerToolsCommand(program: Command): void {
 
       if (toolsList.length === 0) {
         console.log(chalk.bold.cyan('\n  Available Tools\n'));
-        console.log(chalk.dim('  No tools loaded. Is the server running? Use `hypercode start`.\n'));
+        console.log(chalk.dim('  No tools loaded. Is the server running? Use `tormentnexus start`.\n'));
         return;
       }
 
@@ -84,9 +84,9 @@ export function registerToolsCommand(program: Command): void {
     .option('--json', 'Output as JSON')
     .addHelpText('after', `
 Examples:
-  $ hypercode tools search "read and write files"
-  $ hypercode tools search "run shell commands"
-  $ hypercode tools search "search code semantically"
+  $ tormentnexus tools search "read and write files"
+  $ tormentnexus tools search "run shell commands"
+  $ tormentnexus tools search "search code semantically"
     `)
     .action(async (query, opts, cmd) => {
       const allOpts = cmd ? cmd.optsWithGlobals() : opts;
@@ -233,7 +233,7 @@ Examples:
           }
         }
       } catch {}
-      console.log(chalk.dim('  Not found. Check available tools with `hypercode tools list`.\n'));
+      console.log(chalk.dim('  Not found. Check available tools with `tormentnexus tools list`.\n'));
     });
 
   tools

@@ -1,0 +1,8 @@
+{
+  "id": "the_missing_woman",
+  "version": 1,
+  "description": "Roleplay prompt: The Missing Woman",
+  "template": "image-generation:\u00a0 main: \"An 1980s-style woman walking with a cat beside her, both in the foreground.\"\u00a0 clothes: \"worn jacket, blanket and old pants.\"\u00a0 faces: \"Not visible or turned away\"\u00a0 environment:\u00a0 \u00a0 streets: \"Tree-lined, single-story houses, dead-end street.\"\u00a0 \u00a0 time: \"Nightfall\"\u00a0 \u00a0 atmosphere: \"Rainy, cloudy\"\u00a0\u00a0\u00a0 techniques:\u00a0 \u00a0 style: \"Photorealistic, like captured by a real camera\"\u00a0 \u00a0 focus: \"Shallow depth of field, bokeh and rim lighting\"\u00a0 \u00a0 light: \"subject is well-lit, background is cold\"\u00a0 \u00a0 colors: \"background is blue and focus is red\"\u00a0\u00a0\u00a0 composition:\u00a0 \u00a0 type: \"Wide shot landscape\"\u00a0 \u00a0 background: \"Woodlands, lawns, gardens.\"\u00a0\u00a0\u00a0 mood:\u00a0 \u00a0 - \"Depressive\"\u00a0 \u00a0 - \"Tearful\"\u00a0\u00a0\u00a0 negative:\u00a0 \u00a0 - \"HDR\"\u00a0 \u00a0 - \"Sketch\"\u00a0 \u00a0 - \"Black white\"\u00a0 \u00a0 - \"Low Resolution\"\u00a0 \u00a0 - \"Cloudy\"",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.524789Z"
+}

@@ -1,5 +1,5 @@
 /**
- * `hypercode git` — Git repository status and integration
+ * `tormentnexus git` — Git repository status and integration
  */
 import type { Command } from 'commander';
 

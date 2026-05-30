@@ -1,9 +1,9 @@
 {
-  "name": "hypercode-vscode-extension",
-  "displayName": "Hypercode Plugin",
-  "version": "1.0.0-alpha.64",
-  "description": "Connect VS Code to Hypercode Hub for AI agent orchestration, memory management, and tool invocation",
-  "publisher": "hypercode",
+  "name": "tormentnexus-vscode-extension",
+  "displayName": "TormentNexus Plugin",
+  "version": "1.0.0-alpha.80",
+  "description": "Connect VS Code to TormentNexus Hub for AI agent orchestration, memory management, and tool invocation",
+  "publisher": "tormentnexus",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -28,107 +28,107 @@
   "contributes": {
     "commands": [
       {
-        "command": "hypercode.connect",
-        "title": "Hypercode: Connect to Core"
+        "command": "tormentnexus.connect",
+        "title": "TormentNexus: Connect to Core"
       },
       {
-        "command": "hypercode.disconnect",
-        "title": "Hypercode: Disconnect from Core"
+        "command": "tormentnexus.disconnect",
+        "title": "TormentNexus: Disconnect from Core"
       },
       {
-        "command": "hypercode.showStatus",
-        "title": "Hypercode: Show Hub Status"
+        "command": "tormentnexus.showStatus",
+        "title": "TormentNexus: Show Hub Status"
       },
       {
-        "command": "hypercode.runAgent",
-        "title": "Hypercode: Run Agent"
+        "command": "tormentnexus.runAgent",
+        "title": "TormentNexus: Run Agent"
       },
       {
-        "command": "hypercode.searchMemory",
-        "title": "Hypercode: Search Memory"
+        "command": "tormentnexus.searchMemory",
+        "title": "TormentNexus: Search Memory"
       },
       {
-        "command": "hypercode.ingestUrl",
-        "title": "Hypercode: Ingest URL to Knowledge"
+        "command": "tormentnexus.ingestUrl",
+        "title": "TormentNexus: Ingest URL to Knowledge"
       },
       {
-        "command": "hypercode.ingestSelectionToRag",
-        "title": "Hypercode: Ingest Selection to RAG"
+        "command": "tormentnexus.ingestSelectionToRag",
+        "title": "TormentNexus: Ingest Selection to RAG"
       },
       {
-        "command": "hypercode.rememberSelection",
-        "title": "Hypercode: Remember Selection"
+        "command": "tormentnexus.rememberSelection",
+        "title": "TormentNexus: Remember Selection"
       },
       {
-        "command": "hypercode.listTools",
-        "title": "Hypercode: List Tools"
+        "command": "tormentnexus.listTools",
+        "title": "TormentNexus: List Tools"
       },
       {
-        "command": "hypercode.invokeTool",
-        "title": "Hypercode: Invoke Tool"
+        "command": "tormentnexus.invokeTool",
+        "title": "TormentNexus: Invoke Tool"
       },
       {
-        "command": "hypercode.openDashboard",
-        "title": "Hypercode: Open Dashboard"
+        "command": "tormentnexus.openDashboard",
+        "title": "TormentNexus: Open Dashboard"
       },
       {
-        "command": "hypercode.showLogs",
-        "title": "Hypercode: Show Logs"
+        "command": "tormentnexus.showLogs",
+        "title": "TormentNexus: Show Logs"
       },
       {
-        "command": "hypercode.startDebate",
-        "title": "Hypercode: Start Council Debate"
+        "command": "tormentnexus.startDebate",
+        "title": "TormentNexus: Start Council Debate"
       },
       {
-        "command": "hypercode.viewAnalytics",
-        "title": "Hypercode: View Supervisor Analytics"
+        "command": "tormentnexus.viewAnalytics",
+        "title": "TormentNexus: View Supervisor Analytics"
       },
       {
-        "command": "hypercode.listDebateTemplates",
-        "title": "Hypercode: List Debate Templates"
+        "command": "tormentnexus.listDebateTemplates",
+        "title": "TormentNexus: List Debate Templates"
       },
       {
-        "command": "hypercode.architectMode",
-        "title": "Hypercode: Architect Mode (Two-Model)"
+        "command": "tormentnexus.architectMode",
+        "title": "TormentNexus: Architect Mode (Two-Model)"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "hypercodeSidebar",
-          "title": "Hypercode",
-          "icon": "resources/hypercode.svg"
+          "id": "tormentnexusSidebar",
+          "title": "TormentNexus",
+          "icon": "resources/tormentnexus.svg"
         }
       ]
     },
     "views": {
-      "hypercodeSidebar": [
+      "tormentnexusSidebar": [
         {
           "type": "webview",
-          "id": "hypercode.dispatchView",
+          "id": "tormentnexus.dispatchView",
           "name": "Mini Dashboard"
         }
       ]
     },
     "configuration": {
-      "title": "Hypercode",
+      "title": "TormentNexus",
       "properties": {
-        "hypercode.coreUrl": {
+        "tormentnexus.coreUrl": {
           "type": "string",
           "default": "ws://localhost:3001",
-          "description": "URL of the Hypercode Core WebSocket server"
+          "description": "URL of the TormentNexus Core WebSocket server"
         },
-        "hypercode.apiKey": {
+        "tormentnexus.apiKey": {
           "type": "string",
           "default": "",
           "description": "API key for authenticated Core access"
         },
-        "hypercode.dashboardUrl": {
+        "tormentnexus.dashboardUrl": {
           "type": "string",
           "default": "http://localhost:3000",
-          "description": "Base URL of the Hypercode web dashboard used for deep links from the VS Code extension"
+          "description": "Base URL of the TormentNexus web dashboard used for deep links from the VS Code extension"
         },
-        "hypercode.autoConnect": {
+        "tormentnexus.autoConnect": {
           "type": "boolean",
           "default": true,
           "description": "Automatically connect to Core on startup"
@@ -138,14 +138,14 @@
     "menus": {
       "editor/context": [
         {
-          "command": "hypercode.ingestSelectionToRag",
+          "command": "tormentnexus.ingestSelectionToRag",
           "when": "editorHasSelection",
-          "group": "hypercode@1"
+          "group": "tormentnexus@1"
         },
         {
-          "command": "hypercode.rememberSelection",
+          "command": "tormentnexus.rememberSelection",
           "when": "editorHasSelection",
-          "group": "hypercode@2"
+          "group": "tormentnexus@2"
         }
       ]
     }

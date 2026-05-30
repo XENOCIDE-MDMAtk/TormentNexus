@@ -1,0 +1,10 @@
+{
+  "id": "trading_investing_simulation_platform",
+  "version": 1,
+  "description": "Roleplay prompt: Trading & Investing Simulation Platform",
+  "template": "Build a paper trading simulation platform called \"Paper\" \u2014 a realistic, risk-free environment for learning to trade and invest.Core features:- Portfolio setup: user starts with $100,000 in virtual cash. Real-time stock and ETF prices via Yahoo Finance or Alpha Vantage API- Trade execution: market and limit orders supported. Simulate 0.1% slippage on market orders. Commission of $1 per trade (realistic friction without being punitive)- Performance dashboard: P&L chart (daily), total return, annualized return, win rate, average gain and loss, Sharpe ratio, and current sector exposure \u2014 all updated with each trade. Built with recharts- Trade journal: required field on every position close \u2014 \"What was my thesis entering this trade? What happened? What will I do differently?\" Three fields, each max 200 characters. Cannot close a position without completing the journal- Behavioral analysis: {{llm_api}} analyzes the last 20 trade journal entries and identifies recurring behavioral patterns \u2014 \"You consistently exit winning positions early when they approach round-number price levels\" \u2014 surfaced monthly- Leaderboard: optional, weekly-resetting leaderboard among friend groups \u2014 ranked by risk-adjusted return, not raw P&LStack: React, Yahoo Finance or Alpha Vantage for market data, {{llm_api}} for behavioral analysis, recharts. Terminal-inspired design \u2014 data dense, no decorative elements.",
+  "variables": [
+    "llm_api"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.072077Z"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "miniature_claymation_adventures_on_the_mushroom_cap",
+  "version": 1,
+  "description": "Roleplay prompt: Miniature Claymation Adventures on the Mushroom Cap",
+  "template": "{  \"prompt\": \"You will perform an image edit using the people from the provided photos as the main subjects. Preserve their core likeness but render them as charming, handcrafted clay models. Transform Subject 1 (male) and Subject 2 (female) into miniature adventurers resting on the cap of a giant red mushroom. The scene should look like a freeze-frame from a high-budget stop-motion film, complete with visible thumbprints on the clay surfaces and uneven, sculpted textures.\",  \"details\": {    \"year\": \"Timeless Whimsy\",    \"genre\": \"Claymation\",    \"location\": \"A macro-scale forest floor, centered on top of a large, red Fly Agaric mushroom with white spots.\",    \"lighting\": {{soft_studio_lighting_________warm_key_light_________simulated_rim_lighting_to_highlight_clay_edges}},    \"camera_angle\": \"Slight high-angle macro shot with a shallow depth of field to simulate a miniature set.\",    \"emotion\": {{joyful_________cozy_________wonder}},    \"color_palette\": {{vibrant_red_________moss_green_________canary_yellow_________earthy_brown_________sky_blue}},    \"atmosphere\": {{playful_________handcrafted_________tactile_________charming}},    \"environmental_elements\": \"Oversized blades of grass made of flattened green clay, a snail with a spiral shell made of rolled play-dough, and cotton-ball clouds in the background.\",    \"subject1\": {      \"costume\": \"A textured hiker's vest made of matte clay, a plaid shirt with painted lines, and chunky brown boots.\",      \"subject_expression\": \"A wide, friendly grin with slightly exaggerated, rounded features.\",      \"subject_action\": \"Sitting on the edge of the mushroom, dangling his legs and pointing at a clay butterfly.\"    },    \"negative_prompt\": {      \"exclude_visuals\": {{photorealistic_skin___________human_proportions___________hair_strands___________digital_gloss}},      \"exclude_styles\": {{cgi___________2d_cartoon___________sketch___________anime___________watercolor}},      \"exclude_colors\": {{neon___________grayscale___________dark_moody_tones}},      \"exclude_objects\": {{modern_technology___________cars___________buildings}}    },    \"subject2\": {      \"costume\": \"A yellow raincoat with a smooth, glossy finish and oversized red rain boots.\",      \"subject_expression\": \"A cheerful look with sculpted laugh lines and bright eyes.\",      \"subject_action\": \"Kneeling on the mushroom cap, holding a giant, sculpted blueberry with both hands.\"    }  }}",
+  "variables": [
+    "neon___________grayscale___________dark_moody_tones",
+    "joyful_________cozy_________wonder",
+    "playful_________handcrafted_________tactile_________charming",
+    "modern_technology___________cars___________buildings",
+    "vibrant_red_________moss_green_________canary_yellow_________earthy_brown_________sky_blue",
+    "cgi___________2d_cartoon___________sketch___________anime___________watercolor",
+    "photorealistic_skin___________human_proportions___________hair_strands___________digital_gloss",
+    "soft_studio_lighting_________warm_key_light_________simulated_rim_lighting_to_highlight_clay_edges"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.330820Z"
+}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@hypercode/ui";
-import { Button } from "@hypercode/ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@tormentnexus/ui";
+import { Button } from "@tormentnexus/ui";
 import { Brain, Database, Loader2, RefreshCw, Search, Zap, FileText, Settings, Cpu, Map } from "lucide-react";
 
 type HydrationReport = {

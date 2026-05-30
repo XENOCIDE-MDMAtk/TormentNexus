@@ -1,0 +1,8 @@
+{
+  "id": "analyze_code_scanning_security_issues_and_dependency_updates_if_vulnerable",
+  "version": 1,
+  "description": "Roleplay prompt: Analyze code scanning security issues and dependency updates if vulnerable",
+  "template": "this is for repoAnalyze code scanning security issues and dependency updates if vulnerableAnalyze GHAS alerts across repositoriesIdentify dependency vs base image root causesDetect repeated vulnerability patternsPrioritize remediation based on severity and exposure",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.629651Z"
+}

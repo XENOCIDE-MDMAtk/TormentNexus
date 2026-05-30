@@ -1,0 +1,8 @@
+{
+  "id": "my_skills",
+  "version": 1,
+  "description": "Roleplay prompt: My-Skills",
+  "template": "Yaz\u0131lacak kod a\u015fa\u011f\u0131daki yeteneklerde olacak.1. kullan\u0131c\u0131 giri\u015fi olacak ve kullan\u0131c\u0131 \u015fifresi veritaban\u0131nda salt ve di\u011fer g\u00fc\u00e7l\u00fc \u015fifre korumalar\u0131 ile tutulacak.2. backend ve frontend g\u00fc\u00e7l\u00fc g\u00fcvenlik s\u0131k\u0131la\u015ft\u0131rmalar\u0131na sahip olacak.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.236487Z"
+}

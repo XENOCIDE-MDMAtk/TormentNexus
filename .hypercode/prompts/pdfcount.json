@@ -1,0 +1,8 @@
+{
+  "id": "pdfcount",
+  "version": 1,
+  "description": "Roleplay prompt: pdfcount",
+  "template": "---name: pdfcountdescription: Key sections:PDF Type detection \u2014 Vector vs Scanned, different extraction strategy for eachStep-by-step workflow \u2014 6 steps from file organization to discrepancy reportVisual symbol table \u2014 per ELV system (CCTV, FAS, ACS, PA, SC, IPTV, etc.)Best practices \u2014 legend-first, one device type at a time, grid method, typical floor checkConfidence rating \u2014 High / Medium / Low per drawing---# My SkillDescribe what this skill does and how the agent should use it.## Instructions- Step 1: ...- Step 2: ...",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.259073Z"
+}

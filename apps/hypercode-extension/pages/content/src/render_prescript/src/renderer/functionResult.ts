@@ -228,8 +228,8 @@ const renderSystemMessageBox = (block: HTMLElement, content: string): void => {
     const config: ExpandableConfig = {
       blockId,
       className: 'system-message-container',
-      headerText: 'Hypercode Extension',
-      headerText: 'hypercode Extension',
+      headerText: 'TormentNexus Extension',
+      headerText: 'tormentnexus Extension',
       expandTitle: 'Expand system message',
       collapseTitle: 'Collapse system message',
     };
@@ -385,8 +385,8 @@ export const renderFunctionResult = (block: HTMLElement, isProcessingRef: { curr
     // let content = block.textContent || '';
     const content = block.textContent || '';
 
-    // Check if it contains Hypercode Extension system message tags
-    // Check if it contains hypercode Extension system message tags
+    // Check if it contains TormentNexus Extension system message tags
+    // Check if it contains tormentnexus Extension system message tags
     if (
       content.includes('<SYSTEM>') ||
       content.includes('</SYSTEM>') ||

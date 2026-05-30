@@ -5,7 +5,7 @@ package harnesses
  * @module go/internal/harnesses
  *
  * WHAT: Go-native implementation of the Skill Store.
- * Manages discovery and persistence of Hypercode runbooks (.md files).
+ * Manages discovery and persistence of TormentNexus runbooks (.md files).
  *
  * WHY: Total Autonomy — The Go sidecar must be capable of loading and 
  * creating skills without relying on the Node control plane.

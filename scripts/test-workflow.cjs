@@ -3,11 +3,11 @@
  * End-to-end workflow test — simulates a real user journey
  */
 const { execSync } = require('child_process');
-const HYPERCODE = 'node packages/cli/dist/cli/src/index.js';
+const TORMENTNEXUS = 'node packages/cli/dist/cli/src/index.js';
 
 function run(cmd, timeout = 10000) {
   try {
-    return execSync(`${HYPERCODE} ${cmd}`, { timeout, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    return execSync(`${TORMENTNEXUS} ${cmd}`, { timeout, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
   } catch (e) {
     return e.stdout || e.message;
   }
@@ -15,7 +15,7 @@ function run(cmd, timeout = 10000) {
 
 function has(str, text) { return str.includes(text); }
 
-console.log('\n  Hypercode HYPERCODE — End-to-End Workflow Test\n');
+console.log('\n  TormentNexus TORMENTNEXUS — End-to-End Workflow Test\n');
 
 // Step 1: Doctor check
 console.log('  Step 1: System health check');

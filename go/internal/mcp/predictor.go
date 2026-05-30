@@ -15,7 +15,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hypercodehq/hypercode-go/internal/ai"
+	"github.com/tormentnexushq/tormentnexus-go/internal/ai"
 )
 
 type ToolPredictor struct {
@@ -47,7 +47,7 @@ func (p *ToolPredictor) PredictAndPreload(ctx context.Context, chatHistory strin
 
 func (p *ToolPredictor) identifyTopics(ctx context.Context, chatHistory string, activeGoal string) ([]string, error) {
 	prompt := fmt.Sprintf(`
-		You are the Hypercode Supervisor Tool Predictor (Go Native).
+		You are the TormentNexus Supervisor Tool Predictor (Go Native).
 		Analyze the following conversation and active goal. 
 		Identify 3-5 specific technical topics or capabilities that the AI will likely need next.
 		Focus on things that might require specialized MCP tools.

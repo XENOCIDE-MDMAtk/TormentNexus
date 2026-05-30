@@ -1,0 +1,11 @@
+{
+  "id": "professional_badge_photo_ready_to_use",
+  "version": 1,
+  "description": "Roleplay prompt: Professional Badge Photo, Ready to Use",
+  "template": "Create a modern corporate ID photo of the person from the uploaded image, suitable for company badges and internal systems.Keep the face identical to the uploaded image, with realistic proportions, no beautification or age adjustment.Framing:\u2022 Neutral, centered head and shoulders\u2022 Subject looking straight at the camera with a neutral but friendly expressionBackground:\u2022 Plain, uniform background in {{background_color}}, no texture, no gradient\u2022 No props, no text, no logosStyle:\u2022 Even, soft lighting with minimal shadows\u2022 High clarity and sharpness around the face, natural skin tones, high-resolutionOutfit:\u2022 Transform clothing into {{outfit_style}} that matches a corporate environment\u2022 No visible logos, patterns or distracting accessoriesMake the result look like an upgraded, well-lit, professional version of a corporate ID or access badge photo, ready to be dropped into internal tools, email accounts or passes.",
+  "variables": [
+    "background_color",
+    "outfit_style"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.112662Z"
+}

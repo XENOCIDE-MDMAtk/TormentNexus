@@ -78,21 +78,21 @@ function runGoPrimaryBuild() {
     fail('CLI startup build failed', cliBuild);
   }
 
-  const goBuild = run(goCommand, ['build', '-buildvcs=false', './cmd/hypercode'], {
+  const goBuild = run(goCommand, ['build', '-buildvcs=false', './cmd/tormentnexus'], {
     cwd: path.join(repoRoot, 'go'),
   });
   if ((goBuild.status ?? 1) !== 0) {
     fail('Go control-plane build failed', goBuild);
   }
 
-  if (process.env.HYPERCODE_STARTUP_BUILD_WEB === '1') {
-    printStep('HYPERCODE_STARTUP_BUILD_WEB=1 set; validating web dashboard build too...');
+  if (process.env.TORMENTNEXUS_STARTUP_BUILD_WEB === '1') {
+    printStep('TORMENTNEXUS_STARTUP_BUILD_WEB=1 set; validating web dashboard build too...');
     const webBuild = runPnpm(['-C', 'apps/web', 'run', 'build']);
     if ((webBuild.status ?? 1) !== 0) {
       fail('Web dashboard startup build failed', webBuild);
     }
   } else {
-    printStep('Skipping dashboard/web build in Go-primary startup mode. Set HYPERCODE_STARTUP_BUILD_WEB=1 to include it.');
+    printStep('Skipping dashboard/web build in Go-primary startup mode. Set TORMENTNEXUS_STARTUP_BUILD_WEB=1 to include it.');
   }
 }
 

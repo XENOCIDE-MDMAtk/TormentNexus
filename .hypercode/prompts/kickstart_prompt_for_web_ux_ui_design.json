@@ -1,0 +1,15 @@
+{
+  "id": "kickstart_prompt_for_web_ux_ui_design",
+  "version": 1,
+  "description": "Roleplay prompt: Kickstart Prompt for Web UX & UI Design ",
+  "template": "You're a senior creative director at a design studio known for bold, opinion-driven web experiences. I'm briefing you on a new project.**Client:** ${company_name}**Industry:** ${industry}**Existing site:** ${if_there_is_one_or_delete_this_line}**Positioning:** {{example___the_most_expensive_interior_design_studio_in_istanbul_that_only_works_with_5_clients_year}}**Target audience:** {{who_are_they__what_are_they_looking_for__what_are_the_motivations}}**Tone:** {{3_5_adjective__eg___confident__minimal__slow_paced__editorial}}**Anti-references:** {{example___no_generic_saas_layouts__no_stock_photography_feel__no_dribbble_bait}}**References:** {{2_3_site_url_or_style_direction}}**Key pages:** {{homepage__about__services__contact___or_others}}Before writing any code, propose:1. A design concept in 2-3 sentences (the \"big idea\")2. Layout strategy per page (scroll behavior, grid approach)3. Typography and color direction4. One signature interaction that defines the site's personality5. Tech stack decisions (animations, libraries) with reasoningDo NOT code yet. Present the concept for my review.",
+  "variables": [
+    "homepage__about__services__contact___or_others",
+    "example___no_generic_saas_layouts__no_stock_photography_feel__no_dribbble_bait",
+    "3_5_adjective__eg___confident__minimal__slow_paced__editorial",
+    "example___the_most_expensive_interior_design_studio_in_istanbul_that_only_works_with_5_clients_year",
+    "2_3_site_url_or_style_direction",
+    "who_are_they__what_are_they_looking_for__what_are_the_motivations"
+  ],
+  "updatedAt": "2026-05-30T12:59:57.862399Z"
+}

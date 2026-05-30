@@ -27,7 +27,7 @@ export class PolicyEngine {
     private policyPath: string;
 
     constructor(cwd: string) {
-        this.policyPath = path.join(cwd, '.hypercode', 'policy.json');
+        this.policyPath = path.join(cwd, '.tormentnexus', 'policy.json');
         this.policy = this.loadPolicy();
     }
 

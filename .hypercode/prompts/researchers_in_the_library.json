@@ -1,0 +1,8 @@
+{
+  "id": "researchers_in_the_library",
+  "version": 1,
+  "description": "Roleplay prompt: Researchers in the Library",
+  "template": "Generate a video for Researchers in the Lab going to the library, make it programmatic video creation, maybe use LoRA and Remotion ",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:58.111999Z"
+}

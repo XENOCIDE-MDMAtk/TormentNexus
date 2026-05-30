@@ -1042,7 +1042,7 @@ describe('dashboard home helpers', () => {
     });
   });
 
-  it('surfaces hypercode seeding state in memory/context startup details', () => {
+  it('surfaces tormentnexus seeding state in memory/context startup details', () => {
     const startupStatus = {
       status: 'running',
       ready: false,
@@ -1117,7 +1117,7 @@ describe('dashboard home helpers', () => {
     expect(buildStartupChecklist(startupStatus)).toContainEqual({
       label: 'Memory / context',
       ready: false,
-      detail: 'Memory manager is initialized, but hypercode is still seeding default sections (3/7 present)',
+      detail: 'Memory manager is initialized, but tormentnexus is still seeding default sections (3/7 present)',
     });
   });
 
@@ -1182,7 +1182,7 @@ describe('dashboard home helpers', () => {
   it('deduplicates startup blocking actions while preserving first-seen order', () => {
     expect(getStartupBlockingReasonActions([
       { code: 'memory_not_ready', detail: 'Memory pending' },
-      { code: 'claude_mem_not_ready', detail: 'Hypercode pending' },
+      { code: 'claude_mem_not_ready', detail: 'TormentNexus pending' },
       { code: 'extension_bridge_not_ready', detail: 'Bridge offline' },
       { code: 'browser_service_not_ready', detail: 'Browser service offline' },
     ])).toEqual([
@@ -1508,7 +1508,7 @@ describe('DashboardHomeView', () => {
     expect(html).toContain('Integration Hub');
     expect(html).toContain('Server health and traffic');
     expect(html).toContain('Startup readiness');
-    expect(html).toContain('Install &amp; connect Hypercode');
+    expect(html).toContain('Install &amp; connect TormentNexus');
     expect(html).toContain('Browser extensions');
     expect(html).toContain('Editor surfaces');
     expect(html).toContain('Client config sync');

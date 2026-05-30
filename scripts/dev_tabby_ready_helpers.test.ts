@@ -7,17 +7,17 @@ import { describe, expect, it } from 'vitest';
 
 import {
     chooseStaleCoreRefreshTarget,
-    getHypercodeStartLockPath,
+    getTormentNexusStartLockPath,
     getPendingStartupChecks,
     getWaitingReasons,
     isCompatibleStartupStatusContract,
-    isLikelyHypercodeCoreCommand,
+    isLikelyTormentNexusCoreCommand,
     isDirectExecution,
     isHttpProbeResponsive,
     parseListeningPidFromLsof,
     parseListeningPidFromNetstat,
-    readHypercodeStartLockRecord,
-    resolveHypercodeDataDir,
+    readTormentNexusStartLockRecord,
+    resolveTormentNexusDataDir,
     summarizeBrowserExtensionArtifacts,
     waitForCoreBridgeShutdown,
 } from './dev_tabby_ready_helpers.mjs';
@@ -25,7 +25,7 @@ import {
 const tempDirs: string[] = [];
 
 function createTempDir() {
-    const dir = mkdtempSync(path.join(tmpdir(), 'hypercode-dev-ready-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'tormentnexus-dev-ready-'));
     tempDirs.push(dir);
     return dir;
 }
@@ -204,7 +204,7 @@ describe('isDirectExecution', () => {
             {
                 id: 'browser-extension-chromium',
                 label: 'browser extension Chromium bundle',
-                artifactPath: 'apps/hypercode-extension/dist-chromium',
+                artifactPath: 'apps/tormentnexus-extension/dist-chromium',
                 ready: true,
                 missingFiles: [],
                 requiredFiles: ['background.js', 'manifest.json'],
@@ -212,7 +212,7 @@ describe('isDirectExecution', () => {
             {
                 id: 'browser-extension-firefox',
                 label: 'browser extension Firefox bundle',
-                artifactPath: 'apps/hypercode-extension/dist-firefox',
+                artifactPath: 'apps/tormentnexus-extension/dist-firefox',
                 ready: false,
                 missingFiles: ['background.js'],
                 requiredFiles: ['background.js', 'manifest.json'],
@@ -225,26 +225,26 @@ describe('isDirectExecution', () => {
         });
     });
 
-    it('expands the Hypercode data dir shorthand and derives the lock path', () => {
-        const resolved = resolveHypercodeDataDir('~/.hypercode');
+    it('expands the TormentNexus data dir shorthand and derives the lock path', () => {
+        const resolved = resolveTormentNexusDataDir('~/.tormentnexus');
 
-        expect(resolved.toLowerCase()).toContain(path.join('.hypercode').toLowerCase());
-        expect(getHypercodeStartLockPath('~/.hypercode').toLowerCase()).toContain(path.join('.hypercode', 'lock').toLowerCase());
+        expect(resolved.toLowerCase()).toContain(path.join('.tormentnexus').toLowerCase());
+        expect(getTormentNexusStartLockPath('~/.tormentnexus').toLowerCase()).toContain(path.join('.tormentnexus', 'lock').toLowerCase());
     });
 
-    it('reads a valid Hypercode startup lock record from disk', () => {
+    it('reads a valid TormentNexus startup lock record from disk', () => {
         const dataDir = createTempDir();
         const lockPath = path.join(dataDir, 'lock');
         writeFileSync(lockPath, JSON.stringify({
-            instanceId: 'hypercode-123',
+            instanceId: 'tormentnexus-123',
             pid: 123,
             port: 4000,
             host: '127.0.0.1',
             createdAt: '2026-03-13T00:00:00.000Z',
         }), 'utf8');
 
-        expect(readHypercodeStartLockRecord(lockPath)).toEqual({
-            instanceId: 'hypercode-123',
+        expect(readTormentNexusStartLockRecord(lockPath)).toEqual({
+            instanceId: 'tormentnexus-123',
             pid: 123,
             port: 4000,
             host: '127.0.0.1',
@@ -290,20 +290,20 @@ describe('isDirectExecution', () => {
         expect(parseListeningPidFromLsof('4242\n')).toBe(4242);
     });
 
-    it('treats Hypercode CLI command lines as safe stale-core owners', () => {
-        expect(isLikelyHypercodeCoreCommand('node C:\\repo\\hypercode\\node_modules\\tsx\\dist\\cli.mjs src/index.ts start --port 3100')).toBe(true);
-        expect(isLikelyHypercodeCoreCommand('node /workspace/hypercode/packages/core/dist/server-stdio.js')).toBe(true);
+    it('treats TormentNexus CLI command lines as safe stale-core owners', () => {
+        expect(isLikelyTormentNexusCoreCommand('node C:\\repo\\tormentnexus\\node_modules\\tsx\\dist\\cli.mjs src/index.ts start --port 3100')).toBe(true);
+        expect(isLikelyTormentNexusCoreCommand('node /workspace/tormentnexus/packages/core/dist/server-stdio.js')).toBe(true);
     });
 
     it('rejects unrelated port owners for stale-core termination', () => {
-        expect(isLikelyHypercodeCoreCommand('node C:\\other-app\\server.js --port 3001')).toBe(false);
-        expect(isLikelyHypercodeCoreCommand('python -m http.server 3001')).toBe(false);
+        expect(isLikelyTormentNexusCoreCommand('node C:\\other-app\\server.js --port 3001')).toBe(false);
+        expect(isLikelyTormentNexusCoreCommand('python -m http.server 3001')).toBe(false);
     });
 
-    it('prefers the Hypercode startup lock over port-owner fallback when both exist', () => {
+    it('prefers the TormentNexus startup lock over port-owner fallback when both exist', () => {
         expect(chooseStaleCoreRefreshTarget({
-            lockRecord: { pid: 111, instanceId: 'hypercode', port: 3001, host: '127.0.0.1', createdAt: '2026-03-13T00:00:00.000Z' },
-            owner: { pid: 222, trusted: true, commandLine: 'node hypercode' },
+            lockRecord: { pid: 111, instanceId: 'tormentnexus', port: 3001, host: '127.0.0.1', createdAt: '2026-03-13T00:00:00.000Z' },
+            owner: { pid: 222, trusted: true, commandLine: 'node tormentnexus' },
             currentPid: 999,
         })).toEqual({
             kind: 'lock',
@@ -313,10 +313,10 @@ describe('isDirectExecution', () => {
         });
     });
 
-    it('uses a trusted port owner when no valid Hypercode lock exists', () => {
+    it('uses a trusted port owner when no valid TormentNexus lock exists', () => {
         expect(chooseStaleCoreRefreshTarget({
             lockRecord: null,
-            owner: { pid: 222, trusted: true, commandLine: 'node hypercode' },
+            owner: { pid: 222, trusted: true, commandLine: 'node tormentnexus' },
             currentPid: 999,
         })).toEqual({
             kind: 'owner',
@@ -326,7 +326,7 @@ describe('isDirectExecution', () => {
         });
     });
 
-    it('skips automatic refresh when the port owner is not Hypercode-owned', () => {
+    it('skips automatic refresh when the port owner is not TormentNexus-owned', () => {
         expect(chooseStaleCoreRefreshTarget({
             lockRecord: null,
             owner: { pid: 333, trusted: false, commandLine: 'python -m http.server 3001' },
@@ -341,8 +341,8 @@ describe('isDirectExecution', () => {
 
     it('never selects the current process as a stale-core refresh target', () => {
         expect(chooseStaleCoreRefreshTarget({
-            lockRecord: { pid: 999, instanceId: 'hypercode', port: 3001, host: '127.0.0.1', createdAt: '2026-03-13T00:00:00.000Z' },
-            owner: { pid: 999, trusted: true, commandLine: 'node hypercode' },
+            lockRecord: { pid: 999, instanceId: 'tormentnexus', port: 3001, host: '127.0.0.1', createdAt: '2026-03-13T00:00:00.000Z' },
+            owner: { pid: 999, trusted: true, commandLine: 'node tormentnexus' },
             currentPid: 999,
         })).toEqual({
             kind: 'skip-untrusted-owner',

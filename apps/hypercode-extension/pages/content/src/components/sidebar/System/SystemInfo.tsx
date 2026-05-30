@@ -43,8 +43,8 @@ const SystemInfo: React.FC = () => {
         </CardHeader>
         <CardContent className="p-4">
           <div className="text-xs font-mono bg-slate-50 dark:bg-slate-950 p-2 rounded border border-slate-100 dark:border-slate-800 overflow-x-auto whitespace-pre">
-{`hypercode-extension/
-{`hypercode-extension/
+{`tormentnexus-extension/
+{`tormentnexus-extension/
 ├── chrome-extension/       (v1.1.0)
 │   ├── background/         (Service Worker)
 │   └── mcpclient/          (Protocol Layer)

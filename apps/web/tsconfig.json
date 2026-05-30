@@ -28,10 +28,10 @@
       "@/*": [
         "./src/*"
       ],
-      "@hypercode/ui": [
+      "@tormentnexus/ui": [
         "../../packages/ui/src/index.tsx"
       ],
-      "@hypercode/ui/*": [
+      "@tormentnexus/ui/*": [
         "../../packages/ui/src/*"
       ]
     }

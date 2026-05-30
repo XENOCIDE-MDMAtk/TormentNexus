@@ -214,7 +214,7 @@ func (ce *CodeExecutor) writeTempFile(pattern, content string) (string, error) {
 	ce.mu.Lock()
 	defer ce.mu.Unlock()
 
-	dir := filepath.Join(ce.tempDir, "hypercode-exec")
+	dir := filepath.Join(ce.tempDir, "tormentnexus-exec")
 	os.MkdirAll(dir, 0o755)
 
 	tmpFile, err := os.CreateTemp(dir, pattern)

@@ -1,0 +1,10 @@
+{
+  "id": "mdct_step_by_step_calculation",
+  "version": 1,
+  "description": "Roleplay prompt: MDCT Step-by-Step Calculation",
+  "template": "Implement MDCT for the input sequence:x(n) = {{1__2__3__4}}Steps:1. Identify N and 2N2. Apply MDCT formula3. Show cosine values clearly4. Display step-by-step calculation table5. Give final coefficients",
+  "variables": [
+    "1__2__3__4"
+  ],
+  "updatedAt": "2026-05-30T12:59:58.356339Z"
+}

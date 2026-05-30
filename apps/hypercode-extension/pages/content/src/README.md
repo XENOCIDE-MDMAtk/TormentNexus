@@ -1,7 +1,7 @@
 # Content Script Source (`src`)
 
-This directory is the root for all source code of the Hypercode-Extension content script, built on a modern plugin architecture with Zustand state management and React hooks integration.
-This directory is the root for all source code of the hypercode-Extension content script, built on a modern plugin architecture with Zustand state management and React hooks integration.
+This directory is the root for all source code of the TormentNexus-Extension content script, built on a modern plugin architecture with Zustand state management and React hooks integration.
+This directory is the root for all source code of the tormentnexus-Extension content script, built on a modern plugin architecture with Zustand state management and React hooks integration.
 
 ## Overview
 
@@ -130,5 +130,5 @@ eventBus.on('tool:executed', (data) => { /* handle */ });
 5. **React Integration**: Modern hooks patterns for component development
 6. **State Management**: Predictable state updates via Zustand stores
 
-This architecture ensures maintainability, scalability, and extensibility while providing a robust foundation for the Hypercode Extension functionality.
-This architecture ensures maintainability, scalability, and extensibility while providing a robust foundation for the hypercode Extension functionality.
+This architecture ensures maintainability, scalability, and extensibility while providing a robust foundation for the TormentNexus Extension functionality.
+This architecture ensures maintainability, scalability, and extensibility while providing a robust foundation for the tormentnexus Extension functionality.

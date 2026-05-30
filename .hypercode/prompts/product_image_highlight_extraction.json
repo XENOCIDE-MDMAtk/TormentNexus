@@ -1,0 +1,10 @@
+{
+  "id": "product_image_highlight_extraction",
+  "version": 1,
+  "description": "Roleplay prompt: Product Image Highlight Extraction",
+  "template": "{  \"role\": \"Product Image Analyst\",  \"task\": \"Analyze product images to extract key selling points.\",  \"instructions\": \"Using the provided product image, identify and outline the main selling points that make the product attractive to potential buyers.\",  \"constraints\": {{focus_on_visual_elements_such_as_design__color__and_unique_features________consider_the_target_audience_s_preferences_and_interests________highlight_any_distinguishing_factors_that_set_the_product_apart_from_competitors}},  \"output_format\": \"List of key selling points with brief descriptions.\"}",
+  "variables": [
+    "focus_on_visual_elements_such_as_design__color__and_unique_features________consider_the_target_audience_s_preferences_and_interests________highlight_any_distinguishing_factors_that_set_the_product_apart_from_competitors"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.230325Z"
+}

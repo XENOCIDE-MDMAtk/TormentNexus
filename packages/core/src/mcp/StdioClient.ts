@@ -1,10 +1,10 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import type { MCPServerConfig } from "../config/HypercodeConfig.js";
-import { hypercodeLogStore } from "../services/log-store.service.js";
+import type { MCPServerConfig } from "../config/TormentNexusConfig.js";
+import { tormentnexusLogStore } from "../services/log-store.service.js";
 import { ProcessManagedStdioTransport } from "../transports/process-managed.transport.js";
 
 import { db } from "../db/index.js";
-import { workspaceSecretsTable } from "../db/hypercode-schema.js";
+import { workspaceSecretsTable } from "../db/tormentnexus-schema.js";
 
 export class StdioClient {
     private client: Client | null = null;
@@ -72,11 +72,11 @@ export class StdioClient {
                 return;
             }
 
-            hypercodeLogStore.addLog(this.name, 'error', message);
+            tormentnexusLogStore.addLog(this.name, 'error', message);
         });
 
         this.transport.stderr?.on('error', (error: Error) => {
-            hypercodeLogStore.addLog(this.name, 'error', 'stderr error', error);
+            tormentnexusLogStore.addLog(this.name, 'error', 'stderr error', error);
         });
 
         this.transport.stdout?.on('data', (chunk: Buffer) => {
@@ -85,15 +85,15 @@ export class StdioClient {
                 return;
             }
 
-            hypercodeLogStore.addLog(this.name, 'info', message);
+            tormentnexusLogStore.addLog(this.name, 'info', message);
         });
 
         this.transport.stdout?.on('error', (error: Error) => {
-            hypercodeLogStore.addLog(this.name, 'error', 'stdout error', error);
+            tormentnexusLogStore.addLog(this.name, 'error', 'stdout error', error);
         });
 
         this.client = new Client({
-            name: `hypercode-client-${this.name}`,
+            name: `tormentnexus-client-${this.name}`,
             version: "1.0.0",
         }, {
             capabilities: {

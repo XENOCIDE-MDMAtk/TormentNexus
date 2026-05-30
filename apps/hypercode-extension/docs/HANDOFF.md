@@ -1,5 +1,5 @@
-# Handoff: Hypercode Extension v0.7.2
-# Handoff: hypercode Extension v0.7.2
+# Handoff: TormentNexus Extension v0.7.2
+# Handoff: tormentnexus Extension v0.7.2
 
 > **Read [AGENTS.md](./AGENTS.md) first.** It contains all universal instructions.
 > This file documents the latest session state for incoming agents.

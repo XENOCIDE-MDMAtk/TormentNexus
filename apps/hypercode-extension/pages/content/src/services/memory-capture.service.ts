@@ -129,8 +129,8 @@ export class MemoryCaptureService {
         sourceTitle: title,
       });
 
-      // 2. Send to background to save to Hypercode Core memory
-      // 2. Send to background to save to hypercode Core memory
+      // 2. Send to background to save to TormentNexus Core memory
+      // 2. Send to background to save to tormentnexus Core memory
       try {
         await sendMessage('mcp:save-context', {
           content,

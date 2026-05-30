@@ -1,0 +1,12 @@
+{
+  "id": "xcodedocumentaction",
+  "version": 1,
+  "description": "System Prompt: Xcode/DocumentAction.txt",
+  "template": "The user is curently inside this file: {{filename}}\nThe contents are below:\n```swift:{{filename}}\n{{filecontent}}\n```\n\nThe user has selected the following code from that file:\n```swift\n{{selected_code}}\n```\n\nThe user has asked:\n\nProvide documentation for `{{selected_code}}`.\n\n- Respond with a single code block.\n- Only include documentation comments. No other Swift code.\n\n",
+  "variables": [
+    "filename",
+    "selected_code",
+    "filecontent"
+  ],
+  "updatedAt": "2026-05-30T13:01:58.482527Z"
+}

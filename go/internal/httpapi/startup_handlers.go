@@ -7,11 +7,11 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/hypercodehq/hypercode-go/internal/config"
-	"github.com/hypercodehq/hypercode-go/internal/interop"
-	"github.com/hypercodehq/hypercode-go/internal/memorystore"
-	"github.com/hypercodehq/hypercode-go/internal/mesh"
-	"github.com/hypercodehq/hypercode-go/internal/cache"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/interop"
+	"github.com/tormentnexushq/tormentnexus-go/internal/memorystore"
+	"github.com/tormentnexushq/tormentnexus-go/internal/mesh"
+	"github.com/tormentnexushq/tormentnexus-go/internal/cache"
 )
 
 type StartupBlockingReason struct {
@@ -159,7 +159,7 @@ func (s *Server) buildStartupStatus(ctx context.Context) (StartupStatus, error) 
 				"workspaceRootAvailable": configStatus.WorkspaceRoot.Exists,
 				"goConfigDirAvailable":   configStatus.ConfigDir.Exists,
 				"mainConfigDirAvailable": configStatus.MainConfigDir.Exists,
-				"repoConfigAvailable":    configStatus.HypercodeConfigFile.Exists,
+				"repoConfigAvailable":    configStatus.TormentNexusConfigFile.Exists,
 				"mcpConfigAvailable":     configStatus.MCPConfigFile.Exists,
 			},
 			"memory": map[string]any{
@@ -196,24 +196,32 @@ func (s *Server) importedSessionMaintenanceStats(ctx context.Context) ImportedSe
 	// Fast path: use cached import scan results instead of calling TS core
 	candidates, cacheErr := s.scanValidatedImportSources()
 	if cacheErr == nil && len(candidates) > 0 {
-		// Check archived records for more detail
-		if archivedRecords, err := s.loadArchivedImportedSessionRecords(); err == nil && len(archivedRecords) > 0 {
-			return archivedImportedSessionMaintenanceStats(archivedRecords)
+		// Check archive cache first (avoids re-reading 6000+ gzipped files)
+		if cached, ok := s.cacheService.Get("imported:archive:records"); ok {
+			if typed, ok := cached.([]ImportedSessionRecord); ok && len(typed) > 0 {
+				return archivedImportedSessionMaintenanceStats(typed)
+			}
 		}
-		return ImportedSessionMaintenanceStats{
-			TotalSessions:                len(candidates),
-			InlineTranscriptCount:        0,
-			ArchivedTranscriptCount:      0,
+		// Return quick estimate from import cache while archive loads in background
+		stats := ImportedSessionMaintenanceStats{
+			TotalSessions: len(candidates),
+			InlineTranscriptCount: 0,
+			ArchivedTranscriptCount: 0,
 			MissingRetentionSummaryCount: 0,
 		}
+		// Kick off background archive load to populate cache for next call
+		go func() {
+			s.loadArchivedImportedSessionRecords()
+		}()
+		return stats
 	}
 	// Slow path: try upstream
 	var stats ImportedSessionMaintenanceStats
 	if _, err := s.callUpstreamJSON(ctx, "session.importedMaintenanceStats", nil, &stats); err == nil {
 		return stats
 	}
-	// Ensure .hypercode/imported_sessions exists
-	_ = os.MkdirAll(filepath.Join(s.cfg.WorkspaceRoot, ".hypercode", "imported_sessions"), 0755)
+	// Ensure .tormentnexus/imported_sessions exists
+	_ = os.MkdirAll(filepath.Join(s.cfg.WorkspaceRoot, ".tormentnexus", "imported_sessions"), 0755)
 	return ImportedSessionMaintenanceStats{}
 }
 

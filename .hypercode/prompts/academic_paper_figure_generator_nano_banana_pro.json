@@ -1,0 +1,8 @@
+{
+  "id": "academic_paper_figure_generator_nano_banana_pro",
+  "version": 1,
+  "description": "Roleplay prompt: Academic Paper Figure Generator - Nano Banana Pro",
+  "template": "Create a professional academic figure for scientific publication using the following guidelines:${figure_type:Type of figure (architecture diagram, flowchart, data visualization, conceptual model, experimental setup)}${subject:Specific subject or topic}${style:Visual style preference (minimal, detailed, technical, conceptual)}Guidelines:- Use clean, professional design suitable for academic journals- Ensure high contrast and readability- Include clear labels and legends when needed- Use consistent color scheme (typically blues, grays, and accent colors)- Maintain scientific accuracy- Optimize for the specified resolution (${resolution:2K})- Consider the target publication formatGenerate a ${aspect_ratio:16:9} aspect ratio image that effectively communicates the ${subject} concept to an academic audience.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.688791Z"
+}

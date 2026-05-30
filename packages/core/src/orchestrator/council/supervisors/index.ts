@@ -3,14 +3,14 @@ import { MockSupervisor } from './mock.js';
 import { OpenAISupervisor } from './openai.js';
 import { AnthropicSupervisor } from './anthropic.js';
 import { GenericOpenAISupervisor } from './generic-openai.js';
-import { HypercodeSupervisor } from './hypercode.js';
+import { TormentNexusSupervisor } from './tormentnexus.js';
 
 export function createSupervisor(config: SupervisorConfig): Supervisor {
   const { provider } = config;
 
-  // Prefer Hypercode-native supervisor if possible (it uses the shared LlmService)
+  // Prefer TormentNexus-native supervisor if possible (it uses the shared LlmService)
   if (['openai', 'anthropic', 'google', 'gemini', 'grok', 'xai', 'deepseek', 'qwen', 'moonshot', 'kimi'].includes(provider)) {
-    return new HypercodeSupervisor(config);
+    return new TormentNexusSupervisor(config);
   }
 
   switch (provider) {

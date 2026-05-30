@@ -1,9 +1,9 @@
-# Hypercode Version Number Locations
+# TormentNexus Version Number Locations
 
-This document tracks all locations where the Hypercode version number is hardcoded or referenced. When performing a major version bump (like the `0.90.0` milestone), ensure all these locations are synchronized.
-# hypercode Version Number Locations
+This document tracks all locations where the TormentNexus version number is hardcoded or referenced. When performing a major version bump (like the `0.90.0` milestone), ensure all these locations are synchronized.
+# tormentnexus Version Number Locations
 
-This document tracks all locations where the hypercode version number is hardcoded or referenced. When performing a major version bump (like the `0.90.0` milestone), ensure all these locations are synchronized.
+This document tracks all locations where the tormentnexus version number is hardcoded or referenced. When performing a major version bump (like the `0.90.0` milestone), ensure all these locations are synchronized.
 
 ## 1. Primary Version Sources
 - `VERSION`: (Current: `0.99.3`) - Authoritative plain-text version.
@@ -14,15 +14,15 @@ This document tracks all locations where the hypercode version number is hardcod
 ## 2. Package Manifests (`package.json`)
 All these currently reference `0.99.3`:
 - `package.json` (Root)
-- `apps/hypercode-extension/package.json`
-- `apps/hypercode-extension/package.json`
+- `apps/tormentnexus-extension/package.json`
+- `apps/tormentnexus-extension/package.json`
 - `apps/vscode/package.json`
 - `apps/web/package.json`
 - `packages/adk/package.json`
 - `packages/agents/package.json`
 - `packages/ai/package.json`
-- `packages/hypercode-supervisor/package.json`
-- `packages/hypercode-supervisor/package.json`
+- `packages/tormentnexus-supervisor/package.json`
+- `packages/tormentnexus-supervisor/package.json`
 - `packages/browser/package.json`
 - `packages/browser-extension/package.json`
 - `packages/cli/package.json`
@@ -40,10 +40,10 @@ All these currently reference `0.99.3`:
 - `packages/vscode/package.json`
 
 ## 3. Web UI Fallbacks & Branding
-- `apps/web/src/components/Navigation.tsx`: Fallback for `NEXT_PUBLIC_HYPERCODE_VERSION`.
-- `apps/web/src/components/mcp/nav-config.ts`: Hardcoded branding string "Hypercode 0.99.3 Core".
-- `apps/web/src/components/Navigation.tsx`: Fallback for `NEXT_PUBLIC_HYPERCODE_VERSION`.
-- `apps/web/src/components/mcp/nav-config.ts`: Hardcoded branding string "hypercode 0.99.3 Core".
+- `apps/web/src/components/Navigation.tsx`: Fallback for `NEXT_PUBLIC_TORMENTNEXUS_VERSION`.
+- `apps/web/src/components/mcp/nav-config.ts`: Hardcoded branding string "TormentNexus 0.99.3 Core".
+- `apps/web/src/components/Navigation.tsx`: Fallback for `NEXT_PUBLIC_TORMENTNEXUS_VERSION`.
+- `apps/web/src/components/mcp/nav-config.ts`: Hardcoded branding string "tormentnexus 0.99.3 Core".
 
 ## 4. CLI & Core Runtime Fallbacks
 - `packages/cli/src/version.ts`: Returns hardcoded version string.
@@ -55,9 +55,9 @@ All these currently reference `0.99.3`:
 - `packages/core/src/services/mcp-client.service.ts`: Client identity metadata.
 
 ## 5. Other Components (Fixed Versions)
-These versions are typically independent of the main Hypercode version:
-These versions are typically independent of the main hypercode version:
-- `packages/hypercode/package.json`: (Currently `10.5.7`)
+These versions are typically independent of the main TormentNexus version:
+These versions are typically independent of the main tormentnexus version:
+- `packages/tormentnexus/package.json`: (Currently `10.5.7`)
 - `archive/OmniRoute/package.json`: (Currently `2.3.1`)
 - Various submodules in `submodules/` or `archive/submodules/`.
 

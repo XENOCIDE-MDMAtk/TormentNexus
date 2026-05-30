@@ -1,0 +1,8 @@
+{
+  "id": "notebooklm_lecture_notes",
+  "version": 1,
+  "description": "Roleplay prompt: notebooklm_lecture_notes",
+  "template": "Create a deck summarizing the content of each section; emphasize the key points; The target audience is professionals. Use a pure white background without any grid.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.660200Z"
+}

@@ -34,6 +34,9 @@ export class MCPAggregator {
     private readonly now: () => number;
     private readonly serverStates: Map<string, MCPServerState> = new Map();
     private readonly trafficInspector: MCPTrafficInspector;
+  /** Connection timeout per server (ms). Prevents a single broken downstream
+   *  server from blocking the entire aggregator for 60+ seconds. */
+  private readonly connectTimeoutMs: number;
     // When true, listAggregatedTools() skips unconnected servers to avoid eager
     // binary spawning. Set via setLazyMode() once the lifecycle mode is known.
     private lazyMode: boolean = false;
@@ -63,6 +66,7 @@ export class MCPAggregator {
             env: config.env ?? {},
         }));
         this.restartDelayMs = normalizedOptions.restartDelayMs ?? 5_000;
+    this.connectTimeoutMs = 15_000; // 15s per-server connection timeout
         this.now = normalizedOptions.now ?? (() => Date.now());
         this.trafficInspector = new MCPTrafficInspector(normalizedOptions.maxTrafficEvents ?? 200);
         this.lazyMode = Boolean(normalizedOptions.lazyMode);
@@ -212,7 +216,13 @@ export class MCPAggregator {
             }
 
             const client = this.createClient(name, config);
-            await client.connect();
+            // Race the connection against a timeout so a single broken server
+            // (e.g. npx failing due to SSL) doesn't block the entire aggregator.
+            const connectPromise = client.connect();
+            const timeoutPromise = new Promise<void>((_, reject) =>
+            setTimeout(() => reject(new Error("Connection to '" + name + "' timed out after " + this.connectTimeoutMs + "ms")), this.connectTimeoutMs)
+            );
+            await Promise.race([connectPromise, timeoutPromise]);
             this.clients.set(name, client);
             state.status = 'connected';
             state.lastConnectedAt = this.now();
@@ -223,6 +233,7 @@ export class MCPAggregator {
             state.status = 'error';
             state.warmupStatus = state.advertisedAlwaysOn ? 'failed' : state.warmupStatus;
             state.lastError = error instanceof Error ? error.message : String(error);
+      state.lastErrorAt = this.now();
             console.error(`[MCPAggregator] ❌ Failed to connect to ${name}:`, error);
         }
     }
@@ -236,6 +247,14 @@ export class MCPAggregator {
         }
 
         for (const [serverName] of this.getEnabledServerEntries()) {
+            // In lazy mode, skip servers not already connected.
+            if (this.lazyMode && !this.clients.has(serverName)) continue;
+            // Skip servers that recently failed to avoid blocking on every tool call.
+            const serverState = this.serverStates.get(serverName);
+            if (serverState && serverState.status === 'error' && serverState.lastErrorAt) {
+                const timeSinceError = this.now() - serverState.lastErrorAt;
+                if (timeSinceError < 120_000) continue; // Cool-down: skip for 2 minutes
+            }
             const client = await this.ensureConnectedClient(serverName);
             const tools = await this.listToolsForServer(serverName, client);
             if (tools.find((tool) => tool.name === name)) {
@@ -256,6 +275,12 @@ export class MCPAggregator {
             // this path is only hit as a last resort where the cache is empty.
             if (this.lazyMode && !this.clients.has(serverName)) {
                 continue;
+            }
+            // Skip servers in error state (recently failed) to avoid blocking.
+            const aggServerState = this.serverStates.get(serverName);
+            if (aggServerState && aggServerState.status === 'error' && aggServerState.lastErrorAt) {
+                const timeSinceError = this.now() - aggServerState.lastErrorAt;
+                if (timeSinceError < 120_000) continue;
             }
 
             const client = await this.ensureConnectedClient(serverName);

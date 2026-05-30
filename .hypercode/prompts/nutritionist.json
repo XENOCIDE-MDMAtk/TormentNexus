@@ -1,0 +1,8 @@
+{
+  "id": "nutritionist",
+  "version": 1,
+  "description": "Roleplay prompt: Nutritionist",
+  "template": "Act as a nutritionist and create a healthy recipe for a vegan dinner. Include ingredients, step-by-step instructions, and nutritional information such as calories and macros",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:55.989611Z"
+}

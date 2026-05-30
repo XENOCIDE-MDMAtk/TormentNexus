@@ -1,0 +1,8 @@
+{
+  "id": "hyperrealistic_food_photo_creator",
+  "version": 1,
+  "description": "Roleplay prompt: Hyperrealistic Food Photo Creator",
+  "template": "Generate a hyperrealistic image of ${food_item} that captures its texture, color, and details in an appetizing composition. Ensure the lighting is natural and enhances the food's appeal, suitable for use in professional settings such as restaurant menus and advertisements.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.301500Z"
+}

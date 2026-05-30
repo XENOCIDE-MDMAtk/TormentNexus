@@ -1,1 +1,1 @@
-// @hypercode/supervisor -- stub\nexport {};
+// @tormentnexus/supervisor -- stub\nexport {};

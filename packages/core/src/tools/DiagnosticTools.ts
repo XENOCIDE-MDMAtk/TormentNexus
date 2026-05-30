@@ -18,7 +18,7 @@ export class DiagnosticTools {
 
         // 1. Core API
         try {
-            const res = await fetch(getBridgeHealthUrl());
+            const res = await fetch(getBridgeHealthUrl(), { signal: AbortSignal.timeout(3000) });
             if (res.ok) {
                 results.push({ component: 'Core API', status: 'online', details: 'Healthy' });
             } else {
@@ -30,7 +30,7 @@ export class DiagnosticTools {
 
         // 2. Web Dashboard
         try {
-            const res = await fetch('http://localhost:3000');
+            const res = await fetch('http://localhost:3000', { signal: AbortSignal.timeout(3000) });
             if (res.ok) {
                 results.push({ component: 'Web UI', status: 'online', details: 'Dashboard active' });
             } else {

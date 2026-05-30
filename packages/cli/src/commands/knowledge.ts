@@ -1,5 +1,5 @@
 /**
- * `hypercode knowledge` — Knowledge graph and resources
+ * `tormentnexus knowledge` — Knowledge graph and resources
  */
 import type { Command } from 'commander';
 

@@ -1,0 +1,8 @@
+{
+  "id": "roster",
+  "version": 1,
+  "description": "Roleplay prompt: roster",
+  "template": "\"Roaster\"Roaster's CriticismAnalyze this text and evaluate it brutally and honestly. Don't be gentle. Pinpoint the weaknesses, the slowness, and the mistakes. Point out the holes in the logic. I want tough love, not polite feedback.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.513427Z"
+}

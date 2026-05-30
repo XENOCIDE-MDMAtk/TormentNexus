@@ -1,8 +1,8 @@
 /**
  * Core Architecture Components
  *
- * Exports all core architectural components for the Hypercode Extension.
- * Exports all core architectural components for the hypercode Extension.
+ * Exports all core architectural components for the TormentNexus Extension.
+ * Exports all core architectural components for the tormentnexus Extension.
  */
 
 export { circuitBreaker, CircuitBreaker } from './circuit-breaker';

@@ -1,0 +1,8 @@
+{
+  "id": "secteur_bancaire_email_professionnel",
+  "version": 1,
+  "description": "Roleplay prompt: Secteur Bancaire - Email Professionnel",
+  "template": "R\u00e9dige un e\u2011mail professionnel destin\u00e9 \u00e0 ${type de client} pour lui pr\u00e9senter ${object du mail}.Le ton doit \u00eatre courtois, pr\u00e9cis et concis.Voici les \u00e9l\u00e9ments \u00e0 int\u00e9grer :\u2013 Th\u00e8me principal : ${theme}\u2013 Points cl\u00e9s \u00e0 mentionner : ${points cl\u00e9s}\u2013 Action attendue : ${action attendue}Termine par une phrase de conclusion professionnelle adapt\u00e9e au contexte bancaire.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.439117Z"
+}

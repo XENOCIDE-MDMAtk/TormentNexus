@@ -1,0 +1,8 @@
+{
+  "id": "claude_code_system_prompts_system_promptstool_description_bash_alternative_read_filesmd",
+  "version": 1,
+  "description": "Curated system prompt: system-prompts/tool-description-bash-alternative-read-files.md from Piebald-AI/claude-code-system-prompts",
+  "template": "<!--\nname: 'Tool Description: Bash (alternative \u2014 read files)'\ndescription: Bash tool alternative: use Read for file reading instead of cat/head/tail\nccVersion: 2.1.53\nvariables:\n  - READ_TOOL_NAME\n-->\nRead files: Use ${READ_TOOL_NAME} (NOT cat/head/tail)\n",
+  "variables": [],
+  "updatedAt": "2026-05-30T17:12:43.830433Z"
+}

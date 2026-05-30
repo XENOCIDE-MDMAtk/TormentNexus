@@ -1,0 +1,8 @@
+{
+  "id": "structured_and_effective_learning_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: Structured and Effective Learning Prompt",
+  "template": "${subject}=${current_level}=${time_available}=${learning_style}=${goal}=Step 1: Knowledge Assessment1. Break down ${subject} into core components2. Evaluate complexity levels of each component3. Map prerequisites and dependencies4. Identify foundational conceptsOutput detailed skill tree and learning hierarchy~ Step 2: Learning Path Design1. Create progression milestones based on ${current_level}2. Structure topics in optimal learning sequence3. Estimate time requirements per topic4. Align with ${time_available} constraintsOutput structured learning roadmap with timeframes~ Step 3: Resource Curation1. Identify learning materials matching ${learning_style}:   - Video courses   - Books/articles   - Interactive exercises   - Practice projects2. Rank resources by effectiveness3. Create resource playlistOutput comprehensive resource list with priority order~ Step 4: Practice Framework1. Design exercises for each topic2. Create real-world application scenarios3. Develop progress checkpoints4. Structure review intervalsOutput practice plan with spaced repetition schedule~ Step 5: Progress Tracking System1. Define measurable progress indicators2. Create assessment criteria3. Design feedback loops4. Establish milestone completion metricsOutput progress tracking template and benchmarks~ Step 6: Study Schedule Generation1. Break down learning into daily/weekly tasks2. Incorporate rest and review periods3. Add checkpoint assessments4. Balance theory and practiceOutput detailed study schedule aligned with ${time_available}",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.649715Z"
+}

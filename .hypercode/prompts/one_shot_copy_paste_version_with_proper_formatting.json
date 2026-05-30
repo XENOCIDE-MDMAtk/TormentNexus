@@ -1,0 +1,8 @@
+{
+  "id": "one_shot_copy_paste_version_with_proper_formatting",
+  "version": 1,
+  "description": "Roleplay prompt: One-Shot Copy-Paste Version with Proper Formatting",
+  "template": "I need to copy and paste it all on shot with all correct formatting and as a single block, do not write text outside the box. Include all codes formatting.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.729819Z"
+}

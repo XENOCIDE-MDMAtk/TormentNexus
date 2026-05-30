@@ -1,0 +1,8 @@
+{
+  "id": "linkedin_experience_optimization_prompt",
+  "version": 1,
+  "description": "Roleplay prompt: LinkedIn: Experience optimization prompt",
+  "template": "Suggest me to optimize my LinkedIn profile experience section to highlight most of the relevant achievements for a ${job_title} position in ${industry}. Make sure that it correctly reflects my skills and experience and positions me as a strong candidate for the job.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.344693Z"
+}

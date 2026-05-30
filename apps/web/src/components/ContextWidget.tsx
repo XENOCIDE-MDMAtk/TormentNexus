@@ -7,19 +7,19 @@ export function ContextWidget() {
     const [filePath, setFilePath] = useState('');
     const utils = trpc.useContext();
 
-    const { data: rawFiles, isLoading } = trpc.hypercodeContext.list.useQuery();
+    const { data: rawFiles, isLoading } = trpc.tormentnexusContext.list.useQuery();
     const files = rawFiles as string[] | undefined;
-    const addMutation = trpc.hypercodeContext.add.useMutation({
+    const addMutation = trpc.tormentnexusContext.add.useMutation({
         onSuccess: () => {
-            utils.hypercodeContext.list.invalidate();
+            utils.tormentnexusContext.list.invalidate();
             setFilePath('');
         }
     });
-    const removeMutation = trpc.hypercodeContext.remove.useMutation({
-        onSuccess: () => utils.hypercodeContext.list.invalidate()
+    const removeMutation = trpc.tormentnexusContext.remove.useMutation({
+        onSuccess: () => utils.tormentnexusContext.list.invalidate()
     });
-    const clearMutation = trpc.hypercodeContext.clear.useMutation({
-        onSuccess: () => utils.hypercodeContext.list.invalidate()
+    const clearMutation = trpc.tormentnexusContext.clear.useMutation({
+        onSuccess: () => utils.tormentnexusContext.list.invalidate()
     });
 
     const handleAdd = () => {

@@ -1,0 +1,10 @@
+{
+  "id": "impact_metrics",
+  "version": 1,
+  "description": "Roleplay prompt: Impact Metrics",
+  "template": "Create a compelling data-driven section showing the impact of {{project_name}}: downloads, users helped, issues resolved, and community growth statistics.",
+  "variables": [
+    "project_name"
+  ],
+  "updatedAt": "2026-05-30T12:59:56.025111Z"
+}

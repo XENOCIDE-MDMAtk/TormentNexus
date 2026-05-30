@@ -29,7 +29,7 @@ type A2ALogger struct {
 }
 
 func NewA2ALogger(workspaceRoot string) *A2ALogger {
-	path := filepath.Join(workspaceRoot, ".hypercode", "logs", "a2a_traffic.jsonl")
+	path := filepath.Join(workspaceRoot, ".tormentnexus", "logs", "a2a_traffic.jsonl")
 	l := &A2ALogger{
 		logPath:   path,
 		buffer:    make([]A2AMessage, 0),

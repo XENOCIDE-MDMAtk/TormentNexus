@@ -16,14 +16,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Hypercode",
-    template: "%s | Hypercode",
+    default: "TormentNexus",
+    template: "%s | TormentNexus",
   },
   description: "Local AI operations control plane for MCP routing, provider fallback, session supervision, and a unified dashboard.",
 };
 
 import { TRPCProvider } from "../utils/TRPCProvider";
-import { Toaster } from "@hypercode/ui";
+import { Toaster } from "@tormentnexus/ui";
 import { Navigation } from "../components/Navigation";
 
 function getVersionLabel(): string {

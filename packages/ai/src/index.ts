@@ -1,4 +1,4 @@
-// @hypercode/ai — type-safe stub package
+// @tormentnexus/ai — type-safe stub package
 // Provides type declarations for consumers while deferring real implementations
 // to the TypeScript core runtime.
 
@@ -48,7 +48,7 @@ export interface IAgent {
 
 export class ModelSelector {
   async selectModel(_req?: Partial<ModelSelectionRequest & Record<string, any>>): Promise<SelectedModel> {
-    return { provider: 'stub', modelId: 'stub-model', reason: '@hypercode/ai stub' };
+    return { provider: 'stub', modelId: 'stub-model', reason: '@tormentnexus/ai stub' };
   }
 }
 
@@ -64,7 +64,7 @@ export class LLMService {
     _userPrompt: string,
     _opts?: any,
   ): Promise<{ content: string; usage?: { inputTokens: number; outputTokens: number } }> {
-    return { content: '[stub response from @hypercode/ai]' };
+    return { content: '[stub response from @tormentnexus/ai]' };
   }
 }
 

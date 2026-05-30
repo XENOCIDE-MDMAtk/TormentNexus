@@ -1,0 +1,8 @@
+{
+  "id": "tarih_olay_grsel_oluturma",
+  "version": 1,
+  "description": "Roleplay prompt: Tarih-olay- G\u00f6rsel olu\u015fturma",
+  "template": "{  \"meta\": {    \"model\": \"nano-banana-pro\",    \"mode\": \"thinking\",    \"use_search_grounding\": true,    \"language\": \"tr\"  },  \"input\": {    \"location\": \"${Location: Location}\",    \"date\": \"${Date: YYYY-MM-DD}\",    \"aspectRatio\": \"${Aspect Ratio: 16:9 | 4:3 | 1:1 | 9:16}\",    \"timeOfDay\": \"${Time of the Day}\",    \"mood\": \"${Mood: epic | solemn | celebratory | tense | melancholic}\"  },  \"prompt\": {    \"positive\": \"Konum: ${Location: Location}\\nTarih: ${Date: YYYY-MM-DD}\\n\\n\u00d6nce g\u00fcvenilir kaynaklarla arama yap ve bu tarihte bu konumda ger\u00e7ekle\u015fen en \u00f6nemli tarihsel olay\u0131 belirle. Sonra bu olay\u0131 temsil eden tek bir foto-ger\u00e7ek\u00e7i, ultra detayl\u0131, sinematik kare \u00fcret.\\n\\nD\u00f6nem do\u011frulu\u011fu zorunlu: mimari, k\u0131yafet, silah/ara\u00e7 ve \u015fehir dokusu tarihle tutarl\u0131 olsun. Modern hi\u00e7bir obje, bina, ara\u00e7 veya tabela g\u00f6r\u00fcnmesin. Tek sahne, tek an, ger\u00e7ek kamera fizi\u011fi, do\u011fal insan oranlar\u0131, y\u00fcksek mikro detay.\",    \"negative\": \"modern buildings, cars, asphalt, neon, smartphones, wrong era clothing/armor, fantasy, anime, cartoon, text overlay, blurry, low-res, extra limbs\"  },  \"render\": {    \"quality\": \"ultra\",    \"resolution\": \"4k\"  },  \"name\": \"My Workflow\",  \"steps\": []}",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:56.097924Z"
+}

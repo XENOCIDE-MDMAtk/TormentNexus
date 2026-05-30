@@ -5,10 +5,16 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/tormentnexushq/tormentnexus-go/internal/eventbus"
+	"github.com/tormentnexushq/tormentnexus-go/internal/supervisor"
 )
 
-func TestHandleHypercodeProtocol(t *testing.T) {
-	s := &Server{}
+func TestHandleTormentNexusProtocol(t *testing.T) {
+	s := &Server{
+		supervisorManager: supervisor.NewManager(supervisor.ManagerOptions{}),
+		eventBus:          eventbus.New(10),
+	}
 
 	tests := []struct {
 		name           string
@@ -18,7 +24,7 @@ func TestHandleHypercodeProtocol(t *testing.T) {
 	}{
 		{
 			name:           "Valid attach URI",
-			uri:            "hypercode://attach?session=xyz123",
+			uri:            "tormentnexus://attach?session=xyz123",
 			expectedStatus: http.StatusOK,
 			expectedAction: "attach",
 		},
@@ -38,10 +44,13 @@ func TestHandleHypercodeProtocol(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req := httptest.NewRequest(http.MethodGet, "/api/protocol/hypercode?uri="+tt.uri, nil)
+			if tt.expectedAction == "attach" {
+				s.supervisorManager.CreateSession("xyz123", "echo", []string{"hello"}, nil, ".", 0)
+			}
+			req := httptest.NewRequest(http.MethodGet, "/api/protocol/tormentnexus?uri="+tt.uri, nil)
 			w := httptest.NewRecorder()
 
-			s.handleHypercodeProtocol(w, req)
+			s.handleTormentNexusProtocol(w, req)
 
 			if w.Code != tt.expectedStatus {
 				t.Errorf("expected status %d, got %d", tt.expectedStatus, w.Code)
@@ -55,7 +64,7 @@ func TestHandleHypercodeProtocol(t *testing.T) {
 
 				data, ok := resp["data"].(map[string]interface{})
 				if !ok {
-					t.Fatalf("missing data object in response")
+					t.Fatalf("missing data object in response: %v", resp)
 				}
 
 				action, ok := data["action"].(string)

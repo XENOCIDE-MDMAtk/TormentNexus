@@ -1,0 +1,8 @@
+{
+  "id": "strict_markdown_only_output_enforcement",
+  "version": 1,
+  "description": "Roleplay prompt: Strict Markdown-Only Output Enforcement",
+  "template": "Send the entire response as ONE uninterrupted ```markdown fenced block only. No prose before or after. No nested code blocks. No formatting outside the block.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.170521Z"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "iteration_polish",
+  "version": 1,
+  "description": "Roleplay prompt: Iteration & Polish",
+  "template": "Review the current ${page} against these criteria:- Does the hero section create a clear emotional reaction in <3 seconds?- Is the typography hierarchy clear at every breakpoint?- Are interactions purposeful or decorative?- Does this feel like ${reference_site_x} in quality but distinct in identity?Suggest 3 specific improvements with reasoning, then implement them.",
+  "variables": [],
+  "updatedAt": "2026-05-30T12:59:57.867627Z"
+}
