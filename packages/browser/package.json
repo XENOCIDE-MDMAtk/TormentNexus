@@ -1,6 +1,6 @@
 {
   "name": "@hypercode/browser-legacy",
-  "version": "1.0.0-alpha.76",
+  "version": "1.0.0-alpha.77",
   "scripts": {
     "build": "echo \"stub package\""
   },

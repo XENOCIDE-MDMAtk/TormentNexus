@@ -1,6 +1,6 @@
 {
   "name": "@hypercode/supervisor",
-  "version": "1.0.0-alpha.76",
+  "version": "1.0.0-alpha.77",
   "description": "Hypercode Supervisor - Watchdog and Automation Agent",
   "type": "module",
   "main": "dist/index.js",

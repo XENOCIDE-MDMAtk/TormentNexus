@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-alpha.77] - 2026-05-30
+
+### Added
+- **LiteLLM Free Models Synchronization**:
+  - Audited authoritative LiteLLM settings at `c:\Users\hyper\.hermes\litellm-config.yaml`.
+  - Added new free OpenRouter model definitions (`openrouter/nousresearch/hermes-3-llama-3.1-405b:free`, `openrouter/liquid/lfm-2.5-1.2b-instruct:free`, `openrouter/qwen/qwen3-coder:free`) directly into `ProviderRegistry.ts`.
+  - Seamlessly aligns the router fallback mechanism with active LiteLLM and Hermes configurations.
+  - Verified with 100% clean tsc compilation check.
+
 ## [1.0.0-alpha.76] - 2026-05-30
 
 ### Added
