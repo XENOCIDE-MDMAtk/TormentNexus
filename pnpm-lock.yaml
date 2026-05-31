@@ -86,9 +86,6 @@ importers:
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
-      glob:
-        specifier: ^13.0.0
-        version: 13.0.0
       turbo:
         specifier: ^2.9.14
         version: 2.9.15
@@ -854,28 +851,6 @@ importers:
         specifier: ^1.0.0
         version: 1.6.1(@types/node@20.19.27)(jsdom@27.4.0(@noble/hashes@2.0.1)(canvas@3.2.2))(lightningcss@1.30.2)(terser@5.44.1)
 
-  packages/hypercode-supervisor:
-    dependencies:
-      '@modelcontextprotocol/sdk':
-        specifier: '>=1.25.2'
-        version: 1.25.2(@cfworker/json-schema@4.1.1)(hono@4.11.3)(zod@3.25.76)
-      active-win:
-        specifier: ^8.2.0
-        version: 8.2.1(encoding@0.1.13)
-      ps-list:
-        specifier: ^8.1.1
-        version: 8.1.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.24
-        version: 20.19.27
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
-
   packages/mcp-client:
     dependencies:
       '@modelcontextprotocol/sdk':
@@ -989,6 +964,28 @@ importers:
       eslint:
         specifier: ^9.26.0
         version: 9.39.2(jiti@2.6.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/tormentnexus-supervisor:
+    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: '>=1.25.2'
+        version: 1.25.2(@cfworker/json-schema@4.1.1)(hono@4.11.3)(zod@3.25.76)
+      active-win:
+        specifier: ^8.2.0
+        version: 8.2.1(encoding@0.1.13)
+      ps-list:
+        specifier: ^8.1.1
+        version: 8.1.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.19.41
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -7575,6 +7572,10 @@ packages:
   loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
 
+  lru-cache@11.2.4:
+    resolution: {integrity: sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==}
+    engines: {node: 20 || >=22}
+
   lru-cache@11.3.6:
     resolution: {integrity: sha512-Gf/KoL3C/MlI7Bt0PGI9I+TeTC/I6r/csU58N4BSNc4lppLBeKsOdFYkK+dX0ABDUMJNfCHTyPpzwwO21Awd3A==}
     engines: {node: 20 || >=22}
@@ -10622,7 +10623,7 @@ snapshots:
       '@csstools/css-color-parser': 3.1.0(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
       '@csstools/css-parser-algorithms': 3.0.5(@csstools/css-tokenizer@3.0.4)
       '@csstools/css-tokenizer': 3.0.4
-      lru-cache: 11.3.6
+      lru-cache: 11.2.4
 
   '@asamuzakjp/css-color@5.1.11':
     dependencies:
@@ -10638,7 +10639,7 @@ snapshots:
       bidi-js: 1.0.3
       css-tree: 3.1.0
       is-potential-custom-element-name: 1.0.1
-      lru-cache: 11.3.6
+      lru-cache: 11.2.4
 
   '@asamuzakjp/dom-selector@6.8.1':
     dependencies:
@@ -11807,7 +11808,7 @@ snapshots:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.7.3
+      semver: 7.8.0
       tar: 6.2.1
     transitivePeerDependencies:
       - encoding
@@ -16172,7 +16173,7 @@ snapshots:
       '@asamuzakjp/css-color': 4.1.1
       '@csstools/css-syntax-patches-for-csstree': 1.0.25
       css-tree: 3.1.0
-      lru-cache: 11.3.6
+      lru-cache: 11.2.4
 
   cssstyle@6.2.0:
     dependencies:
@@ -18784,6 +18785,8 @@ snapshots:
     dependencies:
       get-func-name: 2.0.2
 
+  lru-cache@11.2.4: {}
+
   lru-cache@11.3.6: {}
 
   lru-cache@5.1.1:
@@ -19682,7 +19685,7 @@ snapshots:
       nopt: 6.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.7.3
+      semver: 7.8.0
       tar: 6.2.1
       which: 2.0.2
     transitivePeerDependencies:

@@ -1,6 +1,6 @@
 {
   "name": "@tormentnexus/agents",
-  "version": "1.0.0-alpha.81",
+  "version": "1.0.0-alpha.82",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,7 @@
   "scripts": {
     "build": "node build.mjs",
     "dev": "tsc --watch --preserveWatchOutput",
-    "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\""
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@tormentnexus/adk": "workspace:*",

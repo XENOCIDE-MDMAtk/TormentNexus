@@ -1,6 +1,6 @@
 {
   "name": "tormentnexus-monorepo",
-  "version": "1.0.0-alpha.81",
+  "version": "1.0.0-alpha.82",
   "private": true,
   "packageManager": "pnpm@10.28.0",
   "scripts": {
@@ -10,11 +10,11 @@
     "build:workspace": "node scripts/build_all.mjs --workspace-only",
     "build:extensions": "node scripts/build_all.mjs --extensions-only",
     "dev": "node scripts/dev_tabby_ready.mjs",
-    "dev:turbo": "set CI=true&& set TURBO_DAEMON=false&& turbo run dev --concurrency 22 --filter=!mcp-superassistant --filter=!@extension/hmr --filter=!opencode-autopilot --filter=!@tormentnexus/cli --filter=!@opencode-autopilot/cli --filter=!@opencode-autopilot/server --filter=!@opencode-autopilot/shared --filter=!backend --filter=!frontend --filter=!@repo/*",
+    "dev:turbo": "set CI=true&& set TURBO_DAEMON=false&& turbo run dev --concurrency 22 --filter=!@extension/hmr --filter=!opencode-autopilot --filter=!@tormentnexus/cli --filter=!@opencode-autopilot/cli --filter=!@opencode-autopilot/server --filter=!@opencode-autopilot/shared --filter=!backend --filter=!frontend --filter=!@repo/*",
     "dev:server": "set TURBO_DAEMON=false&& turbo run dev:server --parallel --filter=!backend --filter=!frontend --filter=!@repo/*",
     "dev:web": "set TURBO_DAEMON=false&& turbo run dev --filter @tormentnexus/web",
     "lint": "pnpm run check:placeholders",
-    "lint:turbo": "set TURBO_DAEMON=false&& turbo run lint --output-logs=errors-only --filter=!mcp-superassistant --filter=!@extension/shared",
+    "lint:turbo": "set TURBO_DAEMON=false&& turbo run lint --output-logs=errors-only",
     "test": "set TURBO_DAEMON=false&& turbo run test",
     "smoke:dashboard": "node scripts/dashboard-smoke.cjs",
     "check:placeholders": "node scripts/check-placeholder-regressions.mjs",

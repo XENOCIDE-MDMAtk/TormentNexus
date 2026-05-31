@@ -3,21 +3,21 @@
     {
       "type": "TODO",
       "message": "Get from package.json or environment",
-      "file": "apps\\hypercode-extension\\pages\\content\\src\\core\\main-initializer.ts",
+      "file": "apps\\tormentnexus-extension\\pages\\content\\src\\core\\main-initializer.ts",
       "line": 275,
       "column": 27
     },
     {
       "type": "TODO",
       "message": "Integrate with a global error tracking service if available",
-      "file": "apps\\hypercode-extension\\pages\\content\\src\\events\\event-handlers.ts",
+      "file": "apps\\tormentnexus-extension\\pages\\content\\src\\events\\event-handlers.ts",
       "line": 98,
       "column": 13
     },
     {
       "type": "TODO",
       "message": "Add these hooks when implemented",
-      "file": "apps\\hypercode-extension\\pages\\content\\src\\hooks\\index.ts",
+      "file": "apps\\tormentnexus-extension\\pages\\content\\src\\hooks\\index.ts",
       "line": 65,
       "column": 3
     },

@@ -1,6 +1,6 @@
 {
   "name": "@tormentnexus/cli",
-  "version": "1.0.0-alpha.81",
+  "version": "1.0.0-alpha.82",
   "type": "module",
   "bin": {
     "tormentnexus": "./dist/cli/src/index.js"
@@ -10,7 +10,7 @@
     "dev": "tsx src/index.ts start --port 3100",
     "dev:server": "tsx src/index.ts start --port 3100",
     "start": "node dist/cli/src/index.js",
-    "lint": "eslint --no-eslintrc --parser @typescript-eslint/parser \"src/**/*.{ts,tsx,js,mjs,cjs}\"",
+    "lint": "tsc --noEmit",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
