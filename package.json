@@ -44,14 +44,10 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "node-pty",
-<<<<<<< HEAD
       "better-sqlite3",
       "esbuild",
       "cpu-features",
       "ssh2"
-    ]
-=======
-      "better-sqlite3"
     ],
     "overrides": {
       "glob": ">=10.5.0",
@@ -81,6 +77,5 @@
     "protobufjs": "^8.4.2",
     "tldts": "^7.0.29",
     "xml-name-validator": "^5.0.0"
->>>>>>> e9cc2af6adf767f647f9f605e164adf1db131b73
   }
 }
