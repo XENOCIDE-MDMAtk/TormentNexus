@@ -4,15 +4,11 @@ memory_path = r"c:\Users\hyper\workspace\borg\MEMORY.md"
 
 new_observation = """
 
-## Multi-Agent Systemic Observation (2026-06-01) - v1.0.0-alpha.87
+## Multi-Agent Systemic Observation (2026-06-01) - v1.0.0-alpha.88
 
-1. **Interactive OAuth Handshakes & Connection Timeouts**:
-   - Many remote/serverless MCP servers require interactive browser-based OAuth authorization, which hangs indefinitely in automated pipelines.
-   - **Resolution**: Enforce a strict 60-second connection deadline using `Promise.race()` during initial connection handshake. This allows interactive authorizations to fail gracefully as timeouts and lets the sequential bulk validator proceed down the backlog queue without manual intervention.
-
-2. **SQLite Unique Name Constraints**:
-   - Backlog entries can share identical display names (e.g., `"Developer Utilities"`), which triggers `UNIQUE constraint failed: mcp_servers.name, mcp_servers.user_id` database write failures during automated registration.
-   - **Resolution**: Catch uniqueness constraints gracefully in database registration helper blocks, logging the collision without crashing the batch validation loop.
+1. **NPM Lock Conflicts & ECOMPROMISED Errors**:
+   - Widespread write access concurrency on Windows can yield `ECOMPROMISED Lock compromised` NPM CLI errors when executing concurrent child process runs.
+   - **Resolution**: Gracefully catch compromised locks inside the automated child process exit handlers, logging the conflict outcome and continuing down the queue to guarantee uninterrupted batch processing.
 """
 
 # Read existing content in utf-16-le

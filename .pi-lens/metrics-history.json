@@ -250,7 +250,32 @@
         }
       ],
       "trend": "stable"
+    },
+    "packages\\core\\src\\services\\MemoryManager.ts": {
+      "latest": {
+        "commit": "0eb1ca0d8",
+        "timestamp": "2026-06-01T20:38:07.146Z",
+        "mi": 34,
+        "cognitive": 151,
+        "nesting": 7,
+        "lines": 205,
+        "maxCyclomatic": 17,
+        "entropy": 6.36
+      },
+      "history": [
+        {
+          "commit": "0eb1ca0d8",
+          "timestamp": "2026-06-01T20:38:07.146Z",
+          "mi": 34,
+          "cognitive": 151,
+          "nesting": 7,
+          "lines": 205,
+          "maxCyclomatic": 17,
+          "entropy": 6.36
+        }
+      ],
+      "trend": "stable"
     }
   },
-  "capturedAt": "2026-04-29T23:37:02.234Z"
+  "capturedAt": "2026-06-01T20:38:12.231Z"
 }

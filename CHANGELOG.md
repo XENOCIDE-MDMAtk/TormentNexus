@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-alpha.88] - 2026-06-01
+### Added
+- **Verified Tool Expansion Batch 2**:
+  - Successfully verified, validated, and registered more high-value MCP servers from the backlog queue, scaling the production registry to **231 verified servers** and **2,595 tools** inside `tormentnexus.db`.
+  - Registered new servers include `"TouchDesigner MCP Server"` (13 tools), `"PowerBI MCP Server"` (12 tools), `"OpenAI WebSearch MCP Server"` (2 tools), and `"mcp-tts-server"` (1 tool).
+  - Bypassed and handled additional 30+ missing key configurations, ECOMPROMISED npm locks, and 404 package outages cleanly during sequential runs.
+- **Monorepo Version Release Sync**:
+  - Synchronized and rebuilt all 34 package manifests in the monorepo to the new `1.0.0-alpha.88` release specification.
+
 ## [1.0.0-alpha.87] - 2026-06-01
 ### Added
 - **Verified Tool Expansion**:
