@@ -211,7 +211,10 @@ export async function executeCompatibleSaveMemory(
     const content = typeof args.content === 'string' ? args.content : '';
     const type = args.type === 'working' ? 'working' : 'long_term';
 
-    await agentMemoryService.add(content, type, 'agent', metadata);
+    await Promise.race([
+      agentMemoryService.add(content, type, 'agent', metadata),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('vector store timed out')), 8000))
+    ]);
     return {
         isError: false,
         content: [{ type: 'text', text: `Memory saved (${type}).` }],
@@ -232,7 +235,10 @@ export async function executeCompatibleSearchMemory(
 
     const query = typeof args.query === 'string' ? args.query : '';
     const limit = typeof args.limit === 'number' ? args.limit : 5;
-    const results = await agentMemoryService.search(query, { limit });
+    const results = await Promise.race([
+      agentMemoryService.search(query, { limit }),
+      new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 8000))
+    ]);
 
     return {
         isError: false,
