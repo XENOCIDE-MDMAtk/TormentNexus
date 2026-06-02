@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-alpha.93] - 2026-06-02
+### Added
+- **Verified Tool Expansion Batch 7**:
+  - Successfully verified, validated, and registered more high-value MCP servers from the backlog queue, scaling the production registry to **246 verified servers** and **2,647 tools** inside `tormentnexus.db`.
+  - Registered new servers include `"git-mcp-server"` (21 tools), `"mcp-linear"` (5 tools), and `"flightradar-mcp-server"` (3 tools).
+  - Maintained solid direct stdio operational integrity and trapped ECOMPROMISED npm lock errors gracefully.
+- **Monorepo Version Release Sync**:
+  - Synchronized and rebuilt all 34 package manifests in the monorepo to the new `1.0.0-alpha.93` release specification.
+
 ## [1.0.0-alpha.92] - 2026-06-02
 ### Added
 - **Verified Tool Expansion Batch 6**:
