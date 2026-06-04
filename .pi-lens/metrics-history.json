@@ -370,7 +370,32 @@
         }
       ],
       "trend": "stable"
+    },
+    "scratch\\test_mcp_connection.mjs": {
+      "latest": {
+        "commit": "9fb1bc2b1",
+        "timestamp": "2026-06-04T11:10:18.905Z",
+        "mi": 23,
+        "cognitive": 85,
+        "nesting": 5,
+        "lines": 341,
+        "maxCyclomatic": 59,
+        "entropy": 7.01
+      },
+      "history": [
+        {
+          "commit": "9fb1bc2b1",
+          "timestamp": "2026-06-04T11:10:18.905Z",
+          "mi": 23,
+          "cognitive": 85,
+          "nesting": 5,
+          "lines": 341,
+          "maxCyclomatic": 59,
+          "entropy": 7.01
+        }
+      ],
+      "trend": "stable"
     }
   },
-  "capturedAt": "2026-06-03T11:31:33.339Z"
+  "capturedAt": "2026-06-04T11:10:25.134Z"
 }
