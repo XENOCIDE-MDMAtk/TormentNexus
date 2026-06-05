@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.0-alpha.107] - 2026-06-05
+### Added
+- **Category 3: Web Search & Scraping (DuckDuckGo MCP) Reimplementation**:
+  - Reimplemented Python-based DuckDuckGo MCP tool handlers (`search` and `fetch_content`) natively in Go (`ddg_search.go`).
+  - Added unit test coverage for HTML stripping, paginator offsets, and results formatting.
+  - Registered handlers in Go control plane registry and de-initialized the submodule.
+
+## [1.0.0-alpha.106] - 2026-06-04
+### Added
+- **Category 2: Databases & Storage (SQLite MCP) Reimplementation**:
+  - Reimplemented Python-based SQLite MCP server tools (`sqlite_get_catalog` and `sqlite_execute`) natively in Go using CGo-free `modernc.org/sqlite` driver.
+  - Added unit tests for DB queries, schemas, and catalog listing.
+  - De-initialized and removed `mcp-sqlite` submodule.
+
+## [1.0.0-alpha.105] - 2026-06-04
+### Added
+- **Category 1: Developer Tools & Utilities (GitIngest MCP) Reimplementation**:
+  - Reimplemented Python-based GitIngest MCP tool handlers natively in Go (`gitingest.go`).
+  - Added unit tests for path walks, size filtering, and formatting.
+  - De-initialized and removed `gitingest-mcp` submodule.
+
 ## [1.0.0-alpha.103] - 2026-06-04
 ### Added
 - **Verified Tool Expansion Batches 13 & 14**:

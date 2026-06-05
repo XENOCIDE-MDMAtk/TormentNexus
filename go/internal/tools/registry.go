@@ -46,6 +46,9 @@ func (r *Registry) registerAll() {
 	r.handlers["ingest_git"] = HandleGitIngest
 	r.handlers["sqlite_get_catalog"] = HandleSqliteGetCatalog
 	r.handlers["sqlite_execute"] = HandleSqliteExecute
+	r.handlers["search"] = HandleDDGSearch
+	r.handlers["fetch_content"] = HandleDDGFetchContent
+
 
 
 
