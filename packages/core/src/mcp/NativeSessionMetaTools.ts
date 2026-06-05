@@ -281,6 +281,60 @@ export class NativeSessionMetaTools {
         });
     }
 
+    /**
+     * Inject tools predicted by the ConversationalToolInjector into the working
+     * set. Only tools present in the catalog are loaded; unknown names are
+     * silently skipped. Always-on tools are not affected.
+     *
+     * Returns the names of tools that were actually loaded (newly added to the
+     * working set, not previously loaded).
+     */
+    public injectConversationalTools(names: string[]): string[] {
+        const loaded: string[] = [];
+        for (const name of names) {
+            if (!this.catalog.has(name)) {
+                continue;
+            }
+            if (this.workingSet.isLoaded(name)) {
+                continue; // already visible
+            }
+            const { loaded: wasLoaded } = this.loadToolIntoSession(name);
+            if (wasLoaded) {
+                loaded.push(name);
+            }
+        }
+        return loaded;
+    }
+
+    /**
+     * Returns a compact snapshot of every tool in the catalog, suitable for
+     * passing to the ConversationalToolInjector for LLM-based prediction.
+     */
+    public getCatalogSnapshot(): Array<{
+        name: string;
+        description: string;
+        alwaysOn: boolean;
+        loaded: boolean;
+        serverTags: string[];
+        toolTags: string[];
+        semanticGroup: string;
+        keywords: string[];
+    }> {
+        return Array.from(this.catalog.values()).map((tool) => {
+            const st = tool as SearchableTool;
+            return {
+                name: tool.name,
+                description: tool.description ?? '',
+                alwaysOn: Boolean(st.alwaysOn),
+                loaded: this.workingSet.isLoaded(tool.name),
+                serverTags: st.serverTags ?? [],
+                toolTags: st.toolTags ?? [],
+                semanticGroup: st.semanticGroup ?? '',
+                keywords: st.keywords ?? [],
+            };
+        });
+    }
+
     private toMinimalTool(tool: Tool): Tool {
         return {
             name: tool.name,

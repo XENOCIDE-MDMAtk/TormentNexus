@@ -1,24 +1,53 @@
-# Handoff - v1.0.0-alpha.114
+# Handoff - v1.0.0-alpha.115
 
 ## Summary
-Successfully resolved all system integration and platform compatibility issues, including Next.js standalone build locks on Windows, Go license signature validation, active Tabby/Warp terminal shell wrapping, and automatic background BobbyBookmarks ingestion on server start.
+Phase 113: Implemented predictive conversational tool injection. The system now auto-injects contextually relevant tools into the LLM's context window on every ListTools call, based on the direction of the ongoing conversation as judged by a fast local model (Gemma 12b via Ollama) with cloud fallback.
 
 ## Accomplishments
-- **P0 Clean Build Gate (Windows EBUSY Fix)**:
-  - Created [clean-build.mjs](file:///c:/Users/hyper/workspace/borg/apps/web/scripts/clean-build.mjs) to handle atomic folder renaming of `.next` prior to directory deletion, preventing file locks and build failures under Windows.
-  - Linked the script to `apps/web/package.json`.
-- **P1 Offline License Validation (Go sidecar)**:
-  - Implemented offline cryptographic license verification in Go sidecar utilizing Ed25519 signatures checked against public key `9a9d5d9cc7acebbbf80adfe9005586c3f6496e82e7fa300920b831397c1cb763`.
-  - Added unit test cases for license formatting, valid holder credentials, expiration dates, seats, and invalid key parameters.
-- **P1 Tabby & Warp Active Launcher**:
-  - Implemented active detection and launch wrapping of terminal commands for Tabby and Warp terminals on Windows inside [ProcessManager.ts](file:///c:/Users/hyper/workspace/borg/packages/core/src/services/ProcessManager.ts).
-- **P1 BobbyBookmarks Ingestion Automation**:
-  - Wired [BobbyBookmarksBacklogAdapter](file:///c:/Users/hyper/workspace/borg/packages/core/src/services/bobby-bookmarks-adapter.ts) sync trigger to boot up asynchronously in `MCPServer.ts` start process.
-- **Turbo JSON Fix**:
-  - Removed deprecated/unknown key `extends` from `apps/tormentnexus-extension/turbo.json` to fix monorepo compilation failures.
-- **Verification**:
-  - Verified Next.js, extension, and monorepo compile cleanly through `pnpm build`.
-  - Bumped version across the monorepo to `1.0.0-alpha.114` using `node scripts/sync-versions.mjs`.
+
+### Phase 113 — Predictive Conversational Tool Injection
+
+**Core service**: `packages/core/src/mcp/ConversationalToolInjector.ts`
+- Maintains a sliding window of the last 8 conversation turns
+- Throttled predictions (3s minimum between LLM calls)
+- **Prediction chain**: Go sidecar (`/api/mcp/tools/predict-conversational`) → Ollama Gemma 12b → cheapest cloud model via `LLMService`
+- Structured JSON array output with robust extraction and catalog validation
+- Only injects non-alwaysOn, non-already-loaded tools from the catalog
+
+**NativeSessionMetaTools extensions**:
+- `injectConversationalTools(names)` — loads predicted tools without displacing pinned always-on tools
+- `getCatalogSnapshot()` — compact catalog view passed to LLM prediction prompts
+
+**MCPServer wiring**:
+- `ConversationalToolInjector` instantiated in constructor (shares `llmService` + `modelSelector`)
+- `appendConversationTurn(role, text)` — public API
+- `getConversationInjector()` — typed public getter for dashboard queries
+- `getDirectModeTools()` runs prediction + injection on every ListTools request (before building the visible tool list)
+- `CallToolRequestSchema` auto-captures tool name + string args as "tool" turns
+- `CONVERSATION_TURN` WebSocket message type for explicit dashboard pushes
+- `BROWSER_CHAT_SURFACE` feeds user input text to the window
+
+**tRPC endpoints** in `mcpRouter.ts`:
+- `mcp.appendConversationTurn` (mutation) — dashboard / Go kernel can push turns directly
+- `mcp.getConversationWindow` (query) — returns window snapshot + token count for debug panel
+
+### Environment Variables
+- `TORMENTNEXUS_SIDECAR_URL` (default: `http://127.0.0.1:4300`)
+- `TORMENTNEXUS_OLLAMA_URL` (default: `http://127.0.0.1:11434`)
+- `TORMENTNEXUS_LOCAL_PREDICT_MODEL` (default: `gemma3:12b`)
+
+### Verification
+- TypeScript compile: ✅ 0 errors (verified 3×)
+- Always-on tools: ✅ pinned, immune to eviction
+- All injection failures: ✅ non-fatal, caught with console.warn
+
+## Files Modified
+- `packages/core/src/mcp/ConversationalToolInjector.ts` **[NEW]**
+- `packages/core/src/mcp/NativeSessionMetaTools.ts`
+- `packages/core/src/MCPServer.ts`
+- `packages/core/src/routers/mcpRouter.ts`
 
 ## Next Steps
-- Continue with further sidecar enhancements or feature requirements defined by the operator.
+- Go kernel: implement `/api/mcp/tools/predict-conversational` endpoint to short-circuit the Ollama fallback with an embedded Gemma model
+- Dashboard: add a "Predictive Injection" debug panel using `mcp.getConversationWindow`
+- Wire `appendConversationTurn` calls from the tRPC bridge clients for assistant message turns (currently only tool-call turns are auto-captured)

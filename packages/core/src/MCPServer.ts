@@ -187,6 +187,7 @@ import { BrowserService } from "./services/BrowserService.js";
 import type { ConnectedClient } from "./services/mcp-client.service.js";
 import { createCouncilTools } from "./mcp/tools/council_tools.js";
 import { NativeSessionMetaTools } from "./mcp/NativeSessionMetaTools.js";
+import { ConversationalToolInjector } from "./mcp/ConversationalToolInjector.js";
 import { jsonConfigProvider } from "./services/config/JsonConfigProvider.js";
 import { configImportService } from "./services/config-import.service.js";
 import { mcpServerPool } from "./services/mcp-server-pool.service.js";
@@ -331,6 +332,7 @@ export class MCPServer {
 	public agentMemoryService: AgentMemoryService;
 	public sessionImportService: SessionImportService;
 	private readonly nativeSessionMetaTools: NativeSessionMetaTools;
+	private readonly conversationalToolInjector: ConversationalToolInjector;
 	private readonly promptToClient: Record<string, ConnectedClient> = {};
 	private readonly resourceToClient: Record<string, ConnectedClient> = {};
 	private readonly bridgeClients: Map<any, RegisteredBridgeClient> = new Map();
@@ -624,6 +626,30 @@ Respond ONLY with a JSON array of tool name strings, for example: ["tool_name_1"
 		this.nativeSessionMetaTools.setAlwaysLoadedTools(toolNames);
 	}
 
+	/**
+	 * Append a conversation turn to the ConversationalToolInjector's sliding
+	 * window. Call this from transport layers or tool-call handlers whenever
+	 * a user or assistant message is observed so the injector can track the
+	 * direction of the conversation and predict relevant tools proactively.
+	 */
+	public appendConversationTurn(
+		role: 'user' | 'assistant' | 'tool',
+		text: string,
+	): void {
+		this.conversationalToolInjector.appendTurn(role, text);
+	}
+
+	/**
+	 * Returns a read-only view into the ConversationalToolInjector for
+	 * dashboard queries (conversation window, token count, etc.).
+	 */
+	public getConversationInjector(): {
+		getWindow: () => ReadonlyArray<{ role: string; text: string; timestamp: number }>;
+		getWindowTokenCount: () => number;
+	} {
+		return this.conversationalToolInjector;
+	}
+
 	constructor(options: MCPServerOptions = {}) {
 		this.options = options;
 		this.router = new Router();
@@ -677,6 +703,16 @@ Respond ONLY with a JSON array of tool name strings, for example: ["tool_name_1"
 				};
 			},
 		});
+		this.conversationalToolInjector = new ConversationalToolInjector(
+			this.llmService,
+			this.modelSelector,
+			{
+				maxWindowTurns: 8,
+				throttleMs: 3_000,
+				maxInjectedTools: 5,
+				minWindowTokens: 30,
+			},
+		);
 		// Fire and forget config sync
 		this.mcpConfigService
 			.syncWithDatabase()
@@ -4553,6 +4589,22 @@ ${env.tools
 				return metadataGuardResult;
 			}
 
+			// Conversational context: record what tool is being called and key args
+			// so the injector can track the direction of the conversation.
+			try {
+				const toolArgs = request.params.arguments ?? {};
+				const argText = Object.values(toolArgs)
+					.filter((v) => typeof v === "string")
+					.map((v) => (v as string).slice(0, 200))
+					.join(" ");
+				const turnText = argText
+					? `${request.params.name}: ${argText}`
+					: request.params.name;
+				this.appendConversationTurn("tool", turnText);
+			} catch {
+				// non-fatal — never block tool execution
+			}
+
 			const directMetaResult = await this.handleDirectMetaTool(
 				request.params.name,
 				(request.params.arguments ?? {}) as Record<string, unknown>,
@@ -4569,6 +4621,7 @@ ${env.tools
 			);
 		});
 	}
+
 
 	private setupDirectDiscoveryHandlers(serverInstance: Server): void {
 		const context = {
@@ -4670,6 +4723,34 @@ ${env.tools
 			...allNativeTools,
 		]);
 		await this.syncNativeToolPreferences();
+
+		// CONVERSATIONAL TOOL INJECTION (Phase 113)
+		// Use the ConversationalToolInjector to predict and auto-load tools
+		// relevant to the current conversation direction. This runs asynchronously
+		// with a built-in throttle so it never blocks tool listing.
+		try {
+			const catalogSnapshot = this.nativeSessionMetaTools.getCatalogSnapshot();
+			const prediction =
+				await this.conversationalToolInjector.getPredictedToolNames(
+					catalogSnapshot,
+				);
+			if (prediction.toolNames.length > 0) {
+				const injected =
+					this.nativeSessionMetaTools.injectConversationalTools(
+						prediction.toolNames,
+					);
+				if (injected.length > 0) {
+					console.error(
+						`[MCPServer] 🧠 Conversational injection loaded: ${injected.join(', ')} (${prediction.reason})`,
+					);
+				}
+			}
+		} catch (injectionErr: any) {
+			console.warn(
+				'[MCPServer] Conversational tool injection failed (non-fatal):',
+				injectionErr?.message,
+			);
+		}
 
 		// ULTRA-STREAMLINED ADVERTISING:
 		// Only show core Meta-Tools by default.
@@ -5324,6 +5405,19 @@ ${env.tools
 							this.broadcastWebSocketMessage(msg, ws);
 						}
 
+						// Explicit conversation turn from dashboard or bridge client
+						// Allows any client to push user/assistant messages into the
+						// ConversationalToolInjector sliding window for better prediction.
+						if (msg.type === "CONVERSATION_TURN") {
+							const role = msg.role === "user" || msg.role === "assistant" || msg.role === "tool"
+								? msg.role as 'user' | 'assistant' | 'tool'
+								: "user";
+							const text = typeof msg.text === "string" ? msg.text : "";
+							if (text.trim()) {
+								this.appendConversationTurn(role, text.trim().slice(0, 1000));
+							}
+						}
+
 						if (msg.type === "USER_ACTIVITY") {
 							this.lastUserActivityTime = Math.max(
 								this.lastUserActivityTime,
@@ -5410,6 +5504,20 @@ ${env.tools
 									? msg.snapshot
 									: {};
 
+							// Feed user-visible text from chat surface into conversation window
+							try {
+								const chatText = typeof (snapshot as any).userInput === "string"
+									? (snapshot as any).userInput
+									: typeof (snapshot as any).lastUserMessage === "string"
+										? (snapshot as any).lastUserMessage
+										: "";
+								if (chatText.trim()) {
+									this.appendConversationTurn("user", chatText.trim().slice(0, 500));
+								}
+							} catch {
+								// non-fatal
+							}
+
 							this.broadcastWebSocketMessage(
 								{
 									type: "BROWSER_CHAT_SURFACE",
@@ -5423,6 +5531,7 @@ ${env.tools
 								ws,
 							);
 						}
+
 
 						if (msg.type === "KNOWLEDGE_CAPTURE") {
 							const content = String(msg.content ?? "").trim();

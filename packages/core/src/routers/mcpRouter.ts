@@ -1159,4 +1159,41 @@ export const mcpRouter = t.router({
 
         return { success: true };
     }),
+
+    /**
+     * Push a conversation turn into the ConversationalToolInjector sliding window.
+     * The injector will use recent turns to predict which non-always-on tools to
+     * pre-load into the session working set on the next ListTools call.
+     *
+     * Typical callers: dashboard chat surface, tRPC bridge clients, Go kernel proxy.
+     */
+    appendConversationTurn: publicProcedure.input(z.object({
+        role: z.enum(['user', 'assistant', 'tool']).default('user'),
+        text: z.string().min(1).max(2000),
+    })).mutation(({ input }) => {
+        const server = getMcpServer();
+        if (!server || typeof server.appendConversationTurn !== 'function') {
+            return { ok: false, reason: 'MCP server not initialized or injector unavailable' };
+        }
+        server.appendConversationTurn(input.role, input.text);
+        return { ok: true };
+    }),
+
+    /**
+     * Return the current ConversationalToolInjector sliding window snapshot.
+     * Useful for dashboard debugging and the predictive tool injection panel.
+     */
+    getConversationWindow: publicProcedure.query(() => {
+        const server = getMcpServer();
+        if (!server || typeof server.getConversationInjector !== 'function') {
+            return { turns: [], tokenCount: 0 };
+        }
+        const injector = server.getConversationInjector();
+        return {
+            turns: Array.from(injector.getWindow()),
+            tokenCount: injector.getWindowTokenCount(),
+        };
+    }),
 });
+
+
