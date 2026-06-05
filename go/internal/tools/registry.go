@@ -67,6 +67,12 @@ func (r *Registry) registerAll() {
 	r.handlers["get_file_info"] = HandleGetFileInfo
 	r.handlers["search_files"] = HandleSearchFiles
 
+	// Ollama MCP Tools (AI & LLM Integration)
+	r.handlers["list_local_models"] = HandleListLocalModels
+	r.handlers["local_llm_chat"] = HandleLocalLLMChat
+	r.handlers["ollama_health_check"] = HandleOllamaHealthCheck
+	r.handlers["system_resource_check"] = HandleSystemResourceCheck
+
 
 
 

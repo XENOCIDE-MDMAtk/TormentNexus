@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.110] - 2026-06-05
+### Added
+- **Category 6: AI & LLM Integration (Ollama MCP) Reimplementation**:
+  - Reimplemented Python-based Ollama MCP tool handlers (`list_local_models`, `local_llm_chat`, `ollama_health_check`, `system_resource_check`) natively in Go (`ollama.go`).
+  - Added unit test coverage for mock Ollama server APIs.
+  - Registered handlers in Go control plane registry and de-initialized the submodule.
+
 ## [1.0.0-alpha.109] - 2026-06-05
 ### Added
 - **Category 5: System & OS Automation (Filesystem MCP) Reimplementation**:
