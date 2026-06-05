@@ -1,19 +1,19 @@
-# Handoff - v1.0.0-alpha.110
+# Handoff - v1.0.0-alpha.111
 
 ## Summary
-Successfully completed Category 6 (AI & LLM Integration) of the systematic Go assimilation plan. Ollama MCP handlers (4 tools in total) are now natively implemented in Go within the control plane, fully tested, and the submodule has been de-initialized.
+Successfully completed Category 7 (Media & Design) of the systematic Go assimilation plan. TTS MCP handlers (2 tools in total) are now natively implemented in Go within the control plane, fully tested, and the submodule has been de-initialized.
 
 ## Accomplishments
-- **Category 6: AI & LLM Integration (Ollama MCP)**:
-  - Ported Python-based Ollama MCP tool handlers (`list_local_models`, `local_llm_chat`, `ollama_health_check`, `system_resource_check`) into Go under `go/internal/tools/ollama.go`.
-  - Added unit test coverage in `go/internal/tools/ollama_test.go` mocking local Ollama endpoints using `httptest.NewServer`.
-  - Registered the 4 new Ollama handlers in `go/internal/tools/registry.go`.
+- **Category 7: Media & Design (TTS MCP)**:
+  - Ported Go-based TTS MCP tool handlers (`say_tts`, `openai_tts`) into our core control plane Go workspace under `go/internal/tools/tts.go`.
+  - Added unit test coverage in `go/internal/tools/tts_test.go` verifying local speech synthesis (PowerShell System.Speech on Windows, say on macOS, espeak on Linux) and mocking OpenAI's speech API using `httptest.NewServer`.
+  - Registered the 2 new TTS handlers in `go/internal/tools/registry.go`.
   - Verified Go builds and tests pass successfully (`go test -v ./internal/tools/...`).
-  - De-initialized and removed `submodules/ollama-mcp-server`.
+  - De-initialized and removed `submodules/mcp-tts`.
 - **Monorepo Version Synchronization**:
-  - Bumped monorepo and package manifests to version `v1.0.0-alpha.110` using `node scripts/sync-versions.mjs`.
+  - Bumped monorepo and package manifests to version `v1.0.0-alpha.111` using `node scripts/sync-versions.mjs`.
 
 ## Next Steps
-- **Category 7: Media & Design**:
-  - Add Git submodule for a Media/Design MCP (e.g. `mcp-tts-server` or image search tools).
+- **Category 8: Cloud & DevOps**:
+  - Add Git submodule for a Cloud/DevOps MCP (e.g. `vercel-platform-mcp-server` or AWS Docs/APIs).
   - Analyze features, reimplement handlers in Go, test, and de-initialize.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.111] - 2026-06-05
+### Added
+- **Category 7: Media & Design (TTS MCP) Reimplementation**:
+  - Reimplemented Go-based TTS MCP tool handlers (`say_tts`, `openai_tts`) natively in Go control plane (`tts.go`).
+  - Added unit test coverage for mock OpenAI TTS APIs and OS speech commands.
+  - Registered handlers in Go control plane registry and de-initialized the submodule.
+
 ## [1.0.0-alpha.110] - 2026-06-05
 ### Added
 - **Category 6: AI & LLM Integration (Ollama MCP) Reimplementation**:

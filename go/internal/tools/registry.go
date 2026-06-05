@@ -73,6 +73,10 @@ func (r *Registry) registerAll() {
 	r.handlers["ollama_health_check"] = HandleOllamaHealthCheck
 	r.handlers["system_resource_check"] = HandleSystemResourceCheck
 
+	// TTS MCP Tools (Media & Design)
+	r.handlers["say_tts"] = HandleSayTTS
+	r.handlers["openai_tts"] = HandleOpenAITTS
+
 
 
 
