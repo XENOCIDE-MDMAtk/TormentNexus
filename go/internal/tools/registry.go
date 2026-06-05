@@ -289,6 +289,167 @@ func (r *Registry) registerAll() {
 	r.handlers["mindsdb_query"] = HandleMindsDBQuery
 	r.handlers["mindsdb_list_models"] = HandleMindsDBListModels
 	r.handlers["mindsdb_predict"] = HandleMindsDBPredict
+
+	// ═══════════════════════════════════════════════════════════════
+	// ASSIMILATED MCP SERVERS — Phase 2: Full Native Reimplementation
+	// ═══════════════════════════════════════════════════════════════
+
+	// GitHub Copilot API Tools (Assimilated from github SSE)
+	r.handlers["github_list_repos"] = HandleGithubListRepos
+	r.handlers["github_get_repo"] = HandleGithubGetRepo
+	r.handlers["github_create_issue"] = HandleGithubCreateIssue
+	r.handlers["github_list_issues"] = HandleGithubListIssues
+	r.handlers["github_create_pr"] = HandleGithubCreatePR
+	r.handlers["github_code_search"] = HandleGithubCodeSearch
+	r.handlers["github_get_file_contents"] = HandleGithubGetFileContents
+	r.handlers["github_create_or_update_file"] = HandleGithubCreateOrUpdateFile
+	r.handlers["github_list_branches"] = HandleGithubListBranches
+	r.handlers["github_list_workflows"] = HandleGithubListWorkflows
+	r.handlers["github_trigger_workflow"] = HandleGithubTriggerWorkflow
+	r.handlers["github_copilot_chat"] = HandleGithubCopilotChat
+
+	// Supabase Tools (Assimilated from supabase SSE)
+	r.handlers["supabase_list_projects"] = HandleSupabaseListProjects
+	r.handlers["supabase_get_project"] = HandleSupabaseGetProject
+	r.handlers["supabase_execute_sql"] = HandleSupabaseExecuteSQL
+	r.handlers["supabase_select_rows"] = HandleSupabaseSelectRows
+	r.handlers["supabase_insert_rows"] = HandleSupabaseInsertRows
+	r.handlers["supabase_update_rows"] = HandleSupabaseUpdateRows
+	r.handlers["supabase_delete_rows"] = HandleSupabaseDeleteRows
+	r.handlers["supabase_list_tables"] = HandleSupabaseListTables
+	r.handlers["supabase_invoke_function"] = HandleSupabaseInvokeFunction
+
+	// Desktop Commander Tools (Assimilated from @wonderwhy-er/desktop-commander)
+	r.handlers["desktop_execute_command"] = HandleDesktopExecuteCommand
+	r.handlers["desktop_read_file"] = HandleDesktopReadFile
+	r.handlers["desktop_read_multiple_files"] = HandleDesktopReadMultipleFiles
+	r.handlers["desktop_write_file"] = HandleDesktopWriteFile
+	r.handlers["desktop_create_directory"] = HandleDesktopCreateDirectory
+	r.handlers["desktop_list_directory"] = HandleDesktopListDirectory
+	r.handlers["desktop_directory_tree"] = HandleDesktopDirectoryTree
+	r.handlers["desktop_search_files"] = HandleDesktopSearchFiles
+	r.handlers["desktop_move_file"] = HandleDesktopMoveFile
+	r.handlers["desktop_get_file_info"] = HandleDesktopGetFileInfo
+	r.handlers["desktop_list_processes"] = HandleDesktopListProcesses
+	r.handlers["desktop_kill_process"] = HandleDesktopKillProcess
+	r.handlers["desktop_get_system_info"] = HandleDesktopGetSystemInfo
+	r.handlers["desktop_execute_script"] = HandleDesktopExecuteScript
+	r.handlers["desktop_open_file"] = HandleDesktopOpenFile
+	r.handlers["desktop_tail_file"] = HandleDesktopTailFile
+
+	// Gemini API Tools (Assimilated from gemini-mcp)
+	r.handlers["gemini_chat"] = HandleGeminiChat
+	r.handlers["gemini_code_generation"] = HandleGeminiCodeGeneration
+	r.handlers["gemini_vision"] = HandleGeminiVision
+	r.handlers["gemini_embeddings"] = HandleGeminiEmbeddings
+	r.handlers["gemini_list_models"] = HandleGeminiListModels
+	r.handlers["gemini_function_calling"] = HandleGeminiFunctionCalling
+
+	// DBHub Universal Database Tools (Assimilated from @bytebase/dbhub)
+	r.handlers["dbhub_list_databases"] = HandleDBHubListDatabases
+	r.handlers["dbhub_list_tables"] = HandleDBHubListTables
+	r.handlers["dbhub_describe_table"] = HandleDBHubDescribeTable
+	r.handlers["dbhub_execute_query"] = HandleDBHubExecuteQuery
+	r.handlers["dbhub_list_schemas"] = HandleDBHubListSchemas
+
+	// ConPort Context Portal Tools (Assimilated from context-portal-mcp)
+	r.handlers["conport_get_context"] = HandleConPortGetContext
+	r.handlers["conport_update_context"] = HandleConPortUpdateContext
+	r.handlers["conport_log_decision"] = HandleConPortLogDecision
+	r.handlers["conport_get_decisions"] = HandleConPortGetDecisions
+	r.handlers["conport_add_pattern"] = HandleConPortAddPattern
+	r.handlers["conport_get_patterns"] = HandleConPortGetPatterns
+	r.handlers["conport_set_active_context"] = HandleConPortSetActiveContext
+	r.handlers["conport_get_active_context"] = HandleConPortGetActiveContext
+	r.handlers["conport_log_progress"] = HandleConPortLogProgress
+	r.handlers["conport_get_progress"] = HandleConPortGetProgress
+
+	// ChunkHound Code Search Tools (Assimilated from chunkhound)
+	r.handlers["chunkhound_index"] = HandleChunkhoundIndex
+	r.handlers["chunkhound_search"] = HandleChunkhoundSearch
+	r.handlers["chunkhound_stats"] = HandleChunkhoundStats
+	r.handlers["chunkhound_list_indexed"] = HandleChunkhoundListIndexed
+	r.handlers["chunkhound_get_chunk"] = HandleChunkhoundGetChunk
+
+	// NotebookLM Tools (Assimilated from @roomi-fields/notebooklm-mcp)
+	r.handlers["notebooklm_create_notebook"] = HandleNotebookLMCreateNotebook
+	r.handlers["notebooklm_query_notebook"] = HandleNotebookLMQueryNotebook
+	r.handlers["notebooklm_list_notebooks"] = HandleNotebookLMListNotebooks
+	r.handlers["notebooklm_add_source"] = HandleNotebookLMAddSource
+	r.handlers["notebooklm_get_summary"] = HandleNotebookLMGetSummary
+	r.handlers["notebooklm_upload_pdf"] = HandleNotebookLMUploadPDF
+
+	// Vibe Check Tools (Assimilated from @pv-bhat/vibe-check-mcp)
+	r.handlers["vibe_check_analyze"] = HandleVibeCheckAnalyze
+	r.handlers["vibe_check_quick"] = HandleVibeCheckQuick
+	r.handlers["vibe_check_review_patterns"] = HandleVibeCheckReviewPatterns
+
+	// SuperMemory Tools (Assimilated from mcp-supermemory-ai)
+	r.handlers["supermemory_add"] = HandleSuperMemoryAdd
+	r.handlers["supermemory_search"] = HandleSuperMemorySearch
+	r.handlers["supermemory_delete"] = HandleSuperMemoryDelete
+	r.handlers["supermemory_list"] = HandleSuperMemoryList
+
+	// Probe Code Search Tools (Assimilated from @probelabs/probe)
+	r.handlers["probe_search_code"] = HandleProbeSearchCode
+	r.handlers["probe_find_symbol"] = HandleProbeFindSymbol
+	r.handlers["probe_get_structure"] = HandleProbeGetStructure
+	r.handlers["probe_explain_code"] = HandleProbeExplainCode
+
+	// Cipher Memory Aggregator Tools (Assimilated from @byterover/cipher)
+	r.handlers["cipher_add_memory"] = HandleCipherAddMemory
+	r.handlers["cipher_search_memory"] = HandleCipherSearchMemory
+	r.handlers["cipher_list_memories"] = HandleCipherListMemories
+	r.handlers["cipher_delete_memory"] = HandleCipherDeleteMemory
+	r.handlers["cipher_ask"] = HandleCipherAskCipher
+
+	// DeepContext Code Understanding Tools (Assimilated from @wildcard-ai/deepcontext)
+	r.handlers["deepcontext_analyze"] = HandleDeepContextAnalyzeCodebase
+	r.handlers["deepcontext_get_context"] = HandleDeepContextGetContext
+	r.handlers["deepcontext_find_patterns"] = HandleDeepContextFindPatterns
+	r.handlers["deepcontext_summarize_architecture"] = HandleDeepContextSummarizeArchitecture
+
+	// Windows MCP Tools (Assimilated from windows-mcp)
+	r.handlers["windows_get_system_info"] = HandleWindowsMCPGetSystemInfo
+	r.handlers["windows_list_services"] = HandleWindowsMCPListServices
+	r.handlers["windows_get_service"] = HandleWindowsMCPGetService
+	r.handlers["windows_list_processes"] = HandleWindowsMCPListProcesses
+	r.handlers["windows_read_registry"] = HandleWindowsMCPReadRegistry
+	r.handlers["windows_open_application"] = HandleWindowsMCPOpenApplication
+	r.handlers["windows_get_clipboard"] = HandleWindowsMCPGetClipboard
+	r.handlers["windows_set_clipboard"] = HandleWindowsMCPSetClipboard
+	r.handlers["windows_list_drives"] = HandleWindowsMCPListDrives
+	r.handlers["windows_get_event_log"] = HandleWindowsMCPGetEventLog
+
+	// Prism Code Quality Tools (Assimilated from prism-mcp-server)
+	r.handlers["prism_analyze_quality"] = HandlePrismAnalyzeQuality
+	r.handlers["prism_suggest_refactor"] = HandlePrismSuggestRefactor
+	r.handlers["prism_detect_smells"] = HandlePrismDetectSmells
+	r.handlers["prism_transform_code"] = HandlePrismTransformCode
+
+	// TaskMaster AI Task Management Tools (Assimilated from task-master-ai)
+	r.handlers["taskmaster_create_task"] = HandleTaskMasterCreateTask
+	r.handlers["taskmaster_get_task"] = HandleTaskMasterGetTask
+	r.handlers["taskmaster_list_tasks"] = HandleTaskMasterListTasks
+	r.handlers["taskmaster_update_status"] = HandleTaskMasterUpdateStatus
+	r.handlers["taskmaster_add_subtask"] = HandleTaskMasterAddSubtask
+	r.handlers["taskmaster_next_task"] = HandleTaskMasterNextTask
+	r.handlers["taskmaster_generate_from_prd"] = HandleTaskMasterGenerateFromPRD
+	r.handlers["taskmaster_expand_task"] = HandleTaskMasterExpandTask
+
+	// ═══════════════════════════════════════════════════════════════
+	// SKILL REGISTRY - Database-backed skill management with deduplication
+	// ═══════════════════════════════════════════════════════════════
+
+	// Skill Registry Tools
+	r.handlers["skill_list"] = HandleSkillList
+	r.handlers["skill_get"] = HandleSkillGet
+	r.handlers["skill_store"] = HandleSkillStore
+	r.handlers["skill_search"] = HandleSkillSearch
+	r.handlers["skills_list"] = HandleSkillList
+	r.handlers["skills_get"] = HandleSkillGet
+	r.handlers["skills_store"] = HandleSkillStore
+	r.handlers["skills_search"] = HandleSkillSearch
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
