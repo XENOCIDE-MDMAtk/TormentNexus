@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0-alpha.119] - 2026-06-05
+### Added
+- **Category 14: Sandbox Code Execution & Brokered Notebooks (thoughtbox) Reimplementation**:
+  - Reimplemented Thoughtbox tools (`thoughtbox_search`, `thoughtbox_execute`, `thoughtbox_peer_notebook`) natively in Go.
+  - Developed a lightweight, secure Node VM sandbox wrapper script (`thoughtbox_sandbox.js`) spawned dynamically by the Go sidecar to support arbitrary JS search filters and SDK evaluations.
+  - Reimplemented the brokered MCP peer notebook pilot operations (`peer_artifact_seed`, `peer_invoke`, `peer_get_invocation`, `peer_list_trace_events`, `peer_get_artifact`) in native Go code using an in-memory brokered state machine.
+  - Registered all handlers in the Go registry (`registry.go`), verified the test suite, and removed the submodule folder.
+
 ## [1.0.0-alpha.118] - 2026-06-05
 ### Added
 - **Category 13: Semantic Code Understanding (serena) Reimplementation**:

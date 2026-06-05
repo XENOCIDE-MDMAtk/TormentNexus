@@ -175,6 +175,11 @@ func (r *Registry) registerAll() {
 	r.handlers["grep"] = HandleGrep
 	r.handlers["ls"] = HandleLS
 	r.handlers["glob_pi"] = HandleGlob
+
+	// Thoughtbox Tools (Category 14)
+	r.handlers["thoughtbox_search"] = HandleThoughtboxSearch
+	r.handlers["thoughtbox_execute"] = HandleThoughtboxExecute
+	r.handlers["thoughtbox_peer_notebook"] = HandleThoughtboxPeerNotebook
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
