@@ -472,6 +472,11 @@ func (r *Registry) registerAll() {
 	r.handlers["get_diagnostics"] = HandleLsmcpGetDiagnostics
 	r.handlers["find_references"] = HandleLsmcpFindReferences
 	r.handlers["get_symbol_details"] = HandleLsmcpGetSymbolDetails
+
+	// CodeAlive — semantic code search and context engine
+	r.handlers["codealive_search"] = HandleCodeAliveSearch
+	r.handlers["codealive_grep"] = HandleCodeAliveGrep
+	r.handlers["codealive_ask"] = HandleCodeAliveAsk
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
