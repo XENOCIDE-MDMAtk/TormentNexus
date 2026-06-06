@@ -572,6 +572,17 @@ func (r *Registry) registerAll() {
 	r.handlers["grants_by_agency"] = HandleGrantsByAgency
 	r.handlers["grants_by_category"] = HandleGrantsByCategory
 	r.handlers["grants_trends"] = HandleGrantsTrends
+
+	// Food Data Central — USDA nutrition database
+	r.handlers["food_search"] = HandleFoodSearch
+	r.handlers["food_get"] = HandleFoodGet
+	r.handlers["food_list"] = HandleFoodList
+
+	// Panther — security monitoring
+	r.handlers["panther_query"] = HandlePantherQuery
+	r.handlers["panther_list_detections"] = HandlePantherListDetections
+	r.handlers["panther_get_findings"] = HandlePantherGetFindings
+	r.handlers["panther_list_policies"] = HandlePantherListPolicies
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
