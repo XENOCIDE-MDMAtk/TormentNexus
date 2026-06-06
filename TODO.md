@@ -1,6 +1,6 @@
 # TODO
 
-_Last updated: 2026-06-05, version 1.0.0-alpha.115_
+_Last updated: 2026-06-06, version 1.0.0-alpha.125_
 
 ## P0 — Must do now (Stability, Testing & Validation)
 
@@ -9,7 +9,7 @@ _Last updated: 2026-06-05, version 1.0.0-alpha.115_
 - [x] **Conflict Resolution Clean Pass**: Verified no duplicate conflict markers in dashboard or server modules
 - [x] **Clean Build Gate**: Bypassed Windows EBUSY folder lock on Next.js `.next` folder by renaming target before purging, enabling 100% clean builds across monorepo
 - [x] **MCP Assimilation**: Fully assimilated 50 high-value MCP servers to native Go modules
-- [x] **Skill Registry**: Implemented database-backed skill registry with 98% deduplication
+- [x] **Skill Registry**: Implemented SQLite-backed skill registry with progressive 3-tier loading, 90% Jaccard deduplication, and 70-89% relational linkage mapping.
 - [x] **Hermes Framework**: Established research framework for top 100 hermes-agent addons
 
 ## P1 — Should do next (Features & Parity)

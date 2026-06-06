@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.0-alpha.125] - 2026-06-06
+### Added
+- **Track B2 — SQLite Skill Registry relational duplicate linkage**:
+  - Implemented 90% Jaccard word-similarity threshold inside `skill_registry.go` HandleSkillStore.
+  - Linked near-duplicate skills (similarity 70-89%) to their canonical entry using `canonical_id`.
+  - Added unit test validation checking version increments and near-duplicate linkages.
+- **Fixed test suite issues**:
+  - Fixed variable redeclaration error in `cmd/foundation_http_test.go`.
+  - Resolved `htormentnelloxus` test snapshot difference due to case-insensitive hypercode replacements in `foundation/pi/tool_snapshot_test.go`.
+
 ## [1.0.0-alpha.120] - 2026-06-05
 ### Added
 - **Mass MCP Server Assimilation — 12 Servers Native Go Reimplementation**:

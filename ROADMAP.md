@@ -1,6 +1,6 @@
 # Roadmap: AI TormentNexus (TormentNexus Kernel & TormentNexus Dashboard)
 
-_Last updated: 2026-05-30, version 1.0.0-alpha.80_
+_Last updated: 2026-06-06, version 1.0.0-alpha.125_
 
 ## Status Legend
 
@@ -9,7 +9,7 @@ _Last updated: 2026-05-30, version 1.0.0-alpha.80_
 - **Experimental** — Active R&D, not dependable
 - **Vision** — Directional only
 
-## Completed (v1.0.0-alpha.80)
+## Completed (v1.0.0-alpha.125)
 
 ### 1. Rebranding & Database Conversion (STABLE)
 - **TormentNexus Universal Rebrand**: Complete case-insensitive, case-specific refactoring across source modules, config files, package dependencies, and directories.
