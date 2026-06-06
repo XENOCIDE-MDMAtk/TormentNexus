@@ -583,6 +583,12 @@ func (r *Registry) registerAll() {
 	r.handlers["panther_list_detections"] = HandlePantherListDetections
 	r.handlers["panther_get_findings"] = HandlePantherGetFindings
 	r.handlers["panther_list_policies"] = HandlePantherListPolicies
+
+	// Srclight — code indexing for AI agents
+	r.handlers["srclight_index"] = HandleSrclightIndex
+	r.handlers["srclight_search"] = HandleSrclightSearch
+	r.handlers["srclight_status"] = HandleSrclightStatus
+	r.handlers["srclight_list_languages"] = HandleSrclightListLanguages
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
