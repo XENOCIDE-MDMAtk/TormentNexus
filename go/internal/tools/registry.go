@@ -477,6 +477,25 @@ func (r *Registry) registerAll() {
 	r.handlers["codealive_search"] = HandleCodeAliveSearch
 	r.handlers["codealive_grep"] = HandleCodeAliveGrep
 	r.handlers["codealive_ask"] = HandleCodeAliveAsk
+
+	// Prometheus MCP — monitoring queries
+	r.handlers["prom_query"] = HandlePromQuery
+	r.handlers["prom_alerts"] = HandlePromAlerts
+	r.handlers["prom_targets"] = HandlePromTargets
+	r.handlers["prom_metadata"] = HandlePromMetadata
+
+	// Smart-Thinking — graph-based reasoning
+	r.handlers["smart_reason"] = HandleSmartReason
+	r.handlers["smart_session"] = HandleSmartSession
+	r.handlers["smart_evaluate"] = HandleSmartEvaluate
+	r.handlers["smart_graph"] = HandleSmartGraph
+
+	// Mimir — Neo4j-backed persistent memory
+	r.handlers["mimir_store"] = HandleMimirStore
+	r.handlers["mimir_search"] = HandleMimirSearch
+	r.handlers["mimir_retrieve"] = HandleMimirRetrieve
+	r.handlers["mimir_connect"] = HandleMimirConnect
+	r.handlers["mimir_forget"] = HandleMimirForget
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
