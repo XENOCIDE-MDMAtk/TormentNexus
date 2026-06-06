@@ -67,7 +67,7 @@ signature: "${signature.toUpperCase()}"`;
             <div className="max-w-6xl mx-auto px-6 pt-24 pb-16 text-center relative z-10">
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/20 text-purple-300 text-xs font-semibold uppercase tracking-wider mb-8 animate-pulse">
                     <span className="w-2 h-2 rounded-full bg-purple-400" />
-                    Now Synchronized: Version 1.0.0-alpha.80
+                    Now Synchronized: Version 1.0.0-alpha.125
                 </div>
 
                 <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight mb-8">
