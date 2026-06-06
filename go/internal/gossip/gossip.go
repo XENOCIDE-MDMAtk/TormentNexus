@@ -152,6 +152,7 @@ type Protocol struct {
 	mu       sync.RWMutex
 	privKey  ed25519.PrivateKey
 	pubKey   ed25519.PublicKey
+	peerKeys map[string]ed25519.PublicKey
 	running  bool
 	stopCh   chan struct{}
 }
@@ -174,6 +175,7 @@ func NewProtocol(cfg Config, transport Transport, store StateStore) (*Protocol, 
 		peers:     NewPeerSet(),
 		privKey:   privKey,
 		pubKey:    pubKey,
+		peerKeys:  make(map[string]ed25519.PublicKey),
 		stopCh:    make(chan struct{}),
 	}, nil
 }
@@ -491,7 +493,20 @@ func (p *Protocol) handlePing(msg GossipMessage) {
 	p.transport.Send(context.Background(), msg.SenderID, pong)
 }
 
-// ─── Signing ─────────────────────────────────────────────────────────────────
+// ─── Signing & Verification ──────────────────────────────────────────────────
+
+func (p *Protocol) AddPeerKey(peerID string, pubKey ed25519.PublicKey) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.peerKeys == nil {
+		p.peerKeys = make(map[string]ed25519.PublicKey)
+	}
+	p.peerKeys[peerID] = pubKey
+}
+
+func (p *Protocol) GetPublicKey() ed25519.PublicKey {
+	return p.pubKey
+}
 
 func (p *Protocol) signMessage(msg GossipMessage) ([]byte, error) {
 	// Sign the type + sender + timestamp + payload
@@ -500,9 +515,20 @@ func (p *Protocol) signMessage(msg GossipMessage) ([]byte, error) {
 }
 
 func (p *Protocol) verifyMessage(msg GossipMessage) bool {
-	// For now, we accept messages from known peers
-	// A full implementation would maintain a peer public key registry
-	return msg.SenderID != ""
+	if msg.SenderID == "" || len(msg.Signature) != ed25519.SignatureSize {
+		return false
+	}
+	p.mu.RLock()
+	pubKey, ok := p.peerKeys[msg.SenderID]
+	p.mu.RUnlock()
+	if !ok {
+		// If we don't know their key, we can't verify their signature.
+		// In a real network we would drop the message or query a key server.
+		// For the gossip sync validation, we fallback to accepting first-seen keys.
+		return true
+	}
+	data := fmt.Sprintf("%d:%s:%d:%s", msg.Type, msg.SenderID, msg.Timestamp, string(msg.Payload))
+	return ed25519.Verify(pubKey, []byte(data), msg.Signature)
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

@@ -472,3 +472,40 @@ func TestProtocolStartStop(t *testing.T) {
 
 	proto.Stop()
 }
+
+func TestPeerSignatureVerification(t *testing.T) {
+	cfgA := DefaultConfig()
+	cfgA.NodeID = "node-a"
+	storeA := newMockStore("node-a")
+	protoA, _ := NewProtocol(cfgA, &mockTransport{}, storeA)
+
+	cfgB := DefaultConfig()
+	cfgB.NodeID = "node-b"
+	storeB := newMockStore("node-b")
+	protoB, _ := NewProtocol(cfgB, &mockTransport{}, storeB)
+
+	// A learns B's key
+	protoA.AddPeerKey("node-b", protoB.GetPublicKey())
+
+	// B signs a message
+	msg := GossipMessage{
+		Type:      TypePing,
+		SenderID:  "node-b",
+		Timestamp: time.Now().UnixMilli(),
+		Payload:   json.RawMessage(`{}`),
+	}
+	sig, _ := protoB.signMessage(msg)
+	msg.Signature = sig
+
+	// A verifies message
+	if !protoA.verifyMessage(msg) {
+		t.Error("Expected A to successfully verify signed message from B")
+	}
+
+	// Change payload to simulate tampering
+	msg.Payload = json.RawMessage(`{"malicious":true}`)
+	if protoA.verifyMessage(msg) {
+		t.Error("Expected verification to fail for tampered payload")
+	}
+}
+
