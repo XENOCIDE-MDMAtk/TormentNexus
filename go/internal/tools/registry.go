@@ -504,6 +504,30 @@ func (r *Registry) registerAll() {
 	r.handlers["sysmon_disk"] = HandleSysmonDisk
 	r.handlers["sysmon_network"] = HandleSysmonNetwork
 	r.handlers["sysmon_find"] = HandleSysmonFind
+
+	// Docker — container management
+	r.handlers["docker_list_containers"] = HandleDockerListContainers
+	r.handlers["docker_list_images"] = HandleDockerListImages
+	r.handlers["docker_inspect"] = HandleDockerInspect
+	r.handlers["docker_logs"] = HandleDockerLogs
+	r.handlers["docker_stats"] = HandleDockerStats
+	r.handlers["docker_exec"] = HandleDockerExec
+
+	// Social — Twitter/X and Reddit
+	r.handlers["twitter_search"] = HandleTwitterSearch
+	r.handlers["twitter_user_timeline"] = HandleTwitterUserTimeline
+	r.handlers["reddit_search"] = HandleRedditSearch
+	r.handlers["reddit_get_posts"] = HandleRedditGetPosts
+
+	// Git — repository operations
+	r.handlers["git_status"] = HandleGitStatus
+	r.handlers["git_log"] = HandleGitLog
+	r.handlers["git_diff"] = HandleGitDiff
+	r.handlers["git_branches"] = HandleGitBranches
+	r.handlers["git_show"] = HandleGitShow
+	r.handlers["git_blame"] = HandleGitBlame
+	r.handlers["git_commit"] = HandleGitCommit
+	r.handlers["git_checkout"] = HandleGitCheckout
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
