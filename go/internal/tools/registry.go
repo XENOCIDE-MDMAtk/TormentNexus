@@ -450,6 +450,13 @@ func (r *Registry) registerAll() {
 	r.handlers["skills_get"] = HandleSkillGet
 	r.handlers["skills_store"] = HandleSkillStore
 	r.handlers["skills_search"] = HandleSkillSearch
+
+	// OpenMemory — local persistent memory store
+	r.handlers["openmemory_add"] = HandleOpenMemoryAdd
+	r.handlers["openmemory_search"] = HandleOpenMemorySearch
+	r.handlers["openmemory_get"] = HandleOpenMemoryGet
+	r.handlers["openmemory_delete"] = HandleOpenMemoryDelete
+	r.handlers["openmemory_list"] = HandleOpenMemoryList
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
