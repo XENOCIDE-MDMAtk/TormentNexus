@@ -1,6 +1,6 @@
 {
-  "signature": "packages/core/src/mcp/MCPAggregator.ts::Unresolved from this turn — packages/core/src/mcp/MCPAggregator.ts:\n🔴 STOP — 1 issue(s) must be fixed:\n  L69: Property 'connectTimeoutMs' does not exist on type 'MCPAggregatorOptions'.\n    💡 Fix: LSP quick fixes: Declare property 'connectTimeoutMs'; Add index signature for property 'connectTimeoutMs'",
-  "sessionId": "lens-mq057bw8-22078bd6",
-  "projectSeqStart": 46,
-  "projectSeqEnd": 47
+  "signature": "scripts/ingest_skills.py::ℹ️ Advisory — no action required this turn:\nCode-quality warnings introduced/touched this turn: 14 across 1 file(s).\nTop rules: python-thread-global-write×10, python-unsafe-regex×3, bare-except×1\nDetails written to .pi-lens/cache/code-quality-warnings.json\nNo action required unless you are already refactoring these areas.",
+  "sessionId": "lens-mq1d89k6-23450959",
+  "projectSeqStart": 66,
+  "projectSeqEnd": 68
 }

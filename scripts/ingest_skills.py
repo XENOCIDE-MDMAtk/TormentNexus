@@ -92,11 +92,19 @@ def main():
                 skipped += 1
                 continue
 
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR IGNORE INTO skills (name, description, category, frontmatter, content)
                 VALUES (?,?,?,?,?)
-            """, (info["name"], info["description"], info["category"],
-                  info["frontmatter"], info["content"]))
+            """,
+                (
+                    info["name"],
+                    info["description"],
+                    info["category"],
+                    info["frontmatter"],
+                    info["content"],
+                ),
+            )
             inserted += 1
 
         except Exception as e:
@@ -104,7 +112,9 @@ def main():
             print(f"  ERROR {skill_dir.name}: {e}")
 
     conn.commit()
-    total = conn.execute("SELECT COUNT(*) FROM skills WHERE status='active'").fetchone()[0]
+    total = conn.execute(
+        "SELECT COUNT(*) FROM skills WHERE status='active'"
+    ).fetchone()[0]
     conn.close()
 
     print("=== INGEST COMPLETE ===")

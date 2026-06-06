@@ -457,6 +457,21 @@ func (r *Registry) registerAll() {
 	r.handlers["openmemory_get"] = HandleOpenMemoryGet
 	r.handlers["openmemory_delete"] = HandleOpenMemoryDelete
 	r.handlers["openmemory_list"] = HandleOpenMemoryList
+
+	// AutoMem — graph-vector memory for AI agents
+	r.handlers["automem_add"] = HandleAutoMemAdd
+	r.handlers["automem_search"] = HandleAutoMemSearch
+	r.handlers["automem_get"] = HandleAutoMemGet
+	r.handlers["automem_delete"] = HandleAutoMemDelete
+	r.handlers["automem_list"] = HandleAutoMemList
+	r.handlers["automem_associate"] = HandleAutoMemAssociate
+
+	// lsmcp — LSP code manipulation and analysis
+	r.handlers["project_overview"] = HandleLsmcpProjectOverview
+	r.handlers["search_symbols"] = HandleLsmcpSearchSymbols
+	r.handlers["get_diagnostics"] = HandleLsmcpGetDiagnostics
+	r.handlers["find_references"] = HandleLsmcpFindReferences
+	r.handlers["get_symbol_details"] = HandleLsmcpGetSymbolDetails
 }
 
 func (r *Registry) Execute(ctx context.Context, name string, args map[string]interface{}) (ToolResponse, error) {
