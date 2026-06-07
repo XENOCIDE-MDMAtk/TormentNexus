@@ -623,6 +623,68 @@ func (r *Registry) Execute(ctx context.Context, name string, args map[string]int
 func (r *Registry) HasTool(name string) bool {
 	r.mu.RLock()
 	_, ok := r.handlers[name]
+
+	// Auto-registered by swarm
+	r.handlers["agentcortex_mcp"] = HandleAgentcortexMcp
+	r.handlers["agentic_rag_agent"] = HandleAgenticRagAgent
+	r.handlers["agentic_system_status"] = HandleAgenticSystemStatus
+	r.handlers["anysite_discover"] = HandleAnysiteDiscover
+	r.handlers["anysite_execute"] = HandleAnysiteExecute
+	r.handlers["anysite_get_page"] = HandleAnysiteGetPage
+	r.handlers["anysite_query_cache"] = HandleAnysiteQueryCache
+	r.handlers["anysite_export_data"] = HandleAnysiteExportData
+	r.handlers["anysite_search"] = HandleAnysiteSearch
+	r.handlers["anysite_list_sources"] = HandleAnysiteListSources
+	r.handlers["support"] = HandleAperag
+	r.handlers["apktool_mcp_server"] = HandleApktoolMcpServer
+	r.handlers["deep_code_reasoning_node"] = HandleEvalopsDeepCodeReasoningMcp
+	r.handlers["deep_code_reasoning_calls"] = HandleEvalopsDeepCodeReasoningMcp
+	r.handlers["deep_code_reasoning_for"] = HandleEvalopsDeepCodeReasoningMcp
+	r.handlers["deep_code_reasoning_parameters"] = HandleEvalopsDeepCodeReasoningMcp
+	r.handlers["asnlookup"] = HandleAsnLookup
+	r.handlers["dnslookup"] = HandleDnsLookup
+	r.handlers["whois"] = HandleWhois
+	r.handlers["geolocation"] = HandleGeolocation
+	r.handlers["create-kanban-board"] = HandleKanbanMcp
+	r.handlers["add-task-to-board"] = HandleKanbanMcp
+	r.handlers["move-task"] = HandleKanbanMcp
+	r.handlers["delete-task"] = HandleKanbanMcp
+	r.handlers["get-board-info"] = HandleKanbanMcp
+	r.handlers["get-task-info"] = HandleKanbanMcp
+	r.handlers["list-boards"] = HandleKanbanMcp
+	r.handlers["litellm"] = HandleLitellm
+	r.handlers["litellm_install"] = HandleLitellmInstall
+	r.handlers["litellm_python"] = HandleLitellmPython
+	r.handlers["gpu_run"] = HandleGpuRun
+	r.handlers["gpu_catalog"] = HandleGpuCatalog
+	r.handlers["gpu_estimate"] = HandleGpuEstimate
+	r.handlers["gpu_status"] = HandleGpuStatus
+	r.handlers["gpu_balance"] = HandleGpuBalance
+	r.handlers["mem_machine_store"] = HandleMemMachineStore
+	r.handlers["mem_machine_search"] = HandleMemMachineSearch
+	r.handlers["mem_machine_get"] = HandleMemMachineGet
+	r.handlers["mem_machine_update"] = HandleMemMachineUpdate
+	r.handlers["mem_machine_delete"] = HandleMemMachineDelete
+	r.handlers["mem_machine_list"] = HandleMemMachineList
+	r.handlers["mem_machine_clear"] = HandleMemMachineClear
+	r.handlers["memory_journal_mcp"] = HandleMemoryJournalMcp
+	r.handlers["oh_my_openagent"] = HandleOhMyOpenagent
+	r.handlers["fetchLinuxDoArticle"] = HandleOpenWebsearch
+	r.handlers["fetchCsdnArticle"] = HandleOpenWebsearch
+	r.handlers["fetchGithubReadme"] = HandleOpenWebsearch
+	r.handlers["fetchWebContent"] = HandleOpenWebsearch
+	r.handlers["fetchJuejinArticle"] = HandleOpenWebsearch
+	r.handlers["openwebsearch_search"] = HandleOpenWebsearchSearch
+	r.handlers["openwebsearch_fetch_linuxdo"] = HandleOpenWebsearchFetchLinuxDo
+	r.handlers["openwebsearch_fetch_csdn"] = HandleOpenWebsearchFetchCsdn
+	r.handlers["openwebsearch_fetch_github"] = HandleOpenWebsearchFetchGithub
+	r.handlers["openwebsearch_fetch_web"] = HandleOpenWebsearchFetchWeb
+	r.handlers["openwebsearch_fetch_juejin"] = HandleOpenWebsearchFetchJuejin
+	r.handlers["get_new_pools"] = HandleGetNewPools
+	r.handlers["uniswap_accepts"] = HandleUniswapAccepts
+	r.handlers["uniswap_count"] = HandleUniswapCount
+	r.handlers["uniswap_in"] = HandleUniswapIn
+	r.handlers["uniswap_u_v"] = HandleUniswapUV
 	r.mu.RUnlock()
 	return ok
 }
