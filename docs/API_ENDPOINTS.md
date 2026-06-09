@@ -97,3 +97,11 @@ Standard response format: `{"success": true, "data": { ... }}`
 - **Description**: Execute large-scale codebase refactoring.
 - **Arguments**:
   - `command`: The codemod command to run.
+
+### service_connectivity
+- **Description**: Probe and report health of upstream/downstream services.
+- **Status**: VERIFIED
+
+### client_sync
+- **Description**: Generate MCP configuration for IDE clients.
+- **Status**: VERIFIED
