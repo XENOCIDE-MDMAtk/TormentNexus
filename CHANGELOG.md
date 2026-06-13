@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.127] - 2026-06-08
+### Added
+- **Hardened Kernel Registry**: Restored approximately 60 "swarm" tool registrations and implemented stubs in `swarm.go` to ensure kernel build stability.
+- **Native Go Tool Assimilation**: Implemented high-performance native Go handlers for `ripgrep`, `anyquery`, and `codemod`.
+- **E2E Integration Testing**: Added formal integration test suite in `go/internal/tools/e2e_test.go` and verified the HTTP API surface via Python integration scripts.
+- **API Documentation**: Generated comprehensive `docs/API_ENDPOINTS.md` covering over 600 system, registry, and memory management routes.
+
 ## [1.0.0-alpha.126] - 2026-06-07
 ### Added
 - **Assimilation State Database**: Created `data/assimilation_state.db` to track the status of MCP servers, Hermes addons, and skill ingestion.

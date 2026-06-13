@@ -38,3 +38,10 @@ The TormentNexus assimilation pipeline is now fully operational and hardened. Th
 3. **SSO/RBAC Implementation**: Extend the `enterprise/` logic in the Go kernel to include the OIDC/SAML providers as planned in the roadmap.
 
 *Keep the party going! Never stop the party!!!*
+
+## Final Verification Results (2026-06-08)
+- **Registry E2E**: Verified all native tool registrations via `TestE2E_RegistryAndTools`. All tests passed.
+- **HTTP API Integration**: Validated live kernel via `scratch/e2e_integration_verify.py`. Confirmed tool execution, skill discovery, and system health.
+- **Security Audit**: Removed hardcoded Jules API secrets from `orchestrate.js`; validated path sanitization in `HandleRipgrep`.
+- **Documentation**: Finalized `docs/API_ENDPOINTS.md` with verified response envelopes and detailed native tool specs.
+- **Service Connectivity**: Verified sidecar-to-upstream probing logic via `/api/service/connectivity`; confirmed IDE sync capability via `/api/mcp/client-sync`.

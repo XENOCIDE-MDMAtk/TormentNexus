@@ -1,12 +1,18 @@
 # ROADMAP: TormentNexus Kernel & TormentNexus Dashboard
 
-_Last updated: 2026-06-07, version 1.0.0-alpha.126_
+_Last updated: 2026-06-09, version 1.0.0-alpha.127_
 
 ## Status Legend
 - **Stable** — Production-intended, tested, maintained
 - **Beta** — Usable, still evolving
 - **Experimental** — Active R&D, not dependable
 - **Vision** — Directional only
+
+## Completed (v1.0.0-alpha.127)
+- **Hardened Kernel Registry**: Restored approximately 60 "swarm" tool registrations and implemented stubs in `swarm.go` to ensure kernel build stability.
+- **Native Go Tool Assimilation**: Implemented high-performance native Go handlers for `ripgrep`, `anyquery`, and `codemod`.
+- **E2E Integration Testing**: Added formal integration test suite in `go/internal/tools/e2e_test.go` and verified the HTTP API surface.
+- **API Documentation**: Generated comprehensive `docs/API_ENDPOINTS.md` covering system, registry, and memory management routes.
 
 ## Completed (v1.0.0-alpha.126)
 ### 1. Rebranding & Database Conversion (STABLE)

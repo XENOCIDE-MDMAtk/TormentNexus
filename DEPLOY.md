@@ -81,6 +81,12 @@ pnpm -C apps/maestro start
 
 ## Go Sidecar Kernel
 
+### High-Performance Native Tools
+TormentNexus includes native Go implementations for core development tools. Ensure these are in your PATH for maximum performance:
+- **Ripgrep (rg)**: Required for high-speed regex search.
+- **Anyquery**: SQL interface to various data sources.
+- **Supervisor Monitor**: Background watchdog for session inactivity.
+
 To build and run the Go control plane sidecar alongside the main TS engine:
 ```bash
 cd go
