@@ -1,6 +1,6 @@
 # ROADMAP: TormentNexus Kernel & TormentNexus Dashboard
 
-_Last updated: 2026-06-07, version 1.0.0-alpha.126_
+_Last updated: 2026-06-07, version 1.0.0-alpha.127_
 
 ## Status Legend
 - **Stable** — Production-intended, tested, maintained
@@ -8,35 +8,33 @@ _Last updated: 2026-06-07, version 1.0.0-alpha.126_
 - **Experimental** — Active R&D, not dependable
 - **Vision** — Directional only
 
-## Completed (v1.0.0-alpha.126)
-### 1. Rebranding & Database Conversion (STABLE)
-- **TormentNexus Universal Rebrand**: Complete case-insensitive, case-specific refactoring across source modules, config files, package dependencies, and directories.
-- **Unified Catalog SQLite Storage**: Ingested and deduplicated standard technical assets, creating a robust local dataset of **11,024 populated MCP servers** stored directly in `tormentnexus.db`.
+## Completed (v1.0.0-alpha.127)
+### 1. Hardened Autonomous Orchestration (STABLE)
+- **Feature Reconciliation**: Merged `assimilation-final` and `assimilation-pipeline` branches into `main`.
+- **System Versioning**: Bumped to `v1.0.0-alpha.127`.
+- **Registry Recovery**: Restored all swarm tool stubs and fixed syntax regressions in native tool handlers.
 
-### 2. Track B2: Skill Registry Progressive & Relational Linkage (STABLE)
-- **Jaccard Duplication Rules (90% Threshold)**: Near-duplicate skills linked to canonical entry via `canonical_id`.
-- **Progressive Loading**: Implemented `skill_list`, `skill_get`, and `skill_search` for efficient context hygiene.
+### 2. Track A: MCP Assimilation (STABLE)
+- **Native Implementation Coverage**: Verified native Go implementations for Ripgrep, Anyquery, Codemod, Playwright, Ast-grep, Basic-memory, and more.
+- **State Seeding**: Updated `assimilation_state.db` to reflect the status of newly assimilated tools.
 
-### 3. Track A: MCP Assimilation (BETA)
-- **Native Go Reimplementation**: Replaced dozens of SSE/Stdio MCP servers with native Go modules (Arxiv, Exa, Semantic Scholar, etc.).
+### 3. Enterprise Licensing (STABLE)
+- **Cryptographic Validation**: Ed25519-based license verification verified with Go unit tests.
+- **Enterprise UI**: Refined landing page and dashboard components for enterprise tiering.
 
-## Active Sprint: Phase 6 - Comprehensive Assimilation & Enterprise Readiness
+## Active Sprint: Phase 7 - UI Polish & Skill Hardening
 
-### A. Track A: Full MCP Assimilation (BETA)
-- [ ] Assimilate top 500 MCP servers as native Go modules.
-- [ ] Eliminate all external MCP server dependencies and submodules.
+### A. Track B: Skill Registry Hardening (BETA)
+- [ ] Implement comprehensive unit tests for 3-tier progressive loading.
+- [ ] Optimize Jaccard deduplication performance for large skill sets.
 
-### B. Track C & D: Hermes Addons & Prompt Library (EXPERIMENTAL)
-- [ ] Research and rank top 500 Hermes-agent addons.
-- [ ] Migrate all hardcoded prompts to `data/prompt_library.db` with Go-native retrieval tools.
+### B. UI/UX Refinement (BETA)
+- [ ] Wire specialized interactive forms for native tools (Browser, Ripgrep, Anyquery).
+- [ ] Improve real-time feedback in Command Runner for long-running processes.
 
-### C. Enterprise Licensing & Compliance (EXPERIMENTAL)
-- [ ] Implement Ed25519-signed license token validation in the Go sidecar.
-- [ ] Develop Enterprise landing page with SSO/RBAC configuration stubs.
-
-### D. Default Agent Harness Integration (BETA)
-- [ ] Integrate Tabby, Warp, Hyper, Hyperharness, Hermes Agent, and Pi-Mono as default harnesses.
-- [ ] Automate Bobbybookmarks ingestion for continuous tool catalog updates.
+### C. Compliance & Auditing (EXPERIMENTAL)
+- [ ] Implement structured audit logs for native tool execution.
+- [ ] Draft RBAC permission schema for multi-user environments.
 
 ---
 *Outstanding! Magnificent! Insanely Great! The collective grows.*

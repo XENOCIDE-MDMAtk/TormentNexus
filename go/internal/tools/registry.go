@@ -269,6 +269,18 @@ func (r *Registry) registerAll() {
 	r.handlers["browser_click"] = HandleBrowserClick
 	r.handlers["browser_fill_form"] = HandleBrowserFillForm
 
+	// Browser-use & BrowserMCP Aliases
+	r.handlers["browser_use_navigate"] = HandleBrowserNavigate
+	r.handlers["browser_use_screenshot"] = HandleBrowserScreenshot
+	r.handlers["browsermcp_navigate"] = HandleBrowserNavigate
+	r.handlers["browsermcp_screenshot"] = HandleBrowserScreenshot
+	r.handlers["browserbase_navigate"] = HandleBrowserNavigate
+	r.handlers["browserbase_screenshot"] = HandleBrowserScreenshot
+
+	// vibe-coder-mcp Aliases
+	r.handlers["vibe_check"] = HandleVibeCheckAnalyze
+	r.handlers["vibe_quick"] = HandleVibeCheckQuick
+
 	// ChromaDB Vector Store Tools (Assimilated from chroma-mcp)
 	r.handlers["chroma_list_collections"] = HandleChromaListCollections
 	r.handlers["chroma_create_collection"] = HandleChromaCreateCollection

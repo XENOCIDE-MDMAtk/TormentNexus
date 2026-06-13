@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0-alpha.127] - 2026-06-07
+### Added
+- **Feature Reconciliation**: Merged major feature branches `feature/assimilation-final` and `feat/assimilation-pipeline` into `main`, consolidating the latest autonomous orchestration and assimilation capabilities.
+- **Go Kernel System Hardening**:
+  - Restored missing swarm tool stubs in `go/internal/tools/swarm.go` to ensure kernel compilation stability.
+  - Fixed syntax and import errors in merged native tool handlers (`anyquery.go`, `codemod.go`, `ripgrep.go`).
+  - Restored and verified all tool registrations in `go/internal/tools/registry.go`.
+- **MCP Assimilation Verification**:
+  - Verified and seeded the status of over 10 high-value native tool handlers in `data/assimilation_state.db`, including `taskmaster`, `semantic_scholar`, `playwright_browser`, and `ast_grep`.
+- **Enterprise readiness**: Refined `ROADMAP.md` and `TODO.md` to reflect the transition to Phase 7 (UI Polish & Skill Hardening).
+
 ## [1.0.0-alpha.126] - 2026-06-07
 ### Added
 - **Assimilation State Database**: Created `data/assimilation_state.db` to track the status of MCP servers, Hermes addons, and skill ingestion.
