@@ -227,3 +227,4 @@ nul
 
 # Pi project-local packages (if using pi install -l)
 .pi/npm/
+go_backup/
