@@ -598,6 +598,13 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 
 	server.squad.load()
 	server.swarm.load()
+
+	// Register standard Autonomous Engineering Workflows
+	server.workflowEngine.Register(workflow.FullBuildWorkflow(cfg.WorkspaceRoot))
+	server.workflowEngine.Register(workflow.SubmoduleSyncWorkflow(cfg.WorkspaceRoot))
+	server.workflowEngine.Register(workflow.LintAndTestWorkflow(cfg.WorkspaceRoot))
+	server.workflowEngine.Register(workflow.LifecycleWorkflow(cfg.WorkspaceRoot, server.toolsRegistry))
+
 	server.registerRoutes()
 	return server
 }
@@ -828,6 +835,12 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/native/process/kill", s.handleProcessKill)
 	s.mux.HandleFunc("/api/native/memory/get", s.handleGetMemory)
 	s.mux.HandleFunc("/api/native/codeexec/execute", s.handleExecuteCode)
+
+	// --- Native Workflow Endpoints ---
+	s.mux.HandleFunc("/api/native/workflows/list", s.handleNativeWorkflowList)
+	s.mux.HandleFunc("/api/native/workflows/get", s.handleNativeWorkflowGet)
+	s.mux.HandleFunc("/api/native/workflows/run", s.handleNativeWorkflowRun)
+	s.mux.HandleFunc("/api/native/workflows/create", s.handleNativeWorkflowCreate)
 	s.mux.HandleFunc("/api/mcp/tools/schema", s.handleMCPToolSchema)
 	s.mux.HandleFunc("/api/mcp/preferences", s.handleMCPToolPreferences)
 	s.mux.HandleFunc("/api/mcp/traffic", s.handleMCPTraffic)
