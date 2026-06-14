@@ -11,6 +11,7 @@ package tools
  */
 
 import (
+	"time"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -27,10 +28,17 @@ func HandleBrowserNavigate(ctx context.Context, args map[string]interface{}) (To
 		return err("url is required")
 	}
 
-	allocCtx, cancel := chromedp.NewExecAllocator(ctx,
+	timeoutMs := getInt(args, "timeout")
+	if timeoutMs <= 0 {
+		timeoutMs = 30000
+	}
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
+	defer cancel()
+
+	allocCtx, cancel1 := chromedp.NewExecAllocator(ctx,
 		chromedp.Headless, chromedp.NoSandbox, chromedp.DisableGPU, chromedp.WindowSize(1920, 1080),
 	)
-	defer cancel()
+	defer cancel1()
 
 	taskCtx, cancel2 := chromedp.NewContext(allocCtx)
 	defer cancel2()
@@ -55,21 +63,40 @@ func HandleBrowserScreenshot(ctx context.Context, args map[string]interface{}) (
 		return err("url is required")
 	}
 
-	allocCtx, cancel := chromedp.NewExecAllocator(ctx,
+	timeoutMs := getInt(args, "timeout")
+	if timeoutMs <= 0 {
+		timeoutMs = 30000
+	}
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
+	defer cancel()
+
+	fullPage := getBool(args, "fullPage")
+
+	allocCtx, cancel1 := chromedp.NewExecAllocator(ctx,
 		chromedp.Headless, chromedp.NoSandbox, chromedp.DisableGPU, chromedp.WindowSize(1920, 1080),
 	)
-	defer cancel()
+	defer cancel1()
 
 	taskCtx, cancel2 := chromedp.NewContext(allocCtx)
 	defer cancel2()
 
 	var buf []byte
-	if runErr := chromedp.Run(taskCtx,
-		chromedp.Navigate(url),
-		chromedp.WaitReady("body", chromedp.ByQuery),
-		chromedp.FullScreenshot(&buf, 80),
-	); runErr != nil {
-		return err(fmt.Sprintf("Screenshot failed: %v", runErr))
+	if fullPage {
+		if runErr := chromedp.Run(taskCtx,
+			chromedp.Navigate(url),
+			chromedp.WaitReady("body", chromedp.ByQuery),
+			chromedp.FullScreenshot(&buf, 80),
+		); runErr != nil {
+			return err(fmt.Sprintf("Full-page screenshot failed: %v", runErr))
+		}
+	} else {
+		if runErr := chromedp.Run(taskCtx,
+			chromedp.Navigate(url),
+			chromedp.WaitReady("body", chromedp.ByQuery),
+			chromedp.CaptureScreenshot(&buf),
+		); runErr != nil {
+			return err(fmt.Sprintf("Viewport screenshot failed: %v", runErr))
+		}
 	}
 
 	base64Img := base64.StdEncoding.EncodeToString(buf)
@@ -84,10 +111,17 @@ func HandleBrowserGetHTML(ctx context.Context, args map[string]interface{}) (Too
 		return err("url is required")
 	}
 
-	allocCtx, cancel := chromedp.NewExecAllocator(ctx,
+	timeoutMs := getInt(args, "timeout")
+	if timeoutMs <= 0 {
+		timeoutMs = 30000
+	}
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
+	defer cancel()
+
+	allocCtx, cancel1 := chromedp.NewExecAllocator(ctx,
 		chromedp.Headless, chromedp.NoSandbox, chromedp.DisableGPU, chromedp.WindowSize(1920, 1080),
 	)
-	defer cancel()
+	defer cancel1()
 
 	taskCtx, cancel2 := chromedp.NewContext(allocCtx)
 	defer cancel2()
@@ -117,10 +151,17 @@ func HandleBrowserEvaluate(ctx context.Context, args map[string]interface{}) (To
 		return err("script is required")
 	}
 
-	allocCtx, cancel := chromedp.NewExecAllocator(ctx,
+	timeoutMs := getInt(args, "timeout")
+	if timeoutMs <= 0 {
+		timeoutMs = 30000
+	}
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
+	defer cancel()
+
+	allocCtx, cancel1 := chromedp.NewExecAllocator(ctx,
 		chromedp.Headless, chromedp.NoSandbox, chromedp.DisableGPU, chromedp.WindowSize(1920, 1080),
 	)
-	defer cancel()
+	defer cancel1()
 
 	taskCtx, cancel2 := chromedp.NewContext(allocCtx)
 	defer cancel2()
@@ -155,10 +196,17 @@ func HandleBrowserClick(ctx context.Context, args map[string]interface{}) (ToolR
 		return err("selector is required")
 	}
 
-	allocCtx, cancel := chromedp.NewExecAllocator(ctx,
+	timeoutMs := getInt(args, "timeout")
+	if timeoutMs <= 0 {
+		timeoutMs = 30000
+	}
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
+	defer cancel()
+
+	allocCtx, cancel1 := chromedp.NewExecAllocator(ctx,
 		chromedp.Headless, chromedp.NoSandbox, chromedp.DisableGPU, chromedp.WindowSize(1920, 1080),
 	)
-	defer cancel()
+	defer cancel1()
 
 	taskCtx, cancel2 := chromedp.NewContext(allocCtx)
 	defer cancel2()
@@ -189,10 +237,17 @@ func HandleBrowserFillForm(ctx context.Context, args map[string]interface{}) (To
 		return err("selector is required")
 	}
 
-	allocCtx, cancel := chromedp.NewExecAllocator(ctx,
+	timeoutMs := getInt(args, "timeout")
+	if timeoutMs <= 0 {
+		timeoutMs = 30000
+	}
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
+	defer cancel()
+
+	allocCtx, cancel1 := chromedp.NewExecAllocator(ctx,
 		chromedp.Headless, chromedp.NoSandbox, chromedp.DisableGPU, chromedp.WindowSize(1920, 1080),
 	)
-	defer cancel()
+	defer cancel1()
 
 	taskCtx, cancel2 := chromedp.NewContext(allocCtx)
 	defer cancel2()

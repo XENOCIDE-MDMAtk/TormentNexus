@@ -33,6 +33,20 @@ This document provides a comprehensive list of the HTTP API endpoints available 
 - `POST /api/mcp/decision/search`: Search tools using the MCP Decision System.
 - `POST /api/mcp/decision/call`: Call a tool via the Decision System.
 
+## Skills
+- `GET /api/skills/list`: List all registered skills from the A2A skill registry.
+- `GET /api/skills/get?id=<skillID>`: Get details for a specific skill by ID (agent URLs).
+- `GET /api/skills/search?q=<query>`: Search skills by ID substring match.
+- `GET /api/skills/load`: Load a skill into the active working set (stub).
+- `GET /api/skills/unload`: Remove a skill from the active working set (stub).
+- `GET /api/skills/list-loaded`: List currently loaded skills (stub).
+- `GET /api/skills`: Legacy list of all skill entries.
+- `GET /api/skills/read`: Read full skill content.
+- `POST /api/skills/create`: Create a new skill.
+- `POST /api/skills/save`: Save/update a skill.
+- `GET /api/skills/summary`: Get a summary of all skills.
+- `POST /api/skills/assimilate`: Assimilate content into a skill.
+
 ## Memory & Context
 - `GET /api/memory/list`: List session memory entries.
 - `POST /api/memory/add`: Add a memory entry.

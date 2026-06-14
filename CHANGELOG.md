@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.0-alpha.130] - 2026-06-14
+### Added
+- **Skill HTTP API**: Implemented three new endpoints (`/api/skills/list`, `/api/skills/get`, `/api/skills/search`) querying `orchestration.GlobalSkillRegistry`.
+  - Returns JSON with skill IDs and agent URLs.
+  - Search supports substring matching on skill IDs.
+  - Stubs added for `/api/skills/load`, `/api/skills/unload`, `/api/skills/list-loaded` (501 Not Implemented).
+- **Unit Tests**: Added 10 comprehensive tests for skill handlers covering success, error, and edge cases.
+- **Documentation**: Updated `docs/API_ENDPOINTS.md` with Skill API section.
+### Changed
+- `skill_handlers.go`: Created new file with handlers using GlobalSkillRegistry.
+- `skill_handlers_test.go`: Created new test file with 10 passing tests.
+- `server.go`: Skill routes already existed at lines 1098-1104 (from previous session).
+- Version bumped to `1.0.0-alpha.130` across all 35 package.json files and Go buildinfo.
+
 ## [1.0.0-alpha.129] - 2026-06-14
 ### Added
 - Browser automation MCP handlers (`browser_navigate`, `browser_screenshot`, `browser_get_html`, `browser_evaluate`, `browser_click`, `browser_fill_form`) implemented natively with `chromedp`.

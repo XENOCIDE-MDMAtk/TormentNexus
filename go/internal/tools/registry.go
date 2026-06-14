@@ -48,8 +48,8 @@ func (r *Registry) registerAll() {
 // TODO: 	r.handlers["ingest_git"] = HandleGitIngest
 // TODO: 	r.handlers["sqlite_get_catalog"] = HandleSqliteGetCatalog
 // TODO: 	r.handlers["sqlite_execute"] = HandleSqliteExecute
-// TODO: 	r.handlers["search"] = HandleDDGSearch
-// TODO: 	r.handlers["fetch_content"] = HandleDDGFetchContent
+	r.handlers["search"] = HandleDDGSearch
+	r.handlers["fetch_content"] = HandleDDGFetchContent
 // TODO: 	r.handlers["slack_list_channels"] = HandleSlackListChannels
 // TODO: 	r.handlers["slack_post_message"] = HandleSlackPostMessage
 // TODO: 	r.handlers["slack_reply_to_thread"] = HandleSlackReplyToThread
@@ -263,11 +263,11 @@ func (r *Registry) registerAll() {
 
 	// Browser Automation Tools (Assimilated from playwright/browser-use/browsermcp/puppeteer/browserbase)
 r.handlers["browser_navigate"] = HandleBrowserNavigate
-// TODO: 	r.handlers["browser_screenshot"] = HandleBrowserScreenshot
-// TODO: 	r.handlers["browser_get_html"] = HandleBrowserGetHTML
-// TODO: 	r.handlers["browser_evaluate"] = HandleBrowserEvaluate
-// TODO: 	r.handlers["browser_click"] = HandleBrowserClick
-// TODO: 	r.handlers["browser_fill_form"] = HandleBrowserFillForm
+r.handlers["browser_screenshot"] = HandleBrowserScreenshot
+	r.handlers["browser_get_html"] = HandleBrowserGetHTML
+	r.handlers["browser_evaluate"] = HandleBrowserEvaluate
+	r.handlers["browser_click"] = HandleBrowserClick
+	r.handlers["browser_fill_form"] = HandleBrowserFillForm
 
 	// ChromaDB Vector Store Tools (Assimilated from chroma-mcp)
 // TODO: 	r.handlers["chroma_list_collections"] = HandleChromaListCollections
