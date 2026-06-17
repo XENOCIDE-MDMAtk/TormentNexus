@@ -1,4 +1,4 @@
-# TormentNexus: The Cognitive Control Plane & Universal TORMENTNEXUS
+# TormentNexus: The Cognitive Kernel — Universal AI Control Plane for Multi-Agent Workflows, MCP Tools & Context-Aware Memory
 
 ![Version](https://img.shields.io/badge/version-1.0.0--alpha.132-blue)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
