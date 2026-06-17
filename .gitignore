@@ -232,3 +232,21 @@ db_v3_*.db
 db_v4_*.db
 db_v5_*.db
 scratch/
+
+# === Temporary/Cache artifacts ===
+*.tmp
+akb*
+_llm_*
+*.pid
+*.tar.gz
+*.db-shm
+*.db-wal
+go/*.exe~
+finalize_swarm.pid
+backup_*.tar.gz
+
+# === Generated/backup files ===
+americandefaultresearch.go
+binance.go
+bravesearch.go
+ccoreguidelines.go
