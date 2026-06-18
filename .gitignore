@@ -19,6 +19,8 @@ go/tormentnexus.exe
 
 # === Logs ===
 *.log
+swarm_*.out
+*.pid
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
