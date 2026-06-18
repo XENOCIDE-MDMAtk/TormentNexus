@@ -252,3 +252,5 @@ americandefaultresearch.go
 binance.go
 bravesearch.go
 ccoreguidelines.go
+*.exe~
+.tormentnexus_queue.db
