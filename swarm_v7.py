@@ -24,6 +24,7 @@ import threading
 import time
 import traceback
 import tempfile
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
@@ -800,6 +801,52 @@ def claim_task(worker_id):
         }
 
 
+def claim_implemented_task(worker_id):
+    """Claim an implemented server for validation."""
+    with _db_lock:
+        db = sqlite3.connect(str(DB_PATH))
+        db.isolation_level = "EXCLUSIVE"
+        c = db.cursor()
+        row = c.execute(
+            "SELECT name, github_url FROM mcp_servers WHERE status='implemented' AND (notes IS NULL OR notes NOT LIKE 'validated%') ORDER BY RANDOM() LIMIT 1"
+        ).fetchone()
+        if not row:
+            db.close()
+            return None
+        name = row[0]
+        c.execute(
+            "UPDATE mcp_servers SET notes=?, updated_at=CURRENT_TIMESTAMP WHERE name=? AND status='implemented'",
+            (f"validating-v7-w{worker_id}", name),
+        )
+        db.commit()
+        if c.rowcount == 0:
+            db.close()
+            return None
+        db.close()
+        return {"name": name, "github_url": row[1] or ""}
+
+
+def record_validation(name, status, detail):
+    """Record a validation result in the DB."""
+    with _db_lock:
+        db = sqlite3.connect(str(DB_PATH))
+        c = db.cursor()
+        # Append validation status to notes
+        existing = c.execute(
+            "SELECT notes FROM mcp_servers WHERE name=?", (name,)
+        ).fetchone()
+        notes = (existing[0] or "") if existing else ""
+        # Remove old validation marker
+        notes = re.sub(r"validated-\S+", "", notes).strip()
+        new_notes = f"{notes} validated-{status}:{detail[:60]}".strip()
+        c.execute(
+            "UPDATE mcp_servers SET notes=?, updated_at=CURRENT_TIMESTAMP WHERE name=?",
+            (new_notes, name),
+        )
+        db.commit()
+        db.close()
+
+
 def complete_task(name, go_file, tools_count, review_status=""):
     with _db_lock:
         db = sqlite3.connect(str(DB_PATH))
@@ -1335,14 +1382,127 @@ def worker_loop(worker_id, shutdown, completed_lock, completed_count):
         completed_count[0] += 1
 
 
+# === WORKER — Validation Phase ===
+def worker_validate(worker_id, shutdown, completed_lock, completed_count):
+    stagger = (worker_id - 1) * 3
+    if stagger:
+        time.sleep(stagger)
+
+    while not shutdown.is_set():
+        task = claim_implemented_task(worker_id)
+        if not task:
+            log.info("No more servers to validate", worker_id)
+            return
+        name = task["name"]
+        github_url = task["github_url"]
+
+        # Find the Go file
+        fn = name_to_filename(name) + ".go"
+        go_path = TOOLS_DIR / fn
+        if not go_path.exists():
+            # Try fuzzy match
+            matches = list(TOOLS_DIR.glob("*.go"))
+            go_code = ""
+            for m in matches:
+                if name.lower()[:15] in m.stem.lower():
+                    go_code = m.read_text(encoding="utf-8", errors="replace")
+                    fn = m.name
+                    break
+            if not go_code:
+                record_validation(name, "MISSING", f"no Go file for {name}")
+                with completed_lock:
+                    completed_count[0] += 1
+                continue
+        else:
+            go_code = go_path.read_text(encoding="utf-8", errors="replace")
+
+        if not go_code.strip() or "//go:build ignore" in go_code:
+            record_validation(name, "STUB", "build-constrained stub, no implementation")
+            with completed_lock:
+                completed_count[0] += 1
+            continue
+
+        # Fetch original MCP server info from GitHub
+        original_info = ""
+        if github_url and "github.com" in github_url:
+            raw_base = github_url.rstrip("/").replace("github.com", "raw.githubusercontent.com")
+            for branch in ["main", "master"]:
+                for path in ["README.md", "package.json", "mcp.json"]:
+                    try:
+                        req = urllib.request.Request(
+                            f"{raw_base}/{branch}/{path}",
+                            headers={"User-Agent": "Mozilla/5.0"},
+                        )
+                        with urllib.request.urlopen(req, timeout=10) as r:
+                            original_info += f"\n[{branch}/{path}]:\n{r.read().decode('utf-8', errors='replace')[:5000]}"
+                    except Exception:
+                        continue
+                if original_info:
+                    break
+
+        if not original_info:
+            record_validation(name, "NO_ORIGINAL", f"cannot fetch source from {github_url}")
+            with completed_lock:
+                completed_count[0] += 1
+            continue
+
+        # Use LLM to validate
+        log.phase(f"VALIDATE: {name}", worker_id)
+        prompt = f"""You are validating a Go port of an MCP server.
+
+Original MCP server ({name}):
+Source: {github_url}
+{original_info[:4000]}
+
+Go port:
+```go
+{go_code[:4000]}
+```
+
+Is this a CLEAN_PORT, PARTIAL_PORT, MISMATCH, or STUB_ONLY?
+Reply with exactly one keyword on the first line, then a brief explanation on the second line."""
+
+        result = llm.call(prompt, "", phase="validate", wid=worker_id)
+        if not result:
+            record_validation(name, "LLM_FAIL", "LLM call failed")
+            with completed_lock:
+                completed_count[0] += 1
+            continue
+
+        lines = result.strip().split("\n")
+        status = lines[0].strip().upper() if lines else "UNKNOWN"
+        detail = lines[1].strip()[:100] if len(lines) > 1 else ""
+
+        for valid in ["CLEAN_PORT", "PARTIAL_PORT", "MISMATCH", "STUB_ONLY"]:
+            if valid in status:
+                status = valid
+                break
+        else:
+            status = "UNKNOWN"
+            detail = result[:100]
+
+        record_validation(name, status, detail)
+        if status == "CLEAN_PORT":
+            log.ok(f"VALIDATE OK: {name} -> {status}", worker_id)
+        else:
+            log.warn(f"VALIDATE: {name} -> {status} ({detail[:60]})", worker_id)
+
+        with completed_lock:
+            completed_count[0] += 1
+
+    with completed_lock:
+        completed_count[0] += 1
+
+
 # === ORCHESTRATOR ===
 class Swarm:
-    def __init__(self, max_workers, limit, forever, repair_only, no_research):
+    def __init__(self, max_workers, limit, forever, repair_only, no_research, validate=False):
         self.max_workers = max_workers
         self.limit = limit
         self.forever = forever
         self.repair_only = repair_only
         self.no_research = no_research
+        self.validate = validate
         self.running = True
         self.shutdown = threading.Event()
         self.completed_lock = threading.Lock()
@@ -1362,7 +1522,10 @@ class Swarm:
         log.stat(
             f"Workers: {self.max_workers} | Limit: {self.limit} | Forever: {self.forever}"
         )
-        log.stat("Pipeline: GENERATE -> REVIEW(2) -> FIX")
+        if self.validate:
+            log.stat("Pipeline: VALIDATE (compare Go ports vs original MCP servers)")
+        else:
+            log.stat("Pipeline: GENERATE -> REVIEW(2) -> FIX")
         log.stat(f"Generator models: {GENERATOR_MODELS[:3]}...")
         log.stat(f"Reviewer models: {REVIEWER_MODELS[:3]}...")
         log.stat(f"Fixer models: {FIXER_MODELS[:3]}...")
@@ -1428,7 +1591,7 @@ class Swarm:
                     break
                 futs[
                     pool.submit(
-                        worker_loop,
+                        (worker_validate if self.validate else worker_loop),
                         wid,
                         self.shutdown,
                         self.completed_lock,
@@ -1494,6 +1657,7 @@ def main():
     ap.add_argument("--limit", type=int, default=50)
     ap.add_argument("--forever", action="store_true")
     ap.add_argument("--repair", action="store_true")
+    ap.add_argument("--validate", action="store_true", help="Validate Go ports against original MCP servers")
     ap.add_argument("--no-research", action="store_true", default=True)
     ap.add_argument("--proxy", type=str, default=None)
     ap.add_argument("--log", type=str, default=None)
@@ -1511,6 +1675,7 @@ def main():
         forever=args.forever,
         repair_only=args.repair,
         no_research=args.no_research,
+        validate=args.validate,
     )
     success = swarm.run()
     sys.exit(0 if success else 1)
