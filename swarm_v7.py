@@ -94,8 +94,8 @@ DIRECT_PROVIDERS = []
 # Generator pool - proxy-based models (nvidia DIRECT providers removed - EOL since 2026-06-11)
 # Models route through local proxy at localhost:4000
 for _model, _cd in [
-    ("free-llm", 5),
-    ("free-llm-fallback", 10),
+    ("free-llm", 15),
+    ("free-llm-fallback", 30),
     ("gpt-4o-mini", 10),
     ("claude-3-haiku", 10),
     ("gemini-3-flash", 10),
@@ -137,9 +137,9 @@ FIXER_MODELS = [
 STREAM_TIMEOUT = 3600
 CURL_TIMEOUT = 3600
 CALL_COOLDOWN = (
-    3  # Reduced! Was 90s - now only 3s (per-provider cooldown handles rate limits)
+    15  # Per-provider cooldown (in seconds)
 )
-PIPELINE_COOLDOWN = 5  # Reduced! Was 30s
+PIPELINE_COOLDOWN = 15  # Throttle: don't overload freellm
 MAX_RETRIES = 50
 RETRY_BASE_DELAY = 30
 CIRCUIT_BREAKER_FAILS = 100
@@ -293,7 +293,7 @@ class LLMClient:
         self.provider_fails = {}
         self.provider_oks = {}
         # Global concurrency limiter for proxy calls
-        self._llm_semaphore = threading.Semaphore(8)  # max 8 concurrent LLM requests
+        self._llm_semaphore = threading.Semaphore(2)  # max 2 concurrent LLM requests — don't overload freellm
 
     def _next_provider(self):
         with self.lock:
