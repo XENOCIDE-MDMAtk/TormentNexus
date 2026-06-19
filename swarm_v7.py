@@ -91,20 +91,14 @@ PROXY_BASE = f"{PROXY_URL}/v1/chat/completions"
 
 DIRECT_PROVIDERS = []
 
-# Generator pool - proxy-based models (nvidia DIRECT providers removed - EOL since 2026-06-11)
-# Models route through local proxy at localhost:4000
+# PRIMARY: freellm proxy (localhost:4000) — waits indefinitely, never times out
 for _model, _cd in [
     ("free-llm", 15),
     ("free-llm-fallback", 30),
-    ("gpt-4o-mini", 10),
-    ("claude-3-haiku", 10),
-    ("gemini-3-flash", 10),
-    ("deepseek/deepseek-v3-0324", 15),
-    ("qwen/qwen3.5-flash-02-23", 10),
 ]:
     DIRECT_PROVIDERS.append(
         {
-            "name": f"proxy-{_model.replace('/', '-').lower()}",
+            "name": f"freellm-{_model.replace('/', '-').lower()}",
             "url": PROXY_BASE,
             "key": PROXY_KEY,
             "model": _model,
@@ -114,31 +108,31 @@ for _model, _cd in [
         }
     )
 
-GENERATOR_MODELS = [
-    "free-llm",
-    "free-llm-fallback",
-]
-REVIEWER_MODELS = [
-    "free-llm",
-    "free-llm-fallback",
-    "deepseek-ai/deepseek-v4-flash",
-    "z-ai/glm-4.7-flash",
-    "stepfun-ai/step-3.7-flash",
-    "glm-4-flash",
-]
-FIXER_MODELS = [
-    "free-llm",
-    "free-llm-fallback",
-    "qwen/qwen3.5-397b-a17b",
-    "deepseek-ai/deepseek-v4-pro",
-    "z-ai/glm-4.7",
-]
+# FALLBACK: LM Studio local models (localhost:1234)
+LMSTUDIO_BASE = "http://localhost:1234/v1/chat/completions"
+for _model, _cd in [
+    ("local-model", 60),
+]:
+    DIRECT_PROVIDERS.append(
+        {
+            "name": f"lmstudio-{_model.replace('/', '-').lower()}",
+            "url": LMSTUDIO_BASE,
+            "key": "",
+            "model": _model,
+            "cooldown": _cd,
+            "timeout": 120,
+            "stream": True,
+        }
+    )
+
+# All pipeline phases use freellm only (primary) with LM Studio fallback
+GENERATOR_MODELS = ["free-llm", "free-llm-fallback"]
+REVIEWER_MODELS = ["free-llm", "free-llm-fallback"]
+FIXER_MODELS = ["free-llm", "free-llm-fallback"]
 
 STREAM_TIMEOUT = 3600
 CURL_TIMEOUT = 3600
-CALL_COOLDOWN = (
-    15  # Per-provider cooldown (in seconds)
-)
+CALL_COOLDOWN = 15  # Per-provider cooldown (in seconds)
 PIPELINE_COOLDOWN = 15  # Throttle: don't overload freellm
 MAX_RETRIES = 50
 RETRY_BASE_DELAY = 30
