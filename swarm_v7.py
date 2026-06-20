@@ -94,7 +94,6 @@ DIRECT_PROVIDERS = []
 # PRIMARY: freellm proxy (localhost:4000) — waits indefinitely, never times out
 for _model, _cd in [
     ("free-llm", 15),
-    ("free-llm-fallback", 30),
 ]:
     DIRECT_PROVIDERS.append(
         {
@@ -126,16 +125,16 @@ for _model, _cd in [
     )
 
 # All pipeline phases use freellm only (primary) with LM Studio fallback
-GENERATOR_MODELS = ["free-llm", "free-llm-fallback"]
-REVIEWER_MODELS = ["free-llm", "free-llm-fallback"]
-FIXER_MODELS = ["free-llm", "free-llm-fallback"]
+GENERATOR_MODELS = ["free-llm"]
+REVIEWER_MODELS = ["free-llm"]
+FIXER_MODELS = ["free-llm"]
 
 STREAM_TIMEOUT = 3600
 CURL_TIMEOUT = 3600
-CALL_COOLDOWN = 60  # Per-provider cooldown — slow down retry rate
-PIPELINE_COOLDOWN = 30  # Throttle pipeline stages
-MAX_RETRIES = 20
-RETRY_BASE_DELAY = 60  # Start with 60s delay, exponential backoff
+CALL_COOLDOWN = 15  # Faster cycling since only one model
+PIPELINE_COOLDOWN = 10  # Faster pipeline
+MAX_RETRIES = 5
+RETRY_BASE_DELAY = 30  # Quick retry
 CIRCUIT_BREAKER_FAILS = 50
 CIRCUIT_BREAKER_COOLDOWN = 60
 MIN_CONTENT_LENGTH = 200  # Ignore short garbage responses ("GEN NO-CODE")
