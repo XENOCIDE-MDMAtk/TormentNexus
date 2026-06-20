@@ -240,6 +240,8 @@ agentic-ads.db
 borg.db
 catalog.db
 context_portal/context.db
+go/internal/httpapi/tormentnexus.db
+go/tormentnexus.db
 go/tormentnexus.db
 gorev.db
 metamcp.db
@@ -247,6 +249,7 @@ mydatabase.db
 orchestrator/.test_vector_rag.db
 packages/cli/data/
 packages/core/data/
+packages/core/tormentnexus.db
 
 # === Temp working files in data/ ===
 data/*.txt
@@ -279,3 +282,5 @@ bravesearch.go
 ccoreguidelines.go
 *.exe~
 .tormentnexus_queue.db
+watchdog.py
+.tormentnexus/skills.db
