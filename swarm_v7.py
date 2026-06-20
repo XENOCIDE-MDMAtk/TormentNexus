@@ -120,7 +120,7 @@ for _model, _cd in [
             "key": "",
             "model": _model,
             "cooldown": _cd,
-            "timeout": 3600,
+            "timeout": 10,
             "stream": False,
         }
     )
