@@ -106,6 +106,7 @@ def find_process(name, config):
                 capture_output=True,
                 text=True,
                 timeout=10,
+                creationflags=subprocess.CREATE_NO_WINDOW,
             )
             for line in result.stdout.split("\n"):
                 if f":{config['port']} " in line and "LISTENING" in line:
@@ -177,7 +178,8 @@ def start_worker(name, config):
             stdout=logfile,
             stderr=subprocess.STDOUT,
             cwd=str(WORKSPACE),
-            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+            creationflags=subprocess.CREATE_NO_WINDOW
+            | subprocess.CREATE_NEW_PROCESS_GROUP
             | subprocess.DETACHED_PROCESS,
         )
 
@@ -208,7 +210,7 @@ def check_and_repair():
             if len(pids) > 1:
                 for extra in pids[1:]:
                     try:
-                        subprocess.run(["taskkill", "/F", "/PID", str(extra)], capture_output=True, timeout=5)
+                        subprocess.run(["taskkill", "/F", "/PID", str(extra)], capture_output=True, timeout=5, creationflags=subprocess.CREATE_NO_WINDOW)
                         log(f"{name}: killed duplicate PID {extra}", "WARN")
                     except Exception:
                         pass

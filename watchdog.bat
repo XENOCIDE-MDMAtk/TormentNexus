@@ -10,7 +10,7 @@ echo.
 
 :restart
 echo [%date% %time%] Starting watchdog...
-python -u watchdog.py
+pythonw -u watchdog.py
 echo [%date% %time%] Watchdog exited. Restarting in 5 seconds...
 timeout /t 5 /nobreak >nul
 goto restart
