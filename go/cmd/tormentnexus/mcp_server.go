@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,7 +13,109 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	roottools "github.com/NexusSoftMDMA/TormentNexus/tools"
+	"github.com/tormentnexushq/tormentnexus-go/internal/mcpimpl"
 )
+
+// ─── Supervisor Settings and Profiles ───
+
+type SupervisorSettings struct {
+	BumpText           string   `json:"bumpText"`
+	BumpSentences      []string `json:"bumpSentences"`
+	ActionLabels       []string `json:"actionLabels"`
+	FocusDelayMs       int      `json:"focusDelayMs"`
+	AfterClickDelayMs  int      `json:"afterClickDelayMs"`
+	InputSettleDelayMs int      `json:"inputSettleDelayMs"`
+}
+
+func getSettingsPath() string {
+	home, _ := os.UserHomeDir()
+	return filepath.Join(home, ".tormentnexus", "supervisor-settings.json")
+}
+
+func loadSettings() (SupervisorSettings, error) {
+	var s SupervisorSettings
+	s.BumpText = "keep going"
+	s.BumpSentences = []string{
+		"keep going", "proceed", "outstanding", "perfect", "onward",
+		"continue", "great work, keep it up", "excellent, please proceed",
+		"magnificent, continue", "onward ho!",
+	}
+	s.ActionLabels = []string{
+		"Run", "Expand", "Always Allow", "Retry", "Accept all", "Accept",
+		"Allow", "Approve", "Proceed", "Keep", "Accept all changes",
+		"Accept All Changes", "Accept All", "Approve All", "Run command", "Allow all",
+	}
+	s.FocusDelayMs = 100
+	s.AfterClickDelayMs = 150
+	s.InputSettleDelayMs = 120
+
+	path := getSettingsPath()
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return s, nil
+		}
+		return s, err
+	}
+	err = json.Unmarshal(data, &s)
+	return s, err
+}
+
+func saveSettings(s SupervisorSettings) error {
+	path := getSettingsPath()
+	os.MkdirAll(filepath.Dir(path), 0755)
+	data, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, data, 0644)
+}
+
+type SurfaceProfile struct {
+	ID                string   `json:"id"`
+	DisplayName       string   `json:"displayName"`
+	ActionLabels      []string `json:"actionLabels"`
+	SubmitKeyChord    string   `json:"submitKeyChord,omitempty"`
+	InputControlTypes []string `json:"inputControlTypes"`
+	Notes             []string `json:"notes"`
+}
+
+var surfaceProfiles = []SurfaceProfile{
+	{
+		ID:           "default",
+		DisplayName:  "Default chat surface",
+		ActionLabels: []string{"Run", "Expand", "Always Allow", "Retry", "Accept all", "Accept", "Allow", "Approve", "Proceed", "Keep"},
+		SubmitKeyChord: "alt+enter",
+		InputControlTypes: []string{"Document", "Edit"},
+		Notes: []string{
+			"Fallback profile when no fork-specific adapter matches",
+			"Prefers browser-like document inputs before edit controls",
+		},
+	},
+	{
+		ID:           "antigravity",
+		DisplayName:  "Antigravity browser chat",
+		ActionLabels: []string{"Run", "Expand", "Always Allow", "Retry", "Accept all", "Accept", "Allow", "Approve", "Proceed", "Keep"},
+		SubmitKeyChord: "alt+enter",
+		InputControlTypes: []string{"Document", "Edit"},
+		Notes: []string{
+			"Optimized for browser-hosted coding chats with approval buttons",
+			"Keeps Alt+Enter as the default submit chord",
+		},
+	},
+	{
+		ID:           "claude-web",
+		DisplayName:  "Claude web chat",
+		ActionLabels: []string{"Retry", "Accept", "Allow", "Proceed", "Keep"},
+		SubmitKeyChord: "enter",
+		InputControlTypes: []string{"Document", "Edit"},
+		Notes: []string{
+			"Uses Enter as a safer default unless overridden by settings or tool arguments",
+		},
+	},
+}
 
 // ─── MCP Server types (minimal subset of JSON-RPC) ───
 
@@ -73,17 +176,21 @@ type ToolResult struct {
 type MCPServer struct {
 	goSidecarURL string
 	tools        []ToolDefinition
+	rootRegistry *roottools.Registry
 }
 
 func NewMCPServer(goSidecarURL string) *MCPServer {
 	s := &MCPServer{
 		goSidecarURL: goSidecarURL,
+		rootRegistry: roottools.NewRegistry(),
 	}
 	s.registerTools()
 	return s
 }
 
 func (s *MCPServer) registerTools() {
+
+	// Core tools (always available)
 	s.tools = []ToolDefinition{
 		// ── Process Management ──
 		{
@@ -253,6 +360,50 @@ func (s *MCPServer) registerTools() {
 			Description: "Get billing and provider status",
 			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
 		},
+		// ── Supervisor Config Parity ──
+		{
+			Name:        "list_surface_profiles",
+			Description: "List known supervisor surface profiles and default configurations",
+			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+		},
+		{
+			Name:        "get_supervisor_settings",
+			Description: "Get supervisor default settings for autopilot automation",
+			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+		},
+		{
+			Name:        "update_supervisor_settings",
+			Description: "Update supervisor default settings for autopilot automation",
+			InputSchema: InputSchema{
+				Type: "object",
+				Properties: map[string]PropertySchema{
+					"bumpText":           {Type: "string", Description: "Autopilot default bump text"},
+					"focusDelayMs":       {Type: "number", Description: "Autopilot default focus settle delay in ms"},
+					"afterClickDelayMs":  {Type: "number", Description: "Autopilot default after click delay in ms"},
+					"inputSettleDelayMs": {Type: "number", Description: "Autopilot default input settle delay in ms"},
+				},
+			},
+		},
+		{
+			Name:        "list_accessory_tools",
+			Description: "List all built-in Go accessory tools",
+			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+		},
+	}
+
+	// ── Root Go Accessory Tools (Always-On) ──
+	if s.rootRegistry != nil {
+		for _, t := range s.rootRegistry.Tools {
+			var schema InputSchema
+			if len(t.Parameters) > 0 {
+				_ = json.Unmarshal(t.Parameters, &schema)
+			}
+			s.tools = append(s.tools, ToolDefinition{
+				Name:        t.Name,
+				Description: t.Description,
+				InputSchema: schema,
+			})
+		}
 	}
 }
 
@@ -327,8 +478,67 @@ func (s *MCPServer) callTool(name string, args map[string]any) ToolResult {
 		return ToolResult{Content: []TextContent{{Type: "text", Text: health}}}
 	case "billing_status":
 		return goSidecarGet(s.goSidecarURL + "/api/billing/status")
+	case "list_surface_profiles":
+		data, _ := json.MarshalIndent(surfaceProfiles, "", "  ")
+		return ToolResult{Content: []TextContent{{Type: "text", Text: string(data)}}}
+	case "get_supervisor_settings":
+		settings, err := loadSettings()
+		if err != nil {
+			return ToolResult{Content: []TextContent{{Type: "text", Text: fmt.Sprintf("Error loading settings: %v", err)}}}
+		}
+		data, _ := json.MarshalIndent(settings, "", "  ")
+		return ToolResult{Content: []TextContent{{Type: "text", Text: string(data)}}}
+	case "update_supervisor_settings":
+		settings, err := loadSettings()
+		if err != nil {
+			return ToolResult{Content: []TextContent{{Type: "text", Text: fmt.Sprintf("Error loading settings: %v", err)}}}
+		}
+		if val, ok := args["bumpText"].(string); ok {
+			settings.BumpText = val
+		}
+		if val, ok := args["focusDelayMs"].(float64); ok {
+			settings.FocusDelayMs = int(val)
+		}
+		if val, ok := args["afterClickDelayMs"].(float64); ok {
+			settings.AfterClickDelayMs = int(val)
+		}
+		if val, ok := args["inputSettleDelayMs"].(float64); ok {
+			settings.InputSettleDelayMs = int(val)
+		}
+		err = saveSettings(settings)
+		if err != nil {
+			return ToolResult{Content: []TextContent{{Type: "text", Text: fmt.Sprintf("Error saving settings: %v", err)}}}
+		}
+		data, _ := json.MarshalIndent(settings, "", "  ")
+		return ToolResult{Content: []TextContent{{Type: "text", Text: string(data)}}}
+	case "list_accessory_tools":
+		var names []string
+		if s.rootRegistry != nil {
+			for _, t := range s.rootRegistry.Tools {
+				names = append(names, t.Name)
+			}
+		}
+		data, _ := json.MarshalIndent(names, "", "  ")
+		return ToolResult{Content: []TextContent{{Type: "text", Text: string(data)}}}
 	default:
-		return ToolResult{Content: []TextContent{{Type: "text", Text: fmt.Sprintf("Unknown tool: %s", name)}}}
+		// 1. Try root registry tools first
+		if s.rootRegistry != nil {
+			for _, t := range s.rootRegistry.Tools {
+				if t.Name == name {
+					res, err := t.Execute(args)
+					if err != nil {
+						return ToolResult{Content: []TextContent{{Type: "text", Text: fmt.Sprintf("Error: %v", err)}}}
+					}
+					return ToolResult{Content: []TextContent{{Type: "text", Text: res}}}
+				}
+			}
+		}
+		// 2. Try mcpimpl dispatch fallback (for 4,500+ generated tools)
+		resp, err := mcpimpl.Dispatch(name, context.Background(), args)
+		if err == nil {
+			return ToolResult{Content: []TextContent{{Type: "text", Text: resp.Content}}}
+		}
+		return ToolResult{Content: []TextContent{{Type: "text", Text: fmt.Sprintf("Unknown tool: %s. Dispatch error: %v", name, err)}}}
 	}
 }
 

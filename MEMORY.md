@@ -55,3 +55,10 @@
 - When a README.md rewrite is done, immediately commit it separately so it doesn't get lost in merge noise
 - Fast-forward feature branches that are fully merged rather than leaving them stale
 - Delete feature branches on GitHub after they are fully merged into main
+
+## Session 2026-06-24 (MCP Parity & Compile Hardening)
+
+### MCP Server Observations
+- **Local Module Replacing**: Setting `replace github.com/NexusSoftMDMA/TormentNexus => ../` and requiring `github.com/NexusSoftMDMA/TormentNexus v0.0.0` in `go/go.mod` allows the Go sidecar module to import `"github.com/NexusSoftMDMA/TormentNexus/tools"` without invoking network proxy lookups.
+- **Unused Import Errors**: The Go compiler enforces unused imports strictly. Having a python compiler feedback loop that isolates files failing due to unused imports into `_disabled` and regenerates the dispatch map dynamically ensures compilation success.
+- **Console Window Output**: To prevent JSON-RPC stream corruption for stdio client runners, all logging must be written strictly to `os.Stderr`.
