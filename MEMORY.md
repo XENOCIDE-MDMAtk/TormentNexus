@@ -62,3 +62,10 @@
 - **Local Module Replacing**: Setting `replace github.com/NexusSoftMDMA/TormentNexus => ../` and requiring `github.com/NexusSoftMDMA/TormentNexus v0.0.0` in `go/go.mod` allows the Go sidecar module to import `"github.com/NexusSoftMDMA/TormentNexus/tools"` without invoking network proxy lookups.
 - **Unused Import Errors**: The Go compiler enforces unused imports strictly. Having a python compiler feedback loop that isolates files failing due to unused imports into `_disabled` and regenerates the dispatch map dynamically ensures compilation success.
 - **Console Window Output**: To prevent JSON-RPC stream corruption for stdio client runners, all logging must be written strictly to `os.Stderr`.
+
+## Session 2026-06-24 (Dashboard Consolidation & MCP Robustness)
+
+### Stdio MCP Protocol Robustness
+- **JSON-RPC Parameters**: The MCP spec allows `params` to be optional or a JSON array (`[]`) for methods like `tools/list`. Using `json.RawMessage` for the request envelope's `params` field prevents unmarshal errors on standard client handshakes, dynamically decoding the struct parameters only inside handlers that strictly require them (like `tools/call`).
+- **Dashboard Layout**: Overview dashboards should avoid repeating structural readouts (like detailed metrics `dl` blocks) if they already exist in top-level cards, balancing screen estate and avoiding unnecessary page height.
+
