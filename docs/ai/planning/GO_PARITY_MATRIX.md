@@ -92,7 +92,7 @@ Status values:
 | Council debate endpoint | Bridge-first with Native Go fallback | native Go council fallback exists and now persists native fallback debates into the Go debate-history store |
 | Council history/persistence | Partial Native Go | Go history status/stats/list/get/delete/supervisor/clear/initialize fallbacks now use native persisted debate history when TS is unavailable |
 | Swarm/squad/autodev/darwin | Partial Native Go / bridge mix | many Go routes still proxy to TS; `/api/skills/assimilate` now has a native Go fallback that creates a truthful local starter skill scaffold, Darwin routes now have a native persisted local mutation/experiment/status fallback, AutoDev routes now have a native persisted local loop manager fallback, squad routes now have a native persisted local squad/indexer state fallback, and swarm mission start/resume/history/risk/mesh plus local approve/decompose/update/debate/consensus/direct-message fallback semantics now have native persisted local fallback ownership, but richer director/worktree/LLM/research-driven squad, swarm, Darwin, AutoDev, and assimilation parity remain incomplete |
-| Director config/status | Bridge-only / partial | visibility exists, not full native ownership |
+| Director config/status | Native Go with upstream fallback | status, config get/test/update, auto-drive start/stop all have native Go fallbacks. memorize/chat remain bridge-only (LLM-dependent). |
 
 ---
 
