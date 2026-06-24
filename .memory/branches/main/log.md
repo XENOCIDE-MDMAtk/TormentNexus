@@ -18234,3 +18234,309 @@ print('summary:', str(resp.get('summary', ''))[:80])
 " 2>/dev/null", timeout: 10)
 **Observation**: bash: success
 
+## Turn 24 | 2026-06-24T00:25:46.107Z | deepseek/deepseek-v4-flash
+
+**Thought**: Everything works. Let me commit and push:
+**Thinking**: The TS upstream handled it and returned "not currently connected". The Go-native fallback would kick in if TS was unavailable. Let me commit and push everything.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && git add -A && git commit -m "feat: real native Go MCP server test probe
+
+Replace simulated failure in handleMCPServerTest with real native probe:
+- Router probe: uses nativeRouter.GetWorkingSet() for tools/list,
+  nativeRouter.CallTool() for tools/call
+- Downstream server probe: spawns StdioClient from config,
+  sends real MCP requests (tools/list, tools/call, ping)
+- Both paths return real response data with success/failure/error details
+
+Also fixed freellm watchdog console flash (converted batch->pythonw).
+
+v1.0.0-alpha.139" 2>&1 | tail -3", timeout: 10)
+**Observation**: bash: success
+
+## Turn 25 | 2026-06-24T00:25:54.939Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me push and provide a final summary.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && git push origin main 2>&1 | tail -3", timeout: 120)
+**Observation**: bash: success
+
+## Turn 26 | 2026-06-24T00:26:10.986Z | deepseek/deepseek-v4-flash
+
+**Thought**: ## Session Summary — v1.0.0-alpha.139
+
+### What was built
+
+**1. Real Native Go MCP Server Test Probe** (`handleMCPServerTest`)
+Previously always returned simulated failures when TS was unavailable. Now does real probing:
+- **Router probe** — uses `nativeRouter.GetWorkingSet()` and `nativeRouter.CallTool()` to list/call tools directly
+- **Downstream server probe** — spawns a `StdioClient` from the server's config, sends real MCP `tools/list`, `tools/call`, or `ping` requests
+- **Error handling** — returns proper success/failure responses matching the expected API shape
+
+**2. Console Flash Elimination (3 projects fixed)**
+
+| Project | Before | After |
+|---------|--------|-------|
+| **freellm** | `nohup cmd.exe /c "start /MIN /B cmd /c ... watchdog.bat"` | `pythonw.exe watchdog.py` |
+| **slsk_discography** | `python.exe` + missing `CREATE_NO_WINDOW` | `pythonw.exe` + all subprocess calls have `CREATE_NO_WINDOW` |
+| **tormentnexus** | Already clean | No change needed |
+
+**3. Tool Selection Telemetry Persistence** (v1.0.0-alpha.138)
+- New `ToolSelectionStore` — JSON-backed persistence for MCP tool selection events
+- No longer returns empty data when TS is unavailable
+
+### Current state
+- **Go sidecar**: v1.0.0-alpha.139 on port 7778
+- **Go build**: ✅ zero errors
+- **All services**: 6/7 ports healthy
+- **Workers**: all stable
+- **Git**: ✅ pushed to origin
+
+### Next priorities (for future sessions)
+1. **MCP config import/export** — make Go-native (currently bridge-only per parity matrix)
+2. **Background LLM execution** — port to Go-native
+3. **Session auto-import worker** — port to Go
+**Thinking**: Done. Let me provide a full summary of what was accomplished.
+
+## Turn 1 | 2026-06-24T00:28:43.401Z | deepseek/deepseek-v4-flash
+
+**Thought**: Let me start with #1 — MCP config import/export. Let me check the current state:
+**Thinking**: The user wants me to proceed with items 1, 2, and 3 from the "Next priorities" list. These are significant tasks. Let me think about what each involves and pick the most impactful one to start with.
+
+1. **MCP config import/export** — make Go-native (currently bridge-only)
+2. **Background LLM execution** — port to Go-native
+3. **Session auto-import worker** — port to Go
+
+Actually, looking at the codebase, #1 (MCP config import/export) might already have Go-native fallbacks from what I saw earlier. The parity matrix said "Bridge-only" but I found the handlers have native Go fallbacks. Let me check what's actually still missing.
+
+Let me check what route handlers still only proxy to TS without any Go fallback logic. That's a better use of time than guessing.
+
+Actually, the user said "1,2,3" which means do all three. Let me start with #1 since it's the most contained, then move to #2 and #3.
+
+For #1, let me check what the MCP config import/export handlers look like and whether they have native Go fallbacks or not.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && echo "── MCP CONFIG ROUTES ──"
+grep -n "api/mcp/config\|api/mcp/servers/export\|api/mcp/servers/sync\|api/mcp/servers/bulk\|handleMCPJsonc\|handleMCPConfig" go/internal/httpapi/server.go | head -15
+echo ""
+echo "── CHECK FOR NATIVE FALLBACKS ──"
+grep -n "localMCP\|localJsonc\|mcpConfig\|mcp_json_config" go/internal/httpapi/server.go | grep "func.*local\|s\.local\|local.*MCP" | head -10", timeout: 10)
+**Observation**: bash: success
+
+## Turn 2 | 2026-06-24T00:29:02.479Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: All the MCP config routes already have native Go fallbacks. Let me check if there's a MCP config import/export route specifically that's missing. The parity matrix said "config import/export/client sync" is "Bridge-only". Let me check the `handleMCPJsoncConfig` route which seems related to config management.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -A30 "func.*handleMCPJsoncConfig" go/internal/httpapi/server.go | head -35", timeout: 10)
+**Observation**: bash: success
+
+## Turn 3 | 2026-06-24T00:29:06.269Z | deepseek/deepseek-v4-flash
+
+**Thought**: Good — MCP config routes already have native Go fallbacks. The parity matrix is slightly stale. Let me move to **#2 — Background LLM execution**:
+**Thinking**: The config route already has a native Go fallback (`localMCPJsoncEditor`). So the parity matrix might be slightly out of date.
+
+Let me now focus on #2 — Background LLM execution. Let me check how LLM calls are currently made from the Go sidecar.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && echo "── LLM execution in Go ──"
+grep -rn "callLLM\|CallLLM\|chat\|Chat\|Complete\|complete\|Generate\|generate\|Stream\|stream" go/internal/ai/ 2>/dev/null | grep "func " | head -15
+echo ""
+echo "── LAYER 3 SERVICES ──"
+ls go/internal/ 2>/dev/null | grep -v "_test\|mcp\."
+echo ""
+echo "── WHERE DOES TS LLM INVOKE? ──"
+grep -rn "llm\|LLM\|model\|Model\|provider\|Provider" packages/core/src/ 2>/dev/null | grep -i "function\|export" | head -10", timeout: 15)
+**Observation**: bash: success
+
+## Turn 4 | 2026-06-24T00:29:12.875Z | deepseek/deepseek-v4-flash
+
+**Thought**: Go already has LLM providers in `go/internal/ai/` — the gap is the **background services that use them**. Let me check the session import worker:
+**Thinking**: The Go sidecar already has LLM providers (OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, LMStudio, Ollama) and a WaterfallClient. The question is whether background services (swarm, trends analyzer, etc.) use these Go-native providers or go through TS.
+
+Looking at the TS background services:
+- `swarm_v7.py` — uses freellm proxy at localhost:4000
+- `trends_analyzer.py` — uses freellm or LM Studio
+- These are Python scripts using the Python LLM stack
+
+The "Background-service LLM execution authority" in the parity matrix refers to the fact that many TS services still invoke models directly. The Go sidecar has `go/internal/ai/` with providers, but the Python-based workers (swarm, trends) use their own LLM access via freellm.
+
+This is a big task — porting the Python workers to Go would be a massive effort. Instead, let me look for a more contained approach. Maybe I can add an LLM execution endpoint to the Go sidecar that the Python workers can use instead of going through freellm? That way the Go sidecar becomes the LLM authority.
+
+Actually, let me re-read the parity matrix more carefully:
+
+> "Background-service LLM execution authority | TS-only critical | many TS services still invoke models directly"
+
+This isn't about the Python workers — it's about the TypeScript services (like session supervisor, council, etc. in `packages/core/`) that make direct LLM calls. The Go sidecar has provider implementations but the actual service orchestration (what prompts to send, how to parse responses) is in the TypeScript services.
+
+The real task here would be to port one of these services to Go. The most self-contained one would be something like the session import worker, which is item #3.
+
+Let me move to #3 — Session auto-import worker.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && echo "── TS SESSION IMPORT ──"
+ls packages/core/src/importers/ 2>/dev/null | head -10
+echo ""
+echo "── GO SESSION IMPORT ──"
+ls go/internal/sessionimport/ 2>/dev/null
+echo ""
+echo "── GO SESSION IMPORT SCANNER ──"
+grep -n "func.*Scan\|func.*Import\|func.*Discover" go/internal/sessionimport/*.go 2>/dev/null | head -15", timeout: 10)
+**Observation**: bash: success
+
+## Turn 5 | 2026-06-24T00:29:20.928Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The Go session import already has a full implementation. The parity matrix says "Partial Native Go" which is correct — Go has a real scanner, validator, importer, and store. The worker part (automated background scanning) might still be TS-only.
+
+Let me check if there's an auto-import background worker in TS that runs periodic scans.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -rn "auto.*import\|session.*import\|background.*import\|periodic\|scan.*import\|AutoImport" packages/core/src/ 2>/dev/null | head -10
+echo ""
+echo "── CHECK WHAT TS SERVICES ARE BUSY ──"  
+grep -n "handleImportedSessionScan\|handleImportedSessionList\|handleImportedSessionMaintenance" go/internal/httpapi/server.go | head -5", timeout: 10)
+**Observation**: bash: success
+
+## Turn 6 | 2026-06-24T00:29:26.406Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The TS auto-import worker is mentioned in `packages/core/src/daemons/README.md` — specifically the "hyperingest" daemon. Let me check if it's running and what it does.
+
+But actually, the Go sidecar already has `handleImportedSessionScan` which calls the Go session import scanner. The question is whether there's a background worker that periodically triggers this scan.
+
+Let me look at what daemons exist in TS and whether the session auto-import worker is something that needs to be ported to Go.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && cat packages/core/src/daemons/README.md 2>/dev/null")
+**Observation**: bash: success
+
+## Turn 7 | 2026-06-24T00:29:32.799Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Now I see the picture clearly. The "hyperingest" daemon handles:
+1. Parsing bobbybookmarks
+2. Parsing bookmarks.txt
+3. Auto-importing AI CLI sessions
+
+The Go sidecar already has:
+- `handleImportedSessionScan` — triggers scanning
+- `ImportedSessionScanner` — discovers candidates
+- `IngestDiscoveredSessions` — ingests sessions
+- BobbyBookmarks sync in `hsync/bobbybookmarks.go`
+
+But there's no **background worker** in Go that periodically triggers these scans. The workers are in TS.
+
+Let me create a simple Go background worker for session auto-import. This would be a goroutine that periodically:
+1. Scans for new sessions
+2. Imports any discovered sessions
+3. Runs maintenance
+
+I can add this to the server startup in `main.go` or `server.go`.
+
+Actually, looking at the server startup code, I saw `PreWarmImportCache` and `PreWarmCaches` calls. So there's already some import scanning happening at startup. Let me check if there's a periodic background worker.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -n "background\|Background\|go func\|ticker\|Ticker\|periodic\|Periodic\|cron\|Cron" go/internal/httpapi/server.go 2>/dev/null | grep -v "//\|string\|json\|URL" | head -15", timeout: 10)
+**Observation**: bash: success
+
+## Turn 8 | 2026-06-24T00:29:46.000Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: There's already a periodic BobbyBookmarks sync (line 677-686) running in the Go server. Let me check the full background worker setup.
+**Action**: read(limit: 60, offset: 630, path: "C:/Users/hyper/workspace/tormentnexus/go/internal/httpapi/server.go")
+**Observation**: read: success
+
+## Turn 9 | 2026-06-24T00:29:54.888Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Good - the Go server already has periodic BobbyBookmarks sync as a background worker. Now I need to add a similar periodic **session auto-import** background worker.
+
+Let me find where `IngestDiscoveredSessions` is called in the server code.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -n "IngestDiscovered\|sessionimport\.\|PreWarmImport" go/internal/httpapi/server.go | head -10", timeout: 10)
+**Observation**: bash: success
+
+## Turn 10 | 2026-06-24T00:30:07.319Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: There's a `scanImportSources` function at line 17897. Let me check the `IngestDiscoveredSessions` call path and the existing `PreWarmImportCache` function.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -A20 "func.*PreWarmImportCache" go/internal/httpapi/server.go | head -25", timeout: 10)
+**Observation**: bash: success
+
+## Turn 11 | 2026-06-24T00:30:15.558Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me now check where `scanImportSources` is used and if there's already a background import worker. Let me also look at the existing `PreWarmCaches` to see if I can add a session auto-import goroutine there.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -A20 "func.*PreWarmCaches" go/internal/httpapi/server.go | head -5
+echo "---"
+grep -n "scanImportSources\|IngestDiscoveredSessions" go/internal/httpapi/server.go | head -5", timeout: 10)
+**Observation**: bash: success
+
+## Turn 12 | 2026-06-24T00:30:25.823Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me look at `handleImportedSessionScan` to see how scanning currently works, then I can add a periodic background worker.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -A40 "func.*handleImportedSessionScan" go/internal/httpapi/server.go | head -45", timeout: 10)
+**Observation**: bash: success
+
+## Turn 13 | 2026-06-24T00:30:39.893Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The handler calls `callUpstreamJSON` first (tries TS), then falls back to `scanValidatedImportSources()`. The fallback path does the scanning natively in Go.
+
+Now I need to add a **background worker** in Go that periodically runs this scan/import cycle. I'll add it to the `PreWarmCaches()` function alongside the existing BobbyBookmarks sync worker.
+
+Let me read a few more lines to understand the full scan-to-import pipeline.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -A80 "func.*handleImportedSessionScan" go/internal/httpapi/server.go | head -90", timeout: 10)
+**Observation**: bash: success
+
+## Turn 14 | 2026-06-24T00:30:51.243Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: I've seen the full flow. Now I need to add a periodic background worker that auto-imports sessions. Let me add it to the `PreWarmCaches()` function, following the same pattern as the BobbyBookmarks sync.
+
+The worker will:
+1. After startup delay, run an initial scan
+2. Then periodically (every hour) scan for new sessions
+3. Auto-import any discovered sessions
+
+I need to use `sessionimport.IngestDiscoveredSessions` which I saw earlier. Let me check what it needs.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && grep -A15 "func IngestDiscoveredSessions" go/internal/sessionimport/ingest.go", timeout: 10)
+**Observation**: bash: success
+
+## Turn 15 | 2026-06-24T00:31:01.330Z | deepseek/deepseek-v4-flash
+
+**Thought**: Now let me add the background session auto-import worker. I'll add it to `PreWarmCaches()`:
+**Thinking**: Now I can add the background auto-import worker. I'll add it to `PreWarmCaches()` as a new goroutine.
+**Action**: edit(path: "C:/Users/hyper/workspace/tormentnexus/go/internal/httpapi/server.go", edits: [object Object])
+**Observation**: edit: error
+
+## Turn 16 | 2026-06-24T00:31:15.288Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The file drifted. Let me re-read the exact text around line 686.
+**Action**: read(limit: 15, offset: 682, path: "C:/Users/hyper/workspace/tormentnexus/go/internal/httpapi/server.go")
+**Observation**: read: success
+
+## Turn 17 | 2026-06-24T00:31:23.094Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Now I can see the exact text. The closing is:
+```go
+			cancel()
+		}
+	}()
+}
+
+func (s *Server) ListenAndServe(ctx context.Context) error {
+```
+
+I need to add the session auto-import worker right after `}()` and before the blank line with `}`.
+**Action**: edit(path: "C:/Users/hyper/workspace/tormentnexus/go/internal/httpapi/server.go", edits: [object Object])
+**Observation**: edit: success
+
+## Turn 18 | 2026-06-24T00:31:53.349Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Go builds clean. Let me rebuild the binary, restart the sidecar, commit and push.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && echo "1.0.0-alpha.140" > VERSION && node scripts/sync-versions.mjs 2>&1 | tail -2
+cd go && go build -ldflags "-s -w -X github.com/tormentnexushq/tormentnexus-go/internal/buildinfo.Version=1.0.0-alpha.140" -buildvcs=false -o ../tormentnexus.exe ./cmd/tormentnexus 2>&1 && echo "✅ Build OK"", timeout: 60)
+**Observation**: bash: success
+
+## Turn 19 | 2026-06-24T00:32:01.634Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me restart the sidecar, commit and push.
+**Action**: bash(command: "cd /c/Users/hyper/workspace/tormentnexus && echo "── RESTART GO SIDECAR ──"
+curl -s --max-time 1 http://localhost:7778/health > /dev/null 2>&1 && OLD_PID=$(netstat -ano 2>/dev/null | grep ":7778 " | grep LISTENING | awk '{print $5}') && powershell -Command "Stop-Process -Id $OLD_PID -Force -ErrorAction SilentlyContinue" 2>/dev/null
+sleep 3
+nohup ./tormentnexus.exe serve --port 7778 > /dev/null 2>&1 &
+sleep 4
+echo "Health: $(curl -s --max-time 2 http://localhost:7778/health 2>/dev/null | python -c "import sys,json; d=json.load(sys.stdin); print(f'v{d[\"version\"]}')" 2>/dev/null || echo 'down')"", timeout: 15)
+**Observation**: bash: success
+

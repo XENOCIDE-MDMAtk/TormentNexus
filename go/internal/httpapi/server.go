@@ -689,6 +689,36 @@ func (s *Server) PreWarmCaches() {
 			cancel()
 		}
 	}()
+
+	// Session auto-import: background worker for periodic scanning and import
+	go func() {
+		time.Sleep(30 * time.Second)
+		homeDir, _ := os.UserHomeDir()
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
+		summary, err := sessionimport.IngestDiscoveredSessions(ctx, s.cfg.WorkspaceRoot, homeDir, 100, false)
+		cancel()
+		if err != nil {
+			fmt.Printf("[SessionImport] Initial auto-import error: %v\n", err)
+		} else {
+			fmt.Printf("[SessionImport] Initial auto-import: discovered=%d, imported=%d, skipped=%d, errors=%d\n",
+				summary.DiscoveredCount, summary.ImportedCount, summary.SkippedCount, len(summary.Errors))
+		}
+
+		ticker := time.NewTicker(2 * time.Hour)
+		defer ticker.Stop()
+		for range ticker.C {
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
+			summary, err := sessionimport.IngestDiscoveredSessions(ctx, s.cfg.WorkspaceRoot, homeDir, 100, false)
+			cancel()
+			if err != nil {
+				fmt.Printf("[SessionImport] Periodic auto-import error: %v\n", err)
+			} else {
+				fmt.Printf("[SessionImport] Periodic auto-import: discovered=%d, imported=%d, skipped=%d, errors=%d\n",
+					summary.DiscoveredCount, summary.ImportedCount, summary.SkippedCount, len(summary.Errors))
+			}
+		}
+	}()
 }
 
 func (s *Server) ListenAndServe(ctx context.Context) error {
@@ -3446,16 +3476,16 @@ func (s *Server) probeDownstreamServer(ctx context.Context, serverName, operatio
 		method = "tools/list"
 	}
 
-		extractError := func(errObj any) string {
-			if m, ok := errObj.(map[string]any); ok {
-				if msg, ok := m["message"].(string); ok {
-					return msg
-				}
+	extractError := func(errObj any) string {
+		if m, ok := errObj.(map[string]any); ok {
+			if msg, ok := m["message"].(string); ok {
+				return msg
 			}
-			return fmt.Sprintf("%v", errObj)
 		}
+		return fmt.Sprintf("%v", errObj)
+	}
 
-		switch method {
+	switch method {
 	case "tools/list":
 		resp, err := client.Call(ctx, "tools/list", nil)
 		if err != nil {
