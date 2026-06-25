@@ -188,6 +188,7 @@ func TestNativeSessionExportEndpoint(t *testing.T) {
 
 func TestSystemOverviewHandlerReturnsGoNativeData(t *testing.T) {
 	server, _ := newNativeTestServer(t)
+	defer server.Close()
 	req := httptest.NewRequest(http.MethodGet, "/api/system/overview", nil)
 	rec := httptest.NewRecorder()
 	server.handleSystemOverview(rec, req)

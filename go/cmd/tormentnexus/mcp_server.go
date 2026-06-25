@@ -151,15 +151,15 @@ type ToolDefinition struct {
 
 type InputSchema struct {
 	Type       string                    `json:"type"`
-	Properties map[string]PropertySchema `json:"properties,omitempty"`
+	Properties map[string]PropertySchema `json:"properties"`
 	Required   []string                  `json:"required,omitempty"`
 }
 
 type PropertySchema struct {
-	Type        string `json:"type"`
-	Description string `json:"description"`
-	Items       *any   `json:"items,omitempty"`
-	Default     *any   `json:"default,omitempty"`
+	Type        string      `json:"type"`
+	Description string      `json:"description,omitempty"`
+	Items       interface{} `json:"items,omitempty"`
+	Default     interface{} `json:"default,omitempty"`
 }
 
 type TextContent struct {
@@ -189,6 +189,7 @@ func NewMCPServer(goSidecarURL string) *MCPServer {
 }
 
 func (s *MCPServer) registerTools() {
+	emptyProperties := make(map[string]PropertySchema)
 
 	// Core tools (always available)
 	s.tools = []ToolDefinition{
@@ -196,7 +197,7 @@ func (s *MCPServer) registerTools() {
 		{
 			Name:        "list_processes",
 			Description: "List active system processes on Windows",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "kill_process",
@@ -297,6 +298,19 @@ func (s *MCPServer) registerTools() {
 			},
 		},
 		{
+			Name:        "click_chat_button",
+			Description: "Click a button on the active chat surface",
+			InputSchema: InputSchema{
+				Type: "object",
+				Properties: map[string]PropertySchema{
+					"label":       {Type: "string", Description: "The label text on the button to click"},
+					"windowTitle": {Type: "string", Description: "Optional partial window title"},
+					"processName": {Type: "string", Description: "Optional process name"},
+				},
+				Required: []string{"label"},
+			},
+		},
+		{
 			Name:        "advance_chat",
 			Description: "Single-step autopilot: click buttons or type bump text",
 			InputSchema: InputSchema{
@@ -312,12 +326,12 @@ func (s *MCPServer) registerTools() {
 		{
 			Name:        "mcp_list_servers",
 			Description: "List configured MCP servers from the Go sidecar",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "mcp_list_tools",
 			Description: "List available MCP tools from the Go sidecar",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "mcp_call_tool",
@@ -335,7 +349,7 @@ func (s *MCPServer) registerTools() {
 		{
 			Name:        "mcp_status",
 			Description: "Get MCP runtime status from the Go sidecar",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "mcp_server_test",
@@ -353,23 +367,23 @@ func (s *MCPServer) registerTools() {
 		{
 			Name:        "system_status",
 			Description: "Get overall system health status",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "billing_status",
 			Description: "Get billing and provider status",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		// ── Supervisor Config Parity ──
 		{
 			Name:        "list_surface_profiles",
 			Description: "List known supervisor surface profiles and default configurations",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "get_supervisor_settings",
 			Description: "Get supervisor default settings for autopilot automation",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 		{
 			Name:        "update_supervisor_settings",
@@ -387,7 +401,7 @@ func (s *MCPServer) registerTools() {
 		{
 			Name:        "list_accessory_tools",
 			Description: "List all built-in Go accessory tools",
-			InputSchema: InputSchema{Type: "object", Properties: map[string]PropertySchema{}},
+			InputSchema: InputSchema{Type: "object", Properties: emptyProperties},
 		},
 	}
 
@@ -400,6 +414,9 @@ func (s *MCPServer) registerTools() {
 			}
 			if schema.Type == "" {
 				schema.Type = "object"
+			}
+			if schema.Properties == nil {
+				schema.Properties = make(map[string]PropertySchema)
 			}
 			s.tools = append(s.tools, ToolDefinition{
 				Name:        t.Name,
@@ -420,12 +437,13 @@ func (s *MCPServer) HandleRequest(req MCPRequest) MCPResponse {
 	case "initialize":
 		resp.Result = map[string]any{
 			"protocolVersion": "2024-11-05",
-			"capabilities":    map[string]any{"tools": map[string]any{}},
+			"capabilities":    map[string]any{"tools": map[string]any{"listChanged": false}},
 			"serverInfo":      map[string]any{"name": "tormentnexus", "version": "1.0.0"},
 		}
 	case "notifications/initialized":
 		resp.Result = map[string]any{}
 	case "tools/list":
+		// Allow tools/list even if params is sent but empty or contains token cursors
 		resp.Result = map[string]any{"tools": s.tools}
 	case "tools/call":
 		if len(req.Params) == 0 {
@@ -434,8 +452,14 @@ func (s *MCPServer) HandleRequest(req MCPRequest) MCPResponse {
 		}
 		var params MCPParams
 		if err := json.Unmarshal(req.Params, &params); err != nil {
-			resp.Error = &MCPError{Code: -32602, Message: fmt.Sprintf("Invalid params: %v", err)}
-			return resp
+			// Try to unmarshal array parameters if client sent them as array wrappers
+			var arrayParams []MCPParams
+			if errArray := json.Unmarshal(req.Params, &arrayParams); errArray == nil && len(arrayParams) > 0 {
+				params = arrayParams[0]
+			} else {
+				resp.Error = &MCPError{Code: -32602, Message: fmt.Sprintf("Invalid params: %v", err)}
+				return resp
+			}
 		}
 		result := s.callTool(params.Name, params.Arguments)
 		resp.Result = result
@@ -755,6 +779,7 @@ func cmdMCP(args []string) int {
 	}
 
 	goSidecarURL := fmt.Sprintf("http://127.0.0.1:%s", goPort)
+	log.SetOutput(os.Stderr)
 	log.Printf("[MCP] TormentNexus MCP Server starting (Go sidecar: %s)", goSidecarURL)
 
 	server := NewMCPServer(goSidecarURL)
@@ -774,10 +799,12 @@ func cmdMCP(args []string) int {
 		}
 
 		resp := server.HandleRequest(req)
+		log.Printf("[MCP] Handling Request Method: %s ID: %v", req.Method, req.ID)
 		if req.ID == nil {
 			continue
 		}
 		respBytes, _ := json.Marshal(resp)
+		log.Printf("[MCP] Sending Response: %s", string(respBytes))
 		writer.Write(respBytes)
 		writer.Write([]byte{'\n'})
 		writer.Flush()

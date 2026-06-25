@@ -877,7 +877,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleExecuteTest": HandleExecuteTest, // from mcp_state_machine_test_framework.go
 	"HandleExecuteTrade_crypto_trader_mcp_claudedesktop_git": HandleExecuteTrade_crypto_trader_mcp_claudedesktop_git, // from crypto_trader_mcp_claudedesktop_git.go
 	"HandleExecuteTrade_trade_agent_mcp": HandleExecuteTrade_trade_agent_mcp, // from trade_agent_mcp.go
-	"HandleExecuteTrade_trade_router_mcp": HandleExecuteTrade_trade_router_mcp, // from trade_router_mcp.go
 	"HandleExecuteWorkflow_n8n_mcp": HandleExecuteWorkflow_n8n_mcp, // from n8n_mcp.go
 	"HandleExecute_chenlinyang_mcp_server_mysql": HandleExecute_chenlinyang_mcp_server_mysql, // from chenlinyang_mcp_server_mysql.go
 	"HandleExecute_claude_terminal_mcp": HandleExecute_claude_terminal_mcp, // from claude_terminal_mcp.go
@@ -1276,7 +1275,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetCompassDirection": HandleGetCompassDirection, // from mcp_compass.go
 	"HandleGetCompetition": HandleGetCompetition, // from competlab_mcp_server.go
 	"HandleGetCompetitorInfo": HandleGetCompetitorInfo, // from competitor_monitor_ai_mcp.go
-	"HandleGetCompletions": HandleGetCompletions, // from typegraph_mcp.go
 	"HandleGetComplianceLevel": HandleGetComplianceLevel, // from mcp_eu_ai_act.go
 	"HandleGetComponent": HandleGetComponent, // from shadcn_registry_manager.go
 	"HandleGetComponentContext": HandleGetComponentContext, // from usevyre_mcp_server.go
@@ -1416,7 +1414,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetDrop_jclvsh_dropspace": HandleGetDrop_jclvsh_dropspace, // from jclvsh_dropspace.go
 	"HandleGetDrop_pagedrop_api": HandleGetDrop_pagedrop_api, // from pagedrop_api.go
 	"HandleGetDrugInfo": HandleGetDrugInfo, // from healthcare_mcp.go
-	"HandleGetEdgarFilings": HandleGetEdgarFilings, // from sec_edgar_mcp.go
 	"HandleGetEditorconfigProperties": HandleGetEditorconfigProperties, // from editorconfig_mcp.go
 	"HandleGetElement": HandleGetElement, // from icepanel_mcp_server.go
 	"HandleGetElementInfo": HandleGetElementInfo, // from dom_pointer_mcp_server.go
@@ -1531,7 +1528,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetHivePrice": HandleGetHivePrice, // from hive_crypto_mcp.go
 	"HandleGetHotspot": HandleGetHotspot, // from helium_mcp.go
 	"HandleGetHouseDetail": HandleGetHouseDetail, // from 買屋快搜.go
-	"HandleGetHover": HandleGetHover, // from typegraph_mcp.go
 	"HandleGetIcon": HandleGetIcon, // from iconify_mcp_server.go
 	"HandleGetImage": HandleGetImage, // from figma_mcp_go.go
 	"HandleGetImageInfo": HandleGetImageInfo, // from photopea_mcp_server.go
@@ -2039,7 +2035,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetTraces": HandleGetTraces, // from last9_mcp_server.go
 	"HandleGetTrack": HandleGetTrack, // from mediatrack_mcp_server.go
 	"HandleGetTradeMemory": HandleGetTradeMemory, // from tradememory_protocol.go
-	"HandleGetTradeRoutes": HandleGetTradeRoutes, // from trade_router_mcp.go
 	"HandleGetTrafficIncidents": HandleGetTrafficIncidents, // from singapore_lta_datamall_mcp_server.go
 	"HandleGetTransactionCount": HandleGetTransactionCount, // from web3_mcp.go
 	"HandleGetTransactionStatus": HandleGetTransactionStatus, // from bsc_mcp.go
@@ -3058,7 +3053,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleNocturnusai": HandleNocturnusai, // from nocturnusai.go
 	"HandleNodeVersion": HandleNodeVersion, // from mcp_nodejs_server.go
 	"HandleNookplotRequest": HandleNookplotRequest, // from nookplot_mcp.go
-	"HandleNotarize": HandleNotarize, // from onlybrains_mcp.go
 	"HandleNotify": HandleNotify, // from mcp_server_notify.go
 	"HandleNouz": HandleNouz, // from nouz_mcp.go
 	"HandleNovyxCore": HandleNovyxCore, // from novyx_core.go
@@ -3372,7 +3366,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleReadContext": HandleReadContext, // from model_context_protocol_rb.go
 	"HandleReadDocument_firebase_tools": HandleReadDocument_firebase_tools, // from firebase_tools.go
 	"HandleReadDocument_office_word_mcp_server": HandleReadDocument_office_word_mcp_server, // from office_word_mcp_server.go
-	"HandleReadExcel_mcp_excel_server": HandleReadExcel_mcp_excel_server, // from mcp_excel_server.go
 	"HandleReadExcel_mcp_server_excel": HandleReadExcel_mcp_server_excel, // from mcp_server_excel.go
 	"HandleReadFile_claude_code_open": HandleReadFile_claude_code_open, // from claude_code_open.go
 	"HandleReadFile_codanna": HandleReadFile_codanna, // from codanna.go
@@ -3427,7 +3420,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleRenderMermaid_claude_mermaid": HandleRenderMermaid_claude_mermaid, // from claude_mermaid.go
 	"HandleRenderMermaid_mcp_mermaid": HandleRenderMermaid_mcp_mermaid, // from mcp_mermaid.go
 	"HandleRenderWidget": HandleRenderWidget, // from nitrostack_widgets.go
-	"HandleRender_bulkrender_mcp": HandleRender_bulkrender_mcp, // from bulkrender_mcp.go
 	"HandleRender_diagrammo_dgmo_mcp": HandleRender_diagrammo_dgmo_mcp, // from diagrammo_dgmo_mcp.go
 	"HandleRender_plantuml_web": HandleRender_plantuml_web, // from plantuml_web.go
 	"HandleReportSearch": HandleReportSearch, // from opencti_mcp.go
@@ -4060,7 +4052,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleTrackMention": HandleTrackMention, // from competitor_monitor_ai_mcp.go
 	"HandleTrackParcel": HandleTrackParcel, // from mcp_server_parcel.go
 	"HandleTrackmageStatus": HandleTrackmageStatus, // from trackmage_mcp_server.go
-	"HandleTrade": HandleTrade, // from onlybrains_mcp.go
 	"HandleTranscribe": HandleTranscribe, // from mcp_transcribe.go
 	"HandleTransfa": HandleTransfa, // from transfa.go
 	"HandleTranslate_deepl_mcp_server": HandleTranslate_deepl_mcp_server, // from deepl_mcp_server.go
@@ -4189,7 +4180,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleWriteCell": HandleWriteCell, // from excel_mcp_server.go
 	"HandleWriteContext": HandleWriteContext, // from model_context_protocol_rb.go
 	"HandleWriteDocument": HandleWriteDocument, // from firebase_tools.go
-	"HandleWriteExcel_mcp_excel_server": HandleWriteExcel_mcp_excel_server, // from mcp_excel_server.go
 	"HandleWriteExcel_mcp_server_excel": HandleWriteExcel_mcp_server_excel, // from mcp_server_excel.go
 	"HandleWriteFile_claude_code_open": HandleWriteFile_claude_code_open, // from claude_code_open.go
 	"HandleWriteFile_editor_mcp_server": HandleWriteFile_editor_mcp_server, // from editor_mcp_server.go
@@ -4228,7 +4218,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleX_mcp_client_python": HandleX_mcp_client_python, // from mcp_client_python.go
 	"HandleX_mcp_client_server": HandleX_mcp_client_server, // from mcp_client_server.go
 	"HandleX_mcp_client_server_host_demo": HandleX_mcp_client_server_host_demo, // from mcp_client_server_host_demo.go
-	"HandleX_mcp_clients": HandleX_mcp_clients, // from mcp_clients.go
 	"HandleX_mcp_devtools": HandleX_mcp_devtools, // from mcp_devtools.go
 	"HandleX_mcp_durable_object_client": HandleX_mcp_durable_object_client, // from mcp_durable_object_client.go
 	"HandleX_mcp_gradio_client": HandleX_mcp_gradio_client, // from mcp_gradio_client.go
@@ -4243,7 +4232,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleX_nunu": HandleX_nunu, // from nunu.go
 	"HandleX_ocireg_mcp": HandleX_ocireg_mcp, // from ocireg_mcp.go
 	"HandleX_ollama_mcp_client": HandleX_ollama_mcp_client, // from ollama_mcp_client.go
-	"HandleX_onec_client_mcp_devkit": HandleX_onec_client_mcp_devkit, // from onec_client_mcp_devkit.go
 	"HandleX_openai_mcp_client": HandleX_openai_mcp_client, // from openai_mcp_client.go
 	"HandleX_outx_mcp_server": HandleX_outx_mcp_server, // from outx_mcp_server.go
 	"HandleX_pinner_mcp": HandleX_pinner_mcp, // from pinner_mcp.go
@@ -4255,7 +4243,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleX_thinair_data": HandleX_thinair_data, // from thinair_data.go
 	"HandleX_twitter_mcp": HandleX_twitter_mcp, // from twitter_mcp.go
 	"HandleX_twitter_username_changes_mcp": HandleX_twitter_username_changes_mcp, // from twitter_username_changes_mcp.go
-	"HandleX_typescript_mcp_client": HandleX_typescript_mcp_client, // from typescript_mcp_client.go
 	"HandleX_ultimate_mcp_client": HandleX_ultimate_mcp_client, // from ultimate_mcp_client.go
 	"HandleX_x402_api_server": HandleX_x402_api_server, // from x402_api_server.go
 	"HandleX_x402_discovery_mcp": HandleX_x402_discovery_mcp, // from x402_discovery_mcp.go
@@ -4295,7 +4282,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleY_mcp_client_python": HandleY_mcp_client_python, // from mcp_client_python.go
 	"HandleY_mcp_client_server": HandleY_mcp_client_server, // from mcp_client_server.go
 	"HandleY_mcp_client_server_host_demo": HandleY_mcp_client_server_host_demo, // from mcp_client_server_host_demo.go
-	"HandleY_mcp_clients": HandleY_mcp_clients, // from mcp_clients.go
 	"HandleY_mcp_durable_object_client": HandleY_mcp_durable_object_client, // from mcp_durable_object_client.go
 	"HandleY_mcp_gradio_client": HandleY_mcp_gradio_client, // from mcp_gradio_client.go
 	"HandleY_mcp_langchain_ts_client": HandleY_mcp_langchain_ts_client, // from mcp_langchain_ts_client.go
@@ -4303,11 +4289,9 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleY_mcpe_client_sources": HandleY_mcpe_client_sources, // from mcpe_client_sources.go
 	"HandleY_n8n_ai_agent_dvm_mcp_client": HandleY_n8n_ai_agent_dvm_mcp_client, // from n8n_ai_agent_dvm_mcp_client.go
 	"HandleY_ollama_mcp_client": HandleY_ollama_mcp_client, // from ollama_mcp_client.go
-	"HandleY_onec_client_mcp_devkit": HandleY_onec_client_mcp_devkit, // from onec_client_mcp_devkit.go
 	"HandleY_openai_mcp_client": HandleY_openai_mcp_client, // from openai_mcp_client.go
 	"HandleY_python_mcp_server_client": HandleY_python_mcp_server_client, // from python_mcp_server_client.go
 	"HandleY_sillytavern_mcp_client": HandleY_sillytavern_mcp_client, // from sillytavern_mcp_client.go
-	"HandleY_typescript_mcp_client": HandleY_typescript_mcp_client, // from typescript_mcp_client.go
 	"HandleY_ultimate_mcp_client": HandleY_ultimate_mcp_client, // from ultimate_mcp_client.go
 	"HandleY_xert_mcp": HandleY_xert_mcp, // from xert_mcp.go
 	"HandleYahooFinance": HandleYahooFinance, // from mg_mcp_server.go

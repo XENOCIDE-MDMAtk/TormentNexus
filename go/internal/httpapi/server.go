@@ -627,6 +627,25 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	return server
 }
 
+func (s *Server) Close() error {
+	var errs []string
+	if s.memoryReactor != nil && s.memoryReactor.VectorStore() != nil {
+		if err := s.memoryReactor.VectorStore().Close(); err != nil {
+			errs = append(errs, fmt.Sprintf("closing vector store: %v", err))
+		}
+	}
+	if s.memoryManager != nil {
+		if err := s.memoryManager.Close(); err != nil {
+			errs = append(errs, fmt.Sprintf("closing memory manager: %v", err))
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("errors closing server: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+
 func (s *Server) Handler() http.Handler {
 	return s.mux
 }

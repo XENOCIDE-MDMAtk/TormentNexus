@@ -20,6 +20,13 @@ func NewManager(path string) *Manager {
 	return &Manager{path: path, vs: vs}
 }
 
+func (m *Manager) Close() error {
+	if m.vs != nil {
+		return m.vs.Close()
+	}
+	return nil
+}
+
 func (m *Manager) GetAll() ([]map[string]interface{}, error) {
 	if m.vs == nil {
 		return []map[string]interface{}{}, nil
