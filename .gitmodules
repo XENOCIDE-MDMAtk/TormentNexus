@@ -1,7 +1,1 @@
 # All legacy submodules removed as they are fully redundant.
-[submodule "enterprise_sales_bot"]
-	path = enterprise_sales_bot
-	url = https://github.com/robertpelloni/enterprise_sales_bot.git
-[submodule "bobbybookmarks"]
-	path = bobbybookmarks
-	url = https://github.com/robertpelloni/bobbybookmarks.git
