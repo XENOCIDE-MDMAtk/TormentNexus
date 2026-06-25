@@ -86,9 +86,10 @@ CREATE TABLE IF NOT EXISTS mcp_directory (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- sqlite-vec Virtual Table for hyper-fast tool search
-CREATE VIRTUAL TABLE IF NOT EXISTS vec_mcp_directory USING vec0(
-    embedding float[384]
+-- Standard Table for hyper-fast tool search embeddings
+CREATE TABLE IF NOT EXISTS vec_mcp_directory (
+    id TEXT PRIMARY KEY,
+    embedding BLOB NOT NULL
 );
 
 -- L2 Vault for Semantic Global Memory
@@ -103,9 +104,10 @@ CREATE TABLE IF NOT EXISTS l2_vault (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- sqlite-vec Virtual Table for context matching
-CREATE VIRTUAL TABLE IF NOT EXISTS vec_l2_vault USING vec0(
-    embedding float[384]
+-- Standard Table for context matching embeddings
+CREATE TABLE IF NOT EXISTS vec_l2_vault (
+    id TEXT PRIMARY KEY,
+    embedding BLOB NOT NULL
 );
 `
 

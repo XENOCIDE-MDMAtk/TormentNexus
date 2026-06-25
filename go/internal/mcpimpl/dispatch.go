@@ -44,7 +44,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleAddItem_mcp_workflowy": HandleAddItem_mcp_workflowy, // from mcp_workflowy.go
 	"HandleAddMemory_claude_engram": HandleAddMemory_claude_engram, // from claude_engram.go
 	"HandleAddMemory_engram": HandleAddMemory_engram, // from engram.go
-	"HandleAddMemory_jussmor_commit_memory_mcp": HandleAddMemory_jussmor_commit_memory_mcp, // from jussmor_commit_memory_mcp.go
 	"HandleAddMemory_mem0_mcp_selfhosted": HandleAddMemory_mem0_mcp_selfhosted, // from mem0_mcp_selfhosted.go
 	"HandleAddMemory_memory_nexus_cloud": HandleAddMemory_memory_nexus_cloud, // from memory_nexus_cloud.go
 	"HandleAddNode_gograph": HandleAddNode_gograph, // from gograph.go
@@ -56,7 +55,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleAddSubscription": HandleAddSubscription, // from subscription_tracker_mcp.go
 	"HandleAddTask_mcp_server_taskwarrior": HandleAddTask_mcp_server_taskwarrior, // from mcp_server_taskwarrior.go
 	"HandleAddToCart": HandleAddToCart, // from good_eggs_mcp_server.go
-	"HandleAddTodo": HandleAddTodo, // from tod.go
 	"HandleAddTopping": HandleAddTopping, // from burger_editor_mcp_server.go
 	"HandleAdd_baseline_mcp_server": HandleAdd_baseline_mcp_server, // from baseline_mcp_server.go
 	"HandleAdd_bbkt": HandleAdd_bbkt, // from bbkt.go
@@ -111,7 +109,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleAnalyzeCode_codegraphmcpserver": HandleAnalyzeCode_codegraphmcpserver, // from codegraphmcpserver.go
 	"HandleAnalyzeCode_ios_mcp_code_quality_server": HandleAnalyzeCode_ios_mcp_code_quality_server, // from ios_mcp_code_quality_server.go
 	"HandleAnalyzeCode_roslyn_codelens_mcp": HandleAnalyzeCode_roslyn_codelens_mcp, // from roslyn_codelens_mcp.go
-	"HandleAnalyzeCode_vibeue": HandleAnalyzeCode_vibeue, // from vibeue.go
 	"HandleAnalyzeComponent": HandleAnalyzeComponent, // from vizejs_musea_mcp_server.go
 	"HandleAnalyzeContainer": HandleAnalyzeContainer, // from containerization_assist_mcp.go
 	"HandleAnalyzeContent": HandleAnalyzeContent, // from tuteliq_mcp.go
@@ -271,7 +268,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleCaptureScreen_screenmonitormcp": HandleCaptureScreen_screenmonitormcp, // from screenmonitormcp.go
 	"HandleCaptureScreen_screenpilot": HandleCaptureScreen_screenpilot, // from screenpilot.go
 	"HandleCaptureScreenshot_screenshotmcp": HandleCaptureScreenshot_screenshotmcp, // from screenshotmcp.go
-	"HandleCaptureScreenshot_superbased": HandleCaptureScreenshot_superbased, // from superbased.go
 	"HandleCaptureSubscriber": HandleCaptureSubscriber, // from doomscrollr_mcp_server.go
 	"HandleCaptureTraffic": HandleCaptureTraffic, // from mcp_reticle.go
 	"HandleCapture_engrm": HandleCapture_engrm, // from engrm.go
@@ -417,7 +413,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleConvertOpenApiToTools": HandleConvertOpenApiToTools, // from buildwithlayer_openapi_to_tools.go
 	"HandleConvertPdf": HandleConvertPdf, // from pdfspark_api.go
 	"HandleConvertTemperature": HandleConvertTemperature, // from measure_mcp_server.go
-	"HandleConvertTextToDocx": HandleConvertTextToDocx, // from docx_mcp.go
 	"HandleConvertToMarkdown_markdownify_mcp": HandleConvertToMarkdown_markdownify_mcp, // from markdownify_mcp.go
 	"HandleConvertToMarkdown_mcp_markdownify_server": HandleConvertToMarkdown_mcp_markdownify_server, // from mcp_markdownify_server.go
 	"HandleConvert_currency_converter_ai_mcp": HandleConvert_currency_converter_ai_mcp, // from currency_converter_ai_mcp.go
@@ -463,7 +458,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleCreateDoc": HandleCreateDoc, // from wecom_docs_mcp_server.go
 	"HandleCreateDocument_google_docs": HandleCreateDocument_google_docs, // from google_docs.go
 	"HandleCreateDocument_office_word_mcp_server": HandleCreateDocument_office_word_mcp_server, // from office_word_mcp_server.go
-	"HandleCreateDocx": HandleCreateDocx, // from docx_mcp.go
 	"HandleCreateDrop": HandleCreateDrop, // from jclvsh_dropspace.go
 	"HandleCreateEmployee": HandleCreateEmployee, // from hermes_paperclip_adapter.go
 	"HandleCreateEntity": HandleCreateEntity, // from sbox_mcp_server.go
@@ -539,8 +533,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleCreateTask_taskade": HandleCreateTask_taskade, // from taskade.go
 	"HandleCreateTask_taskeract_mcp": HandleCreateTask_taskeract_mcp, // from taskeract_mcp.go
 	"HandleCreateTask_ticktick_sdk": HandleCreateTask_ticktick_sdk, // from ticktick_sdk.go
-	"HandleCreateTask_todoist_mcp_server": HandleCreateTask_todoist_mcp_server, // from todoist_mcp_server.go
-	"HandleCreateTask_todoist_v1_mcp_server": HandleCreateTask_todoist_v1_mcp_server, // from todoist_v1_mcp_server.go
 	"HandleCreateThread": HandleCreateThread, // from unthread_io_mcp_server.go
 	"HandleCreateTmpFile": HandleCreateTmpFile, // from mdavieds_mcp_tmp_files.go
 	"HandleCreateTouchpoint": HandleCreateTouchpoint, // from touchpoint.go
@@ -837,7 +829,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleExecuteCadCommand": HandleExecuteCadCommand, // from jupytercad.go
 	"HandleExecuteCode_blockrun_mcp": HandleExecuteCode_blockrun_mcp, // from blockrun_mcp.go
 	"HandleExecuteCode_codecortex": HandleExecuteCode_codecortex, // from codecortex.go
-	"HandleExecuteCode_fre4x_jupyter": HandleExecuteCode_fre4x_jupyter, // from fre4x_jupyter.go
 	"HandleExecuteCode_jupyter_mcp_server": HandleExecuteCode_jupyter_mcp_server, // from jupyter_mcp_server.go
 	"HandleExecuteCode_jupytercad_mcp": HandleExecuteCode_jupytercad_mcp, // from jupytercad_mcp.go
 	"HandleExecuteCommand_cyntrisec_cli": HandleExecuteCommand_cyntrisec_cli, // from cyntrisec_cli.go
@@ -1034,7 +1025,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGenerateCode_kubb_mcp": HandleGenerateCode_kubb_mcp, // from kubb_mcp.go
 	"HandleGenerateCode_mcp_1c": HandleGenerateCode_mcp_1c, // from mcp_1c.go
 	"HandleGenerateCode_mcp_server_spec_driven_development": HandleGenerateCode_mcp_server_spec_driven_development, // from mcp_server_spec_driven_development.go
-	"HandleGenerateCode_vibeue": HandleGenerateCode_vibeue, // from vibeue.go
 	"HandleGenerateComponentCode": HandleGenerateComponentCode, // from syncfusion_blazor_assistant.go
 	"HandleGenerateComponent_decaf_ts_mcp_server": HandleGenerateComponent_decaf_ts_mcp_server, // from decaf_ts_mcp_server.go
 	"HandleGenerateComponent_uxai_mcp_server": HandleGenerateComponent_uxai_mcp_server, // from uxai_mcp_server.go
@@ -1071,7 +1061,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGenerateRandom": HandleGenerateRandom, // from quantum_ring.go
 	"HandleGenerateRandomNumber": HandleGenerateRandomNumber, // from mockd.go
 	"HandleGenerateRiskControls": HandleGenerateRiskControls, // from nist_rmf_ai_mcp.go
-	"HandleGenerateScript": HandleGenerateScript, // from mcp2scripts.go
 	"HandleGenerateSecret": HandleGenerateSecret, // from otp_ai_mcp.go
 	"HandleGenerateService": HandleGenerateService, // from decaf_ts_mcp_server.go
 	"HandleGenerateSnowflake": HandleGenerateSnowflake, // from simple_snowflake_mcp.go
@@ -1183,7 +1172,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetBalance_verbwire_mcp_server": HandleGetBalance_verbwire_mcp_server, // from verbwire_mcp_server.go
 	"HandleGetBalance_web3_mcp": HandleGetBalance_web3_mcp, // from web3_mcp.go
 	"HandleGetBalance_zcash_mcp": HandleGetBalance_zcash_mcp, // from zcash_mcp.go
-	"HandleGetBearNote": HandleGetBearNote, // from bear_mcp_server.go
 	"HandleGetBelief": HandleGetBelief, // from cjavdev_believe_mcp.go
 	"HandleGetBestMove": HandleGetBestMove, // from mcp_stockfish.go
 	"HandleGetBilibiliUserInfo": HandleGetBilibiliUserInfo, // from wangshunnn_bilibili_mcp_server.go
@@ -1350,13 +1338,11 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetCurrentWeather_hko_mcp": HandleGetCurrentWeather_hko_mcp, // from hko_mcp.go
 	"HandleGetCurrentWeather_open_meteo_mcp_server": HandleGetCurrentWeather_open_meteo_mcp_server, // from open_meteo_mcp_server.go
 	"HandleGetCurrentlyPlaying": HandleGetCurrentlyPlaying, // from spotify_mcp_server.go
-	"HandleGetCurrents": HandleGetCurrents, // from currents_mcp.go
 	"HandleGetCursor": HandleGetCursor, // from marimo_team_codemirror_mcp.go
 	"HandleGetCursorUsage": HandleGetCursorUsage, // from cursor_usage.go
 	"HandleGetCustomer_braintree_mcp_server": HandleGetCustomer_braintree_mcp_server, // from braintree_mcp_server.go
 	"HandleGetCustomer_custify_mcp_server": HandleGetCustomer_custify_mcp_server, // from custify_mcp_server.go
 	"HandleGetDailyChallenge": HandleGetDailyChallenge, // from jinzcdev_leetcode_mcp_server.go
-	"HandleGetDailyHydration": HandleGetDailyHydration, // from hydration_reminder_ai_mcp.go
 	"HandleGetDashboard_mcp_dashboards": HandleGetDashboard_mcp_dashboards, // from mcp_dashboards.go
 	"HandleGetDashboard_mcp_grafana": HandleGetDashboard_mcp_grafana, // from mcp_grafana.go
 	"HandleGetDashboard_pimzino_spec_workflow_mcp": HandleGetDashboard_pimzino_spec_workflow_mcp, // from pimzino_spec_workflow_mcp.go
@@ -1768,7 +1754,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetPosition": HandleGetPosition, // from minecraft_mcp_server.go
 	"HandleGetPositions": HandleGetPositions, // from trading212_mcp_server.go
 	"HandleGetPost_ghost_mcp": HandleGetPost_ghost_mcp, // from ghost_mcp.go
-	"HandleGetPost_metorial": HandleGetPost_metorial, // from metorial.go
 	"HandleGetPosts_bluesky_context_server": HandleGetPosts_bluesky_context_server, // from bluesky_context_server.go
 	"HandleGetPosts_jgardner04_ghost_mcp_server": HandleGetPosts_jgardner04_ghost_mcp_server, // from jgardner04_ghost_mcp_server.go
 	"HandleGetPrediction": HandleGetPrediction, // from davincibets_mcp_server.go
@@ -1940,7 +1925,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetSite_sitelauncher_mcp_server": HandleGetSite_sitelauncher_mcp_server, // from sitelauncher_mcp_server.go
 	"HandleGetSite_webflow_mcp_server": HandleGetSite_webflow_mcp_server, // from webflow_mcp_server.go
 	"HandleGetSitemap": HandleGetSitemap, // from screaming_frog_mcp.go
-	"HandleGetSkillDetails": HandleGetSkillDetails, // from skill_seekers.go
 	"HandleGetSkill_claudeskills": HandleGetSkill_claudeskills, // from claudeskills.go
 	"HandleGetSkill_skill_cortex_server": HandleGetSkill_skill_cortex_server, // from skill_cortex_server.go
 	"HandleGetSkills": HandleGetSkills, // from skill_cortex_server.go
@@ -2003,7 +1987,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetTabs": HandleGetTabs, // from safari_mcp.go
 	"HandleGetTaskStatus": HandleGetTaskStatus, // from mcp_task_orchestrator.go
 	"HandleGetTask_backlog_mcp": HandleGetTask_backlog_mcp, // from backlog_mcp.go
-	"HandleGetTask_gtasks_mcp": HandleGetTask_gtasks_mcp, // from gtasks_mcp.go
 	"HandleGetTask_taskeract_mcp": HandleGetTask_taskeract_mcp, // from taskeract_mcp.go
 	"HandleGetTask_varun_ai07_covenant_mcp": HandleGetTask_varun_ai07_covenant_mcp, // from varun_ai07_covenant_mcp.go
 	"HandleGetTask_wrike": HandleGetTask_wrike, // from wrike.go
@@ -2038,7 +2021,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetTime_trinvmcp": HandleGetTime_trinvmcp, // from trinvmcp.go
 	"HandleGetTimeline": HandleGetTimeline, // from elyth_mcp_server.go
 	"HandleGetTimezoneInfo": HandleGetTimezoneInfo, // from pulse.go
-	"HandleGetTodos": HandleGetTodos, // from tod.go
 	"HandleGetTokenBalance_blocklens_mcp_server": HandleGetTokenBalance_blocklens_mcp_server, // from blocklens_mcp_server.go
 	"HandleGetTokenBalance_bsc_mcp": HandleGetTokenBalance_bsc_mcp, // from bsc_mcp.go
 	"HandleGetTokenInfo": HandleGetTokenInfo, // from mcp_dexscreener.go
@@ -2106,7 +2088,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleGetUser_vrchat_mcp": HandleGetUser_vrchat_mcp, // from vrchat_mcp.go
 	"HandleGetUser_zitadel_mcp": HandleGetUser_zitadel_mcp, // from zitadel_mcp.go
 	"HandleGetUsers_mingle_mcp": HandleGetUsers_mingle_mcp, // from mingle_mcp.go
-	"HandleGetUsers_openaaas": HandleGetUsers_openaaas, // from openaaas.go
 	"HandleGetVM": HandleGetVM, // from mcp_nutanix.go
 	"HandleGetVMStatus": HandleGetVMStatus, // from bldg_7_proxmox_mcp.go
 	"HandleGetVaccinations": HandleGetVaccinations, // from cyanheads_cdc_health_mcp_server.go
@@ -2403,7 +2384,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleIssueCertification": HandleIssueCertification, // from mcp_server_near_certification_suite.go
 	"HandleJarvisOrb": HandleJarvisOrb, // from jarvis_orb.go
 	"HandleJavadocLookup": HandleJavadocLookup, // from mcp_javadc.go
-	"HandleJdl": HandleJdl, // from jdl_mcp_server.go
 	"HandleJmapHeapHisto": HandleJmapHeapHisto, // from jmap_mcp.go
 	"HandleJmapListProcesses": HandleJmapListProcesses, // from jmap_mcp.go
 	"HandleJobSearch": HandleJobSearch, // from jobgpt_mcp_server.go
@@ -2668,7 +2648,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleListJams": HandleListJams, // from jamjet.go
 	"HandleListJobRuns": HandleListJobRuns, // from code_engine_mcp_server.go
 	"HandleListJudges": HandleListJudges, // from kevinrabun_judges.go
-	"HandleListKernels_fre4x_jupyter": HandleListKernels_fre4x_jupyter, // from fre4x_jupyter.go
 	"HandleListKernels_jupyter_mcp_server": HandleListKernels_jupyter_mcp_server, // from jupyter_mcp_server.go
 	"HandleListLanguages_blockrun_mcp": HandleListLanguages_blockrun_mcp, // from blockrun_mcp.go
 	"HandleListLanguages_codecortex": HandleListLanguages_codecortex, // from codecortex.go
@@ -2743,7 +2722,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleListPorts": HandleListPorts, // from serial_mcp_server.go
 	"HandleListPosts_cinderwright_api": HandleListPosts_cinderwright_api, // from cinderwright_api.go
 	"HandleListPosts_ghost_mcp": HandleListPosts_ghost_mcp, // from ghost_mcp.go
-	"HandleListPosts_metorial": HandleListPosts_metorial, // from metorial.go
 	"HandleListProcesses_mcp_windows_server": HandleListProcesses_mcp_windows_server, // from mcp_windows_server.go
 	"HandleListProcesses_win_cli_mcp_server": HandleListProcesses_win_cli_mcp_server, // from win_cli_mcp_server.go
 	"HandleListProcesses_winremote_mcp": HandleListProcesses_winremote_mcp, // from winremote_mcp.go
@@ -2779,7 +2757,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleListProjects_studio_mcp": HandleListProjects_studio_mcp, // from studio_mcp.go
 	"HandleListProjects_supabase_mcp_server": HandleListProjects_supabase_mcp_server, // from supabase_mcp_server.go
 	"HandleListProjects_swarmia_mcp": HandleListProjects_swarmia_mcp, // from swarmia_mcp.go
-	"HandleListProjects_todoist_v1_mcp_server": HandleListProjects_todoist_v1_mcp_server, // from todoist_v1_mcp_server.go
 	"HandleListProjects_uxpressia_mcp_server": HandleListProjects_uxpressia_mcp_server, // from uxpressia_mcp_server.go
 	"HandleListPrompts_lynxprompt_mcp": HandleListPrompts_lynxprompt_mcp, // from lynxprompt_mcp.go
 	"HandleListPrompts_microprompt_mcp_server": HandleListPrompts_microprompt_mcp_server, // from microprompt_mcp_server.go
@@ -2891,7 +2868,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleListTables_smartdb_mcp": HandleListTables_smartdb_mcp, // from smartdb_mcp.go
 	"HandleListTables_sqlite_explorer_fastmcp_mcp_server": HandleListTables_sqlite_explorer_fastmcp_mcp_server, // from sqlite_explorer_fastmcp_mcp_server.go
 	"HandleListTables_teradata_mcp_server": HandleListTables_teradata_mcp_server, // from teradata_mcp_server.go
-	"HandleListTables_unlock_your_agents_potential_with_model_context_protocol_pos": HandleListTables_unlock_your_agents_potential_with_model_context_protocol_pos, // from unlock_your_agents_potential_with_model_context_protocol_pos.go
 	"HandleListTabs_opera_devtools_mcp": HandleListTabs_opera_devtools_mcp, // from opera_devtools_mcp.go
 	"HandleListTasks_kanboard_mcp": HandleListTasks_kanboard_mcp, // from kanboard_mcp.go
 	"HandleListTasks_mcp_server_taskwarrior": HandleListTasks_mcp_server_taskwarrior, // from mcp_server_taskwarrior.go
@@ -2899,7 +2875,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleListTasks_taskade": HandleListTasks_taskade, // from taskade.go
 	"HandleListTasks_ticktick_mcp_server": HandleListTasks_ticktick_mcp_server, // from ticktick_mcp_server.go
 	"HandleListTasks_ticktick_sdk": HandleListTasks_ticktick_sdk, // from ticktick_sdk.go
-	"HandleListTasks_todoist_mcp_server": HandleListTasks_todoist_mcp_server, // from todoist_mcp_server.go
 	"HandleListTasks_varun_ai07_covenant_mcp": HandleListTasks_varun_ai07_covenant_mcp, // from varun_ai07_covenant_mcp.go
 	"HandleListTasks_wrike": HandleListTasks_wrike, // from wrike.go
 	"HandleListTelemetry": HandleListTelemetry, // from bc_telemetry_buddy_mcp.go
@@ -2909,7 +2884,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleListTemplates_mcp_server_templates": HandleListTemplates_mcp_server_templates, // from mcp_server_templates.go
 	"HandleListTemplates_model_context_protocol_templates": HandleListTemplates_model_context_protocol_templates, // from model_context_protocol_templates.go
 	"HandleListTenants": HandleListTenants, // from flowcore_platform_mcp_server.go
-	"HandleListTodos_mcp_microsoft_todo": HandleListTodos_mcp_microsoft_todo, // from mcp_microsoft_todo.go
 	"HandleListToggles": HandleListToggles, // from unleash_mcp.go
 	"HandleListTools_foldkit_devtools_mcp": HandleListTools_foldkit_devtools_mcp, // from foldkit_devtools_mcp.go
 	"HandleListTools_mcp_bridge": HandleListTools_mcp_bridge, // from mcp_bridge.go
@@ -2973,7 +2947,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleLog": HandleLog, // from mcps_logger.go
 	"HandleLogCompletion": HandleLogCompletion, // from habit_tracker_ai_mcp.go
 	"HandleLogSleep": HandleLogSleep, // from sleep_tracker_ai_mcp.go
-	"HandleLogWaterIntake": HandleLogWaterIntake, // from hydration_reminder_ai_mcp.go
 	"HandleLogWork": HandleLogWork, // from ivelin_web_tempo_mcp_server.go
 	"HandleLogin_auth_agent_cli": HandleLogin_auth_agent_cli, // from auth_agent_cli.go
 	"HandleLogin_expensebot_mcp_server_auth": HandleLogin_expensebot_mcp_server_auth, // from expensebot_mcp_server_auth.go
@@ -3043,8 +3016,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleMintNFT": HandleMintNFT, // from verbwire_mcp_server.go
 	"HandleMlcbakeryMenu": HandleMlcbakeryMenu, // from mlcbakery.go
 	"HandleMlcbakeryStatus": HandleMlcbakeryStatus, // from mlcbakery.go
-	"HandleMnemoAddFact": HandleMnemoAddFact, // from morningljn_mnemo.go
-	"HandleMnemoQueryFact": HandleMnemoQueryFact, // from morningljn_mnemo.go
 	"HandleMobsfStatus": HandleMobsfStatus, // from mobsf_mcp_server.go
 	"HandleMobsfVersion": HandleMobsfVersion, // from mobsf_mcp_server.go
 	"HandleMockRandom": HandleMockRandom, // from mockhero.go
@@ -3100,7 +3071,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleNxListProjects": HandleNxListProjects, // from nx_console.go
 	"HandleNxRunTarget": HandleNxRunTarget, // from nx_console.go
 	"HandleOAuthDiscovery": HandleOAuthDiscovery, // from solvapay_mcp_core.go
-	"HandleOCR": HandleOCR, // from superbased.go
 	"HandleObservatoryInfo": HandleObservatoryInfo, // from mcp_observatory.go
 	"HandleOctagon": HandleOctagon, // from octagon_mcp_server.go
 	"HandleOctomind": HandleOctomind, // from octomind.go
@@ -3377,7 +3347,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleQuery_sage": HandleQuery_sage, // from sage.go
 	"HandleQuery_smartdb_mcp": HandleQuery_smartdb_mcp, // from smartdb_mcp.go
 	"HandleQuery_spacebridge_mcp": HandleQuery_spacebridge_mcp, // from spacebridge_mcp.go
-	"HandleQuery_unlock_your_agents_potential_with_model_context_protocol_pos": HandleQuery_unlock_your_agents_potential_with_model_context_protocol_pos, // from unlock_your_agents_potential_with_model_context_protocol_pos.go
 	"HandleQuery_urdb_mcp": HandleQuery_urdb_mcp, // from urdb_mcp.go
 	"HandleQuery_victoriametrics_mcp_server": HandleQuery_victoriametrics_mcp_server, // from victoriametrics_mcp_server.go
 	"HandleQuery_ydb_mcp": HandleQuery_ydb_mcp, // from ydb_mcp.go
@@ -3475,7 +3444,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleResumeToJobdescriptionMatcher": HandleResumeToJobdescriptionMatcher, // from resume_to_jobdescription_matcher.go
 	"HandleResumeValidate": HandleResumeValidate, // from jsonresume_jsonresume_mcp.go
 	"HandleRetrieve": HandleRetrieve, // from persistproc.go
-	"HandleRetrieveContext": HandleRetrieveContext, // from context_memory.go
 	"HandleRetrieveMemory_jaumemory_mcp_server": HandleRetrieveMemory_jaumemory_mcp_server, // from jaumemory_mcp_server.go
 	"HandleRetrieveThought": HandleRetrieveThought, // from prism_mcp_server.go
 	"HandleReunion": HandleReunion, // from mcp_reunion.go
@@ -3709,7 +3677,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleSearchMedical": HandleSearchMedical, // from medical_mcp.go
 	"HandleSearchMemex": HandleSearchMemex, // from memex.go
 	"HandleSearchMemory_engram": HandleSearchMemory_engram, // from engram.go
-	"HandleSearchMemory_jussmor_commit_memory_mcp": HandleSearchMemory_jussmor_commit_memory_mcp, // from jussmor_commit_memory_mcp.go
 	"HandleSearchMemory_memory_nexus_cloud": HandleSearchMemory_memory_nexus_cloud, // from memory_nexus_cloud.go
 	"HandleSearchMemory_memoryplugin_mcp_server": HandleSearchMemory_memoryplugin_mcp_server, // from memoryplugin_mcp_server.go
 	"HandleSearchMovie_mcp_server_tmdb": HandleSearchMovie_mcp_server_tmdb, // from mcp_server_tmdb.go
@@ -3767,7 +3734,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleSearchScreenpipe": HandleSearchScreenpipe, // from screenpipe.go
 	"HandleSearchSeries": HandleSearchSeries, // from fre4x_fred.go
 	"HandleSearchSkills_skill_ninja_mcp_server": HandleSearchSkills_skill_ninja_mcp_server, // from skill_ninja_mcp_server.go
-	"HandleSearchSkills_skill_seekers": HandleSearchSkills_skill_seekers, // from skill_seekers.go
 	"HandleSearchSlite": HandleSearchSlite, // from slite_mcp.go
 	"HandleSearchSongs_mcp_apple_music": HandleSearchSongs_mcp_apple_music, // from mcp_apple_music.go
 	"HandleSearchSongs_melrose_mcp": HandleSearchSongs_melrose_mcp, // from melrose_mcp.go
@@ -4008,7 +3974,6 @@ var dispatchMap = map[string]func(ctx context.Context, args map[string]interface
 	"HandleStop": HandleStop, // from reaper_mcp.go
 	"HandleStopBroker": HandleStopBroker, // from mcp_coordinator.go
 	"HandleStopSession": HandleStopSession, // from pomodoro_ai_mcp.go
-	"HandleStoreContext_context_memory": HandleStoreContext_context_memory, // from context_memory.go
 	"HandleStoreEngram": HandleStoreEngram, // from engram_mcp.go
 	"HandleStoreMemory_celiums_memory": HandleStoreMemory_celiums_memory, // from celiums_memory.go
 	"HandleStoreMemory_jaumemory_mcp_server": HandleStoreMemory_jaumemory_mcp_server, // from jaumemory_mcp_server.go

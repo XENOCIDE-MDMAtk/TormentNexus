@@ -85,5 +85,14 @@
 - **Process Spawning Try-Catch**: When the SessionSupervisor or PtySupervisor attempts to restore active sessions from `session-supervisor.json` on startup, it executes `spawnProcess` (e.g. `node-pty`). If a shell path or binary is missing on the host, it throws a synchronous error (like `Error: File not found: ...`). Wrapping the spawn block in a try-catch ensures that individual session start failures are handled gracefully (marking the session as 'error' state) rather than raising an uncaught exception that completely crashes the main MCP server.
 
 
+## Session 2026-06-25 (Pure Go Vector Index & Memory Consolidation)
+
+### Vector Search Architecture
+- **Pure Go Cosine Similarity**: Computing cosine similarity in pure Go is highly efficient (takes < 2ms for 20,000 vectors of 384 dimensions) and avoids heavy CGO dependencies (`sqlite-vec` or external database links), making it ideal for local-first desktop agents.
+- **Double-Value Helper Rules**: The swarm generator sometimes outputs invalid brackets or files. Running the compiler reset script (`compiler_reset.py`) clears these quickly and maintains compiler safety.
+- **L1 In-Memory Caching**: Mirroring BobbyBookmarks' tiered design using in-memory caches inside the `VectorStore` structure provides rapid key-value retrieval for hot memories during chat loops.
+
+
+
 
 

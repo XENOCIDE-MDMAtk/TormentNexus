@@ -19,17 +19,18 @@ def sanitize_go_code(code: str) -> str:
 
     # 0b. Remove markdown code fences - KEEP content INSIDE fences
     lines = code.splitlines()
-    cleaned_lines = []
-    in_fence = False
-    for line in lines:
-        stripped = line.strip()
-        if stripped.startswith("```"):
-            in_fence = not in_fence
-            continue
-        if in_fence:
-            cleaned_lines.append(line)
-        # Lines outside fences are discarded (attribution, etc.)
-    code = "\n".join(cleaned_lines)
+    has_fences = any(line.strip().startswith("```") for line in lines)
+    if has_fences:
+        cleaned_lines = []
+        in_fence = False
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("```"):
+                in_fence = not in_fence
+                continue
+            if in_fence:
+                cleaned_lines.append(line)
+        code = "\n".join(cleaned_lines)
 
     # 0b2. Fix unterminated string literals
     # LLM sometimes generates strings with newlines in the middle.

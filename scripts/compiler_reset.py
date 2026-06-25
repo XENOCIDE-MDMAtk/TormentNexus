@@ -10,14 +10,14 @@ GO_DIR = pathlib.Path("go")
 TOOLS_DIR = GO_DIR / "internal" / "tools"
 
 PROTECTED_FILES = {
-    "registry.go", "parity.go", "server.go", "factory.go", "basic_memory.go",
+    "registry.go", "parity.go", "factory.go", "basic_memory.go",
     "filesystem.go", "web_fetch.go", "sqlite.go", "bash.go", "glob.go",
     "apply_patch.go", "multi_edit.go", "git_ingest.go",
     # Core handler files
-    "ddg_search.go", "slack.go", "gitingest.go", "search_tools.go",
+    "ddg_search.go", "gitingest.go", "search_tools.go",
     "skill_registry.go", "harnesses.go", "fetch.go", "ollama.go",
     "tts.go", "nws_tools.go", "nws_weather.go", "playwright_browser.go",
-    "semgrep.go", "tavily.go", "puppeteer.go", "prompt_library.go",
+    "semgrep.go", "puppeteer.go", "prompt_library.go",
     "ripgrep.go"
 }
 

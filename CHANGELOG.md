@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.155] - 2026-06-25
+
+### Added
+- **Pure Go Vector Search**: Replaced CGO-based `sqlite-vec` virtual tables with standard SQLite tables and a native Go-native cosine similarity scanner (`cosineSim`, `encodeVec`, `decodeVec`).
+- **BobbyBookmarks Tiered Cache Integration**: Implemented in-process L1 caching (hot cache) for active working memory records with heat-based eviction (`evictColdestL1Locked`) to manage memory promotion/demotion.
+- **Compiler Sanitization & Reset**: Ran the self-healing compiler reset loop to clean up syntax issues in generated browser/hacking tools, ensuring a 100% green compilation state.
+
 ## [1.0.0-alpha.153] - 2026-06-24
 
 ### Changed

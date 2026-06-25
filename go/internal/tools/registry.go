@@ -27,34 +27,34 @@ func err(msg string) (ToolResponse, error) {
 	return ToolResponse{}, fmt.Errorf("%s", msg)
 }
 
-func getString(args map[string]interface{}, key string) string {
+func getString(args map[string]interface{}, key string) (string, bool) {
 	if v, ok := args[key]; ok {
 		if s, ok := v.(string); ok {
-			return s
+			return s, true
 		}
 	}
-	return ""
+	return "", false
 }
 
-func getInt(args map[string]interface{}, key string) int {
+func getInt(args map[string]interface{}, key string) (int, bool) {
 	if v, ok := args[key]; ok {
 		switch val := v.(type) {
 		case float64:
-			return int(val)
+			return int(val), true
 		case int:
-			return val
+			return val, true
 		}
 	}
-	return 0
+	return 0, false
 }
 
-func getBool(args map[string]interface{}, key string) bool {
+func getBool(args map[string]interface{}, key string) (bool, bool) {
 	if v, ok := args[key]; ok {
 		if b, ok := v.(bool); ok {
-			return b
+			return b, true
 		}
 	}
-	return false
+	return false, false
 }
 
 type ToolHandler func(ctx context.Context, args map[string]interface{}) (ToolResponse, error)

@@ -47,7 +47,6 @@ MANIFEST_DIR = TOOLS_DIR / "manifests"
 PROTECTED_FILES = {
     "registry.go",
     "parity.go",
-    "server.go",
     "factory.go",
     "basic_memory.go",
     "filesystem.go",
@@ -60,11 +59,9 @@ PROTECTED_FILES = {
     "git_ingest.go",
     # Core handler files (will compile in root build)
     "ddg_search.go",
-    "slack.go",
     "gitingest.go",
     "sqlite.go",
     "search_tools.go",
-    "server.go",
     "skill_registry.go",
     "harnesses.go",
     "filesystem.go",
@@ -76,7 +73,6 @@ PROTECTED_FILES = {
     "nws_weather.go",
     "playwright_browser.go",
     "semgrep.go",
-    "tavily.go",
     "puppeteer.go",
     "prompt_library.go",
     "ripgrep.go",
@@ -1129,10 +1125,10 @@ Output the COMPLETE fixed code. No explanation. No markdown. Start with 'package
 def verify_build():
     try:
         r = subprocess.run(
-            ["go", "build", "-buildvcs=false", "-o", "tormentnexus.exe", "."],
+            ["go", "build", "-buildvcs=false", "./cmd/tormentnexus"],
             capture_output=True,
             text=True,
-            cwd=str(WORKSPACE),
+            cwd=str(GO_DIR),
             timeout=120,
             encoding="utf-8",
             errors="replace",

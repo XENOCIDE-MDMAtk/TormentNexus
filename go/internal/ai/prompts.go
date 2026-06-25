@@ -1,12 +1,13 @@
 package ai
 
-/**
- * @file prompts.go
- * @module go/internal/ai
- *
- * WHAT: Standardized system prompts for various AI roles.
- * Matches the TypeScript prompt registry for cross-runtime consistency.
- */
+import (
+	"database/sql"
+	"os"
+	"path/filepath"
+	"strings"
+
+	_ "modernc.org/sqlite"
+)
 
 const SwarmPromptPlanner = `You are the Swarm Planner. Your goal is to architect a high-level implementation strategy for the task.
 Focus on:
@@ -37,7 +38,39 @@ Focus on:
 - What is missing or needs refinement?
 If the task is complete, start your response with "COMPLETE".`
 
+func getSkillsDBPath() string {
+	if _, err := os.Stat(".tormentnexus/skills.db"); err == nil {
+		return ".tormentnexus/skills.db"
+	}
+	if home, err := os.UserHomeDir(); err == nil {
+		path := filepath.Join(home, ".tormentnexus", "skills.db")
+		if _, err := os.Stat(path); err == nil {
+			return path
+		}
+	}
+	return ""
+}
+
 func GetSwarmPrompt(role string) string {
+	dbPath := getSkillsDBPath()
+	if dbPath != "" {
+		if db, err := sql.Open("sqlite", dbPath); err == nil {
+			defer db.Close()
+			var content string
+			query := "SELECT content FROM skills WHERE skill_id = ? OR (category = 'prompt' AND name LIKE ?)"
+			err = db.QueryRow(query, "swarm_prompt_"+role, "%"+role+"%").Scan(&content)
+			if err == nil && content != "" {
+				if strings.HasPrefix(content, "---") {
+					parts := strings.SplitN(content, "---", 3)
+					if len(parts) >= 3 {
+						return strings.TrimSpace(parts[2])
+					}
+				}
+				return strings.TrimSpace(content)
+			}
+		}
+	}
+
 	switch role {
 	case "planner":
 		return SwarmPromptPlanner
@@ -51,3 +84,4 @@ func GetSwarmPrompt(role string) string {
 		return "You are a helpful assistant."
 	}
 }
+
