@@ -40,6 +40,7 @@ import {
     Radio,
     Network,
     ShoppingBag,
+    Power,
 } from "lucide-react";
 
 export interface NavItem {
@@ -89,6 +90,12 @@ export const META_MCP_NAV: NavItem[] = [
         title: "Configuration",
         href: "/dashboard/mcp/settings",
         icon: Settings,
+        variant: "ghost",
+    },
+    {
+        title: "Always-On Tools",
+        href: "/dashboard/mcp/always-on",
+        icon: Power,
         variant: "ghost",
     },
 ];

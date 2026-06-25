@@ -48,17 +48,17 @@ func saveMemories(mems []Memory) error {
 
 // HandleAddMemory adds a new code snippet to memory
 func HandleAddMemory(ctx context.Context, args map[string]interface{}) (ToolResponse, error) {
-	content, _ :=getString(args, "content")
-	filePath, _ :=getString(args, "file_path")
+	content, _ := getString(args, "content")
+	filePath, _ := getString(args, "file_path")
 
 	if content == "" {
 		return err("content is required")
-}
+	}
 
 	mems, loadErr := loadMemories()
 	if loadErr != nil {
 		return err(fmt.Sprintf("failed to load memories: %s", loadErr.Error()))
-}
+	}
 
 	newMem := Memory{
 		ID:        fmt.Sprintf("%d", time.Now().UnixNano()),
@@ -72,7 +72,7 @@ func HandleAddMemory(ctx context.Context, args map[string]interface{}) (ToolResp
 	saveErr := saveMemories(mems)
 	if saveErr != nil {
 		return err(fmt.Sprintf("failed to save memory: %s", saveErr.Error()))
-}
+	}
 
 	return ok("memory added successfully")
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import type React from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, Button, Input, Tabs, TabsContent, TabsList, TabsTrigger, Badge, ScrollArea, KnowledgeGraph } from '@tormentnexus/ui';
 import { Loader2, Brain, Search, Database, History, Zap, Filter, Plus, Save, Download, RefreshCw, ChevronRight, Globe, Sparkles, Bot, FileText, Map, Settings, Cpu } from "lucide-react";
 import { trpc } from '@/utils/trpc';
@@ -211,7 +212,9 @@ export default function CognitiveBrainDashboard() {
                             return;
                         }
                     }
-                } catch { continue; }
+                } catch {
+                    // Ignore fetch errors, will show hydration error below
+                }
             }
             setHydrationError('Could not reach hydration store');
         } finally {
@@ -242,7 +245,9 @@ export default function CognitiveBrainDashboard() {
                             return;
                         }
                     }
-                } catch { continue; }
+                } catch {
+                    // Ignore fetch errors, will show hydration error below
+                }
             }
             setHydrationError('Hydration failed — could not reach Go sidecar');
         } finally {
@@ -257,13 +262,13 @@ export default function CognitiveBrainDashboard() {
     }, [activeTab]);
 
     const mergeMemoryRecords = (groups: Array<MemoryRecord[] | undefined>): MemoryRecord[] => {
-        const merged = new Map<string, MemoryRecord>();
+        const records: Record<string, MemoryRecord> = {};
         for (const group of groups) {
             for (const memory of group ?? []) {
-                merged.set(getMemoryRecordKey(memory), memory);
+                records[getMemoryRecordKey(memory)] = memory;
             }
         }
-        return Array.from(merged.values());
+        return Object.values(records);
     };
 
     const refreshMemoryViews = async () => {
