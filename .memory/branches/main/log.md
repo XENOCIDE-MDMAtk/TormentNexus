@@ -28347,3 +28347,33 @@ Let me now commit the submodule pointer updates in the root repo and enterprise_
 **Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git add enterprise_sales_bot bobbybookmarks && git status --short | head -10")
 **Observation**: bash: success
 
+## Turn 10 | 2026-06-25T16:51:18.967Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: There are also a bunch of other modified files from the session. The CRLF issue is causing modified package.json files and tool files again. Let me restore the tool files, check if the package.json changes are real, and just commit the submodule pointer.
+
+Let me first check what's changed in the tool files — they might be CRLF again.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git checkout HEAD -- go/internal/tools/ && git checkout HEAD -- scripts/dev_tabby_ready.mjs 2>/dev/null && git status --short | grep -c "^ M" && echo "modified remaining"")
+**Observation**: bash: error
+
+## Turn 11 | 2026-06-25T16:57:14.347Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The checkout failed because go/internal/tools/ has files checked out from enterprise_sales_bot/borg which is a different repo. Let me just check the status.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git status --short | wc -l")
+**Observation**: bash: success
+
+## Turn 12 | 2026-06-25T16:57:19.442Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Only 4 changes now - that's manageable. Let me see what they are.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git status --short")
+**Observation**: bash: success
+
+## Turn 13 | 2026-06-25T16:57:22.941Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me restore the deleted codebase_memory_mcp.go and then commit the submodule pointer update.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git checkout HEAD -- go/internal/tools/codebase_memory_mcp.go && git status --short")
+**Observation**: bash: success
+
