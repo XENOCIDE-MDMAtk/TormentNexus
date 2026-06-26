@@ -599,15 +599,6 @@ func (s *Server) injectAlwaysOnStatus(tools []map[string]any) []map[string]any {
 	for _, tool := range tools {
 		name, _ := tool["name"].(string)
 		isAlwaysOn := parityTools[name] || alwaysOnMap[name]
-		// Dynamically treat all accessory/native tools as always-on
-		if registry := roottools.NewRegistry(); registry != nil {
-			for _, t := range registry.Tools {
-				if t.Name == name {
-					isAlwaysOn = true
-					break
-				}
-			}
-		}
 		tool["alwaysOn"] = isAlwaysOn
 		tool["alwaysShow"] = isAlwaysOn
 	}
@@ -615,41 +606,138 @@ func (s *Server) injectAlwaysOnStatus(tools []map[string]any) []map[string]any {
 }
 
 func (s *Server) mergeAccessoryTools(toolsList []map[string]any) []map[string]any {
-	registry := roottools.NewRegistry()
-	if registry == nil {
-		return toolsList
-	}
 	seen := make(map[string]bool)
 	for _, t := range toolsList {
 		if name, ok := t["name"].(string); ok {
 			seen[name] = true
 		}
 	}
-	for _, t := range registry.Tools {
-		if seen[t.Name] {
-			continue
-		}
-		seen[t.Name] = true
-		var inputSchema map[string]any
-		if len(t.Parameters) > 0 {
-			_ = json.Unmarshal(t.Parameters, &inputSchema)
-		}
-		if inputSchema == nil {
-			inputSchema = map[string]any{
-				"type": "object",
-				"properties": map[string]any{},
+
+	// 1. Merge accessory tools from the root registry
+	registry := roottools.NewRegistry()
+	if registry != nil {
+		for _, t := range registry.Tools {
+			if seen[t.Name] {
+				continue
 			}
+			seen[t.Name] = true
+			var inputSchema map[string]any
+			if len(t.Parameters) > 0 {
+				_ = json.Unmarshal(t.Parameters, &inputSchema)
+			}
+			if inputSchema == nil {
+				inputSchema = map[string]any{
+					"type":       "object",
+					"properties": map[string]any{},
+				}
+			}
+			toolMap := map[string]any{
+				"name":        t.Name,
+				"description": t.Description,
+				"inputSchema": inputSchema,
+				"alwaysOn":    false,
+				"alwaysShow":  false,
+				"source":      "built-in",
+			}
+			toolsList = append(toolsList, toolMap)
 		}
-		toolMap := map[string]any{
-			"name":        t.Name,
-			"description": t.Description,
-			"inputSchema": inputSchema,
-			"alwaysOn":    false,
-			"alwaysShow":  false,
-			"source":      "built-in",
-		}
-		toolsList = append(toolsList, toolMap)
 	}
+
+	// 2. Merge Go-native internal tools
+	if s.toolsRegistry != nil {
+		for _, name := range s.toolsRegistry.List() {
+			if seen[name] {
+				continue
+			}
+			seen[name] = true
+
+			desc := "Go-native built-in tool"
+			properties := map[string]any{}
+			required := []string{}
+
+			switch name {
+			case "read_file":
+				desc = "Read the contents of a file"
+				properties["path"] = map[string]any{"type": "string", "description": "Absolute path to the file"}
+				required = []string{"path"}
+			case "write_file":
+				desc = "Create or overwrite a file with contents"
+				properties["path"] = map[string]any{"type": "string", "description": "Absolute path to the file"}
+				properties["content"] = map[string]any{"type": "string", "description": "Content to write"}
+				required = []string{"path", "content"}
+			case "list_dir":
+				desc = "List files and subdirectories"
+				properties["path"] = map[string]any{"type": "string", "description": "Absolute path to the directory"}
+				required = []string{"path"}
+			case "delete_file":
+				desc = "Remove a file from filesystem"
+				properties["path"] = map[string]any{"type": "string", "description": "Absolute path to the file"}
+				required = []string{"path"}
+			case "ripgrep", "search_text":
+				desc = "Search for exact text or pattern in workspace files"
+				properties["query"] = map[string]any{"type": "string", "description": "Search term or regex pattern"}
+				properties["path"] = map[string]any{"type": "string", "description": "Optional search directory"}
+				required = []string{"query"}
+			case "search_web":
+				desc = "Perform a web search for a query"
+				properties["query"] = map[string]any{"type": "string", "description": "Search query"}
+				required = []string{"query"}
+			case "probe":
+				desc = "Send a HTTP GET request to check URL status"
+				properties["url"] = map[string]any{"type": "string", "description": "Target URL to probe"}
+				required = []string{"url"}
+			case "code_research":
+				desc = "Analyze codebase structure and find matching code elements"
+				properties["query"] = map[string]any{"type": "string", "description": "Code component or search string"}
+				required = []string{"query"}
+			case "search_semantic":
+				desc = "Perform semantic search across vectorized workspace memories"
+				properties["query"] = map[string]any{"type": "string", "description": "Search query"}
+				required = []string{"query"}
+			case "search_regex":
+				desc = "Run regex search on workspace files"
+				properties["query"] = map[string]any{"type": "string", "description": "Regex pattern"}
+				required = []string{"query"}
+			case "fetch", "get":
+				desc = "Fetch content from a URL via GET request"
+				properties["url"] = map[string]any{"type": "string", "description": "URL to fetch"}
+				required = []string{"url"}
+			case "post":
+				desc = "Send a POST request with body to a URL"
+				properties["url"] = map[string]any{"type": "string", "description": "URL to send POST to"}
+				properties["body"] = map[string]any{"type": "string", "description": "Optional raw request body"}
+				required = []string{"url"}
+			case "browser_action":
+				desc = "Interact with headless browser"
+				properties["action"] = map[string]any{"type": "string", "description": "Browser action (goto, click, fill, type, content)"}
+				properties["url"] = map[string]any{"type": "string", "description": "Optional URL target"}
+				required = []string{"action"}
+			case "evolve":
+				desc = "Analyze tool usage telemetry and propose code repairs"
+			case "run_dag":
+				desc = "Execute a structured DAG task flow"
+			}
+
+			inputSchema := map[string]any{
+				"type":       "object",
+				"properties": properties,
+			}
+			if len(required) > 0 {
+				inputSchema["required"] = required
+			}
+
+			toolMap := map[string]any{
+				"name":        name,
+				"description": desc,
+				"inputSchema": inputSchema,
+				"alwaysOn":    false,
+				"alwaysShow":  false,
+				"source":      "native",
+			}
+			toolsList = append(toolsList, toolMap)
+		}
+	}
+
 	return toolsList
 }
 

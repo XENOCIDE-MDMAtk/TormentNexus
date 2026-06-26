@@ -581,6 +581,7 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	server.eventBus = eventbus.New(1000)
 	systray.Start(server.eventBus)
 	memoryVS, _ := memorystore.NewVectorStore(filepath.Join(cfg.ConfigDir, "memory.db"))
+	tools.GlobalVectorStore = memoryVS
 	server.memoryReactor = memorystore.NewMemoryReactor(cfg.WorkspaceRoot, memoryVS)
 	server.memoryArchiver = memorystore.NewMemoryArchiver(cfg.WorkspaceRoot, memoryVS)
 	server.importCache = newImportScanCache()

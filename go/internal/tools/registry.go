@@ -5,7 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"sync"
+
+	"github.com/tormentnexushq/tormentnexus-go/internal/memorystore"
 )
+
+var GlobalVectorStore *memorystore.VectorStore
 
 type ToolResponse struct {
 	Content []TextContent `json:"content"`

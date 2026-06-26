@@ -33,11 +33,12 @@ type QueryPayload struct {
 }
 
 type VectorStore struct {
-	db          *sql.DB
-	mu          sync.Mutex
-	l1Cache     map[string]*l1Entry
-	l1Max       int
-	coldArchive *L3ColdArchive
+	db            *sql.DB
+	mu            sync.Mutex
+	l1Cache       map[string]*l1Entry
+	l1Max         int
+	coldArchive   *L3ColdArchive
+	relationStore *RelationStore
 }
 
 func NewVectorStore(dbPath string) (*VectorStore, error) {
@@ -85,11 +86,17 @@ func NewVectorStore(dbPath string) (*VectorStore, error) {
 		fmt.Printf("Warning: failed to initialize L3 Cold Archive: %v\n", l3Err)
 	}
 
+	relStore, err := NewRelationStore(db)
+	if err != nil {
+		fmt.Printf("Warning: failed to initialize RelationStore: %v\n", err)
+	}
+
 	return &VectorStore{
-		db:          db,
-		l1Cache:     make(map[string]*l1Entry),
-		l1Max:       100,
-		coldArchive: l3,
+		db:            db,
+		l1Cache:       make(map[string]*l1Entry),
+		l1Max:         100,
+		coldArchive:   l3,
+		relationStore: relStore,
 	}, nil
 }
 
@@ -867,6 +874,10 @@ func (s *VectorStore) MentalModelReflection(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+func (s *VectorStore) RelationStore() *RelationStore {
+	return s.relationStore
 }
 
 

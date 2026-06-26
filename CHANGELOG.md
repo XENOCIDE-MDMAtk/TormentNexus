@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0-alpha.188] - 2026-06-26
+
+### Added
+- **MCP Bridge Native Tool Integration**: Exposed all internal Go-native tools (like `probe`, `read_file`, `search_semantic`, etc.) via the `/api/mcp/tools` registry on the Go sidecar.
+- **Relational Memory Tools**: Implemented full GraphRAG relation mapping and search inside `mem0` (add relation), `mem1` (traverse relations), and `mem2` (stats/get relations) tool handlers using the SQLite-backed `RelationStore`.
+
+### Fixed
+- **Dashboard Always-On Toggles**: Updated the always-on status matching logic to respect user configuration settings from `always-on-tools.json`, allowing built-in accessory and native tools to be properly toggled on or off in the dashboard.
+
+## [1.0.0-alpha.187] - 2026-06-26
+
+### Added
+- **Windows System Tray**: Native Win32 system tray application in Go (`systray_windows.go` and `systray_stub.go` fallback for headless Linux) with real-time I/O flash alerts.
+- **Spaced Repetition reviews**: Implemented SuperMemo SM-2 memory card scheduler in Go with React dashboard review panel.
+- **Mesh Discovery Encryption**: AES-GCM symmetric encryption for UDP peer-to-peer mesh discovery packets.
+
 ## [1.0.0-alpha.186] - 2026-06-26
 
 ### Added
