@@ -4612,7 +4612,7 @@ ${env.tools
 	private async setupDirectHandlers(serverInstance: Server): Promise<void> {
 		this.setupDirectDiscoveryHandlers(serverInstance);
 
-		serverInstance.setRequestHandler(LooseListToolsRequestSchema, async () => {
+		serverInstance.setRequestHandler(LooseListToolsRequestSchema as any, async () => {
 			const visibleTools = await this.getDirectModeTools();
 			return {
 				tools: visibleTools.map((t) => ({
@@ -4623,7 +4623,7 @@ ${env.tools
 			};
 		});
 
-		serverInstance.setRequestHandler(LooseCallToolRequestSchema, async (request) => {
+		serverInstance.setRequestHandler(LooseCallToolRequestSchema as any, async (request) => {
 			const meta =
 				request.params._meta &&
 				typeof request.params._meta === "object" &&
@@ -4680,7 +4680,7 @@ ${env.tools
 		};
 
 		serverInstance.setRequestHandler(
-			LooseListPromptsRequestSchema,
+			LooseListPromptsRequestSchema as any,
 			async (request) => {
 				return await listDownstreamPrompts({
 					context,
@@ -4692,7 +4692,7 @@ ${env.tools
 		);
 
 		serverInstance.setRequestHandler(
-			LooseGetPromptRequestSchema,
+			LooseGetPromptRequestSchema as any,
 			async (request) => {
 				return await getDownstreamPrompt({
 					name: request.params.name,
@@ -4704,7 +4704,7 @@ ${env.tools
 		);
 
 		serverInstance.setRequestHandler(
-			LooseListResourcesRequestSchema,
+			LooseListResourcesRequestSchema as any,
 			async (request) => {
 				return await listDownstreamResources({
 					context,
@@ -4716,7 +4716,7 @@ ${env.tools
 		);
 
 		serverInstance.setRequestHandler(
-			LooseReadResourceRequestSchema,
+			LooseReadResourceRequestSchema as any,
 			async (request) => {
 				return await readDownstreamResource({
 					uri: request.params.uri,
@@ -4727,7 +4727,7 @@ ${env.tools
 		);
 
 		serverInstance.setRequestHandler(
-			LooseListResourceTemplatesRequestSchema,
+			LooseListResourceTemplatesRequestSchema as any,
 			async (request) => {
 				return await listDownstreamResourceTemplates({
 					context,

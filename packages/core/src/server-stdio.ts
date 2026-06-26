@@ -69,7 +69,7 @@ async function main() {
         // Tools/list handler: waits for full server to be ready (up to 30s)
         // so the client receives the complete tool set on first discovery.
         // This prevents "No prompts or tools found" errors from MCP clients.
-        lightweightServer.setRequestHandler(LooseListToolsRequestSchema, async () => {
+        lightweightServer.setRequestHandler(LooseListToolsRequestSchema as any, async () => {
             // Wait for the full MCPServer to finish loading
             const maxWaitMs = 30_000;
             const pollIntervalMs = 200;
@@ -106,7 +106,7 @@ async function main() {
 
         // Tools/call handler: delegates to the full MCPServer once ready,
         // or waits briefly for initialization to complete.
-        lightweightServer.setRequestHandler(LooseCallToolRequestSchema, async (request: any) => {
+        lightweightServer.setRequestHandler(LooseCallToolRequestSchema as any, async (request: any) => {
             // Wait up to 30s for the server to be ready
             const maxWaitMs = 30_000;
             const pollIntervalMs = 200;
@@ -133,11 +133,11 @@ async function main() {
         });
 
         // Placeholder prompt/resource handlers
-        lightweightServer.setRequestHandler(LooseListPromptsRequestSchema, async () => ({ prompts: [] }));
-        lightweightServer.setRequestHandler(LooseGetPromptRequestSchema, async () => ({ messages: [] }));
-        lightweightServer.setRequestHandler(LooseListResourcesRequestSchema, async () => ({ resources: [] }));
-        lightweightServer.setRequestHandler(LooseReadResourceRequestSchema, async () => ({ contents: [] }));
-        lightweightServer.setRequestHandler(LooseListResourceTemplatesRequestSchema, async () => ({ resourceTemplates: [] }));
+        lightweightServer.setRequestHandler(LooseListPromptsRequestSchema as any, async () => ({ prompts: [] }));
+        lightweightServer.setRequestHandler(LooseGetPromptRequestSchema as any, async () => ({ messages: [] }));
+        lightweightServer.setRequestHandler(LooseListResourcesRequestSchema as any, async () => ({ resources: [] }));
+        lightweightServer.setRequestHandler(LooseReadResourceRequestSchema as any, async () => ({ contents: [] }));
+        lightweightServer.setRequestHandler(LooseListResourceTemplatesRequestSchema as any, async () => ({ resourceTemplates: [] }));
 
         const stdioTransport = new StdioServerTransport();
         await lightweightServer.connect(stdioTransport);
