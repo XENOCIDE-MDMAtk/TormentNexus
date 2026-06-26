@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/tormentnexushq/tormentnexus-go/internal/controlplane"
@@ -38,6 +39,26 @@ CREATE TABLE IF NOT EXISTS l3_cold_archive (
 CREATE INDEX IF NOT EXISTS idx_cold_archive_heat   ON l3_cold_archive(heat_score);
 CREATE INDEX IF NOT EXISTS idx_cold_archive_kind   ON l3_cold_archive(kind);
 CREATE INDEX IF NOT EXISTS idx_cold_archive_created ON l3_cold_archive(created_at);
+
+-- FTS5 Virtual Table for cold archive search
+CREATE VIRTUAL TABLE IF NOT EXISTS l3_cold_archive_fts USING fts5(
+    id UNINDEXED,
+    content
+);
+
+-- Triggers to keep FTS table in sync with l3_cold_archive
+CREATE TRIGGER IF NOT EXISTS l3_cold_archive_fts_ai AFTER INSERT ON l3_cold_archive BEGIN
+    INSERT INTO l3_cold_archive_fts(id, content) VALUES (new.id, new.content);
+END;
+
+CREATE TRIGGER IF NOT EXISTS l3_cold_archive_fts_ad AFTER DELETE ON l3_cold_archive BEGIN
+    DELETE FROM l3_cold_archive_fts WHERE id = old.id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS l3_cold_archive_fts_au AFTER UPDATE ON l3_cold_archive BEGIN
+    DELETE FROM l3_cold_archive_fts WHERE id = old.id;
+    INSERT INTO l3_cold_archive_fts(id, content) VALUES (new.id, new.content);
+END;
 `
 
 // NewColdArchive opens (or creates) the L3 cold archive DB.
@@ -56,6 +77,8 @@ func NewColdArchive(dbPath string) (*L3ColdArchive, error) {
 		db.Close()
 		return nil, fmt.Errorf("cold archive schema: %w", err)
 	}
+	// Backfill existing memories into FTS table if needed
+	_, _ = db.Exec("INSERT INTO l3_cold_archive_fts(id, content) SELECT id, content FROM l3_cold_archive WHERE id NOT IN (SELECT id FROM l3_cold_archive_fts)")
 	return &L3ColdArchive{db: db}, nil
 }
 
@@ -116,8 +139,45 @@ func (a *L3ColdArchive) SearchCold(ctx context.Context, query string, limit int)
 	if limit <= 0 || limit > 100 {
 		limit = 20
 	}
-	like := "%" + query + "%"
+	cleanQuery := strings.TrimSpace(query)
+	if cleanQuery == "" {
+		return nil, nil
+	}
+
+	// Try FTS5 MATCH query first
 	rows, err := a.db.QueryContext(ctx, `
+		SELECT id, session_id, kind, category, tags, source_url,
+		       content, importance, heat_score, created_at
+		FROM l3_cold_archive
+		WHERE id IN (SELECT id FROM l3_cold_archive_fts WHERE content MATCH ?)
+		ORDER BY heat_score DESC, importance DESC
+		LIMIT ?
+	`, cleanQuery, limit)
+
+	var results []controlplane.L2VaultRecord
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var r controlplane.L2VaultRecord
+			var createdAtStr string
+			if err := rows.Scan(&r.ID, &r.SessionID, &r.Kind, &r.Category,
+				&r.Tags, &r.SourceURL, &r.Content,
+				&r.Importance, &r.HeatScore, &createdAtStr); err == nil {
+				r.CreatedAt, _ = time.Parse(time.RFC3339, createdAtStr)
+				r.LastAccessedAt = time.Now()
+				r.Type = controlplane.MemoryArchive
+				results = append(results, r)
+			}
+		}
+	}
+
+	if len(results) > 0 {
+		return results, nil
+	}
+
+	// Fallback to LIKE if FTS fails or returns no results
+	like := "%" + query + "%"
+	rows, err = a.db.QueryContext(ctx, `
 		SELECT id, session_id, kind, category, tags, source_url,
 		       content, importance, heat_score, created_at
 		FROM l3_cold_archive
@@ -130,7 +190,6 @@ func (a *L3ColdArchive) SearchCold(ctx context.Context, query string, limit int)
 	}
 	defer rows.Close()
 
-	var results []controlplane.L2VaultRecord
 	for rows.Next() {
 		var r controlplane.L2VaultRecord
 		var createdAtStr string

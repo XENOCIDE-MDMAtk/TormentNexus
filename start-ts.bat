@@ -10,7 +10,7 @@ REM -- Configuration ----------------------------------
 set TS_PORT=%TORMENTNEXUS_TS_PORT%
 if "%TS_PORT%"=="" set TS_PORT=4100
 set DASH_PORT=%TORMENTNEXUS_DASH_PORT%
-if "%DASH_PORT%"=="" set DASH_PORT=3000
+if "%DASH_PORT%"=="" set DASH_PORT=7779
 set TS_DIR=%TORMENTNEXUS_TS_DIR%
 if "%TS_DIR%"=="" set TS_DIR=archive\ts-legacy
 

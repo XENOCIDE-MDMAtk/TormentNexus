@@ -12,6 +12,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/tormentnexushq/tormentnexus-go/internal/ai"
 	"github.com/tormentnexushq/tormentnexus-go/internal/controlplane"
 	_ "modernc.org/sqlite"
 )
@@ -62,6 +63,9 @@ func NewVectorStore(dbPath string) (*VectorStore, error) {
 		db.Close()
 		return nil, fmt.Errorf("failed to init vector schema: %w", err)
 	}
+
+	// Backfill existing memories into FTS table if needed
+	_, _ = db.Exec("INSERT INTO l2_vault_fts(id, content) SELECT id, content FROM l2_vault WHERE id NOT IN (SELECT id FROM l2_vault_fts)")
 
 	return &VectorStore{
 		db:      db,
@@ -275,51 +279,95 @@ func (s *VectorStore) SemanticSearch(ctx context.Context, query string, limit in
 		}
 	}
 
-	// Fall back to keyword search with optional filters
+	// Fall back to keyword search (using FTS5 with LIKE fallback)
 	var args []interface{}
 	sqlQuery := `
 		SELECT id, session_id, memory_type, memory_kind, category, tags, source_url, content, importance, heat_score, last_accessed_at, created_at
 		FROM l2_vault
 		WHERE memory_type != 'archive'
 	`
+	useFTS := false
 	if queryText != "" {
-		sqlQuery += " AND content LIKE ?"
-		args = append(args, "%"+queryText+"%")
-	}
-	if filterKind != "" {
-		sqlQuery += " AND memory_kind = ?"
-		args = append(args, filterKind)
-	}
-	if filterCategory != "" {
-		sqlQuery += " AND category = ?"
-		args = append(args, filterCategory)
-	}
-	sqlQuery += " ORDER BY importance DESC, heat_score DESC, created_at DESC LIMIT ?"
-	args = append(args, limit)
+		cleanQuery := strings.TrimSpace(queryText)
+		if cleanQuery != "" {
+			// Try FTS5 MATCH query first
+			ftsQuery := sqlQuery + " AND id IN (SELECT id FROM l2_vault_fts WHERE content MATCH ?)"
+			var ftsArgs []interface{}
+			ftsArgs = append(ftsArgs, cleanQuery)
+			if filterKind != "" {
+				ftsQuery += " AND memory_kind = ?"
+				ftsArgs = append(ftsArgs, filterKind)
+			}
+			if filterCategory != "" {
+				ftsQuery += " AND category = ?"
+				ftsArgs = append(ftsArgs, filterCategory)
+			}
+			ftsQuery += " ORDER BY importance DESC, heat_score DESC, created_at DESC LIMIT ?"
+			ftsArgs = append(ftsArgs, limit)
 
-	rows, err := s.db.QueryContext(ctx, sqlQuery, args...)
-	if err != nil {
-		return nil, fmt.Errorf("memorystore search: %w", err)
-	}
-	defer rows.Close()
-
-	var results []controlplane.L2VaultRecord
-	for rows.Next() {
-		var r controlplane.L2VaultRecord
-		var mType string
-		if err := rows.Scan(&r.ID, &r.SessionID, &mType, &r.Kind, &r.Category, &r.Tags, &r.SourceURL, &r.Content, &r.Importance, &r.HeatScore, &r.LastAccessedAt, &r.CreatedAt); err != nil {
-			return nil, err
+			rows, err := s.db.QueryContext(ctx, ftsQuery, ftsArgs...)
+			if err == nil {
+				defer rows.Close()
+				useFTS = true
+				var results []controlplane.L2VaultRecord
+				for rows.Next() {
+					var r controlplane.L2VaultRecord
+					var mType string
+					if err := rows.Scan(&r.ID, &r.SessionID, &mType, &r.Kind, &r.Category, &r.Tags, &r.SourceURL, &r.Content, &r.Importance, &r.HeatScore, &r.LastAccessedAt, &r.CreatedAt); err != nil {
+						return nil, err
+					}
+					r.Type = controlplane.MemoryType(mType)
+					results = append(results, r)
+				}
+				for _, r := range results {
+					s.incrementHeatLocked(ctx, r.ID)
+				}
+				return results, nil
+			}
 		}
-		r.Type = controlplane.MemoryType(mType)
-		results = append(results, r)
 	}
 
-	// Update heat and last_accessed_at for hits
-	for _, r := range results {
-		s.incrementHeatLocked(ctx, r.ID)
+	// Fallback to LIKE query if FTS wasn't used
+	if !useFTS {
+		if queryText != "" {
+			sqlQuery += " AND content LIKE ?"
+			args = append(args, "%"+queryText+"%")
+		}
+		if filterKind != "" {
+			sqlQuery += " AND memory_kind = ?"
+			args = append(args, filterKind)
+		}
+		if filterCategory != "" {
+			sqlQuery += " AND category = ?"
+			args = append(args, filterCategory)
+		}
+		sqlQuery += " ORDER BY importance DESC, heat_score DESC, created_at DESC LIMIT ?"
+		args = append(args, limit)
+
+		rows, err := s.db.QueryContext(ctx, sqlQuery, args...)
+		if err != nil {
+			return nil, fmt.Errorf("memorystore search: %w", err)
+		}
+		defer rows.Close()
+
+		var results []controlplane.L2VaultRecord
+		for rows.Next() {
+			var r controlplane.L2VaultRecord
+			var mType string
+			if err := rows.Scan(&r.ID, &r.SessionID, &mType, &r.Kind, &r.Category, &r.Tags, &r.SourceURL, &r.Content, &r.Importance, &r.HeatScore, &r.LastAccessedAt, &r.CreatedAt); err != nil {
+				return nil, err
+			}
+			r.Type = controlplane.MemoryType(mType)
+			results = append(results, r)
+		}
+
+		for _, r := range results {
+			s.incrementHeatLocked(ctx, r.ID)
+		}
+		return results, nil
 	}
 
-	return results, nil
+	return nil, nil
 }
 
 func (s *VectorStore) ReinforceMemory(ctx context.Context, id string, success bool) error {
@@ -667,4 +715,74 @@ func (s *VectorStore) ConsolidateMemories(ctx context.Context) error {
 
 	return nil
 }
+
+// MentalModelReflection synthesizes recent experiences into generalized rules/facts
+func (s *VectorStore) MentalModelReflection(ctx context.Context) error {
+	s.mu.Lock()
+	// Fetch recent non-reflection memories
+	rows, err := s.db.QueryContext(ctx, `
+		SELECT content FROM l2_vault
+		WHERE memory_kind != 'reflection' AND memory_type != 'archive'
+		ORDER BY last_accessed_at DESC LIMIT 20
+	`)
+	s.mu.Unlock()
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	var memories []string
+	for rows.Next() {
+		var content string
+		if err := rows.Scan(&content); err == nil {
+			memories = append(memories, content)
+		}
+	}
+
+	if len(memories) == 0 {
+		return nil
+	}
+
+	// Prepare LLM prompt
+	prompt := "You are a mental model synthesizer. Review the following recent experiences and facts from the project:\n\n"
+	for _, m := range memories {
+		prompt += fmt.Sprintf("- %s\n", m)
+	}
+	prompt += "\nSynthesize them into 1-3 generalized facts, project rules, or mental model guidelines. Return ONLY the new synthesized items, one per line, starting with 'Fact:' or 'Guideline:'. Do not write any preamble, explanation, or markdown formatting."
+
+	// Call LLM
+	messages := []ai.Message{
+		{Role: "user", Content: prompt},
+	}
+	resp, err := ai.AutoRoute(ctx, messages)
+	if err != nil {
+		return fmt.Errorf("MentalModelReflection LLM call: %w", err)
+	}
+
+	lines := strings.Split(resp.Content, "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+		if strings.HasPrefix(line, "Fact:") || strings.HasPrefix(line, "Guideline:") {
+			// Commit the reflection back to database
+			entry := controlplane.L2VaultRecord{
+				ID:         fmt.Sprintf("reflect-%d", time.Now().UnixNano()),
+				SessionID:  "system",
+				Type:       controlplane.MemoryLongTerm,
+				Kind:       "reflection",
+				Category:   "synthesized",
+				Content:    line,
+				Importance: 0.8,
+				HeatScore:  80.0,
+				CreatedAt:  controlplane.Now(),
+			}
+			_ = s.Commit(ctx, entry)
+		}
+	}
+
+	return nil
+}
+
 

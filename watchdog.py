@@ -58,12 +58,7 @@ WORKERS = {
         "type": "port",
         "critical": True,
     },
-    "go_sidecar_legacy": {
-        "binary": "tormentnexus.exe",
-        "port": 4300,
-        "type": "port",
-        "critical": False,
-    },
+
     "ts_control_plane": {
         "binary": "node.exe",
         "port": 4100,

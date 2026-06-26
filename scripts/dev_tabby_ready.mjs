@@ -481,17 +481,7 @@ function spawnTurboDev() {
 		"turbo",
 		"run",
 		"dev",
-		"--concurrency",
-		"22",
-		"--filter=!@extension/hmr",
-		"--filter=!opencode-autopilot",
-		"--filter=!@tormentnexus/cli",
-		"--filter=!@opencode-autopilot/cli",
-		"--filter=!@opencode-autopilot/server",
-		"--filter=!@opencode-autopilot/shared",
-		"--filter=!backend",
-		"--filter=!frontend",
-		"--filter=!@repo/*",
+		"--filter=@tormentnexus/web",
 	];
 	const args =
 		process.platform === "win32"
@@ -509,6 +499,7 @@ function spawnCliDev() {
 	const env = {
 		...process.env,
 		CI: "true",
+		TORMENTNEXUS_DISABLE_DASHBOARD_AUTOSTART: "1",
 	};
 
 	const { command, args, cwd } = getPnpmSpawnSpec([

@@ -5749,6 +5749,12 @@ ${env.tools
 	}
 
 	private async ensureDashboardRunning(): Promise<void> {
+		if (process.env.TORMENTNEXUS_DISABLE_DASHBOARD_AUTOSTART === "1") {
+			console.error(
+				"[MCPServer] Dashboard auto-start disabled via environment variable.",
+			);
+			return;
+		}
 		const port = Number(
 			process.env.TORMENTNEXUS_DASH_PORT || process.env.PORT || 3000,
 		);
@@ -5781,8 +5787,16 @@ ${env.tools
 			const path = await import("path");
 			const { spawn } = await import("child_process");
 
-			const monorepoRoot = process.cwd();
-			const webDir = path.join(monorepoRoot, "apps", "web");
+			let currentDir = process.cwd();
+			let webDir = path.join(currentDir, "apps", "web");
+			while (!fs.existsSync(webDir)) {
+				const parentDir = path.dirname(currentDir);
+				if (parentDir === currentDir) {
+					break;
+				}
+				currentDir = parentDir;
+				webDir = path.join(currentDir, "apps", "web");
+			}
 
 			if (!fs.existsSync(webDir)) {
 				console.error(`[MCPServer] Dashboard directory not found at ${webDir}`);
@@ -5800,6 +5814,7 @@ ${env.tools
 						...process.env,
 						NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE: "1",
 					},
+					shell: process.platform === "win32",
 				},
 			);
 			child.unref();

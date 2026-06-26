@@ -58,6 +58,18 @@ export interface SystemStartupStatusInput {
                 missingSections?: string[];
                 lastUpdatedAt?: string | null;
             };
+            tormentnexus?: {
+                ready?: boolean;
+                enabled?: boolean;
+                storeExists?: boolean;
+                storePath?: string | null;
+                totalEntries?: number;
+                sectionCount?: number;
+                defaultSectionCount?: number;
+                presentDefaultSectionCount?: number;
+                missingSections?: string[];
+                lastUpdatedAt?: string | null;
+            };
         };
         extensionBridge?: {
             ready?: boolean;
@@ -364,7 +376,7 @@ function getExecutionEnvironmentDetail(startupStatus: SystemStartupStatusInput):
 
 function getMemoryContextDetail(startupStatus: SystemStartupStatusInput): string {
     const memory = startupStatus.checks?.memory;
-    const claudeMem = memory?.claudeMem;
+    const claudeMem = memory?.tormentnexus || memory?.claudeMem;
 
     if (memory?.ready) {
         if (claudeMem?.enabled) {

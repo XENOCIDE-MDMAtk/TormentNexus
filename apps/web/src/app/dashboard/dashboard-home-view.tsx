@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useState } from 'react';
 
 export interface DashboardStatusSummary {
     initialized: boolean;
@@ -70,6 +71,18 @@ export interface DashboardStartupStatus {
             initialized: boolean;
             agentMemory: boolean;
             claudeMem?: {
+                ready?: boolean;
+                enabled?: boolean;
+                storeExists?: boolean;
+                storePath?: string | null;
+                totalEntries?: number;
+                sectionCount?: number;
+                defaultSectionCount?: number;
+                presentDefaultSectionCount?: number;
+                missingSections?: string[];
+                lastUpdatedAt?: string | null;
+            };
+            tormentnexus?: {
                 ready?: boolean;
                 enabled?: boolean;
                 storeExists?: boolean;
@@ -307,6 +320,18 @@ const DEFAULT_DASHBOARD_STARTUP_CHECKS: DashboardStartupChecks = {
             missingSections: [],
             lastUpdatedAt: null,
         },
+        tormentnexus: {
+            ready: true,
+            enabled: false,
+            storeExists: false,
+            storePath: null,
+            totalEntries: 0,
+            sectionCount: 0,
+            defaultSectionCount: 0,
+            presentDefaultSectionCount: 0,
+            missingSections: [],
+            lastUpdatedAt: null,
+        },
     },
     browser: {
         ready: false,
@@ -433,6 +458,10 @@ function getStartupChecks(startupStatus: DashboardStartupStatus): DashboardStart
                 ...DEFAULT_DASHBOARD_STARTUP_CHECKS.memory.claudeMem,
                 ...(checks?.memory?.claudeMem ?? {}),
             },
+            tormentnexus: {
+                ...DEFAULT_DASHBOARD_STARTUP_CHECKS.memory.tormentnexus,
+                ...(checks?.memory?.tormentnexus ?? {}),
+            },
         },
         browser: {
             ...DEFAULT_DASHBOARD_STARTUP_CHECKS.browser,
@@ -517,7 +546,7 @@ function getResidentMcpDetail(aggregator: DashboardStartupStatus['checks']['mcpA
 }
 
 function getMemoryContextDetail(memory: DashboardStartupStatus['checks']['memory']): string {
-    const claudeMem = memory.claudeMem;
+    const claudeMem = memory.tormentnexus || memory.claudeMem;
 
     if (memory.ready) {
         if (claudeMem?.enabled) {
@@ -1009,6 +1038,7 @@ export function DashboardHomeView({
     pendingSessionActionId,
     children,
 }: DashboardHomeViewProps) {
+    const [activeTab, setActiveTab] = useState<'overview' | 'servers' | 'cli' | 'healer'>('overview');
     const overviewMetrics = buildOverviewMetrics(mcpStatus, sessions, providers, isBootstrapping);
     const startupChecklist = buildStartupChecklist(startupStatus, isBootstrapping, installSurfaceArtifacts);
     const startupBlockingReasons = isBootstrapping
@@ -1128,8 +1158,53 @@ export function DashboardHomeView({
                     </div>
                 </header>
 
+                {/* Tab Navigation */}
+                <div className="mt-2 mb-6 flex border-b border-slate-800">
+                    <button
+                        onClick={() => setActiveTab('overview')}
+                        className={`px-4 py-3 text-sm font-semibold tracking-wide border-b-2 transition ${
+                            activeTab === 'overview'
+                                ? 'border-cyan-500 text-white'
+                                : 'border-transparent text-slate-400 hover:text-slate-200'
+                        }`}
+                    >
+                        Overview & Posture
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('servers')}
+                        className={`px-4 py-3 text-sm font-semibold tracking-wide border-b-2 transition ${
+                            activeTab === 'servers'
+                                ? 'border-cyan-500 text-white'
+                                : 'border-transparent text-slate-400 hover:text-slate-200'
+                        }`}
+                    >
+                        MCP Servers & Traffic
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('cli')}
+                        className={`px-4 py-3 text-sm font-semibold tracking-wide border-b-2 transition ${
+                            activeTab === 'cli'
+                                ? 'border-cyan-500 text-white'
+                                : 'border-transparent text-slate-400 hover:text-slate-200'
+                        }`}
+                    >
+                        CLI Runtime
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('healer')}
+                        className={`px-4 py-3 text-sm font-semibold tracking-wide border-b-2 transition ${
+                            activeTab === 'healer'
+                                ? 'border-cyan-500 text-white'
+                                : 'border-transparent text-slate-400 hover:text-slate-200'
+                        }`}
+                    >
+                        Immunology & Healer
+                    </button>
+                </div>
+
                 <div className="grid gap-6 xl:grid-cols-2">
-                    <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
+                    {activeTab === 'overview' && (
+                        <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">Overview</p>
@@ -1308,8 +1383,10 @@ export function DashboardHomeView({
                             </div>
                         </div>
                     </section>
+                    )}
 
-                    <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
+                    {activeTab === 'servers' && (
+                        <section className="xl:col-span-2 rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">MCP Router</p>
@@ -1333,7 +1410,7 @@ export function DashboardHomeView({
                                 </div>
                             ) : servers.map((server, index) => (
                                 <div
-                                    key={`${server.name}-${server.config.command}-${server.config.args.join(' ')}-${index}`}
+                                    key={`${server.name}-${server.config?.command || ''}-${server.config?.args?.join(' ') || ''}-${index}`}
                                     className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4"
                                 >
                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -1344,13 +1421,17 @@ export function DashboardHomeView({
                                                     {sentenceCase(server.status)}
                                                 </span>
                                             </div>
-                                            <p className="mt-2 break-all font-mono text-xs text-slate-400">
-                                                {server.config.command} {server.config.args.join(' ')}
-                                            </p>
+                                            {server.config && (
+                                                <p className="mt-2 break-all font-mono text-xs text-slate-400">
+                                                    {server.config.command} {server.config.args?.join(' ')}
+                                                </p>
+                                            )}
                                         </div>
                                         <div className="text-right text-sm text-slate-300">
                                             <div>{server.toolCount} tools</div>
-                                            <div className="text-xs text-slate-500">{server.config.env.length} env vars</div>
+                                            <div className="text-xs text-slate-500">
+                                                {server.config?.env?.length || 0} env vars
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1390,8 +1471,10 @@ export function DashboardHomeView({
                             </div>
                         </div>
                     </section>
+                    )}
 
-                    <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
+                    {activeTab === 'cli' && (
+                        <section className="xl:col-span-2 rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">Sessions</p>
@@ -1494,8 +1577,10 @@ export function DashboardHomeView({
                             })}
                         </div>
                     </section>
+                    )}
 
-                    <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
+                    {activeTab === 'overview' && (
+                        <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">Providers</p>
@@ -1576,7 +1661,10 @@ export function DashboardHomeView({
                             </div>
                         </div>
                     </section>
-                    <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
+                    )}
+
+                    {activeTab === 'healer' && (
+                    <section className="xl:col-span-2 rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">Immune System</p>
@@ -1631,6 +1719,7 @@ export function DashboardHomeView({
                             )}
                         </div>
                     </section>
+                    )}
                     {children}
                 </div>
             </div>

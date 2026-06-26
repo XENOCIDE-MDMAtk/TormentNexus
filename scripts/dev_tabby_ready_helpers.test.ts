@@ -156,7 +156,7 @@ describe('isDirectExecution', () => {
                 memory: {
                     ready: true,
                     initialized: true,
-                    claudeMem: {
+                    tormentnexus: {
                         ready: true,
                     },
                 },

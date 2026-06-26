@@ -15,6 +15,8 @@ import (
 	"time"
 
 	roottools "github.com/NexusSoftMDMA/TormentNexus/tools"
+	"github.com/tormentnexushq/tormentnexus-go/internal/config"
+	"github.com/tormentnexushq/tormentnexus-go/internal/lockfile"
 	"github.com/tormentnexushq/tormentnexus-go/internal/mcpimpl"
 )
 
@@ -444,7 +446,7 @@ func (s *MCPServer) HandleRequest(req MCPRequest) MCPResponse {
 		resp.Result = map[string]any{}
 	case "tools/list":
 		// Allow tools/list even if params is sent but empty or contains token cursors
-		resp.Result = map[string]any{"tools": s.tools}
+		resp.Result = map[string]any{"tools": s.getMergedTools()}
 	case "tools/call":
 		if len(req.Params) == 0 {
 			resp.Error = &MCPError{Code: -32602, Message: "Missing params"}
@@ -461,8 +463,28 @@ func (s *MCPServer) HandleRequest(req MCPRequest) MCPResponse {
 				return resp
 			}
 		}
-		result := s.callTool(params.Name, params.Arguments)
-		resp.Result = result
+
+		// Check if it's one of the Go MCP server's built-in tools
+		isGoBuiltin := false
+		for _, t := range s.tools {
+			if t.Name == params.Name {
+				isGoBuiltin = true
+				break
+			}
+		}
+
+		if isGoBuiltin {
+			result := s.callTool(params.Name, params.Arguments)
+			resp.Result = result
+		} else {
+			log.Printf("[MCP] Forwarding tool %s call to upstream control plane", params.Name)
+			result, err := s.forwardToolCallToUpstream(params.Name, params.Arguments)
+			if err != nil {
+				resp.Error = &MCPError{Code: -32000, Message: fmt.Sprintf("Upstream tool execution failed: %v", err)}
+			} else {
+				resp.Result = result
+			}
+		}
 	default:
 		resp.Error = &MCPError{Code: -32601, Message: fmt.Sprintf("Method not found: %s", req.Method)}
 	}
@@ -768,17 +790,156 @@ func goSidecarServerTest(baseURL string, args map[string]any) ToolResult {
 	return ToolResult{Content: []TextContent{{Type: "text", Text: string(data)}}}
 }
 
-// ─── MCP Stdio Runner ───
+func (s *MCPServer) getMergedTools() []ToolDefinition {
+	merged := make([]ToolDefinition, len(s.tools))
+	copy(merged, s.tools)
 
-func cmdMCP(args []string) int {
-	goPort := "7778"
-	for i, a := range args {
-		if a == "--go-port" && i+1 < len(args) {
-			goPort = args[i+1]
+	client := &http.Client{Timeout: 3 * time.Second}
+	resp, err := client.Get(s.goSidecarURL + "/api/mcp/tools")
+	if err != nil {
+		log.Printf("[MCP] Upstream tools unavailable: %v", err)
+		return merged
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("[MCP] Upstream tools returned HTTP status %d", resp.StatusCode)
+		return merged
+	}
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("[MCP] Failed to read upstream tools body: %v", err)
+		return merged
+	}
+
+	var tools []ToolDefinition
+
+	// Try flat array format first: { "success": true, "data": [...] }
+	var upstreamRespFlat struct {
+		Success bool             `json:"success"`
+		Data    []ToolDefinition `json:"data"`
+	}
+	if err := json.Unmarshal(bodyBytes, &upstreamRespFlat); err == nil && upstreamRespFlat.Success {
+		tools = upstreamRespFlat.Data
+	} else {
+		// Fallback to nested tools format: { "success": true, "data": { "tools": [...] } }
+		var upstreamRespNested struct {
+			Success bool `json:"success"`
+			Data    struct {
+				Tools []ToolDefinition `json:"tools"`
+			} `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &upstreamRespNested); err == nil && upstreamRespNested.Success {
+			tools = upstreamRespNested.Data.Tools
+		} else {
+			log.Printf("[MCP] Failed to decode upstream tools: %v", err)
+			return merged
 		}
 	}
 
-	goSidecarURL := fmt.Sprintf("http://127.0.0.1:%s", goPort)
+	localNames := make(map[string]bool)
+	for _, t := range merged {
+		localNames[t.Name] = true
+	}
+	for _, ut := range tools {
+		if !localNames[ut.Name] {
+			if ut.InputSchema.Type == "" {
+				ut.InputSchema.Type = "object"
+			}
+			if ut.InputSchema.Properties == nil {
+				ut.InputSchema.Properties = make(map[string]PropertySchema)
+			}
+			merged = append(merged, ut)
+		}
+	}
+	return merged
+}
+
+func (s *MCPServer) forwardToolCallToUpstream(name string, args map[string]any) (ToolResult, error) {
+	payload := map[string]any{
+		"name":      name,
+		"arguments": args,
+	}
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return ToolResult{}, err
+	}
+
+	client := &http.Client{Timeout: 60 * time.Second}
+	resp, err := client.Post(s.goSidecarURL+"/api/mcp/tools/call", "application/json", strings.NewReader(string(body)))
+	if err != nil {
+		return ToolResult{}, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		respBody, _ := io.ReadAll(resp.Body)
+		return ToolResult{}, fmt.Errorf("upstream returned status %d: %s", resp.StatusCode, string(respBody))
+	}
+
+	var apiResp struct {
+		Success bool `json:"success"`
+		Error   string `json:"error"`
+		Data    ToolResult `json:"data"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&apiResp); err != nil {
+		return ToolResult{}, err
+	}
+
+	if !apiResp.Success {
+		return ToolResult{}, fmt.Errorf("upstream error: %s", apiResp.Error)
+	}
+
+	return apiResp.Data, nil
+}
+
+// ─── MCP Stdio Runner ───
+
+func cmdMCP(args []string) int {
+	goSidecarURL := ""
+	cfg := config.Default()
+	if record, err := lockfile.Read(cfg.LockPath()); err == nil && record.Port > 0 {
+		goSidecarURL = fmt.Sprintf("http://%s:%d", record.Host, record.Port)
+	} else {
+		goPort := "7778"
+		for i, a := range args {
+			if a == "--go-port" && i+1 < len(args) {
+				goPort = args[i+1]
+			}
+		}
+		goSidecarURL = fmt.Sprintf("http://127.0.0.1:%s", goPort)
+	}
+
+	// Auto-spawn sidecar serve daemon if it is not currently running
+	if _, err := http.Get(goSidecarURL + "/health"); err != nil {
+		execPath, execErr := os.Executable()
+		if execErr == nil {
+			workspaceRoot := os.Getenv("TORMENTNEXUS_WORKSPACE_ROOT")
+			if workspaceRoot == "" {
+				workspaceRoot, _ = os.Getwd()
+			}
+			cmd := exec.Command(execPath, "serve")
+			cmd.Dir = workspaceRoot
+			cmd.Stdout = nil
+			cmd.Stderr = nil
+			if spawnErr := cmd.Start(); spawnErr == nil {
+				log.Printf("[MCP] Spawned Go sidecar serve daemon in background")
+				// Wait for sidecar to start and write lockfile
+				for retries := 0; retries < 15; retries++ {
+					time.Sleep(200 * time.Millisecond)
+					if rec, lfErr := lockfile.Read(cfg.LockPath()); lfErr == nil && rec.Port > 0 {
+						goSidecarURL = fmt.Sprintf("http://%s:%d", rec.Host, rec.Port)
+						if resp, hcErr := http.Get(goSidecarURL + "/health"); hcErr == nil {
+							resp.Body.Close()
+							break
+						}
+					}
+				}
+			}
+		}
+	}
+
 	log.SetOutput(os.Stderr)
 	log.Printf("[MCP] TormentNexus MCP Server starting (Go sidecar: %s)", goSidecarURL)
 

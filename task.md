@@ -1,5 +1,8 @@
 - [x] Modify `foundation.go` to replace `sqlite-vec` virtual tables with standard SQLite tables for embeddings
-- [x] Implement pure Go float32 vector encoding/decoding and cosine similarity helpers in `vector_sqlite.go` or a helper file
+- [x] Expose GraphRAG Relation Endpoints in Go sidecar
+  - [x] Add `handleMemoryAddRelation` and `handleMemoryGetRelations` in `go/internal/httpapi/memory_handlers.go`
+  - [x] Register endpoints in `go/internal/httpapi/server.go`
+  - [x] Verify Go compilation
 - [x] Refactor `vector_sqlite.go` `Commit` and `SemanticSearch` to use standard tables and Go-native cosine similarity matching
 - [x] Implement in-memory L1 cache and L3 cold archive database tables and flow
 - [/] Fix any compile issues and run unit tests to verifydation.

@@ -123,7 +123,7 @@ if exist bin\tormentnexus.exe (
 
 REM Start Next.js dashboard in background
 set DASH_PORT=%TORMENTNEXUS_DASH_PORT%
-if "%DASH_PORT%"=="" set DASH_PORT=3000
+if "%DASH_PORT%"=="" set DASH_PORT=7779
 REM Fix Turbopack LevelDB deadlock on Windows
 set NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE=1
 curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%DASH_PORT%/dashboard > "%TEMP%\tormentnexus_web_check.txt" 2>nul
@@ -241,7 +241,7 @@ set TORMENTNEXUS_GO_PORT=!GO_PORT!
 REM -- 4. Start Dashboard (compat mode) -------------
 echo [4/5] Starting dashboard...
 set DASH_PORT=%TORMENTNEXUS_DASH_PORT%
-if "%DASH_PORT%"=="" set DASH_PORT=3000
+if "%DASH_PORT%"=="" set DASH_PORT=7779
 set NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE=1
 start /B cmd /c "cd apps\web && set NEXT_PRIVATE_DISABLE_TURBOPACK_CACHE=1 && npx next dev --port %DASH_PORT% > nul 2>&1"
 echo   Dashboard starting on port %DASH_PORT% (Go-compat mode).

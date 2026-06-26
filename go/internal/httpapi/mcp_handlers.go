@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -66,6 +67,14 @@ func (s *Server) handleMCPTools(w http.ResponseWriter, r *http.Request) {
 	var result any
 	upstreamBase, err := s.callUpstreamJSON(r.Context(), "mcp.listTools", nil, &result)
 	if err == nil {
+		var toolsList []map[string]any
+		if bytes, errMar := json.Marshal(result); errMar == nil {
+			_ = json.Unmarshal(bytes, &toolsList)
+		}
+		if len(toolsList) > 0 {
+			toolsList = s.injectAlwaysOnStatus(toolsList)
+			result = toolsList
+		}
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
 			"data":    result,
@@ -89,7 +98,7 @@ func (s *Server) handleMCPTools(w http.ResponseWriter, r *http.Request) {
 		}
 		writeJSON(w, http.StatusOK, map[string]any{
 			"success": true,
-			"data":    fallbackMCPInventoryTools(view),
+			"data":    s.injectAlwaysOnStatus(fallbackMCPInventoryTools(view)),
 			"bridge":  bridge,
 		})
 		return
@@ -119,7 +128,7 @@ func (s *Server) handleMCPTools(w http.ResponseWriter, r *http.Request) {
 
 	writeJSON(w, http.StatusOK, map[string]any{
 		"success": true,
-		"data":    fallbackMCPTools(summary.InstalledHarnesses),
+		"data":    s.injectAlwaysOnStatus(fallbackMCPTools(summary.InstalledHarnesses)),
 		"bridge": map[string]any{
 			"fallback":  "go-local-mcp",
 			"procedure": "mcp.listTools",
@@ -534,5 +543,60 @@ func (s *Server) handleMCPConversationWindow(w http.ResponseWriter, r *http.Requ
 			"tokenCount": tokenCount,
 		},
 	})
+}
+
+type AlwaysOnConfig struct {
+	Tools map[string]bool `json:"tools"`
+}
+
+func (s *Server) loadAlwaysOnTools() map[string]bool {
+	path := filepath.Join(s.cfg.WorkspaceRoot, "data", "always-on-tools.json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return map[string]bool{}
+	}
+	var config AlwaysOnConfig
+	if err := json.Unmarshal(data, &config); err != nil {
+		return map[string]bool{}
+	}
+	return config.Tools
+}
+
+func (s *Server) injectAlwaysOnStatus(tools []map[string]any) []map[string]any {
+	alwaysOnMap := s.loadAlwaysOnTools()
+
+	// List of parity tools that must always be always-on by default
+	parityTools := map[string]bool{
+		"list_processes":             true,
+		"kill_process":               true,
+		"simulate_input":             true,
+		"detect_chat_surface":        true,
+		"inspect_window_ui":          true,
+		"detect_chat_state":          true,
+		"set_chat_input":             true,
+		"submit_chat_input":          true,
+		"click_action_buttons":       true,
+		"click_chat_button":          true,
+		"advance_chat":               true,
+		"mcp_list_servers":           true,
+		"mcp_list_tools":             true,
+		"mcp_call_tool":              true,
+		"mcp_status":                 true,
+		"mcp_server_test":            true,
+		"system_status":              true,
+		"billing_status":             true,
+		"list_surface_profiles":      true,
+		"get_supervisor_settings":    true,
+		"update_supervisor_settings": true,
+		"list_accessory_tools":       true,
+	}
+
+	for _, tool := range tools {
+		name, _ := tool["name"].(string)
+		isAlwaysOn := parityTools[name] || alwaysOnMap[name]
+		tool["alwaysOn"] = isAlwaysOn
+		tool["alwaysShow"] = isAlwaysOn
+	}
+	return tools
 }
 

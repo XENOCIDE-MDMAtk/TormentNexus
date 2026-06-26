@@ -195,7 +195,7 @@ export function isCompatibleStartupStatusContract(startupStatusData) {
       && Object.prototype.hasOwnProperty.call(aggregator, 'inventorySource')
       && memory
       && typeof memory === 'object'
-      && Object.prototype.hasOwnProperty.call(memory, 'claudeMem')
+      && Object.prototype.hasOwnProperty.call(memory, 'tormentnexus')
       && executionEnvironment
       && typeof executionEnvironment === 'object'
       && Object.prototype.hasOwnProperty.call(executionEnvironment, 'harnessCount')

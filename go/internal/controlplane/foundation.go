@@ -136,6 +136,26 @@ CREATE TABLE IF NOT EXISTS l2_relations (
     FOREIGN KEY (source_id) REFERENCES l2_vault(id) ON DELETE CASCADE,
     FOREIGN KEY (target_id) REFERENCES l2_vault(id) ON DELETE CASCADE
 );
+
+-- FTS5 Virtual Table for full-text search
+CREATE VIRTUAL TABLE IF NOT EXISTS l2_vault_fts USING fts5(
+    id UNINDEXED,
+    content
+);
+
+-- Triggers to keep FTS table in sync with l2_vault
+CREATE TRIGGER IF NOT EXISTS l2_vault_fts_ai AFTER INSERT ON l2_vault BEGIN
+    INSERT INTO l2_vault_fts(id, content) VALUES (new.id, new.content);
+END;
+
+CREATE TRIGGER IF NOT EXISTS l2_vault_fts_ad AFTER DELETE ON l2_vault BEGIN
+    DELETE FROM l2_vault_fts WHERE id = old.id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS l2_vault_fts_au AFTER UPDATE ON l2_vault BEGIN
+    DELETE FROM l2_vault_fts WHERE id = old.id;
+    INSERT INTO l2_vault_fts(id, content) VALUES (new.id, new.content);
+END;
 `
 
 func Now() time.Time {

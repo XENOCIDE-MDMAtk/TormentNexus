@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0-alpha.161] - 2026-06-25
+
+### Fixed
+- **FTS5 SQLite Triggers**: Corrected trigger syntax in L3 cold archive memory store (`cold_archive.go`) to use direct DELETE statements, avoiding CGO-specific delete triggers that cause logic errors on standard SQLite virtual tables.
+- **Go Sidecar Compilation**: Fixed a duplicate definition of `SearchResult` in the `memorystore` package by renaming the one in `fts_search.go` to `FTSMemorySearchResult`.
+- **Corrupted Tool Files**: Sanitized and removed corrupted tool files (`browser_tools_mcp.go` and `osaurus.go`) containing raw LLM commentary, and reset their DB state to `pending`.
+- **GraphRAG Relations Endpoints**: Verified the newly added GraphRAG relations endpoints are 100% responsive and operational.
+
 ## [1.0.0-alpha.160] - 2026-06-25
 
 ### Changed

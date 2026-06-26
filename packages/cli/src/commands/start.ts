@@ -553,13 +553,13 @@ Examples:
 						const goBin = resolve(process.cwd(), "tormentnexus.exe");
 						if (existsSync(goBin)) {
 							const { spawn } = await import("child_process");
-							const goProc = spawn(goBin, ["serve", "--port", "4300"], {
+							const goProc = spawn(goBin, ["serve", "--port", "7778"], {
 								stdio: "ignore",
 								detached: true,
 								env: { ...process.env, TORMENTNEXUS_WORKSPACE: process.cwd() },
 							});
 							goProc.unref();
-							console.log(chalk.green("  ✓ Go sidecar launched on port 4300"));
+							console.log(chalk.green("  ✓ Go sidecar launched on port 7778"));
 						}
 					} catch (e: any) {
 						console.log(chalk.dim("  Go sidecar: not available (optional)"));

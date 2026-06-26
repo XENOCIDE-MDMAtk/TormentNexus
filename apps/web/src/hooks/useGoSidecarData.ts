@@ -127,6 +127,17 @@ export interface GoStartupStatus {
         missingSections?: string[];
         lastUpdatedAt?: string | null;
       };
+      tormentnexus?: {
+        ready?: boolean;
+        enabled?: boolean;
+        storeExists?: boolean;
+        totalEntries?: number;
+        sectionCount?: number;
+        defaultSectionCount?: number;
+        presentDefaultSectionCount?: number;
+        missingSections?: string[];
+        lastUpdatedAt?: string | null;
+      };
     };
     browser: { ready: boolean; active: boolean; pageCount: number };
     sessionSupervisor: {

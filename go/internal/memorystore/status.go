@@ -75,6 +75,23 @@ func ReadStatus(workspaceRoot string) (StoreStatus, error) {
 		return summarize(storePath, &parsed), nil
 	}
 
+	// Auto-create sectioned_memory.json if missing to resolve startup check
+	defaultStore := rawStore{
+		Sections: []rawSection{
+			{Section: "project_context", Entries: []rawEntry{}},
+			{Section: "user_facts", Entries: []rawEntry{}},
+			{Section: "style_preferences", Entries: []rawEntry{}},
+			{Section: "commands", Entries: []rawEntry{}},
+			{Section: "general", Entries: []rawEntry{}},
+		},
+	}
+	defaultBytes, err := json.MarshalIndent(defaultStore, "", "  ")
+	if err == nil {
+		_ = os.MkdirAll(filepath.Dir(storePath), 0755)
+		_ = os.WriteFile(storePath, defaultBytes, 0644)
+		return summarize(storePath, &defaultStore), nil
+	}
+
 	return summarize(storePath, nil), nil
 }
 

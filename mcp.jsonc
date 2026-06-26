@@ -17,7 +17,8 @@
         "mcp-remote@latest",
         "https://mcp.supermemory.ai/mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "core": {
       "args": [],
@@ -32,7 +33,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:06.743Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "desktop-commander": {
       "command": "node",
@@ -50,7 +52,8 @@
       ],
       "env": [
         "MORPH_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "ripgrep": {
       "command": "node",
@@ -66,7 +69,8 @@
         "-y",
         "@wildcard-ai/deepcontext@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "probe": {
       "command": "npx",
@@ -75,7 +79,8 @@
         "@probelabs/probe@latest",
         "mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "codex-mcp-server": {
       "command": "npx",
@@ -83,7 +88,8 @@
         "-y",
         "codex-mcp-server@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "gemini-mcp": {
       "command": "npx",
@@ -93,14 +99,16 @@
         "--api-key",
         "YOUR_GEMINI_KEY_HERE"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "windows-mcp": {
       "command": "uvx",
       "args": [
         "windows-mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "ast-grep-mcp": {
       "command": "uvx",
@@ -109,7 +117,8 @@
         "git+https://github.com/ast-grep/ast-grep-mcp",
         "ast-grep-server"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "codemod": {
       "command": "npx",
@@ -117,7 +126,8 @@
         "codemod@latest",
         "mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "task-master-ai": {
       "command": "npx",
@@ -137,7 +147,8 @@
         "XAI_API_KEY",
         "AZURE_OPENAI_API_KEY",
         "OLLAMA_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "ultra-mcp": {
       "command": "npx",
@@ -145,7 +156,8 @@
         "-y",
         "ultra-mcp@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "pal": {
       "command": "uvx",
@@ -162,7 +174,8 @@
         "OPENAI_API_KEY",
         "OPENROUTER_API_KEY",
         "XAI_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "thoughtbox": {
       "command": "npx",
@@ -172,7 +185,8 @@
       ],
       "env": [
         "DISABLE_THOUGHT_LOGGING"
-      ]
+      ],
+      "alwaysOn": true
     },
     "vibe-check-mcp": {
       "command": "npx",
@@ -182,7 +196,8 @@
         "start",
         "--stdio"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "vibe-coder-mcp": {
       "command": "npx",
@@ -195,7 +210,8 @@
         "VIBE_PROJECT_ROOT",
         "LOG_LEVEL",
         "NODE_ENV"
-      ]
+      ],
+      "alwaysOn": true
     },
     "mindsdb": {
       "args": [],
@@ -210,7 +226,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.485Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "tavily-mcp": {
       "command": "npx",
@@ -220,7 +237,8 @@
       ],
       "env": [
         "TAVILY_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "exa": {
       "args": [],
@@ -238,7 +256,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:09.795Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "chrome-devtools": {
       "command": "npx",
@@ -246,7 +265,8 @@
         "-y",
         "chrome-devtools-mcp@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "playwright-extension": {
       "command": "npx",
@@ -255,7 +275,8 @@
         "@playwright/mcp@latest",
         "--extension"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "browser-use": {
       "command": "uvx",
@@ -263,7 +284,8 @@
         "browser-use",
         "--mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "browsermcp": {
       "command": "npx",
@@ -271,14 +293,16 @@
         "-y",
         "@browsermcp/mcp@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "fetch": {
       "command": "uvx",
       "args": [
         "mcp-server-fetch"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "fetcher": {
       "command": "npx",
@@ -286,7 +310,8 @@
         "-y",
         "fetcher-mcp@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "firecrawl-mcp": {
       "command": "npx",
@@ -296,7 +321,8 @@
       ],
       "env": [
         "FIRECRAWL_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "filesystem": {
       "command": "node",
@@ -320,7 +346,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:11.261Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "dbhub": {
       "command": "npx",
@@ -332,7 +359,8 @@
         "--dsn",
         "postgres://user:password@localhost:5432/dbname"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "supabase": {
       "args": [],
@@ -347,7 +375,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:11.640Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "anyquery": {
       "command": "anyquery",
@@ -357,7 +386,8 @@
         "--database",
         "sqlite.db"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "robertpelloni.com": {
       "args": [],
@@ -372,7 +402,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.061Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "huggingface": {
       "args": [],
@@ -390,7 +421,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:12.267Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "octagon-deep-research": {
       "command": "npx",
@@ -400,7 +432,8 @@
       ],
       "env": [
         "OCTAGON_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "notebooklm": {
       "command": "npx",
@@ -408,7 +441,8 @@
         "-y",
         "@roomi-fields/notebooklm-mcp@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "arxiv-mcp-server": {
       "command": "uvx",
@@ -417,7 +451,8 @@
         "--storage-path",
         "YOUR_STORAGE_PATH_HERE"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "paper_search_server": {
       "command": "uvx",
@@ -428,7 +463,8 @@
       ],
       "env": [
         "SEMANTIC_SCHOLAR_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "mem0": {
       "command": "npx",
@@ -447,7 +483,8 @@
         "DATABASE_URL",
         "VECTOR_STORE",
         "QDRANT_URL"
-      ]
+      ],
+      "alwaysOn": true
     },
     "conport": {
       "command": "uvx",
@@ -458,14 +495,16 @@
         "--mode",
         "stdio"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "ChunkHound": {
       "command": "chunkhound",
       "args": [
         "mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "semgrepstream": {
       "args": [],
@@ -480,7 +519,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.437Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "semgrep": {
       "command": "semgrep",
@@ -489,7 +529,8 @@
       ],
       "env": [
         "SEMGREP_APP_TOKEN"
-      ]
+      ],
+      "alwaysOn": true
     },
     "basic-memory": {
       "command": "uvx",
@@ -497,7 +538,8 @@
         "basic-memory",
         "mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "byterover-mcp": {
       "args": [],
@@ -512,7 +554,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:13.829Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "chroma-knowledge": {
       "command": "uvx",
@@ -527,7 +570,8 @@
         "--ssl",
         "false"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "cipher": {
       "command": "npx",
@@ -549,7 +593,8 @@
         "VECTOR_STORE_API_KEY",
         "DEBUG",
         "MCP_LOG_LEVEL"
-      ]
+      ],
+      "alwaysOn": true
     },
     "sentry": {
       "command": "npx",
@@ -558,7 +603,8 @@
         "mcp-remote@latest",
         "https://mcp.sentry.dev/mcp"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "postman-api-mcp": {
       "command": "npx",
@@ -568,7 +614,8 @@
       ],
       "env": [
         "POSTMAN_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "chrome-devtools-webmcp": {
       "command": "npx",
@@ -576,7 +623,8 @@
         "-y",
         "@mcp-b/chrome-devtools-mcp@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "playwright": {
       "command": "npx",
@@ -584,7 +632,8 @@
         "-y",
         "@executeautomation/playwright-mcp-server@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "puppeteer-mcp-server": {
       "command": "npx",
@@ -592,7 +641,8 @@
         "-y",
         "puppeteer-mcp-server@latest"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "mcp-server-browser-use": {
       "command": "uvx",
@@ -601,7 +651,8 @@
       ],
       "env": [
         "MCP_BROWSER_HEADLESS"
-      ]
+      ],
+      "alwaysOn": true
     },
     "browserbase": {
       "command": "npx",
@@ -609,17 +660,20 @@
         "-y",
         "@browserbasehq/mcp-server-browserbase"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "yahoo-finance-server": {
       "command": "yahoo-finance-server",
       "args": [],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "mcp-yfinance-server": {
       "command": "mcp-yfinance-server",
       "args": [],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "alpaca": {
       "command": "uvx",
@@ -627,7 +681,8 @@
         "alpaca-mcp-server",
         "serve"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "av": {
       "command": "uvx",
@@ -635,7 +690,8 @@
         "av-mcp",
         "YOUR_AV_KEY_HERE"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "octagon": {
       "command": "npx",
@@ -645,7 +701,8 @@
       ],
       "env": [
         "OCTAGON_API_KEY"
-      ]
+      ],
+      "alwaysOn": true
     },
     "context7": {
       "command": "npx",
@@ -655,12 +712,14 @@
         "--api-key",
         "YOUR_CONTEXT7_KEY_HERE"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "imagesorcery-mcp": {
       "command": "imagesorcery-mcp",
       "args": [],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "robertpelloni-com": {
       "args": [],
@@ -675,7 +734,8 @@
         "lastSuccessfulBinaryLoadAt": "2026-03-12T00:28:16.245Z",
         "crashCount": 0,
         "maxAttempts": 0
-      }
+      },
+      "alwaysOn": true
     },
     "prism-mcp": {
       "command": "npx",
@@ -683,7 +743,8 @@
         "-y",
         "prism-mcp-server"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "test_stdio_import": {
       "command": "npx",
@@ -691,7 +752,8 @@
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     },
     "serena": {
       "command": "uvx",
@@ -702,7 +764,8 @@
         "--context",
         "ide-assistant"
       ],
-      "env": []
+      "env": [],
+      "alwaysOn": true
     }
   }
 }

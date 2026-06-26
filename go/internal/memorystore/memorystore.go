@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"path/filepath"
+	"time"
 
 	"github.com/tormentnexushq/tormentnexus-go/internal/controlplane"
 )
@@ -17,7 +18,31 @@ func NewManager(path string) *Manager {
 	// The path here is for the JSON file, but we'll use a SQLite DB next to it
 	dbPath := filepath.Join(filepath.Dir(path), "memory.db")
 	vs, _ := NewVectorStore(dbPath)
-	return &Manager{path: path, vs: vs}
+	m := &Manager{path: path, vs: vs}
+	m.startSleepCycleEngine()
+	return m
+}
+
+func (m *Manager) startSleepCycleEngine() {
+	if m.vs == nil {
+		return
+	}
+	go func() {
+		ctx := context.Background()
+		// Run initial cycle on boot
+		_ = m.vs.ForgettingCurveDecay(ctx)
+		_ = m.vs.ConsolidateMemories(ctx)
+		_ = m.vs.MentalModelReflection(ctx)
+
+		ticker := time.NewTicker(6 * time.Hour)
+		defer ticker.Stop()
+
+		for range ticker.C {
+			_ = m.vs.ForgettingCurveDecay(ctx)
+			_ = m.vs.ConsolidateMemories(ctx)
+			_ = m.vs.MentalModelReflection(ctx)
+		}
+	}()
 }
 
 func (m *Manager) Close() error {

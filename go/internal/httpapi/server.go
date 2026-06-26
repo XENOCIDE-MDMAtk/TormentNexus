@@ -818,6 +818,8 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/memory/list", s.handleMemoryList)
 	s.mux.HandleFunc("/api/memory/add", s.handleMemoryAdd)
 	s.mux.HandleFunc("/api/memory/add-history", s.handleMemoryAddHistory)
+	s.mux.HandleFunc("/api/memory/relations/add", s.handleMemoryAddRelation)
+	s.mux.HandleFunc("/api/memory/relations/get", s.handleMemoryGetRelations)
 	s.mux.HandleFunc("/api/code/exec", s.handleCodeExec)
 
 	s.mux.HandleFunc("/api/protocol/tormentnexus", s.handleTormentNexusProtocol)
