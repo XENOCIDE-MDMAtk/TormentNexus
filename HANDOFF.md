@@ -1,8 +1,8 @@
-# HANDOFF — Session 2026-06-26 R4 (React Key Warnings & Hydration Mismatch Fixed - Alpha.175)
+# HANDOFF — Session 2026-06-26 R5 (Event TypeError, TS CLI Rejection Crash & Go Sidecar Build Fixed - Alpha.176)
 
 ## Summary
 
-Successfully fixed the React console warnings about duplicate keys (like `windows-mcp__App`, `av__TOOL_CALL`, `browser_click`) and resolved the React hydration mismatch warning caused by the sidebar query check. Verified that the entire web app builds and compiles with zero TypeScript errors. Bumped the version to `1.0.0-alpha.175`.
+Successfully resolved the event keydown `event.key` undefined TypeError in `Sidebar.tsx`, fixed the TS control plane crash by replacing `this.cleanup()` with lexical `cleanup()` inside rejection event handlers in `start.ts`, corrected block braces in `filesystem.go`, resolved empty file EOF errors in `dbhub.go`, and successfully compiled and started the Go sidecar on port `4300` and TS control plane on port `4100`. Bumped the version to `1.0.0-alpha.176`.
 
 ### What was done
 

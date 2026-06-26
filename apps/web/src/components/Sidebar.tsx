@@ -487,7 +487,7 @@ export function Sidebar({ className }: SidebarProps) {
                 searchInputRef.current?.select();
             }
 
-            if ((event.key.toLowerCase() === 'k') && (event.metaKey || event.ctrlKey)) {
+            if (event.key && (event.key.toLowerCase() === 'k') && (event.metaKey || event.ctrlKey)) {
                 event.preventDefault();
                 openPalette();
             }

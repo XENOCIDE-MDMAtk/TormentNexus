@@ -336,7 +336,7 @@ export function createLockLifecycleHandlers(
 			exit(143);
 		},
 		async handleUncaughtException(error: unknown) {
-			this.cleanup();
+			cleanup();
 			const chalk = (await import("chalk")).default;
 			const msg =
 				error instanceof Error ? (error.stack ?? error.message) : String(error);
@@ -344,7 +344,7 @@ export function createLockLifecycleHandlers(
 			process.exit(1);
 		},
 		async handleUnhandledRejection(reason: unknown) {
-			this.cleanup();
+			cleanup();
 			const chalk = (await import("chalk")).default;
 			const msg =
 				reason instanceof Error

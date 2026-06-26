@@ -5,6 +5,9 @@
 ### React and Hydration Stability Observations
 - **Hydration Mismatch Mitigation**: Query parameter checks (e.g. `window.location.search`) in global layout components like the `Sidebar` must be deferred until the component is mounted on the client (`mounted` state check). This guarantees identical initial HTML structure between server-rendered (SSR) and client-rendered content, eliminating React hydration warning spam.
 - **Unique React Loop Keys**: When mapping dynamic data such as lists of MCP tools where multiple instances of tools or servers can exist (or tool names lack unique IDs), utilizing just `tool.name` or `tool.uuid` triggers React duplicate key errors. Combining server name, tool name, and array mapping indices (e.g., `key={\`${tool.server ?? ''}__\${tool.name ?? ''}__\${idx}\`}`) prevents rendering identity bugs and cleans up the browser console.
+- **Safeguarding Event Listeners**: Always verify that key browser event attributes (such as `event.key`) are defined before invoking string methods like `.toLowerCase()` on them to prevent unhandled TypeError exceptions during system-level keystrokes.
+- **Process Event Context Scopes**: Event handlers registered on Node `process` events (e.g., `uncaughtException` and `unhandledRejection`) loose object-oriented `this` context binding when invoked by the runtime. Use lexical closures referencing outer-scope variables/functions instead of `this` to perform cleanup/exit operations safely.
+
 
 ### Layout & Routing Condensation Heuristics
 - **High-Fidelity Tabbed Consolidation**: Condensed 60 separate subpage folders into 3 major hub pages (System `/dashboard`, MCP Tool Services `/dashboard/mcp`, and Agent Swarm `/dashboard/swarm`). 

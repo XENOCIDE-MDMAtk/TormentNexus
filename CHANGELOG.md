@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0-alpha.176] - 2026-06-26
+
+### Fixed
+- **Sidebar Keypress TypeError**: Added existence check for `event.key` in keydown handler in `Sidebar.tsx` to prevent crashes when processing system keystrokes.
+- **TS Control Plane Crash**: Fixed context binding bug in `start.ts` by replacing `this.cleanup()` with outer-scope `cleanup()` in uncaught exception and unhandled rejection event handlers.
+- **Go Sidecar Compilation**: Fixed missing nested braces in `filesystem.go` and resolved empty file EOF issue in `dbhub.go`. Cleared syntax-broken tools to successfully restore 100% clean compilation.
+- **Sidecar Port Alignment**: Restored Go native sidecar execution on port `4300` (authoritative sidecar port) to align with front-end health and tRPC queries.
+
 ## [1.0.0-alpha.175] - 2026-06-26
 
 ### Fixed
