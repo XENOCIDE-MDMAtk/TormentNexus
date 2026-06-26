@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0-alpha.191] - 2026-06-26
+
+### Added
+- **Batched tRPC Native Acceleration**: Refactored Next.js `route.ts` to inspect batched (comma-separated) procedures. If all procedures in the batch are marked as native, the request completely bypasses the TS control plane and resolves against the Go-native endpoints directly.
+- **Wails Desktop Asset Integration**: Configured `next.config.js` to build a static export (`output: "export"`) when `NEXT_EXPORT` is set. Added `copy-assets.js` script to copy Next.js static output recursively to the Wails assets directory. Registered `build:wails` script and set it in `wails.json`.
+- **SSE Stream Realignment**: Re-routed the swarm monitoring EventSource connection in the web dashboard to connect directly to the Go sidecar's `/api/sse` endpoint on port `7778`, removing reliance on the legacy TS server on port `3001`.
+
+### Fixed
+- **Watchdog Refinement**: Removed the critical port check for `ts_control_plane` (port `7787`) from `watchdog.py` to prevent unnecessary restart flags for the decommissioned TS service.
+- **Go Compilation Repairs**: Disabled duplicate experimental `deepcontext.go` and `tavily_mcp.go` files by renaming to `.bak` and resolved syntax/import errors in `notebooklm.go`.
+
 ## [1.0.0-alpha.190] - 2026-06-26
 
 ### Added

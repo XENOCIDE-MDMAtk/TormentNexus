@@ -1,5 +1,17 @@
 # MEMORY.md — Multi-Agent Observations
 
+## Session 2026-06-26 (tRPC Batching, TS Control Plane Decommission, and Wails static export)
+
+### tRPC Batch Processing Native Fast-Path
+- **Full Bypass Verification**: Batch tRPC queries (represented as comma-separated procedure paths) must check that *all* procedures are present in `GO_NATIVE_PROCEDURES`. Resolving all native procedures inside Next.js `route.ts` using `getCompatPayload` allows the application to completely bypass proxying to the TS control plane, allowing a clean decommission.
+
+### TS Control Plane Decommissioning
+- **SSE Stream Destination**: Standardize SSE streams in the dashboard around the Go sidecar's `/api/sse` port rather than port `3001` or `/api/mesh/stream` to ensure proper mesh status monitoring and event streaming.
+- **Watchdog Port Removal**: When decommissioned services are taken offline, watchdog scripts checking TCP ports must be cleaned up to prevent false-positive alert notifications.
+
+### Wails static export configuration
+- **Next.js Export Mode**: Next.js applications wrapped inside Wails require a static HTML export (`output: "export"`). Since standard server components cannot be statically generated, routing all requests to the Go API port ensures zero runtime issues. Use a custom build script (`copy-assets.js`) to recursively sync Next.js static output files to the Go assets directory.
+
 ## Session 2026-06-26 (tRPC Upstream Alignment & Wails GUI App Skeleton)
 
 ### tRPC Upstream Base Alignment

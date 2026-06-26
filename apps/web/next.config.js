@@ -1,8 +1,10 @@
+const isExport = process.env.NEXT_EXPORT === "true";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	// Skip static generation for pages that need runtime data
-	output: "standalone",
-	distDir: ".next-build",
+	output: isExport ? "export" : "standalone",
+	distDir: isExport ? "out" : ".next-build",
 
 	// Skip static page generation
 	skipTrailingSlashRedirect: true,

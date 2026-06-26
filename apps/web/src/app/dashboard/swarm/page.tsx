@@ -289,8 +289,12 @@ export function SwarmDashboardOverview() {
 	// SSE Connection
 	useEffect(() => {
 		const sseBase =
-			process.env.NEXT_PUBLIC_CORE_SSE_URL || "http://localhost:3001";
-		const eventSource = new EventSource(`${sseBase}/api/mesh/stream`);
+			process.env.NEXT_PUBLIC_CORE_SSE_URL || "http://localhost:7778";
+		const eventSource = new EventSource(
+			sseBase.includes("3001")
+				? `${sseBase}/api/mesh/stream`
+				: `${sseBase}/api/sse`
+		);
 
 		eventSource.onopen = () => setStreamStatus("online");
 		eventSource.onerror = () => setStreamStatus("offline");

@@ -22,23 +22,10 @@ _Last updated: 2026-06-17, version 1.0.0-alpha.132_
 - [ ] **Bobbybookmarks Sync**: Configure automatic sync call triggers for catalog scraping. (Blocked by DNS failure — use Smithery.ai or Glama.ai)
 - [ ] **New Native Tools**: Implement `browser-use` and `browsermcp` specialized logic if needed (currently aliased to playwright).
 - [x] **Session Import**: Format resolved — wraps JSONL in ExportPackage format (228 sessions detected). Orchestrator POST endpoint missing for actual restoration.
-- [ ] **Git LFS**: Consider tracking large `.db` files (provider_metrics.db 145MB, tormentnexus.db 34MB) with Git LFS to avoid repo bloat.
-- [x] **.out Cleanup**: `swarm_*.out` and `*.pid` added to `.gitignore`. (alpha.133)
-
-## P2 — Enterprise Readiness & Security
-- [x] **License Validation**: Implement Ed25519 license token validation in Go sidecar. (Verified alpha.127)
-- [ ] **Compliance Boundary**: Separate SSO/RBAC/Audit logic into enterprise wrapper.
-- [x] **Enterprise Security**: SSO/RBAC middleware and JSONL auditing added from jules merge. (alpha.132)
-- [x] **Autonomous CI/CD**: `deployment_manager`, `health_monitor`, `repository_healer` added from jules merge. (alpha.132)
-
-## P3 — Future Enhancements
-- [x] **Skill Evolution**: With ~3,000+ skills loaded, implement win-rate tracking, auto-retirement of low-performing skills, and `/evolve` command. (Completed alpha.182)
-- [x] **Catalog DB Sync**: Index new skills into `catalog.db` for unified search. (Completed alpha.182)
-- [x] **Submodule Removal**: Systematic removal of redundant submodules after native reimplementation. (Completed alpha.183)
-- [ ] **P2P Memory**: Implement gossip protocol for decentralized context sharing.
-- [x] **L3 Cold Archive**: Implement long-term compressed memory tier for infinite context. (Completed alpha.186)
-- [ ] **Fleet-Wide Intelligence**: Cross-machine memory sharing via encrypted mesh.
-- [ ] **Wails Native Runtime**: Replace Electron with Go-native desktop shell.
+- [x] **Git LFS**: Large `.db` files tracked with Git LFS to avoid repo bloat.
+- [x] **P2P Memory**: Implement gossip protocol for decentralized context sharing.
+- [x] **Fleet-Wide Intelligence**: Cross-machine memory sharing via encrypted mesh.
+- [x] **Wails Native Runtime**: Replace Electron with Go-native desktop shell skeleton and asset building integrations.
 - [ ] **Deep Link Protocol**: Expand `tormentnexus://` protocol for browser-to-kernel attachment.
 
 ---

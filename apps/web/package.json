@@ -1,11 +1,12 @@
 {
   "name": "@tormentnexus/web",
-  "version": "1.0.0-alpha.190",
+  "version": "1.0.0-alpha.191",
   "private": true,
   "scripts": {
     "dev": "node ./scripts/dev.mjs",
     "dev:auto": "node ./scripts/dev-auto.mjs",
     "build": "node ./scripts/clean-build.mjs && next build",
+    "build:wails": "npx cross-env NEXT_EXPORT=true pnpm build && node copy-assets.js",
     "start": "next start",
     "lint": "echo \"Linting skipped\""
   },

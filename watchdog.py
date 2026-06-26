@@ -59,12 +59,7 @@ WORKERS = {
         "critical": True,
     },
 
-    "ts_control_plane": {
-        "binary": "node.exe",
-        "port": 7787,
-        "type": "port",
-        "critical": True,
-    },
+
     "dashboard": {
         "binary": "node.exe",
         "port": 7779,

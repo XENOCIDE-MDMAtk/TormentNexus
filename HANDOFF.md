@@ -1,3 +1,22 @@
+# HANDOFF — Session 2026-06-26 R15 (Batched tRPC Native Acceleration, TS Control Plane Decommissioning, & Wails Asset Copier - Alpha.191)
+
+## Summary
+
+Successfully completed the decommission of the TypeScript control plane and established a fully Go-native architecture with Wails desktop asset copying:
+1. **Batched tRPC Native Acceleration**: Refactored `apps/web/src/app/api/trpc/[trpc]/route.ts` to inspect batched (comma-separated) procedures. If all procedures in the batch are marked as native, the request completely bypasses the TS control plane and resolves against the Go-native endpoints directly.
+2. **Decommissioned the TS Control Plane**:
+   - Re-routed the swarm monitoring `EventSource` connection in the web dashboard (`apps/web/src/app/dashboard/swarm/page.tsx`) to connect directly to the Go sidecar's `/api/sse` endpoint on port `7778`, removing reliance on the legacy TS server on port `3001`.
+   - Updated `watchdog.py` to remove the `ts_control_plane` port-check requirement so that it no longer triggers system restart alerts.
+3. **Wails Desktop Asset Integration**:
+   - Configured `apps/web/next.config.js` to dynamically generate a static export (`output: "export"`) when the environment variable `NEXT_EXPORT` is set.
+   - Created `apps/web/copy-assets.js` to clean-build the static site and sync all compiled static assets into `go/cmd/tormentnexus-gui/frontend/dist` recursively.
+   - Added a `"build:wails"` build target to the web client package configuration and configured Wails (`wails.json`) to execute it automatically before building the native Go executable.
+4. **Go Compiler Repairs**:
+   - Disabled duplicate experimental tools `deepcontext.go` and `tavily_mcp.go` by renaming to `.bak` and resolved syntax/import errors in `notebooklm.go`.
+   - Verified that all Go binary targets (`cmd/tormentnexus`, `cmd/tormentnexus-gui`) compile cleanly, and gossip test suites pass successfully.
+
+---
+
 # HANDOFF — Session 2026-06-26 R14 (tRPC Upstream Alignment, Go Compile Stabilizations, & Wails GUI App Skeleton - Alpha.189)
 
 ## Summary
