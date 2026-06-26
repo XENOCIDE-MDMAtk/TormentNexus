@@ -78,18 +78,26 @@ var sessionExportKnownFormats = []map[string]any{
 // This allows the Next.js dashboard (port 3000) and browser extensions to
 // call Go sidecar endpoints without CORS blocks.
 func corsMiddleware(next http.Handler) http.Handler {
-	allowedOrigins := []string{
-		"http://localhost:3000",
-		"http://127.0.0.1:3000",
-		"http://localhost:5173",
-		"http://127.0.0.1:5173",
-	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
-		for _, allowed := range allowedOrigins {
-			if origin == allowed || origin == "" {
-				w.Header().Set("Access-Control-Allow-Origin", allowed)
-				break
+		if origin != "" {
+			if strings.HasPrefix(origin, "http://localhost:") || strings.HasPrefix(origin, "http://127.0.0.1:") {
+				w.Header().Set("Access-Control-Allow-Origin", origin)
+			} else {
+				allowedOrigins := []string{
+					"http://localhost:3000",
+					"http://127.0.0.1:3000",
+					"http://localhost:5173",
+					"http://127.0.0.1:5173",
+					"http://localhost:7779",
+					"http://127.0.0.1:7779",
+				}
+				for _, allowed := range allowedOrigins {
+					if origin == allowed {
+						w.Header().Set("Access-Control-Allow-Origin", allowed)
+						break
+					}
+				}
 			}
 		}
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")

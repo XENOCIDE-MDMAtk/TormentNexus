@@ -273,13 +273,22 @@ export function useGoSidecarDashboard(pollIntervalMs = 5000): GoSidecarDashboard
 
     const connected = mcpStatus !== null || startupStatus !== null || effectiveHealth !== null;
 
+    let parsedSessions: GoSessionSummary[] = [];
+    if (sessions) {
+      if (Array.isArray(sessions)) {
+        parsedSessions = sessions;
+      } else if (Array.isArray((sessions as any)?.sessions)) {
+        parsedSessions = (sessions as any).sessions;
+      }
+    }
+
     setData({
       mcpStatus,
       startupStatus,
       servers: servers ?? [],
       providers,
       fallbackChain,
-      sessions: (sessions as any)?.sessions ?? sessions ?? [],
+      sessions: parsedSessions,
       goVersion: effectiveHealth?.version ?? null,
       connected,
       lastFetchedAt: Date.now(),

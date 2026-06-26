@@ -60,6 +60,7 @@ const TABS = [
 ] as const;
 
 export function sortSessions(sessions: DashboardSessionSummary[]) {
+	if (!Array.isArray(sessions)) return [];
 	return [...sessions].sort((left, right) => {
 		const priorityDelta =
 			SESSION_STATUS_PRIORITY[right.status] -
@@ -72,6 +73,7 @@ export function sortSessions(sessions: DashboardSessionSummary[]) {
 }
 
 function sortServers(servers: DashboardServerSummary[]) {
+	if (!Array.isArray(servers)) return [];
 	return [...servers].sort((left, right) =>
 		left.name.localeCompare(right.name),
 	);
@@ -288,10 +290,11 @@ function DashboardHomeClientContent() {
 
 	// ── Traffic: tRPC only (Go sidecar doesn't track traffic yet) ──
 	const traffic = useMemo<DashboardTrafficSummary[]>(
-		() =>
-			[...((trafficQuery.data ?? []) as DashboardTrafficSummary[])].sort(
-				(left, right) => right.timestamp - left.timestamp,
-			),
+		() => {
+			const data = trafficQuery.data;
+			if (!Array.isArray(data)) return [];
+			return [...data].sort((left, right) => right.timestamp - left.timestamp);
+		},
 		[trafficQuery.data],
 	);
 
@@ -319,10 +322,10 @@ function DashboardHomeClientContent() {
 
 	// ── Sessions: tRPC → Go fallback → empty ──
 	const sessions = useMemo<DashboardSessionSummary[]>(() => {
-		if (trpcReachable && sessionsQuery.data) {
+		if (trpcReachable && sessionsQuery.data && Array.isArray(sessionsQuery.data)) {
 			return sortSessions(sessionsQuery.data as DashboardSessionSummary[]);
 		}
-		if (goData.sessions.length > 0) {
+		if (goData.sessions && Array.isArray(goData.sessions) && goData.sessions.length > 0) {
 			return sortSessions(goData.sessions as DashboardSessionSummary[]);
 		}
 		return [];
