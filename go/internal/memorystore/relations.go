@@ -49,8 +49,7 @@ CREATE TRIGGER IF NOT EXISTS relations_ai AFTER INSERT ON memory_relations BEGIN
 END;
 
 CREATE TRIGGER IF NOT EXISTS relations_ad AFTER DELETE ON memory_relations BEGIN
-    INSERT INTO memory_relations_fts(memory_relations_fts, rowid, relation_id, metadata)
-    VALUES ('delete', old.id, old.id, old.metadata);
+    DELETE FROM memory_relations_fts WHERE relation_id = old.id;
 END;
 `
 

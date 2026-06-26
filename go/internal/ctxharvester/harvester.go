@@ -141,7 +141,17 @@ var sentenceRe = regexp.MustCompile(`(?m)(.+?[.!?])\s+`)
 
 // Harvest splits content into semantic chunks and stores them.
 func (ch *ContextHarvester) Harvest(source ContextSource, content string, metadata map[string]interface{}) []*ContextChunk {
-	textChunks := semanticChunk(content, ch.config.ChunkSize, ch.config.ChunkOverlap)
+	var textChunks []string
+	filename, hasFile := metadata["filename"].(string)
+	if !hasFile {
+		filename, hasFile = metadata["path"].(string)
+	}
+
+	if hasFile && filename != "" {
+		textChunks = castChunk(content, filename, ch.config.ChunkSize)
+	} else {
+		textChunks = semanticChunk(content, ch.config.ChunkSize, ch.config.ChunkOverlap)
+	}
 
 	ch.mu.Lock()
 	defer ch.mu.Unlock()

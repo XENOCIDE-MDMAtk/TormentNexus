@@ -1,7 +1,118 @@
 # All legacy submodules removed as they are fully redundant.
+[submodule "apps/cloud-orchestrator"]
+	path = apps/cloud-orchestrator
+	url = https://github.com/robertpelloni/jules-autopilot.git
+[submodule "apps/maestro"]
+	path = apps/maestro
+	url = https://github.com/robertpelloni/maestro.git
 [submodule "enterprise_sales_bot"]
 	path = enterprise_sales_bot
 	url = https://github.com/robertpelloni/enterprise_sales_bot.git
 [submodule "bobbybookmarks"]
 	path = bobbybookmarks
 	url = https://github.com/robertpelloni/bobbybookmarks.git
+[submodule "submodules/CTX"]
+	path = submodules/CTX
+	url = https://github.com/Alegau03/CTX.git
+[submodule "submodules/mnemosyne"]
+	path = submodules/mnemosyne
+	url = https://github.com/AxDSan/mnemosyne.git
+[submodule "submodules/claude-find"]
+	path = submodules/claude-find
+	url = https://github.com/Cavinooo/claude-find.git
+[submodule "submodules/MCP-Generator"]
+	path = submodules/MCP-Generator
+	url = https://github.com/ChristopherDond/MCP-Generator.git
+[submodule "submodules/Rounds-of-Questions-Claude-Skill"]
+	path = submodules/Rounds-of-Questions-Claude-Skill
+	url = https://github.com/CyberZenithX/Rounds-of-Questions-Claude-Skill.git
+[submodule "submodules/AI-For-Brokies"]
+	path = submodules/AI-For-Brokies
+	url = https://github.com/Joe-Huber/AI-For-Brokies.git
+[submodule "submodules/hermes-agent"]
+	path = submodules/hermes-agent
+	url = https://github.com/NousResearch/hermes-agent.git
+[submodule "submodules/skill-deck"]
+	path = submodules/skill-deck
+	url = https://github.com/OthmanAdi/skill-deck.git
+[submodule "submodules/mnem"]
+	path = submodules/mnem
+	url = https://github.com/Uranid/mnem.git
+[submodule "submodules/tokentelemetry"]
+	path = submodules/tokentelemetry
+	url = https://github.com/VasiHemanth/tokentelemetry.git
+[submodule "submodules/OpenGUI"]
+	path = submodules/OpenGUI
+	url = https://github.com/akemmanuel/OpenGUI.git
+[submodule "submodules/agent-verifier"]
+	path = submodules/agent-verifier
+	url = https://github.com/aurite-ai/agent-verifier.git
+[submodule "submodules/scarf"]
+	path = submodules/scarf
+	url = https://github.com/awizemann/scarf.git
+[submodule "submodules/YADMS"]
+	path = submodules/YADMS
+	url = https://github.com/blazium-games/YADMS.git
+[submodule "submodules/chorus"]
+	path = submodules/chorus
+	url = https://github.com/chorus-codes/chorus.git
+[submodule "submodules/arc-relay"]
+	path = submodules/arc-relay
+	url = https://github.com/comma-compliance/arc-relay.git
+[submodule "submodules/neural-memory"]
+	path = submodules/neural-memory
+	url = https://github.com/drakonkat/neural-memory.git
+[submodule "submodules/fox-in-the-box"]
+	path = submodules/fox-in-the-box
+	url = https://github.com/fox-in-the-box-ai/fox-in-the-box.git
+[submodule "submodules/hermes-desktop"]
+	path = submodules/hermes-desktop
+	url = https://github.com/dodo-reach/hermes-desktop.git
+[submodule "submodules/tinyagentos"]
+	path = submodules/tinyagentos
+	url = https://github.com/jaylfc/tinyagentos.git
+[submodule "submodules/hermes-memory-installer"]
+	path = submodules/hermes-memory-installer
+	url = https://github.com/mage0535/hermes-memory-installer.git
+[submodule "submodules/jcodemunch-mcp"]
+	path = submodules/jcodemunch-mcp
+	url = https://github.com/jgravelle/jcodemunch-mcp.git
+[submodule "submodules/registry"]
+	path = submodules/registry
+	url = https://github.com/mcparmory/registry.git
+[submodule "submodules/ogham-mcp"]
+	path = submodules/ogham-mcp
+	url = https://github.com/ogham-mcp/ogham-mcp.git
+[submodule "submodules/mvmt"]
+	path = submodules/mvmt
+	url = https://github.com/philipnee/mvmt.git
+[submodule "submodules/agent-memory-server"]
+	path = submodules/agent-memory-server
+	url = https://github.com/redis/agent-memory-server.git
+[submodule "submodules/agentmemory"]
+	path = submodules/agentmemory
+	url = https://github.com/rohitg00/agentmemory.git
+[submodule "submodules/rtk"]
+	path = submodules/rtk
+	url = https://github.com/rtk-ai/rtk.git
+[submodule "submodules/pi-total-recall"]
+	path = submodules/pi-total-recall
+	url = https://github.com/samfoy/pi-total-recall.git
+[submodule "submodules/hermes-webui"]
+	path = submodules/hermes-webui
+	url = https://github.com/nesquena/hermes-webui.git
+[submodule "submodules/hermes-lcm"]
+	path = submodules/hermes-lcm
+	url = https://github.com/stephenschoettler/hermes-lcm.git
+[submodule "submodules/toolhive"]
+	path = submodules/toolhive
+	url = https://github.com/stacklok/toolhive.git
+[submodule "submodules/sverklo-bench"]
+	path = submodules/sverklo-bench
+	url = https://github.com/sverklo/sverklo-bench.git
+[submodule "submodules/pixelcheck"]
+	path = submodules/pixelcheck
+	url = https://github.com/xcodethink/pixelcheck.git
+[submodule "submodules/forkit-mcp-docs"]
+	path = submodules/forkit-mcp-docs
+	url = https://github.com/zientesit/forkit-mcp-docs.git

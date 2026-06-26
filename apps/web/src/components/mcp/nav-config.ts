@@ -177,87 +177,27 @@ export const MAIN_DASHBOARD_NAV: NavItem[] = [
 
 export const WORKSHOP_NAV: NavItem[] = [
 	{
-		title: "Research Lab",
+		title: "Diagnostics & Research",
 		href: "/dashboard/research",
 		icon: FlaskRound,
 		variant: "ghost",
 	},
 	{
-		title: "Evolution",
-		href: "/dashboard/evolution",
-		icon: Activity,
-		variant: "ghost",
-	},
-	{
-		title: "Healer",
-		href: "/dashboard/healer",
-		icon: Stethoscope,
-		variant: "ghost",
-	},
-	{
-		title: "Session Inspector",
+		title: "Context & Sessions",
 		href: "/dashboard/session",
 		icon: Scroll,
 		variant: "ghost",
 	},
 	{
-		title: "Context Manager",
-		href: "/dashboard/context",
-		icon: Layers,
-		variant: "ghost",
-	},
-	{
-		title: "Prompts Library",
-		href: "/dashboard/prompts",
-		icon: BookCopy,
-		variant: "ghost",
-	},
-	{
-		title: "Skills",
-		href: "/dashboard/skills",
-		icon: Sparkles,
-		variant: "ghost",
-	},
-	{
-		title: "Library",
+		title: "Knowledge & Skills",
 		href: "/dashboard/library",
 		icon: Library,
 		variant: "ghost",
 	},
 	{
-		title: "Manual",
-		href: "/dashboard/manual",
-		icon: BookOpenText,
-		variant: "ghost",
-	},
-	{
-		title: "Reader",
-		href: "/dashboard/reader",
-		icon: BookMarked,
-		variant: "ghost",
-	},
-	{
-		title: "Metrics & Pulse",
-		href: "/dashboard/metrics",
-		icon: BarChart3,
-		variant: "ghost",
-	},
-	{
-		title: "Security",
+		title: "Security Operations",
 		href: "/dashboard/security",
 		icon: Shield,
-		variant: "ghost",
-	},
-	{
-		title: "Tests",
-		href: "/dashboard/tests",
-		icon: MonitorCheck,
-		variant: "ghost",
-	},
-	{
-		title: "Workshop",
-		href: "/dashboard/workshop",
-		icon: GalleryThumbnails,
 		variant: "ghost",
 	},
 ];
@@ -272,7 +212,7 @@ export const SIDEBAR_SECTIONS: NavSection[] = [
 		items: MAIN_DASHBOARD_NAV,
 	},
 	{
-		title: "Tools & Utilities",
+		title: "Diagnostics & Tools",
 		items: WORKSHOP_NAV,
 	},
 	{

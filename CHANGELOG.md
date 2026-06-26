@@ -1,4 +1,10 @@
 # Changelog
+ 
+## [1.0.0-alpha.163] - 2026-06-26
+
+### Added
+- **Context-Aware Syntax Tree (cAST) Chunker**: Implemented syntax-aware code chunking for Go, Python, and TypeScript/JavaScript in the `ctxharvester` package. Preprends structural context headers (packages, imports, class signatures) to each code block chunk to optimize vector space search and LLM contextual recall (inspired by the high-value Chunkhound bookmark).
+- **SQLite Trigger Hardening**: Standardized the `relations_ad` delete triggers in `relations.go` to standard SQL `DELETE` syntax, preventing virtual table driver logic errors.
 
 ## [1.0.0-alpha.162] - 2026-06-26
 
