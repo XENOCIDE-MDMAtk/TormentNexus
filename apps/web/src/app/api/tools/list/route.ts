@@ -15,7 +15,7 @@ interface ToolInfo {
  */
 export async function GET() {
 	const GO_SIDECAR =
-		process.env.TORMENTNEXUS_GO_SIDECAR_URL || "http://127.0.0.1:7778";
+		process.env.TORMENTNEXUS_GO_SIDECAR_URL || "http://127.0.0.1:4300";
 
 	// Try the live sidecar first
 	try {
@@ -153,147 +153,151 @@ export async function GET() {
 				"List all built-in Go accessory tools from the root registry",
 			alwaysOn: true,
 		},
-		// Go sidecar native tool stubs (optional — can be toggled on)
+		// Go sidecar native tool stubs (always always-on)
 		{
 			name: "echo",
 			description: "Echo back the provided message",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "hello_world",
 			description: "Return a greeting message",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "current_time",
 			description: "Return the current system time",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "weather",
 			description: "Get weather information for a location",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "calc",
 			description: "Evaluate a mathematical expression",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "read_file",
 			description: "Read the contents of a file",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "write_file",
 			description: "Write content to a file",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "list_dir",
 			description: "List directory contents",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "run_command",
 			description: "Run a shell command",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "search_text",
 			description: "Search for text across files using ripgrep",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "semantic_search",
 			description: "Semantic search across the L2 memory vault",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "reinforce_memory",
 			description: "Reinforce or decay a memory record by ID",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "catalog_search",
 			description: "Search the MCP catalog for available servers",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "session_list",
 			description: "List imported sessions",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "session_get",
 			description: "Get a specific imported session with its memories",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "provider_status",
 			description: "Get current model provider availability",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "provider_switch",
 			description: "Switch the active model provider",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "code_execute",
 			description: "Execute code in a sandboxed environment",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "git_status",
 			description: "Get git working tree status",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
-		{ name: "git_commit", description: "Create a git commit", alwaysOn: false },
+		{
+			name: "git_commit",
+			description: "Create a git commit",
+			alwaysOn: true,
+		},
 		{
 			name: "skill_list",
 			description: "List available skills from the skill registry",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "skill_get",
 			description: "Get a specific skill by name",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "skill_search",
 			description: "Search skills by keyword",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "memory_get_all",
 			description: "Get all L2 memory records",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "memory_save",
 			description: "Save a new memory record",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "workflow_list",
 			description: "List configured workflows",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "workflow_trigger",
 			description: "Trigger a workflow execution",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "mesh_status",
 			description: "Get mesh network status",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 		{
 			name: "assimilation_status",
 			description: "Get MCP assimilation pipeline status",
-			alwaysOn: false,
+			alwaysOn: true,
 		},
 	];
 
