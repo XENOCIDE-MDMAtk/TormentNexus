@@ -32,11 +32,11 @@ _Last updated: 2026-06-17, version 1.0.0-alpha.132_
 - [x] **Autonomous CI/CD**: `deployment_manager`, `health_monitor`, `repository_healer` added from jules merge. (alpha.132)
 
 ## P3 — Future Enhancements
-- [ ] **Skill Evolution**: With ~3,000+ skills loaded, implement win-rate tracking, auto-retirement of low-performing skills, and `/evolve` command.
-- [ ] **Catalog DB Sync**: Index new skills into `catalog.db` for unified search.
-- [ ] **Submodule Removal**: Systematic removal of redundant submodules after native reimplementation.
+- [x] **Skill Evolution**: With ~3,000+ skills loaded, implement win-rate tracking, auto-retirement of low-performing skills, and `/evolve` command. (Completed alpha.182)
+- [x] **Catalog DB Sync**: Index new skills into `catalog.db` for unified search. (Completed alpha.182)
+- [x] **Submodule Removal**: Systematic removal of redundant submodules after native reimplementation. (Completed alpha.183)
 - [ ] **P2P Memory**: Implement gossip protocol for decentralized context sharing.
-- [ ] **L3 Cold Archive**: Implement long-term compressed memory tier for infinite context.
+- [x] **L3 Cold Archive**: Implement long-term compressed memory tier for infinite context. (Completed alpha.186)
 - [ ] **Fleet-Wide Intelligence**: Cross-machine memory sharing via encrypted mesh.
 - [ ] **Wails Native Runtime**: Replace Electron with Go-native desktop shell.
 - [ ] **Deep Link Protocol**: Expand `tormentnexus://` protocol for browser-to-kernel attachment.

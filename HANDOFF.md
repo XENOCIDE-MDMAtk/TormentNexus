@@ -1,3 +1,15 @@
+# HANDOFF — Session 2026-06-26 R11 (L3 Cold Archive Verification and SQLite Timestamp Formatting - Alpha.186)
+
+## Summary
+
+Successfully verified the L3 Cold Archive memory compression tier and fixed SQLite date formatting and cache synchronization issues:
+1. **L3 Verification & Unit Tests**: Added a dedicated integration test `TestL3ColdArchiveIntegration` inside `go/internal/memorystore/vector_sqlite_test.go` to test memory decay, L3 archiving, fallback semantic/keyword search, and promotion back to L2.
+2. **SQLite Timestamp Formatting**: Fixed a bug where standard Go `time.Time` fields were serialized in a format incompatible with SQLite's `julianday()` function, causing `heat_score` to become `NULL` during decay maintenance. Standardized serialization to UTC ISO-8601 strings in database `Commit` statements.
+3. **L1 Cache Eviction**: Corrected a cache synchronization bug by evicting demoted memories from the in-memory `s.l1Cache` on archive, preventing keyword searches from returning stale working copies directly from memory instead of falling back to the L3 archive database.
+4. **Verification**: Ran Go unit tests with 100% success, compiled the sidecar cleanly (`go build ./cmd/tormentnexus/...`), verified Next.js web application type safety, bumped version to `1.0.0-alpha.186`, and synchronized package configs.
+
+---
+
 # HANDOFF — Session 2026-06-26 R10 (L3 Cold Archive Memory Integration & Submodule Cleanup - Alpha.183)
 
 ## Summary

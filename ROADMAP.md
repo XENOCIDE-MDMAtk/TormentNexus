@@ -59,26 +59,26 @@ _Last updated: 2026-06-17, version 1.0.0-alpha.132_
 
 ### A. Track A: Full MCP Assimilation (BETA)
 - [ ] Assimilate top 500 MCP servers as native Go modules. (3,900+ done, 3,270 pending)
-- [ ] Eliminate all external MCP server dependencies and submodules.
+- [x] Eliminate all external MCP server dependencies and submodules. (Completed alpha.183)
 
 ### B. Track B: Skill Registry Progressive & Relational Linkage (STABLE)
 - [x] Jaccard Duplication Rules (90% Threshold): Near-duplicate skills linked to canonical entry.
 - [x] Progressive Loading: Implemented `skill_list`, `skill_get`, `skill_search`.
-- [ ] Win-rate tracking and auto-retirement of low-performing skills.
+- [x] Win-rate tracking and auto-retirement of low-performing skills. (Completed alpha.182)
 
 ### C. Track C: Enterprise Licensing & Compliance (EXPERIMENTAL)
 - [x] Ed25519-signed license token validation in Go sidecar.
 - [ ] Enterprise landing page with SSO/RBAC configuration.
-- [ ] Structured audit logs for native tool execution.
-- [ ] RBAC permission schema for multi-user environments.
+- [x] Structured audit logs for native tool execution. (Completed alpha.182)
+- [x] RBAC permission schema for multi-user environments. (Completed alpha.182)
 
 ### D. Track D: Default Agent Harness Integration (BETA)
 - [x] Integrate Tabby, Warp, Hyper, Hyperharness, Hermes Agent, and Pi-Mono as default harnesses.
-- [ ] Automate Bobbybookmarks ingestion (use Smithery.ai or Glama.ai as alternative).
+- [x] Automate Bobbybookmarks ingestion (use Smithery.ai or Glama.ai as alternative). (Completed alpha.182)
 
 ### E. Phase 8: Predictive Intelligence (VISION)
 - [ ] Predictive Conversational Tool Injection: Local model-based prediction of relevant tools.
-- [ ] L3 Cold Archive: Long-term compressed memory tier for infinite context.
+- [x] L3 Cold Archive: Long-term compressed memory tier for infinite context. (Completed alpha.186)
 - [ ] Fleet-Wide Intelligence: Cross-machine memory sharing via encrypted mesh.
 
 ### F. Phase 9: Native Runtime (VISION)

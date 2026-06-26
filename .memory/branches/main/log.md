@@ -32313,3 +32313,64 @@ echo ""
 curl -s --max-time 8 http://127.0.0.1:7779/api/tools/list 2>&1 | python -X utf-8 -c "import sys,json;d=json.load(sys.stdin);print(f'Dashboard: {len(d.get(\"tools\",[]))} tools')" 2>&1", timeout: 20)
 **Observation**: bash: success
 
+## Turn 30 | 2026-06-26T18:40:13.092Z | deepseek/deepseek-v4-flash
+
+**Thought**: All services running and healthy. Let me commit and push everything.
+**Thinking**: All services are running:
+- 7778 (Go sidecar) ✅
+- 7779 (Dashboard production) ✅ with 51 tools
+- 4000 (FreeLLM) ✅
+- 1234 (LM Studio) ✅
+- 4300 (Legacy sidecar) ✅
+
+Let me do the final commit and push.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git add -A && git status --short | wc -l && echo "files to commit" && git commit -m "fix: restore tool files from HEAD, clean corrupted stubs, all builds passing (v1.0.0-alpha.162)" && git push origin main 2>&1", timeout: 120)
+**Observation**: bash: error
+
+## Turn 31 | 2026-06-26T18:42:18.768Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The push timed out again due to LFS objects. Let me push again.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git push origin main 2>&1", timeout: 600)
+**Observation**: bash: success
+
+## Turn 32 | 2026-06-26T18:51:34.575Z | deepseek/deepseek-v4-flash
+
+**Thought**: ✅ **Pushed successfully** (420MB LFS, 7 objects).
+
+---
+
+## ✅ FINAL STATUS REPORT
+
+### Running Services (6 ports)
+| Port | Service | Status |
+|------|---------|--------|
+| **7778** | Go sidecar | ✅ RUNNING (v1.0.0-alpha.162) |
+| **7779** | Dashboard | ✅ **PRODUCTION MODE** (51 tools, 83+ routes) |
+| **4000** | FreeLLM proxy | ✅ RUNNING (200+ models) |
+| **1234** | LM Studio | ✅ RUNNING |
+| **4300** | Legacy sidecar | ✅ RUNNING |
+| **4100** | TS control plane | ❌ Down (source missing) |
+
+### Build Health
+| Build | Status |
+|-------|--------|
+| **Go** (`go build ./...`) | ✅ **CLEAN** — registry.go + server.go + 25 good tool files |
+| **Dashboard** (`pnpm build`) | ✅ **CLEAN** — all 83+ pages compile |
+
+### What Changed This Session
+| Issue | Fix |
+|-------|-----|
+| Go sidecar & dashboard both down | Restarted both — sidecar on 7778, dashboard production on 7779 |
+| Corrupted `gemini_mcp.go`, `huggingface.go`, `supabase.go`, `browsermcp.go` | All quarantined to `_broken/` |
+| `registry.go` handler refs broken (HandleRunDAG, HandleReadFile, etc.) | Restored full tools directory from previous clean commit (1095dad) |
+| Dashboard prerender errors | Fixed in previous session — Suspense boundaries working |
+| Large LFS push timeouts | Pushed 420MB LFS successfully |
+
+### Remaining Known Issues
+- **~80 corrupted tool stubs** in `go/internal/tools/_broken/` — need regeneration from working pipeline
+- **1726 Dependabot vulnerabilities** on GitHub (41 critical)
+- **Spaced repetition** memory tier not implemented
+- **Cross-machine encrypted mesh** not implemented
+**Thinking**: Pushed successfully (420MB LFS upload). Let me give the final report.
+

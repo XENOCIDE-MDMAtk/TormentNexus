@@ -125,7 +125,7 @@ func (s *VectorStore) Commit(ctx context.Context, entry controlplane.L2VaultReco
 			heat_score = excluded.heat_score,
 			last_accessed_at = excluded.last_accessed_at,
 			created_at = excluded.created_at
-	`, entry.ID, entry.SessionID, string(entry.Type), entry.Kind, entry.Category, entry.Tags, entry.SourceURL, entry.Content, entry.Importance, entry.HeatScore, entry.LastAccessedAt, entry.CreatedAt)
+	`, entry.ID, entry.SessionID, string(entry.Type), entry.Kind, entry.Category, entry.Tags, entry.SourceURL, entry.Content, entry.Importance, entry.HeatScore, entry.LastAccessedAt.UTC().Format("2006-01-02 15:04:05"), entry.CreatedAt.UTC().Format("2006-01-02 15:04:05"))
 	if err != nil {
 		return fmt.Errorf("memorystore commit insert: %w", err)
 	}
@@ -341,6 +341,10 @@ func (s *VectorStore) SemanticSearch(ctx context.Context, query string, limit in
 				for _, r := range results {
 					s.incrementHeatLocked(ctx, r.ID)
 				}
+				if len(results) == 0 {
+					results, err = s.fallbackL3Search(ctx, results, queryText, limit)
+					return results, err
+				}
 				return results, nil
 			}
 		}
@@ -404,7 +408,10 @@ func (s *VectorStore) fallbackL3Search(ctx context.Context, results []controlpla
 	for _, r := range coldResults {
 		promoted, err := s.coldArchive.Promote(ctx, r.ID)
 		if err == nil && promoted != nil {
-			_ = s.Commit(ctx, *promoted)
+			errCommit := s.Commit(ctx, *promoted)
+			if errCommit != nil {
+				fmt.Printf("Warning: fallbackL3Search: failed to promote memory %s back to L2: %v\n", promoted.ID, errCommit)
+			}
 			results = append(results, *promoted)
 		}
 	}
@@ -653,6 +660,7 @@ func (s *VectorStore) ForgettingCurveDecay(ctx context.Context) error {
 					_, _ = s.db.ExecContext(ctx, `DELETE FROM l2_vault WHERE id = ?`, r.ID)
 					_, _ = s.db.ExecContext(ctx, `DELETE FROM vec_l2_vault WHERE id = ?`, r.ID)
 					_, _ = s.db.ExecContext(ctx, `DELETE FROM l2_vault_fts WHERE id = ?`, r.ID)
+					delete(s.l1Cache, r.ID)
 				}
 			}
 		}

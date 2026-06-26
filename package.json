@@ -1,6 +1,6 @@
 {
   "name": "tormentnexus-monorepo",
-  "version": "1.0.0-alpha.185",
+  "version": "1.0.0-alpha.186",
   "private": true,
   "packageManager": "pnpm@10.28.0",
   "scripts": {

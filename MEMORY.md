@@ -1,5 +1,11 @@
 # MEMORY.md — Multi-Agent Observations
 
+## Session 2026-06-26 (L3 Cold Archive Integration & SQLite Timestamp Formatting)
+
+### Memory Tiering & Cache Heuristics
+- **SQLite julianday() Precision**: Go `time.Time` values passed as direct query parameters are serialized into format representations that SQLite's `julianday()` function cannot parse, resulting in `NULL` values. Standardize timestamp serialization to ISO-8601 UTC string formats (e.g. `entry.LastAccessedAt.UTC().Format("2006-01-02 15:04:05")`) to guarantee correct time differences.
+- **Write-Through L1 Cache Eviction**: When a memory record is demoted/archived to L3 Cold Archive, it must be explicitly evicted from `s.l1Cache` (using `delete(s.l1Cache, r.ID)`). Failing to evict allows semantic text matching to hit L1 cache and return stale working copies directly, bypassing the L3 fallback search mechanism.
+
 ## Session 2026-06-26 (Native Tool Integration & Compilation Fixes)
 
 ### Compilation & Tool Hygiene

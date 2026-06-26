@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.0.0-alpha.186] - 2026-06-26
+
+### Added
+- **L3 Cold Archive Integration Unit Tests**: Added `TestL3ColdArchiveIntegration` in `vector_sqlite_test.go` checking L3 demotion, fallback keyword search, and promotion to L2.
+
+### Fixed
+- **SQLite DateTime Formatting**: Formatted Go `time.Time` fields to UTC ISO-8601 strings in database INSERT commands to avoid SQLite `julianday()` returning `NULL` values.
+- **Cache Eviction on Archive**: Evicted memories from `s.l1Cache` when they are archived/demoted to L3, preventing L1 from returning stale working copies instead of searching L3.
+
+## [1.0.0-alpha.185] - 2026-06-26
+
+### Fixed
+- **Dashboard Type Safety**: Handled array checks dynamically using `Array.isArray` in the web application telemetry and home client.
+
+## [1.0.0-alpha.184] - 2026-06-26
+
+### Fixed
+- **Dynamic CORS Middleware**: Extended Go sidecar HTTP API server to support wildcard origins on localhost.
+
+## [1.0.0-alpha.183] - 2026-06-26
+
+### Added
+- **L3 Cold Archive Integration**: Implemented decaying memory archiver tier moving memories < 10.0 heat to `l3_cold_archive.db` and falling back to L3 on query sparse matches.
+- **Submodule Cleanup**: Cleaned up obsolete git submodule entries under `submodules/`.
+
+## [1.0.0-alpha.182] - 2026-06-26
+
+### Added
+- **Glama & Smithery Sync**: Fallback preset scraper for tool catalogs using Glama APIs.
+- **Playwright Automation**: Real browser interactions implemented inside the Go sidecar.
+- **Enterprise Middleware Partitioning**: Separated RBAC/SSO validations and JSONL audit logging.
+- **Skill Win-Rate Engine**: Tracking tool execution win-rates and dynamic `/evolve` quarantine command.
+
 ## [1.0.0-alpha.181] - 2026-06-26
 
 ### Added

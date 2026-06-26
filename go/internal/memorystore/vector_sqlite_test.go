@@ -186,9 +186,144 @@ func TestVectorStoreAdvancedFeatures(t *testing.T) {
 	}
 }
 
+func TestL3ColdArchiveIntegration(t *testing.T) {
+	vs, err := NewVectorStore(":memory:")
+	if err != nil {
+		t.Fatalf("failed to open memory db: %v", err)
+	}
+	defer vs.Close()
+
+	if vs.coldArchive == nil {
+		t.Fatalf("expected coldArchive to be initialized, but it was nil")
+	}
+
+	ctx := context.Background()
+
+	// 1. Commit active memories (one hot, one cold-candidate)
+	hotRecord := controlplane.L2VaultRecord{
+		ID:             "hot-1",
+		SessionID:      "session-x",
+		Type:           controlplane.MemoryWorking,
+		Kind:           "fact",
+		Category:       "knowledge",
+		Tags:           "hot",
+		Content:        "This memory has very high relevance and heat score",
+		Importance:     0.9,
+		HeatScore:      80.0,
+		CreatedAt:      time.Now(),
+		LastAccessedAt: time.Now(),
+	}
+	coldCandidate := controlplane.L2VaultRecord{
+		ID:             "cold-candidate-1",
+		SessionID:      "session-x",
+		Type:           controlplane.MemoryWorking,
+		Kind:           "fact",
+		Category:       "knowledge",
+		Tags:           "cold",
+		Content:        "This memory has decayed significantly and has very low heat score",
+		Importance:     0.4,
+		HeatScore:      5.0, // < 10.0 so should be archived on decay
+		CreatedAt:      time.Now(),
+		LastAccessedAt: time.Now(),
+	}
+
+	if err := vs.Commit(ctx, hotRecord); err != nil {
+		t.Fatalf("failed to commit hot record: %v", err)
+	}
+	if err := vs.Commit(ctx, coldCandidate); err != nil {
+		t.Fatalf("failed to commit cold candidate: %v", err)
+	}
+
+	// 2. Run decay process
+	if err := vs.ForgettingCurveDecay(ctx); err != nil {
+		t.Fatalf("failed to run forgetting curve decay: %v", err)
+	}
+
+	// 3. Verify cold candidate has been removed from active l2_vault but exists in l3_cold_archive
+	var countL2 int
+	err = vs.db.QueryRowContext(ctx, "SELECT COUNT(*) FROM l2_vault WHERE id = 'cold-candidate-1'").Scan(&countL2)
+	if err != nil {
+		t.Fatalf("failed querying active L2: %v", err)
+	}
+	if countL2 != 0 {
+		t.Errorf("expected cold candidate to be removed from L2, but found %d matches", countL2)
+	}
+
+	// Verify hot record is still in L2
+	err = vs.db.QueryRowContext(ctx, "SELECT COUNT(*) FROM l2_vault WHERE id = 'hot-1'").Scan(&countL2)
+	if err != nil {
+		t.Fatalf("failed querying active L2 for hot record: %v", err)
+	}
+	if countL2 != 1 {
+		t.Errorf("expected hot record to remain in L2, but found %d matches", countL2)
+	}
+
+	// Check cold archive counts
+	countL3, err := vs.coldArchive.Count(ctx)
+	if err != nil {
+		t.Fatalf("failed to count cold archive records: %v", err)
+	}
+	if countL3 != 1 {
+		t.Errorf("expected 1 record in L3 cold archive, got %d", countL3)
+	}
+
+	// 4. Query L3 fallback search
+	// Create query text payload that matches the cold archive content keyword 'decayed'
+	payload := QueryPayload{
+		QueryText: "decayed",
+	}
+	payloadBytes, _ := json.Marshal(payload)
+
+	results, err := vs.SemanticSearch(ctx, string(payloadBytes), 5)
+	if err != nil {
+		t.Fatalf("fallback search failed: %v", err)
+	}
+
+	if len(results) != 1 {
+		t.Fatalf("expected 1 result from fallback search, got %d", len(results))
+	}
+
+	if results[0].ID != "cold-candidate-1" {
+		t.Errorf("expected result to be 'cold-candidate-1', got %s", results[0].ID)
+	}
+
+	// 5. Verify promotion: promoted record should be back in L2 with heat_score = 25.0 and deleted from L3
+
+	err = vs.db.QueryRowContext(ctx, "SELECT COUNT(*) FROM l2_vault WHERE id = 'cold-candidate-1'").Scan(&countL2)
+	if err != nil {
+		t.Fatalf("failed querying active L2 after promotion: %v", err)
+	}
+	if countL2 != 1 {
+		t.Errorf("expected cold candidate to be promoted back to L2, but it was not found")
+	}
+
+	var promotedHeat float64
+	var promotedType string
+	err = vs.db.QueryRowContext(ctx, "SELECT heat_score, memory_type FROM l2_vault WHERE id = 'cold-candidate-1'").Scan(&promotedHeat, &promotedType)
+	if err != nil {
+		t.Fatalf("failed querying details of promoted record: %v", err)
+	}
+	if promotedHeat != 25.0 {
+		t.Errorf("expected promoted heat score to be 25.0, got %f", promotedHeat)
+	}
+	if promotedType != string(controlplane.MemoryLongTerm) {
+		t.Errorf("expected promoted memory type to be %s, got %s", controlplane.MemoryLongTerm, promotedType)
+	}
+
+	// Verify deleted from L3
+	countL3, err = vs.coldArchive.Count(ctx)
+	if err != nil {
+		t.Fatalf("failed to count cold archive records after promotion: %v", err)
+	}
+	if countL3 != 0 {
+		t.Errorf("expected L3 cold archive to be empty after promotion, got %d records", countL3)
+	}
+}
+
 func mathAbs(x float64) float64 {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
+
