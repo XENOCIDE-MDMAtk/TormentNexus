@@ -41,7 +41,7 @@ export const createServerFormSchema = z
                 "validation:serverName.consecutiveUnderscores",
             ),
         description: z.string().optional(),
-        type: McpServerTypeEnum,
+        type: McpServerTypeEnum.optional(),
         command: z.string().optional(),
         args: z.string().optional(),
         url: z.string().optional(),

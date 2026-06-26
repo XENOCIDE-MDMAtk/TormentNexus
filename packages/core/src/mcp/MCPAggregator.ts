@@ -5,6 +5,7 @@ import { deriveSemanticCatalogForServer } from "./catalogMetadata.js";
 import { MCPConfigStore } from "./configStore.js";
 import { namespaceToolName, parseNamespacedToolName } from "./namespaces.js";
 import { StdioClient } from "./StdioClient.js";
+import { SSEClient } from "./SSEClient.js";
 import { MCPTrafficInspector, summarizeParams } from "./trafficInspector.js";
 import type {
 	MCPAggregatedTool,
@@ -67,11 +68,15 @@ export class MCPAggregator {
 		this.configStore = new MCPConfigStore(this.configPath);
 		this.createClient =
 			normalizedOptions.createClient ??
-			((name: string, config: MCPServerConfig) =>
-				new StdioClient(name, {
+			((name: string, config: MCPServerConfig) => {
+				if (config.type === 'SSE' || config.url) {
+					return new SSEClient(name, config) as unknown as MCPClientLike;
+				}
+				return new StdioClient(name, {
 					...config,
 					env: config.env ?? {},
-				}));
+				});
+			});
 		this.restartDelayMs = normalizedOptions.restartDelayMs ?? 5_000;
 		this.connectTimeoutMs = 60_000; // 60s per-server connection timeout for npx-based servers that need package download time
 		this.now = normalizedOptions.now ?? (() => Date.now());

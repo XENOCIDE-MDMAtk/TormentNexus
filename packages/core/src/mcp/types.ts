@@ -1,9 +1,13 @@
 export interface MCPServerConfig {
-    command: string;
-    args: string[];
+    type?: 'STDIO' | 'SSE' | 'STREAMABLE_HTTP';
+    command?: string;
+    args?: string[];
     enabled: boolean;
     env?: Record<string, string>;
     alwaysOn?: boolean;
+    url?: string;
+    bearerToken?: string;
+    headers?: Record<string, string>;
 }
 
 export interface MCPToolDefinition {
