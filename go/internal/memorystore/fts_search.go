@@ -35,13 +35,11 @@ CREATE TRIGGER IF NOT EXISTS l2_vault_ai AFTER INSERT ON l2_vault BEGIN
 END;
 
 CREATE TRIGGER IF NOT EXISTS l2_vault_ad AFTER DELETE ON l2_vault BEGIN
-    INSERT INTO l2_memory_fts(l2_memory_fts, rowid, memory_id, content, tags, kind, category, source_url)
-    VALUES ('delete', old.rowid, old.id, old.content, old.tags, old.kind, old.category, old.source_url);
+    DELETE FROM l2_memory_fts WHERE memory_id = old.id;
 END;
 
 CREATE TRIGGER IF NOT EXISTS l2_vault_au AFTER UPDATE ON l2_vault BEGIN
-    INSERT INTO l2_memory_fts(l2_memory_fts, rowid, memory_id, content, tags, kind, category, source_url)
-    VALUES ('delete', old.rowid, old.id, old.content, old.tags, old.kind, old.category, old.source_url);
+    DELETE FROM l2_memory_fts WHERE memory_id = old.id;
     INSERT INTO l2_memory_fts(memory_id, content, tags, kind, category, source_url)
     VALUES (new.id, new.content, new.tags, new.kind, new.category, new.source_url);
 END;
