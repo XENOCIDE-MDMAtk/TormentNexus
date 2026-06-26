@@ -1,5 +1,10 @@
 # Changelog
  
+## [1.0.0-alpha.172] - 2026-06-26
+
+### Changed
+- **Premium Tab Animations**: Refactored the System & Operations Control dashboard tabs using `framer-motion` layout animations and transition pills for a high-end, dynamic dark-mode user experience.
+
 ## [1.0.0-alpha.171] - 2026-06-26
 
 ### Fixed

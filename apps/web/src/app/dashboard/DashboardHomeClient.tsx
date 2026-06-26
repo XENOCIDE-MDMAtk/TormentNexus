@@ -18,6 +18,8 @@ import { useGoSidecarDashboard } from '../../hooks/useGoSidecarData';
 import { BrowserToolWidget } from '../../components/BrowserToolWidget';
 import { VibeCheckWidget } from '../../components/VibeCheckWidget';
 
+import { motion, AnimatePresence } from 'framer-motion';
+
 // Import sub-pages to consolidate
 import ResearchPage from './research/page';
 import CommandDashboard from './command/page';
@@ -365,24 +367,43 @@ export function DashboardHomeClient() {
   return (
     <div className="flex flex-col min-h-screen bg-black text-zinc-100">
       {/* Sleek Sub-navigation Tab Bar */}
-      <div className="sticky top-0 z-20 flex overflow-x-auto border-b border-zinc-800 bg-zinc-950/95 backdrop-blur px-4 py-2 scrollbar-none gap-1">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => handleTabChange(tab.id)}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-md whitespace-nowrap transition-all duration-150 ${
-              activeTab === tab.id
-                ? 'bg-zinc-800 text-white shadow-sm'
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="sticky top-0 z-20 flex overflow-x-auto border-b border-zinc-800 bg-zinc-950/95 backdrop-blur px-6 py-3 scrollbar-none gap-2">
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => handleTabChange(tab.id)}
+              className={`relative px-4 py-2 text-xs font-semibold rounded-md whitespace-nowrap transition-colors duration-200 ${
+                isActive ? 'text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeTabHome"
+                  className="absolute inset-0 bg-gradient-to-r from-zinc-800 to-zinc-900 rounded-md -z-10 border border-zinc-700/50 shadow-inner"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
       <div className="flex-1 p-4 md:p-6 min-h-0 overflow-auto">
-        {renderActiveTab()}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="h-full"
+          >
+            {renderActiveTab()}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
