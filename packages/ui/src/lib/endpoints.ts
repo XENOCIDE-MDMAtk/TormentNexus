@@ -62,7 +62,7 @@ export function resolveTrpcHttpUrl(envUrl?: string | null): string {
 }
 
 export function resolveCoreWsUrl(envUrl?: string | null): string {
-  return resolveWsUrl({ envUrl, defaultPort: 3001 });
+  return resolveWsUrl({ envUrl, defaultPort: 4300, defaultPath: '/api/mcp/traffic/ws' });
 }
 
 export function resolveCouncilWsUrl(envUrl?: string | null): string {

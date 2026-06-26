@@ -623,6 +623,7 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 	server.workflowEngine.Register(workflow.LintAndTestWorkflow(cfg.WorkspaceRoot))
 	server.workflowEngine.Register(workflow.LifecycleWorkflow(cfg.WorkspaceRoot, server.toolsRegistry))
 
+	server.StartWSBroker()
 	server.registerRoutes()
 	return server
 }
@@ -984,6 +985,7 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/mcp/tools/schema", s.handleMCPToolSchema)
 	s.mux.HandleFunc("/api/mcp/preferences", s.handleMCPToolPreferences)
 	s.mux.HandleFunc("/api/mcp/traffic", s.handleMCPTraffic)
+	s.mux.HandleFunc("/api/mcp/traffic/ws", s.handleMCPTrafficWS)
 	s.mux.HandleFunc("/api/mcp/tool-selection-telemetry", s.handleMCPToolSelectionTelemetry)
 	s.mux.HandleFunc("/api/mcp/tool-selection-telemetry/clear", s.handleMCPClearToolSelectionTelemetry)
 	s.mux.HandleFunc("/api/mcp/server-test", s.handleMCPServerTest)
