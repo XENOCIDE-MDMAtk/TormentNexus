@@ -72,36 +72,12 @@ func NewRegistry() *Registry {
 	r := &Registry{
 		handlers: make(map[string]ToolHandler),
 	}
-	r.Register("run_dag", HandleRunDAG)
-	r.Register("read_file", HandleReadFile)
-	r.Register("write_file", HandleWriteFile)
-	r.Register("list_dir", HandleListDirectory)
-	r.Register("delete_file", HandleDeleteFile)
-	r.Register("ripgrep", HandleRipgrep)
-	r.Register("search_text", HandleRipgrep)
-	r.Register("search_web", HandleSearch)
-	r.Register("list", HandleList)
-	r.Register("info", HandleInfo)
-	r.Register("version", HandleVersion)
-	r.Register("semgrep_version", HandleSemgrepVersion)
-	r.Register("semgrep_scan", HandleSemgrepScan)
-	r.Register("execute_query", HandleExecuteQuery)
-	r.Register("mem0", HandleMem0)
-	r.Register("mem1", HandleMem1)
-	r.Register("mem2", HandleMem2)
-	r.Register("probe", HandleProbe)
-	r.Register("code_research", HandleCodeResearch)
-	r.Register("search_semantic", HandleSearchSemantic)
-	r.Register("search_regex", HandleSearchRegex)
-	r.Register("fetch", HandleFetch)
-	r.Register("get", HandleGet)
-	r.Register("post", HandlePost)
-	r.Register("browser_action", HandleBrowserAction)
-	r.Register("evolve", HandleEvolve)
-	r.Register("memory_scratchpad_get", HandleMemoryScratchpadGet)
-	r.Register("memory_scratchpad_set", HandleMemoryScratchpadSet)
-	r.Register("memory_scratchpad_append", HandleMemoryScratchpadAppend)
-	r.Register("memory_extract_relations", HandleMemoryExtractRelations)
+	// Built-in tools — handlers are in server.go (the only clean handler file).
+	// Additional tools are served via the MCP server (mcp_server.go) and
+	// mcpimpl dispatch (5,400+ generated handlers).
+	r.Register("echo", HandleEcho)
+	r.Register("hello_world", HandleHelloWorld)
+	// Memory scratchpad tools — served via the Go sidecar HTTP API (/api/memory/*)
 	return r
 }
 
