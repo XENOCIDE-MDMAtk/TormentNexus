@@ -696,7 +696,15 @@ func (s *Server) PreWarmCaches() {
 		defer cancel()
 		res, err := hsync.SyncBobbyBookmarks(ctx, dbPath, baseURL, 100, false, false)
 		if err != nil {
-			fmt.Printf("[BobbyBookmarks] Initial sync error: %v\n", err)
+			fmt.Printf("[BobbyBookmarks] Initial sync error: %v. Falling back to local database sync...\n", err)
+			localDbPath := filepath.Join(s.cfg.WorkspaceRoot, "go/bobbybookmarks/bookmarks.db")
+			resLocal, errLocal := hsync.SyncBobbyBookmarksLocal(ctx, dbPath, localDbPath)
+			if errLocal != nil {
+				fmt.Printf("[BobbyBookmarks] Local fallback sync error: %v\n", errLocal)
+			} else {
+				fmt.Printf("[BobbyBookmarks] Local fallback sync complete: fetched=%d, upserted=%d, pages=%d\n",
+					resLocal.Fetched, resLocal.Upserted, resLocal.Pages)
+			}
 		} else {
 			fmt.Printf("[BobbyBookmarks] Initial sync complete: fetched=%d, upserted=%d, pages=%d\n",
 				res.Fetched, res.Upserted, res.Pages)
@@ -710,7 +718,15 @@ func (s *Server) PreWarmCaches() {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 			res, err := hsync.SyncBobbyBookmarks(ctx, dbPath, baseURL, 100, false, false)
 			if err != nil {
-				fmt.Printf("[BobbyBookmarks] Periodic sync error: %v\n", err)
+				fmt.Printf("[BobbyBookmarks] Periodic sync error: %v. Falling back to local database sync...\n", err)
+				localDbPath := filepath.Join(s.cfg.WorkspaceRoot, "go/bobbybookmarks/bookmarks.db")
+				resLocal, errLocal := hsync.SyncBobbyBookmarksLocal(ctx, dbPath, localDbPath)
+				if errLocal != nil {
+					fmt.Printf("[BobbyBookmarks] Local fallback sync error: %v\n", errLocal)
+				} else {
+					fmt.Printf("[BobbyBookmarks] Local fallback sync complete: fetched=%d, upserted=%d, pages=%d\n",
+						resLocal.Fetched, resLocal.Upserted, resLocal.Pages)
+				}
 			} else {
 				fmt.Printf("[BobbyBookmarks] Periodic re-sync complete: fetched=%d, upserted=%d, pages=%d\n",
 					res.Fetched, res.Upserted, res.Pages)

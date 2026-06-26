@@ -85,6 +85,13 @@ func NewRegistry() *Registry {
 	r.Register("mem0", HandleMem0)
 	r.Register("mem1", HandleMem1)
 	r.Register("mem2", HandleMem2)
+	r.Register("probe", HandleProbe)
+	r.Register("code_research", HandleCodeResearch)
+	r.Register("search_semantic", HandleSearchSemantic)
+	r.Register("search_regex", HandleSearchRegex)
+	r.Register("fetch", HandleFetch)
+	r.Register("get", HandleGet)
+	r.Register("post", HandlePost)
 	return r
 }
 
