@@ -519,6 +519,10 @@ func New(cfg config.Config, detector controlplane.ToolProvider) *Server {
 				})
 			}
 		}
+		// Index them into catalog.db for unified search
+		if err := server.skillRegistry.IndexSkillsToCatalog(filepath.Join(cfg.WorkspaceRoot, "catalog.db")); err != nil {
+			fmt.Printf("[Server] Failed to index skills to catalog.db: %v\n", err)
+		}
 	}
 
 	// Register all local skills as provided by this sidecar in the A2A skill registry
