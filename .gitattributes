@@ -4,6 +4,22 @@ tormentnexus.db filter=lfs diff=lfs merge=lfs -text
 tormentnexus.db-shm filter=lfs diff=lfs merge=lfs -text
 tormentnexus.db-wal filter=lfs diff=lfs merge=lfs -text
 catalog.db filter=lfs diff=lfs merge=lfs -text
+# Explicit large DB files (root repo only)
+tormentnexus.db filter=lfs diff=lfs merge=lfs -text
+tormentnexus.db-shm filter=lfs diff=lfs merge=lfs -text
+tormentnexus.db-wal filter=lfs diff=lfs merge=lfs -text
+catalog.db filter=lfs diff=lfs merge=lfs -text
+provider_metrics.db filter=lfs diff=lfs merge=lfs -text
+
+# Submodule DB files are handled by their own .gitattributes — exclude from root
+/bobbybookmarks/*.db !filter !diff !merge
+/bobbybookmarks/*.db-shm !filter !diff !merge
+/enterprise_sales_bot/**/*.db !filter !diff !merge
+/enterprise_sales_bot/**/*.db-shm !filter !diff !merge
+/go/bobbybookmarks/*.db !filter !diff !merge
+/go/bobbybookmarks/*.db-shm !filter !diff !merge
+
+# Catch-all for remaining .db files in root (mostly small DBs)
 *.db filter=lfs diff=lfs merge=lfs -text
 *.db-shm filter=lfs diff=lfs merge=lfs -text
 *.db-wal filter=lfs diff=lfs merge=lfs -text
