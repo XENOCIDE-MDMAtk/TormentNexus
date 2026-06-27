@@ -9,6 +9,7 @@ Integrates the bobbybookmarks subproject into the TormentNexus ecosystem:
 """
 
 import json
+import subprocess
 import sqlite3
 import time
 import urllib.request
@@ -264,6 +265,22 @@ def deduplicate():
     return total
 
 
+def trigger_catalog_scraping():
+    """Configure automatic sync call triggers for catalog scraping via Smithery.ai / Glama.ai"""
+    log("Triggering catalog scraping via Smithery.ai & Glama.ai adapters...")
+    try:
+        # Based on ingestor script existence, we trigger it using TS Node or the node execution wrapper.
+        # Assuming the monorepo has a command, we'll try to run the ingestor directly via npx.
+        # We run it with a timeout to prevent it blocking the watchdog indefinitely.
+        cmd = ["node", "scripts/trigger_catalog_ingestion.js"]
+        proc = subprocess.run(cmd, cwd=str(WORKSPACE), capture_output=True, text=True, timeout=600)
+        if proc.returncode == 0:
+            log("Catalog scraping completed successfully.")
+        else:
+            log(f"Catalog scraping failed. Exit code {proc.returncode}\n{proc.stderr}", "WARN")
+    except Exception as e:
+        log(f"Failed to trigger catalog scraping: {e}", "ERROR")
+
 def generate_report():
     """Use freellm to generate a summary of the merged data."""
     dst = WORKSPACE / "tormentnexus.db"
@@ -321,7 +338,10 @@ def main():
         # Step 3: Deduplicate
         uniq = deduplicate()
 
-        # Step 4: Generate AI summary via freellm
+        # Step 4: Catalog scraping
+        trigger_catalog_scraping()
+
+        # Step 5: Generate AI summary via freellm
         generate_report()
 
         elapsed = time.time() - cycle_start
