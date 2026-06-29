@@ -3,10 +3,12 @@ package httpapi
 import (
 	"encoding/json"
 	"net/http"
+	"path/filepath"
 	"strconv"
 	"strings"
 
 	"github.com/tormentnexushq/tormentnexus-go/internal/memorystore"
+	"github.com/tormentnexushq/tormentnexus-go/internal/tools"
 )
 
 func (s *Server) handleGetMemory(w http.ResponseWriter, r *http.Request) {
@@ -136,6 +138,83 @@ func (s *Server) handleMemorySectionedStatus(w http.ResponseWriter, r *http.Requ
 		"success": true,
 		"data":    status,
 	})
+}
+
+func (s *Server) handleMemoryFTSearch(w http.ResponseWriter, r *http.Request) {
+	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	if query == "" {
+		query = strings.TrimSpace(r.URL.Query().Get("query"))
+	}
+	if query == "" {
+		writeJSON(w, http.StatusBadRequest, map[string]any{"success": false, "error": "missing query"})
+		return
+	}
+	limit := 20
+	if l := r.URL.Query().Get("limit"); l != "" {
+		if p, err := strconv.Atoi(l); err == nil && p > 0 && p <= 100 {
+			limit = p
+		}
+	}
+	includeCold := r.URL.Query().Get("cold") == "true"
+
+	if tools.GlobalVectorStore == nil {
+		writeJSON(w, http.StatusServiceUnavailable, map[string]any{"success": false, "error": "vector store not initialized"})
+		return
+	}
+
+	fts, err := memorystore.NewFTSMemorySearch(tools.GlobalVectorStore.DB())
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error()})
+		return
+	}
+
+	results, err := fts.Search(r.Context(), query, includeCold, limit)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error()})
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]any{"success": true, "data": results})
+}
+
+func (s *Server) handleColdArchive(w http.ResponseWriter, r *http.Request) {
+	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	limit := 20
+	if l := r.URL.Query().Get("limit"); l != "" {
+		if p, err := strconv.Atoi(l); err == nil && p > 0 && p <= 100 {
+			limit = p
+		}
+	}
+
+	if tools.GlobalVectorStore == nil {
+		writeJSON(w, http.StatusServiceUnavailable, map[string]any{"success": false, "error": "vector store not initialized"})
+		return
+	}
+
+	dbPath := filepath.Join(s.cfg.ConfigDir, "memory.db")
+	cold, err := memorystore.NewColdArchive(dbPath)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error()})
+		return
+	}
+
+	if query != "" {
+		results, err := cold.SearchCold(r.Context(), query, limit)
+		if err != nil {
+			writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error()})
+			return
+		}
+		writeJSON(w, http.StatusOK, map[string]any{"success": true, "data": results})
+		return
+	}
+
+	// No query: return count of archived memories
+	count, err := cold.Count(r.Context())
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]any{"success": false, "error": err.Error()})
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"success": true, "count": count})
 }
 
 func (s *Server) handleMemoryArchiveSession(w http.ResponseWriter, r *http.Request) {

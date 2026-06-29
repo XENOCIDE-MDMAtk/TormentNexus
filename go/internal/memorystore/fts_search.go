@@ -72,7 +72,7 @@ func (f *FTSMemorySearch) Search(ctx context.Context, query string, includeCold 
 
 	// Search L2 vault via FTS5
 	rows, err := f.db.QueryContext(ctx, `
-		SELECT f.memory_id, v.session_id, v.type, v.kind, v.category,
+		SELECT f.memory_id, v.session_id, v.memory_type, v.memory_kind, v.category,
 		       v.tags, v.source_url, v.content, v.importance, v.heat_score,
 		       v.last_accessed_at, v.created_at,
 		       bm25(l2_memory_fts, 0, 5.0, 2.0, 1.0, 1.0, 0.5) AS score

@@ -1350,6 +1350,8 @@ func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/api/agent/supervisor/evaluate", s.handleAgentSupervisorEvaluate)
 	s.mux.HandleFunc("/api/agent/director/start", s.handleGoDirectorStart)
 	s.mux.HandleFunc("/api/memory/archive-session", s.handleMemoryArchiveSession)
+	s.mux.HandleFunc("/api/memory/fts-search", s.handleMemoryFTSearch)
+	s.mux.HandleFunc("/api/memory/cold-archive", s.handleColdArchive)
 	s.mux.HandleFunc("/api/memory/hydrate", s.handleMemoryHydrate)
 	s.mux.HandleFunc("/api/memory/hydration/status", s.handleMemoryHydrationStatus)
 	s.mux.HandleFunc("/api/memory/hydration/query", s.handleMemoryHydrationQuery)
