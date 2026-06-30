@@ -164,6 +164,13 @@ export const MAIN_DASHBOARD_NAV: NavItem[] = [
 		tooltip: "Native Go tool registry, handler health, and usage tracking",
 	},
 	{
+		title: "Tool Console",
+		href: "/dashboard/tool-console",
+		icon: Terminal,
+		variant: "ghost",
+		tooltip: "Browse, inspect, and execute native Go tools interactively",
+	},
+	{
 		title: "Context & Sessions",
 		href: "/dashboard/swarm?tab=session",
 		icon: Scroll,
