@@ -54,21 +54,24 @@ export const META_MCP_NAV: NavItem[] = [
 		href: "/dashboard/mcp?tab=dashboard",
 		icon: Server,
 		variant: "default",
-		tooltip: "MCP server overview: connected servers, tool counts, lifecycle status",
+		tooltip:
+			"MCP server overview: connected servers, tool counts, lifecycle status",
 	},
 	{
 		title: "Always-On Tools",
 		href: "/dashboard/mcp?tab=always-on",
 		icon: Power,
 		variant: "ghost",
-		tooltip: "Toggle which built-in tools are always available to the MCP client",
+		tooltip:
+			"Toggle which built-in tools are always available to the MCP client",
 	},
 	{
 		title: "Tool Catalog",
 		href: "/dashboard/mcp?tab=catalog",
 		icon: Search,
 		variant: "ghost",
-		tooltip: "Browse and search the full MCP tool catalog from all registered servers",
+		tooltip:
+			"Browse and search the full MCP tool catalog from all registered servers",
 	},
 	{
 		title: "Tools Inspector",
@@ -82,7 +85,8 @@ export const META_MCP_NAV: NavItem[] = [
 		href: "/dashboard/mcp?tab=registry",
 		icon: Download,
 		variant: "ghost",
-		tooltip: "Discover and install new MCP servers from public registries (Glama, Smithery)",
+		tooltip:
+			"Discover and install new MCP servers from public registries (Glama, Smithery)",
 	},
 	{
 		title: "Tool Chains",
@@ -115,21 +119,24 @@ export const MAIN_DASHBOARD_NAV: NavItem[] = [
 		href: "/dashboard/swarm?tab=swarm",
 		icon: Users,
 		variant: "ghost",
-		tooltip: "Multi-agent orchestration: missions, debates, consensus, and agent management",
+		tooltip:
+			"Multi-agent orchestration: missions, debates, consensus, and agent management",
 	},
 	{
 		title: "Council & Governance",
 		href: "/dashboard/swarm?tab=council",
 		icon: Shield,
 		variant: "ghost",
-		tooltip: "AI governance: council debates, approval workflow, autonomy levels, policies",
+		tooltip:
+			"AI governance: council debates, approval workflow, autonomy levels, policies",
 	},
 	{
 		title: "Brain & Memory",
 		href: "/dashboard/swarm?tab=brain",
 		icon: Brain,
 		variant: "ghost",
-		tooltip: "Memory system: L2 vault, spaced repetition, sleep cycle, FTS5 search",
+		tooltip:
+			"Memory system: L2 vault, spaced repetition, sleep cycle, FTS5 search",
 	},
 	{
 		title: "Memory Explorer",
@@ -150,14 +157,16 @@ export const MAIN_DASHBOARD_NAV: NavItem[] = [
 		href: "/dashboard/swarm?tab=library",
 		icon: Library,
 		variant: "ghost",
-		tooltip: "Skill registry, knowledge graph, RAG ingestion, and directory browser",
+		tooltip:
+			"Skill registry, knowledge graph, RAG ingestion, and directory browser",
 	},
 	{
 		title: "Code Platform",
 		href: "/dashboard/swarm?tab=code",
 		icon: FileCode2,
 		variant: "ghost",
-		tooltip: "AutoDev loops, code execution sandbox, LSP diagnostics, symbol search",
+		tooltip:
+			"AutoDev loops, code execution sandbox, LSP diagnostics, symbol search",
 	},
 ];
 
@@ -169,42 +178,48 @@ export const OPERATIONS_NAV: NavItem[] = [
 		href: "/dashboard/runtime",
 		icon: Cpu,
 		variant: "ghost",
-		tooltip: "Live runtime overview: services, locks, startup readiness, imports",
+		tooltip:
+			"Live runtime overview: services, locks, startup readiness, imports",
 	},
 	{
 		title: "Mesh Network",
 		href: "/dashboard/mesh",
 		icon: Network,
 		variant: "ghost",
-		tooltip: "P2P memory sync mesh: peers, capabilities, broadcasts across machines",
+		tooltip:
+			"P2P memory sync mesh: peers, capabilities, broadcasts across machines",
 	},
 	{
 		title: "Providers & Billing",
 		href: "/dashboard?tab=billing",
 		icon: Key,
 		variant: "ghost",
-		tooltip: "LLM provider routing, fallback chains, quotas, cost history, model pricing",
+		tooltip:
+			"LLM provider routing, fallback chains, quotas, cost history, model pricing",
 	},
 	{
 		title: "Observability",
 		href: "/dashboard/observability",
 		icon: Eye,
 		variant: "ghost",
-		tooltip: "System pulse: event streams, provider status, real-time monitoring",
+		tooltip:
+			"System pulse: event streams, provider status, real-time monitoring",
 	},
 	{
 		title: "Logs & Metrics",
 		href: "/dashboard/logs-metrics",
 		icon: BarChart3,
 		variant: "ghost",
-		tooltip: "System logs, provider breakdown, routing history, system snapshots",
+		tooltip:
+			"System logs, provider breakdown, routing history, system snapshots",
 	},
 	{
 		title: "Browser Automation",
 		href: "/dashboard/browser",
 		icon: Globe,
 		variant: "ghost",
-		tooltip: "Browser controls: pages, history, console logs, scraping, screenshots",
+		tooltip:
+			"Browser controls: pages, history, console logs, scraping, screenshots",
 	},
 	{
 		title: "Workflows",
@@ -218,7 +233,8 @@ export const OPERATIONS_NAV: NavItem[] = [
 		href: "/dashboard?tab=research",
 		icon: FlaskRound,
 		variant: "ghost",
-		tooltip: "Deep research, recursive web crawling, URL ingestion, research queue",
+		tooltip:
+			"Deep research, recursive web crawling, URL ingestion, research queue",
 	},
 	{
 		title: "Command Console",
@@ -244,7 +260,8 @@ export const DATA_NAV: NavItem[] = [
 		href: "/dashboard/imports",
 		icon: DownloadCloud,
 		variant: "ghost",
-		tooltip: "Import external sessions from Claude, Gemini, Aider, and other tools",
+		tooltip:
+			"Import external sessions from Claude, Gemini, Aider, and other tools",
 	},
 	{
 		title: "CLI Harnesses",
@@ -279,7 +296,8 @@ export const DATA_NAV: NavItem[] = [
 		href: "/dashboard?tab=integrations",
 		icon: Globe,
 		variant: "ghost",
-		tooltip: "External integrations: Open WebUI, Ollama, and third-party bridges",
+		tooltip:
+			"External integrations: Open WebUI, Ollama, and third-party bridges",
 	},
 	{
 		title: "Git Chronicle",
