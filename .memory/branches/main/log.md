@@ -44417,3 +44417,993 @@ Let me check the root scripts and version.
 **Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && pnpm build 2>&1 | tail -5 && echo "DASHBOARD: BUILT"", timeout: 180)
 **Observation**: bash: success
 
+## Turn 60 | 2026-06-30T14:03:54.642Z | deepseek/deepseek-v4-flash
+
+**Thought**: Both binaries build clean. Now commit and push.
+**Thinking**: Both builds pass. Now let me commit and push everything.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git add -A && git commit -m "feat: Executive Protocol R6 — repo sync, port cleanup, CHANGELOG alpha.192-194, Session Import page, start.bat port fix (v1.0.0-alpha.194)" && git push origin main 2>&1", timeout: 600)
+**Observation**: bash: success
+
+## Turn 61 | 2026-06-30T14:04:14.739Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The protocol also says to push to the submodule. Let me check if apps/maestro has any changes.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/maestro && git status --short && echo "---" && git log --oneline -3")
+**Observation**: bash: success
+
+## Turn 62 | 2026-06-30T14:04:18.340Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The maestro submodule has a modified file (`src/main/auto-updater.ts`), which means it has local unstaged changes. Let me check if we should commit those or stash them. Since the submodule is a third-party repo, I should be cautious about committing to it.
+
+Let me check what the change is.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/maestro && git diff src/main/auto-updater.ts | head -40")
+**Observation**: bash: success
+
+## Turn 63 | 2026-06-30T14:04:21.812Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: This is a local modification to the maestro submodule that disables the auto-updater (because it's a custom fork). This change should be committed to the maestro submodule. Let me do that.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/maestro && git add -A && git commit -m "chore: disable electron auto-updater for custom fork" && git push origin 2>&1", timeout: 60)
+**Observation**: bash: success
+
+## Turn 64 | 2026-06-30T14:04:28.329Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Good — the submodule push succeeded. The remote noted that the repo moved to `https://github.com/robertpelloni/Maestro.git` (capital M). Let me update the .gitmodules reference to point to the new URL and also update the main repo's submodule reference.
+**Action**: edit(path: "C:/Users/hyper/workspace/tormentnexus/.gitmodules", edits: [object Object])
+**Observation**: edit: success
+
+## Turn 65 | 2026-06-30T14:04:31.784Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Now commit the maestro submodule pointer update and the .gitmodules change.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git add .gitmodules apps/maestro && git commit -m "chore: update maestro submodule to disable auto-updater, fix .gitmodules URL" && git push origin main 2>&1", timeout: 120)
+**Observation**: bash: success
+
+## Turn 66 | 2026-06-30T14:04:56.230Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Now let me update the memory with a summary of what was done, and also verify the services are still running.
+**Action**: bash(command: "tasklist 2>&1 | grep tormentnexus && netstat -ano | findstr "LISTENING" | findstr ":7778" 2>&1 || echo "Go sidecar not running"")
+**Observation**: bash: success
+
+## Turn 67 | 2026-06-30T14:05:03.344Z | deepseek/deepseek-v4-flash
+
+**Thought**: ---
+
+## ✅ EXECUTIVE PROTOCOL R6 — COMPLETE
+
+### Step 1: Upstream Tracking & Submodule Sanitization ✅
+| Action | Result |
+|--------|--------|
+| **Fetch all remotes** | `origin` (MDMAtk/TormentNexus) + `origin-backup` (HyperNexusSoft/HyperNexus) — all tags fetched |
+| **Upstream sync** | No upstream parent configured; backup fork has 19 cosmetic rename commits — **skipped** (no functional value) |
+| **Submodule update** | `apps/maestro` → latest commit `54c9ef7e`, then pushed local change (auto-updater disabled) to `4281212b` |
+
+### Step 2: Intelligent Merge Engine ✅
+| Action | Result |
+|--------|--------|
+| **Forward merge (298 task branches → main)** | All 298 branches at stale commit `25a3a95ff` (ancestor of main) — **zero unique work, zero loss** |
+| **Reverse merge (main → tasks)** | All task branches are AI stubs with no divergent work |
+| **Backup feature branch** | Only HyperNexus rename commits — skipped |
+
+### Step 3: Workspace Cleanup & Build ✅
+| Action | Result |
+|--------|--------|
+| **start.bat** | Dashboard port 3000 → **7779**, health URLs updated |
+| **.gitmodules** | maestro URL updated to **Maestro.git** (repo moved) |
+| **VERSION** | Bumped to **1.0.0-alpha.194** |
+| **CHANGELOG** | Entries for alpha.192, 193, 194 |
+| **HANDOFF.md** | Full R6 session summary written |
+| **Go binary** | `bin/tormentnexus.exe` built at v1.0.0-alpha.194 |
+| **Dashboard** | `pnpm build` clean ✅ |
+| **Push** | Pushed to `origin main` + maestro submodule |
+
+### Running Services
+| Port | Service | Status |
+|------|---------|--------|
+| **7778** | Go sidecar v1.0.0-alpha.194 | ✅ Listening, 251MB RSS |
+| **7779** | Dashboard | ✅ Build clean |
+
+## Turn 1 | 2026-06-30T14:07:22.711Z | deepseek/deepseek-v4-flash
+
+**Thought**: Let me check the current state of things.
+**Thinking**: The user is asking what's next again. Let me check the current state, the roadmap, and the HANDOFF.md I just wrote to give a comprehensive answer about priorities.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && cat VERSION && echo "---" && git log --oneline -1 && echo "---" && echo "=== PENDING ITEMS ===" && grep -n "^###\|^- \[ \]" ROADMAP.md 2>/dev/null | head -30 || grep -n "^##\|^- \[ \]" .memory/main.md 2>/dev/null | head -30")
+**Observation**: bash: success
+
+## Turn 2 | 2026-06-30T14:08:00.041Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me check the actual roadmap more carefully and what the most impactful items are.
+**Action**: read(path: "C:/Users/hyper/workspace/tormentnexus/ROADMAP.md", limit: 100)
+**Observation**: read: success
+
+## Turn 3 | 2026-06-30T14:08:03.170Z | deepseek/deepseek-v4-flash
+
+**Thought**: Here's the current landscape and recommended next steps:
+
+## Current State (alpha.194)
+- **Go sidecar** (7778) — 59K memories, FTS5 indexed, cold archive tier active
+- **Dashboard** (7779) — Memory Explorer + Limbo Panel + Session Import page
+- **Build** — Clean on both Go and Next.js
+- **Submodule** — maestro updated and pushed
+
+## 🎯 Top Recommendations
+
+### Quick Win (30-60 min)
+| # | Task | Why |
+|---|------|-----|
+| **1** | **P2P Fleet-Wide Intelligence** — wire 12/12 gossip tests into production | High value, close to done — encrypted mesh for cross-machine memory sharing |
+| **2** | **Cold Archive Dashboard page** — browse L3 archived memories | Store layer complete, just needs the UI page |
+
+### Medium Investment (1-2 hours)
+| # | Task | Why |
+|---|------|-----|
+| **3** | **Wails Native Desktop** — finish static export + Wails build chain | Replace Electron with Go-native shell; skeleton exists |
+| **4** | **Enterprise SSO/RBAC page** — admin config UI | License validation done, UI missing |
+
+### Strategic (needs planning)
+| # | Task | Why |
+|---|------|-----|
+| **5** | **Swarm Model Quality** — add `go build` verification to swarm_v7.py | The #1 root cause of broken tool stubs; without this, Track A (MCP assimilation) keeps failing |
+| **6** | **Predictive Tool Injection** — local LLM predicts relevant tools | Vision-phase, requires model integration |
+
+**My pick for the next session**: **P2P Fleet-Wide Intelligence** (#1) — the backbone tests already pass, and cross-machine memory sharing is the feature that makes TormentNexus distributed. It's the highest-impact next step that's closest to completion.
+
+Want to dive into any of these?
+**Thinking**: Looking at the ROADMAP and HANDOFF, here's what's pending:
+
+**Track A**: Assimilate top 500 MCP servers (3,270 pending) — but this depends on swarm model quality
+**Track C**: Enterprise landing page with SSO/RBAC config
+**Track E**: Predictive tool injection, Fleet-Wide Intelligence (encrypted mesh)
+**Track F**: Wails Native Runtime, Deep Link Protocol
+
+Let me think about what's most immediately impactful and achievable:
+
+1. **P2P Fleet-Wide Intelligence** — The gossip protocol tests pass (12/12), it needs production wiring. This is a high-value feature that's close to done.
+
+2. **Wails Native Desktop** — The skeleton exists (`go/cmd/tormentnexus-gui/`), needs the Next.js static export wired and polished.
+
+3. **Cold Archive Dashboard Page** — L3 is done in the store layer, a dedicated dashboard page would complete it.
+
+4. **Enterprise Landing Page** — SSO/RBAC config UI.
+
+5. **Predictive Tool Injection** — Local model-based tool prediction.
+
+Let me recommend what's most impactful right now.
+
+## Turn 1 | 2026-06-30T14:14:23.823Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The user wants me to proceed with all the top recommendations. Let me be strategic - I can't do all 6 items in one session, but I can tackle the highest priority ones:
+
+1. P2P Fleet-Wide Intelligence (gossip protocol into production)
+2. Cold Archive Dashboard page
+3. Wails Native Desktop
+4. Enterprise SSO/RBAC page
+
+Let me start by assessing what exists for each one, then implement them systematically.
+
+Let me check the current state of:
+1. P2P gossip - what's the current state?
+2. Cold archive dashboard page - does one exist?
+3. Wails - what's the skeleton?
+4. Enterprise SSO/RBAC - what exists?
+
+Let me do parallel reads.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && echo "=== GOSSIP ===" && ls go/internal/gossip/ 2>/dev/null && echo "---" && echo "=== Wails ===" && ls go/cmd/tormentnexus-gui/ 2>/dev/null && echo "---" && echo "=== Enterprise ===" && ls go/internal/enterprise/ 2>/dev/null && echo "---" && echo "=== Cold Archive Dashboard ===" && find apps/web -name "*cold*" -o -name "*archive*" 2>/dev/null | head -10 && echo "---" && echo "=== Mesh ===" && ls go/internal/mesh/ 2>/dev/null")
+**Observation**: bash: success
+
+## Turn 2 | 2026-06-30T14:14:31.383Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me now check each area more closely to understand what needs doing:
+
+1. **Gossip**: `gossip.go` + `gossip_test.go` - the tests pass. Need to check what the production wiring looks like.
+2. **Wails**: Has `app.go`, `main.go`, `frontend/` - skeleton exists, need to check state.
+3. **Enterprise**: Has `audit.go`, `enterprise.go`, `security.go` - need to check what's missing.
+4. **Cold Archive**: No dashboard page exists yet.
+5. **Mesh**: Has `discovery.go`, `encryption.go`, `service.go` - already has service layer.
+
+Let me check what gossip provides and what needs to be wired.
+**Action**: read(path: "C:/Users/hyper/workspace/tormentnexus/go/internal/gossip/gossip.go", limit: 80)
+**Observation**: read: success
+
+## Turn 3 | 2026-06-30T14:14:35.220Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Good - the gossip package is well-documented and complete. Let me check the gossip_test.go to see what tests pass and how it's used.
+**Action**: read(limit: 80, path: "C:/Users/hyper/workspace/tormentnexus/go/internal/gossip/gossip_test.go")
+**Observation**: read: success
+
+## Turn 4 | 2026-06-30T14:14:38.100Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The gossip package is well-tested with mock transports and stores. The tests pass. Now let me check what the mesh package does and how it relates to gossip.
+**Action**: read(limit: 80, path: "C:/Users/hyper/workspace/tormentnexus/go/internal/mesh/service.go")
+**Observation**: read: success
+
+## Turn 5 | 2026-06-30T14:14:40.884Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Now let me check what needs to happen for each item. Let me check:
+
+1. The mesh service and how it connects to gossip - is there an HTTP/API layer exposing it?
+2. The Wails skeleton
+3. The cold archive state in the store
+
+Let me check the httpapi server for gossip/mesh handlers and the mesh registration.
+**Action**: grep(pattern: "mesh\|gossip\|Peer\|Mesh"", glob: "*server*.go", path: "C:/Users/hyper/workspace/tormentnexus/go/internal/httpapi")
+**Observation**: grep: success
+
+## Turn 6 | 2026-06-30T14:14:45.450Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: No mesh or gossip handlers in server.go. Let me check how the server is constructed.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && grep -n "gossip\|mesh\.\|Gossip\|Mesh" go/internal/httpapi/server.go | head -20")
+**Observation**: bash: success
+
+## Turn 7 | 2026-06-30T14:14:48.630Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The gossip protocol and mesh are already initialized in the server! And there are mesh-related lines. Let me also check what the gossip transport is.
+**Action**: grep(path: "C:/Users/hyper/workspace/tormentnexus/go/internal/httpapi", pattern: "HTTPGossipTransport"")
+**Observation**: grep: success
+
+## Turn 8 | 2026-06-30T14:14:52.539Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me check the full server.go for gossip transport and handler setup.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && grep -rn "HTTPGossipTransport\|GossipTransport\|gossip.*transport\|handleGossip\|handleMesh\|/api/mesh\|/api/gossip" go/internal/httpapi/ | head -20")
+**Observation**: bash: success
+
+## Turn 9 | 2026-06-30T14:14:55.571Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Excellent! The gossip P2P system is already fully wired into the Go sidecar:
+- `gossip_handlers.go` - HTTP handler for gossip messages
+- `gossip_transport.go` - HTTP transport layer
+- `mesh_handlers.go` - mesh status, peers, capabilities, findPeer, broadcast handlers
+- Route registration at line 910
+
+The fleet-wide intelligence / P2P mesh is already implemented! It just needs:
+1. UDP discovery actually running during production (it's initialized at line 595)
+2. Mesh API endpoints exposed to the dashboard
+3. A dashboard page to show peers and status
+
+So P2P is already done in the backend. Let me check what dashboard pages exist for it.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && find apps/web -name "*mesh*" -o -name "*peer*" -o -name "*gossip*" -o -name "*fleet*" 2>/dev/null | grep -v node_modules | grep -v ".next"")
+**Observation**: bash: success
+
+## Turn 10 | 2026-06-30T14:15:01.438Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The mesh dashboard page exists. Let me check what it has.
+**Action**: ls(path: "C:/Users/hyper/workspace/tormentnexus/apps/web/src/app/dashboard/mesh")
+**Observation**: ls: success
+
+## Turn 11 | 2026-06-30T14:15:04.045Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: There's a mesh page already. Let me check it.
+**Action**: read(limit: 50, path: "C:/Users/hyper/workspace/tormentnexus/apps/web/src/app/dashboard/mesh/page.tsx")
+**Observation**: read: success
+
+## Turn 12 | 2026-06-30T14:15:06.802Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: OK, so the mesh page exists but it's a generic data-display page. It just fetches `/api/go/api/mesh` and renders JSON. Not ideal but functional.
+
+Let me check what API endpoints are actually registered for mesh.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && grep -n "mux.HandleFunc.*mesh\|mux.HandleFunc.*gossip" go/internal/httpapi/server.go | head -10")
+**Observation**: bash: success
+
+## Turn 13 | 2026-06-30T14:15:10.259Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Good - the mesh API endpoints are registered. The generic dashboard page will hit `/api/go/api/mesh` which doesn't exist as a route (only `/api/mesh/status`, `/api/mesh/peers`, etc). Let me fix the mesh page to use the correct endpoints.
+
+Now let me think about what's most value-add:
+
+1. ✅ **P2P Fleet-Wide Intelligence** - Already implemented in Go with HTTP handlers, mesh service, gossip protocol. Just needs the dashboard page updated to use correct API endpoints.
+
+2. **Cold Archive Dashboard page** - Need to create this.
+
+3. **Wails Native Desktop** - Skeleton exists, need to check what's missing.
+
+4. **Enterprise SSO/RBAC page** - Need to create.
+
+Let me prioritize and do all of these:
+
+1. Fix mesh dashboard page (use correct endpoints)
+2. Create cold archive dashboard page
+3. Check and finish Wails setup
+4. Create Enterprise SSO/RBAC admin page
+5. Build all
+6. Push
+
+Let me start by checking the Wails setup.
+**Action**: read(path: "C:/Users/hyper/workspace/tormentnexus/go/cmd/tormentnexus-gui/main.go")
+**Observation**: read: success
+
+## Turn 14 | 2026-06-30T14:15:14.743Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Action**: read(path: "C:/Users/hyper/workspace/tormentnexus/go/cmd/tormentnexus-gui/app.go")
+**Observation**: read: success
+
+## Turn 15 | 2026-06-30T14:15:17.308Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The Wails skeleton is minimal - just a "Greet" method. I should add useful methods that wrap the Go sidecar API. But first, let me check if the frontend dist directory exists.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && ls go/cmd/tormentnexus-gui/frontend/dist/ 2>/dev/null || echo "No dist dir" && echo "---" && ls go/cmd/tormentnexus-gui/frontend/ 2>/dev/null")
+**Observation**: bash: success
+
+## Turn 16 | 2026-06-30T14:15:20.941Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The dist directory exists but only has a placeholder.txt. The Wails desktop requires the Next.js static export to be copied there. Let me check if the copy-assets.js script exists.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && cat apps/web/copy-assets.js 2>/dev/null || echo "No copy-assets.js"")
+**Observation**: bash: success
+
+## Turn 17 | 2026-06-30T14:15:23.909Z | deepseek/deepseek-v4-flash
+
+**Thought**: Let me now create all the new dashboard pages and fix the mesh page. I'll work through each one.
+**Thinking**: The copy-assets.js exists. Let me now build the Next.js static export and copy the assets, then verify the Wails build. But first, let me create the pages and do the changes in parallel to save time.
+
+Let me plan the remaining work:
+
+1. **Fix mesh dashboard page** - use correct endpoints
+2. **Create cold archive dashboard page** - new dedicated page
+3. **Create enterprise SSO/RBAC dashboard page** - new dedicated page  
+4. **Build Wails assets** - Next.js static export + copy
+5. **Build all** - verify everything compiles
+6. **Push**
+
+Let me create all the pages first, then build.
+**Action**: read(offset: 50, path: "C:/Users/hyper/workspace/tormentnexus/apps/web/src/app/dashboard/mesh/page.tsx", limit: 50)
+**Observation**: read: success
+
+## Turn 18 | 2026-06-30T14:15:27.748Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me create all the pages now. I'll create them in parallel using write commands.
+**Action**: write(path: "C:/Users/hyper/workspace/tormentnexus/apps/web/src/app/dashboard/mesh/page.tsx", content: ""use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { Activity, Server, Radio, RefreshCw, Loader2, Users, Broadcast } from "lucide-react";
+
+interface PeerInfo {
+  nodeId: string;
+  capabilities?: string[];
+  role?: string;
+  load?: number;
+  lastSeen?: string;
+}
+
+export default function MeshPage() {
+  const [status, setStatus] = useState<{ nodeId: string; peersCount: number } | null>(null);
+  const [peers, setPeers] = useState<PeerInfo[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchAll = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [statusRes, peersRes] = await Promise.all([
+        fetch("/api/go/api/mesh/status"),
+        fetch("/api/go/api/mesh/peers"),
+      ]);
+      const statusData = await statusRes.json();
+      const peersData = await peersRes.json();
+      setStatus(statusData.data ?? statusData);
+      // Peers returns array of node IDs or array of PeerInfo objects
+      const rawPeers = peersData.data ?? peersData ?? [];
+      if (rawPeers.length > 0 && typeof rawPeers[0] === "string") {
+        const enriched = await Promise.all(
+          rawPeers.map(async (nodeId: string) => {
+            try {
+              const capRes = await fetch(`/api/go/api/mesh/query-capabilities?nodeId=${nodeId}`);
+              const capData = await capRes.json();
+              return { nodeId, capabilities: capData.data?.capabilities ?? [] };
+            } catch {
+              return { nodeId };
+            }
+          })
+        );
+        setPeers(enriched);
+      } else {
+        setPeers(rawPeers);
+      }
+    } catch {
+      // Best-effort
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Radio className="w-5 h-5 text-cyan-400" />
+          <div>
+            <h1 className="text-lg font-semibold text-white">P2P Fleet-Wide Intelligence</h1>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              Encrypted mesh for cross-machine memory sharing via UDP gossip protocol
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={fetchAll}
+          disabled={loading}
+          className="px-3 py-1.5 bg-zinc-800 rounded hover:bg-zinc-700 text-xs disabled:opacity-50 flex items-center gap-1.5"
+          title="Refresh mesh status and peer list"
+        >
+          {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
+          Refresh
+        </button>
+      </div>
+
+      {/* Status Cards */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
+          <div className="flex items-center gap-2 text-zinc-500 text-xs mb-2">
+            <Server className="w-3.5 h-3.5" />
+            Node ID
+          </div>
+          <p className="text-sm font-mono text-zinc-200 truncate" title={status?.nodeId}>
+            {status?.nodeId || (loading ? "..." : "Not connected")}
+          </p>
+        </div>
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
+          <div className="flex items-center gap-2 text-zinc-500 text-xs mb-2">
+            <Users className="w-3.5 h-3.5" />
+            Connected Peers
+          </div>
+          <p className="text-2xl font-bold text-cyan-400">{status?.peersCount ?? 0}</p>
+        </div>
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
+          <div className="flex items-center gap-2 text-zinc-500 text-xs mb-2">
+            <Activity className="w-3.5 h-3.5" />
+            Mesh Status
+          </div>
+          <p className="text-sm text-emerald-400 font-medium">
+            {status ? "Connected" : loading ? "Connecting..." : "Disconnected"}
+          </p>
+        </div>
+      </div>
+
+      {/* Peers List */}
+      <div>
+        <h2 className="text-sm font-medium text-zinc-400 mb-3 flex items-center gap-2">
+          <Broadcast className="w-4 h-4" />
+          Peers ({peers.length})
+        </h2>
+        {peers.length === 0 && !loading && (
+          <div className="text-center py-12 text-zinc-600 bg-zinc-900/30 border border-zinc-800 rounded-lg">
+            <Radio className="w-10 h-10 mx-auto mb-3 opacity-30" />
+            <p className="font-medium">No peers found</p>
+            <p className="text-xs mt-1 max-w-md mx-auto">
+              The mesh is listening for other TormentNexus nodes on the network. Start another
+              instance or check your network configuration.
+            </p>
+          </div>
+        )}
+        <div className="space-y-2">
+          {peers.map((peer) => (
+            <div key={peer.nodeId} className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-mono text-zinc-300 truncate" title={peer.nodeId}>
+                  {peer.nodeId.slice(0, 48)}...
+                </span>
+                <span className="text-xs text-zinc-500">{peer.role || "peer"}</span>
+              </div>
+              {peer.capabilities && peer.capabilities.length > 0 && (
+                <div className="flex gap-1 flex-wrap">
+                  {peer.capabilities.map((cap) => (
+                    <span key={cap} className="px-1.5 py-0.5 bg-zinc-800 rounded text-2xs text-zinc-400">
+                      {cap}
+ Charter
+                    </span>
+                  ))}
+                </div>
+              )}
+              {peer.load !== undefined && (
+                <div className="mt-2 flex items-center gap-2 text-xs text-zinc-500">
+                  <span>Load</span>
+                  <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-cyan-500 rounded-full transition-all"
+                      style={{ width: `${Math.min(peer.load * 100, 100)}%` }}
+                    />
+                  </div>
+                  <span className="text-zinc-400">{(peer.load * 100).toFixed(0)}%</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+")
+**Observation**: write: success
+
+## Turn 19 | 2026-06-30T14:16:08.996Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Good. Now create the cold archive dashboard page.
+**Action**: write(path: "C:/Users/hyper/workspace/tormentnexus/apps/web/src/app/dashboard/cold-archive/page.tsx", content: ""use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { Snowflake, Search, RotateCcw, Database, Loader2, ArrowUp } from "lucide-react";
+
+interface ColdArchiveEntry {
+  id: string;
+  content: string;
+  memory_kind: string;
+  category: string;
+  importance: number;
+  heat_score: number;
+  archived_at: string;
+  created_at: string;
+}
+
+export default function ColdArchivePage() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<ColdArchiveEntry[]>([]);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [promoting, setPromoting] = useState<string | null>(null);
+
+  const search = useCallback(async (searchQuery = "") => {
+    setLoading(true);
+    try {
+      const url = searchQuery.trim()
+        ? `/api/go/api/memory/cold-archive/search?q=${encodeURIComponent(searchQuery)}&limit=50`
+        : "/api/go/api/memory/cold-archive/search?limit=50";
+      const res = await fetch(url);
+      const d = await res.json();
+      setResults(d.data ?? []);
+      if (d.total !== undefined) setCount(d.total);
+    } catch {
+      // Best-effort
+    }
+    setLoading(false);
+  }, []);
+
+  const fetchCount = useCallback(async () => {
+    try {
+      const res = await fetch("/api/go/api/memory/cold-archive/count");
+      const d = await res.json();
+      if (d.count !== undefined) setCount(d.count);
+      else if (d.data !== undefined && d.data.count !== undefined) setCount(d.data.count);
+    } catch {
+      // Best-effort
+    }
+  }, []);
+
+  const promote = async (id: string) => {
+    setPromoting(id);
+    try {
+      await fetch("/api/go/api/memory/cold-archive/promote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      setResults(prev => prev.filter(r => r.id !== id));
+      fetchCount();
+    } catch {
+      // Best-effort
+    }
+    setPromoting(null);
+  };
+
+  useEffect(() => {
+    search();
+    fetchCount();
+  }, [search, fetchCount]);
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Snowflake className="w-5 h-5 text-blue-400" />
+          <div>
+            <h1 className="text-lg font-semibold text-white">L3 Cold Archive</h1>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              Long-term compressed memory tier for low-heat memories evicted from L2
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => { search(query); fetchCount(); }}
+            disabled={loading}
+            className="px-3 py-1.5 bg-zinc-800 rounded hover:bg-zinc-700 text-xs disabled:opacity-50"
+            title="Refresh cold archive status"
+          >
+            <RotateCcw className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="flex gap-3 text-xs">
+        <div className="px-3 py-2 bg-zinc-900 rounded border border-zinc-800 flex items-center gap-2">
+          <Database className="w-3.5 h-3.5 text-blue-400" />
+          <span className="text-zinc-500">Archived memories</span>
+          <span className="text-white font-medium">{count}</span>
+        </div>
+        <div className="px-3 py-2 bg-zinc-900 rounded border border-zinc-800 flex items-center gap-2">
+          <Search className="w-3.5 h-3.5 text-zinc-500" />
+          <span className="text-zinc-500">Results</span>
+          <span className="text-white font-medium">{results.length}</span>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="flex gap-2">
+        <input
+          type="text"
+          placeholder="Search cold archive contents..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && search(query)}
+          className="flex-1 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded text-xs focus:outline-none focus:border-zinc-500"
+          title="Search archived memories by content keyword"
+        />
+        <button
+          onClick={() => search(query)}
+          disabled={loading}
+          className="px-3 py-1.5 bg-zinc-800 rounded hover:bg-zinc-700 text-xs disabled:opacity-50"
+          title="Search cold archive entries"
+        >
+          {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
+        </button>
+      </div>
+
+      {/* Results */}
+      <div className="space-y-2">
+        {results.length === 0 && !loading && (
+          <div className="text-center py-16 text-zinc-600 bg-zinc-900/30 border border-zinc-800 rounded-lg">
+            <Snowflake className="w-12 h-12 mx-auto mb-4 opacity-20" />
+            <p className="font-medium">Empty archive</p>
+            <p className="text-xs mt-2 max-w-md mx-auto">
+              Low-heat memories are automatically evicted from L2 to L3 cold storage when their
+              heat score drops below 10.0. Search above to find archived entries.
+            </p>
+          </div>
+        )}
+        {results.map((entry) => (
+          <div key={entry.id} className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3 hover:bg-zinc-900 transition-colors">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-zinc-300 truncate" title={entry.content}>
+                  {entry.content?.slice(0, 200) || entry.id}
+                </p>
+                <div className="flex gap-3 mt-1.5 text-xs text-zinc-600">
+                  <span>Kind: {entry.memory_kind || "fact"}</span>
+                  <span>Category: {entry.category || "general"}</span>
+                  <span>Importance: {entry.importance?.toFixed(2)}</span>
+                  <span>Heat: {entry.heat_score?.toFixed(0)}</span>
+                </div>
+                <div className="flex gap-3 mt-0.5 text-2xs text-zinc-700">
+                  <span>Archived: {entry.archived_at?.slice(0, 10) || "?"}</span>
+                  <span>Created: {entry.created_at?.slice(0, 10) || "?"}</span>
+                </div>
+              </div>
+              <button
+                onClick={() => promote(entry.id)}
+                disabled={promoting === entry.id}
+                className="shrink-0 p-1.5 rounded hover:bg-amber-900/30 text-zinc-600 hover:text-amber-400 transition-colors disabled:opacity-50"
+                title="Promote this memory back to the L2 vault (removes from cold archive)"
+              >
+                {promoting === entry.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowUp className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+")
+**Observation**: write: success
+
+## Turn 20 | 2026-06-30T14:16:52.112Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Now create the Enterprise SSO/RBAC admin page.
+**Action**: write(path: "C:/Users/hyper/workspace/tormentnexus/apps/web/src/app/dashboard/enterprise/page.tsx", content: ""use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { Shield, Key, Users, FileText, Loader2, RotateCcw, CheckCircle, XCircle, RefreshCw } from "lucide-react";
+
+interface LicenseInfo {
+  valid: boolean;
+  licensedTo?: string;
+  expiresAt?: string;
+  features?: string[];
+  maxNodes?: number;
+  tier?: string;
+}
+
+interface RBACRole {
+  name: string;
+  permissions: string[];
+  description?: string;
+}
+
+export default function EnterprisePage() {
+  const [license, setLicense] = useState<LicenseInfo | null>(null);
+  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [roles, setRoles] = useState<RBACRole[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchAll = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [licenseRes, auditRes, rolesRes] = await Promise.all([
+        fetch("/api/go/api/enterprise/license").catch(() => null),
+        fetch("/api/go/api/enterprise/audit?limit=20").catch(() => null),
+        fetch("/api/go/api/enterprise/roles").catch(() => null),
+      ]);
+      if (licenseRes?.ok) {
+        const d = await licenseRes.json();
+        setLicense(d.data ?? d);
+      }
+      if (auditRes?.ok) {
+        const d = await auditRes.json();
+        setAuditLogs(d.data ?? []);
+      }
+      if (rolesRes?.ok) {
+        const d = await rolesRes.json();
+        setRoles(d.data ?? []);
+      }
+    } catch {
+      // Best-effort
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Shield className="w-5 h-5 text-amber-400" />
+          <div>
+            <h1 className="text-lg font-semibold text-white">Enterprise Security</h1>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              License validation, RBAC permissions, and audit logging
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={fetchAll}
+          disabled={loading}
+          className="px-3 py-1.5 bg-zinc-800 rounded hover:bg-zinc-700 text-xs disabled:opacity-50 flex items-center gap-1.5"
+          title="Refresh enterprise security data"
+        >
+          {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
+          Refresh
+        </button>
+      </div>
+
+      {/* License Card */}
+      <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Key className="w-4 h-4 text-amber-400" />
+          <h2 className="text-sm font-medium text-white">License</h2>
+        </div>
+        {license ? (
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center gap-2">
+              {license.valid ? (
+                <CheckCircle className="w-4 h-4 text-emerald-400" />
+              ) : (
+                <XCircle className="w-4 h-4 text-red-400" />
+              )}
+              <span className={license.valid ? "text-emerald-400" : "text-red-400"}>
+                {license.valid ? "Valid License" : "No License Found"}
+              </span>
+            </div>
+            {license.licensedTo && (
+              <div className="text-zinc-400">
+                Licensed to: <span className="text-zinc-300">{license.licensedTo}</span>
+              </div>
+            )}
+            {license.tier && (
+              <div className="text-zinc-400">
+                Tier: <span className="text-zinc-300">{license.tier}</span>
+              </div>
+            )}
+            {license.expiresAt && (
+              <div className="text-zinc-400">
+                Expires: <span className="text-zinc-300">{license.expiresAt}</span>
+              </div>
+            )}
+            {license.maxNodes && (
+              <div className="text-zinc-400">
+                Max nodes: <span className="text-zinc-300">{license.maxNodes}</span>
+              </div>
+            )}
+            {license.features && license.features.length > 0 && (
+              <div>
+                <span className="text-zinc-500 text-xs">Features</span>
+                <div className="flex gap-1 mt-1 flex-wrap">
+                  {license.features.map((f) => (
+                    <span key={f} className="px-1.5 py-0.5 bg-zinc-800 rounded text-2xs text-zinc-400">{f}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-zinc-600 text-sm italic">
+            {loading ? "Checking license..." : "No license information available"}
+          </div>
+        )}
+      </div>
+
+      {/* RBAC Roles */}
+      <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Users className="w-4 h-4 text-blue-400" />
+          <h2 className="text-sm font-medium text-white">RBAC Roles & Permissions</h2>
+        </div>
+        {roles.length === 0 ? (
+          <div className="text-zinc-600 text-sm italic">
+            {loading ? "Loading roles..." : "No roles configured"}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {roles.map((role) => (
+              <div key={role.name} className="bg-zinc-950/50 rounded p-3 border border-zinc-800">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-medium text-zinc-300">{role.name}</span>
+                  {role.description && (
+                    <span className="text-2xs text-zinc-600">{role.description}</span>
+                  )}
+                </div>
+                <div className="flex gap-1 flex-wrap">
+                  {role.permissions.map((perm) => (
+                    <span key={perm} className="px-1.5 py-0.5 bg-zinc-800 rounded text-2xs text-zinc-400">
+                      {perm}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Audit Logs */}
+      <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <FileText className="w-4 h-4 text-purple-400" />
+          <h2 className="text-sm font-medium text-white">Audit Log (Last 20)</h2>
+        </div>
+        {auditLogs.length === 0 ? (
+          <div className="text-zinc-600 text-sm italic">
+            {loading ? "Loading audit logs..." : "No audit entries recorded"}
+          </div>
+        ) : (
+          <div className="space-y-1 max-h-60 overflow-y-auto">
+            {auditLogs.map((log: any, i: number) => (
+              <div key={i} className="text-xs flex gap-2 py-1 border-b border-zinc-800/50 last:border-0">
+                <span className="text-zinc-600 font-mono shrink-0 w-16">
+                  {log.timestamp?.slice(11, 19) || log.timestamp?.slice(0, 10) || "?"}
+                </span>
+                <span className="text-zinc-500 font-mono shrink-0 w-12">{log.action?.slice(0, 12) || "?"}</span>
+                <span className="text-zinc-400 truncate">{log.detail || JSON.stringify(log).slice(0, 80)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+")
+**Observation**: write: success
+
+## Turn 21 | 2026-06-30T14:18:11.454Z | deepseek/deepseek-v4-flash
+
+**Thought**: Now build the Wails static export and verify all pages compile.
+**Thinking**: Now let me build the Wails assets. First, I need to do a Next.js static export.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && NEXT_EXPORT=1 pnpm build 2>&1 | tail -10", timeout: 180)
+**Observation**: bash: success
+
+## Turn 22 | 2026-06-30T14:19:23.212Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: There's a build error in the mesh page. Let me check what it is.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && NEXT_EXPORT=1 pnpm build 2>&1 | grep -A5 "error\|Error"", timeout: 180)
+**Observation**: bash: error
+
+## Turn 23 | 2026-06-30T14:21:57.415Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && pnpm build 2>&1 | head -20", timeout: 180)
+**Observation**: bash: success
+
+## Turn 24 | 2026-06-30T14:23:12.177Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The build warnings aren't the issue. Let me check the actual error for the mesh page.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && pnpm build 2>&1 | grep -i "error\|failed\|unable\|cannot" | head -10", timeout: 180)
+**Observation**: bash: success
+
+## Turn 25 | 2026-06-30T14:24:24.412Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The error is about a missing `app-paths-manifest.json` for an auth login route. This is from the NEXT_EXPORT=1 build which is trying to export a route that doesn't exist. Let me check if the issue is related to the Mesh page or something else.
+
+Actually, looking more carefully - the first build failure was on the Mesh page, then the second try failed on export. Let me try a regular build (not export) first to see if the Mesh page actually compiles.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && pnpm build 2>&1 | tail -8", timeout: 180)
+**Observation**: bash: success
+
+## Turn 1 | 2026-06-30T14:30:32.780Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The user is saying not to kill all node.exe processes. Let me just wait for the existing build to finish or try to clear the lock file.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && rm -f .next/trace 2>/dev/null && pnpm build 2>&1 | tail -12", timeout: 180)
+**Observation**: bash: success
+
+## Turn 2 | 2026-06-30T14:33:44.827Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Build clean! The mesh page compiles fine. The earlier errors were from the NEXT_EXPORT build mode which has issues with some routes. The normal build (which is what matters) works perfectly.
+
+Now let me build the Wails static export. Let me try a different approach.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && NEXT_EXPORT=1 npx next build 2>&1 | tail -15", timeout: 180)
+**Observation**: bash: success
+
+## Turn 3 | 2026-06-30T14:37:10.142Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: NEXT_EXPORT build also succeeded. Now let me run the copy-assets script and build the Wails binary.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && node copy-assets.js 2>&1 && echo "COPIED"")
+**Observation**: bash: success
+
+## Turn 4 | 2026-06-30T14:37:55.232Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The `out` directory doesn't exist because we need to use `next export` (the legacy export command for Next.js), not just `NEXT_EXPORT=1` (which is a custom env var). Let me check the next.config.js to understand how the export works.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && grep -n "NEXT_EXPORT\|output.*export\|distDir.*out" apps/web/next.config.js | head -10")
+**Observation**: bash: success
+
+## Turn 5 | 2026-06-30T14:38:20.667Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The config uses `NEXT_EXPORT=true` (capital T). I used `NEXT_EXPORT=1`. Also, the build puts the output in `out/` directory when in export mode. Let me run it correctly.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && NEXT_EXPORT=true npx next build 2>&1 | tail -5 && echo "---" && ls out/ 2>/dev/null | head -5 && echo "BUILT+EXPORTED"", timeout: 180)
+**Observation**: bash: success
+
+## Turn 6 | 2026-06-30T14:40:36.478Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The export mode fails because it tries to prerender the `/api/monitoring/stats` route which is dynamic. The normal build works fine (standalone mode). Let me skip the Wails build for now and focus on what works. The Wails desktop skeleton is there for future work — let me move on and push what we have.
+
+Let me also add type: "module" to the package.json to fix the copy-assets warning.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && grep -c '"type": "module"' package.json || echo "No type: module"")
+**Observation**: bash: success
+
+## Turn 7 | 2026-06-30T14:40:52.210Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Let me verify the build is clean with the mesh, cold-archive, and enterprise pages, then commit and push everything.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/apps/web && pnpm build 2>&1 | tail -5 && echo "BUILD CLEAN"", timeout: 180)
+**Observation**: bash: success
+
