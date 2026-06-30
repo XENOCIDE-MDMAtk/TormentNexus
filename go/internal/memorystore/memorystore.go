@@ -40,8 +40,8 @@ func (m *Manager) startSleepCycleEngine() {
 		_ = m.vs.ConsolidateMemories(ctx)
 		_ = m.vs.MentalModelReflection(ctx)
 		if limbo != nil {
-			_ = buryOrphanedMemories(ctx, m.vs.db, limbo)
-			_ = dreamCycle(ctx, m.vs.db)
+			_ = BuryOrphanedMemories(ctx, m.vs.db, limbo)
+			_ = DreamCycle(ctx, m.vs.db)
 		}
 
 		ticker := time.NewTicker(1 * time.Hour)
@@ -52,8 +52,8 @@ func (m *Manager) startSleepCycleEngine() {
 			_ = m.vs.ConsolidateMemories(ctx)
 			_ = m.vs.MentalModelReflection(ctx)
 			if limbo != nil {
-				_ = buryOrphanedMemories(ctx, m.vs.db, limbo)
-				_ = dreamCycle(ctx, m.vs.db)
+				_ = BuryOrphanedMemories(ctx, m.vs.db, limbo)
+				_ = DreamCycle(ctx, m.vs.db)
 				// Hard-delete limbo entries older than 90 days
 				n, _ := limbo.HardDelete(ctx, 90*24*time.Hour)
 				if n > 0 {

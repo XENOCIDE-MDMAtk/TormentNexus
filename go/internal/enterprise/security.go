@@ -25,12 +25,12 @@ func NewEnterpriseWrapper(provider SecurityProvider) *EnterpriseWrapper {
 func (ew *EnterpriseWrapper) Info() map[string]any {
 	// Read license from environment or config
 	return map[string]any{
-		"valid":       true,
-		"licensedTo":  "TormentNexus Enterprise",
-		"tier":        "enterprise",
-		"maxNodes":    10,
-		"features":    []string{"sso", "rbac", "audit", "encryption"},
-		"expiresAt":   "",
+		"valid":      true,
+		"licensedTo": "TormentNexus Enterprise",
+		"tier":       "enterprise",
+		"maxNodes":   10,
+		"features":   []string{"sso", "rbac", "audit", "encryption"},
+		"expiresAt":  "",
 	}
 }
 

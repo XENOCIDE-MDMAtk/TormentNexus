@@ -861,6 +861,66 @@ func (s *Server) PreWarmCaches() {
 			}
 		}
 	}()
+
+	// Memory maintenance: periodic decay, consolidation, cold archive, and dream cycle
+	go func() {
+		time.Sleep(2 * time.Minute) // Wait for server to settle
+		vs := tools.GlobalVectorStore
+		if vs == nil {
+			fmt.Println("[MemoryMaintenance] VectorStore not initialized, skipping periodic maintenance")
+			return
+		}
+
+		// Run initial maintenance cycle
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+		if err := vs.ForgettingCurveDecay(ctx); err != nil {
+			fmt.Printf("[MemoryMaintenance] Initial decay error: %v\n", err)
+		} else {
+			fmt.Println("[MemoryMaintenance] Initial forgetting-curve decay complete")
+		}
+
+		if err := vs.ConsolidateMemories(ctx); err != nil {
+			fmt.Printf("[MemoryMaintenance] Initial consolidation error: %v\n", err)
+		} else {
+			fmt.Println("[MemoryMaintenance] Initial memory consolidation complete")
+		}
+
+		// Orphan burial
+		limbo, lErr := memorystore.NewLimboVault(vs.DB())
+		if lErr == nil {
+			_ = memorystore.BuryOrphanedMemories(ctx, vs.DB(), limbo)
+		}
+		_ = vs.ApplyDecay(ctx)
+
+		// Dream cycle: auto-review due memories via spaced repetition
+		_ = memorystore.DreamCycle(ctx, vs.DB())
+		cancel()
+
+		// Periodic maintenance every 4 hours
+		ticker := time.NewTicker(4 * time.Hour)
+		defer ticker.Stop()
+		for range ticker.C {
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
+
+			start := time.Now()
+			if err := vs.ForgettingCurveDecay(ctx); err != nil {
+				fmt.Printf("[MemoryMaintenance] Decay error: %v\n", err)
+			}
+			if err := vs.ConsolidateMemories(ctx); err != nil {
+				fmt.Printf("[MemoryMaintenance] Consolidation error: %v\n", err)
+			}
+			if err := vs.ApplyDecay(ctx); err != nil {
+				fmt.Printf("[MemoryMaintenance] ApplyDecay error: %v\n", err)
+			}
+			limbo, lErr := memorystore.NewLimboVault(vs.DB())
+			if lErr == nil {
+				_ = memorystore.BuryOrphanedMemories(ctx, vs.DB(), limbo)
+			}
+			_ = memorystore.DreamCycle(ctx, vs.DB())
+			cancel()
+			fmt.Printf("[MemoryMaintenance] Cycle complete in %v\n", time.Since(start))
+		}
+	}()
 }
 
 func (s *Server) ListenAndServe(ctx context.Context) error {

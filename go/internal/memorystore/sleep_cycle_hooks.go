@@ -12,7 +12,7 @@ import (
 
 // buryOrphanedMemories finds memories whose session_id no longer has any
 // corresponding session records and buries them in L4 limbo as "lost".
-func buryOrphanedMemories(ctx context.Context, db *sql.DB, limbo *L4LimboVault) error {
+func BuryOrphanedMemories(ctx context.Context, db *sql.DB, limbo *L4LimboVault) error {
 	rows, err := db.QueryContext(ctx, `
 		SELECT id, session_id, memory_type, memory_kind, category, tags,
 		       source_url, content, importance, heat_score, last_accessed_at, created_at
@@ -65,7 +65,7 @@ func buryOrphanedMemories(ctx context.Context, db *sql.DB, limbo *L4LimboVault) 
 // dreamCycle automatically reviews a batch of due memories with a simulated
 // "recall" score based on their heat score (warmer = better recall).
 // This runs the spaced repetition engine without user interaction.
-func dreamCycle(ctx context.Context, db *sql.DB) error {
+func DreamCycle(ctx context.Context, db *sql.DB) error {
 	// Get memories that are due for review, prioritising highest importance first
 	rows, err := db.QueryContext(ctx, `
 		SELECT l.id, l.importance, l.heat_score
