@@ -172,3 +172,7 @@
 - **PowerShell script Execution**: In PowerShell environments on Windows, scripts must be run as `.\build.bat` rather than `build.bat` to avoid command execution exceptions.
 - **WebSocket Replay Buffer**: Maintaining a slice of recent telemetry JSON payloads inside the global WebSocket broker and replaying it immediately upon a client's connection ensures that dashboard UI feeds populate historical packet captures instantly without requiring new activity trigger loops.
 
+
+- **TS Control Plane Decommissioning**: Completed TS Control Plane shutdown cleanup. Disabled/removed all watchdog TCP port checks for port 3001 and `/api/mesh/stream`. Finalized SSE stream routing by ensuring all dashboard SSE connections exclusively target the Go sidecar's `/api/sse` endpoint on port 4300. Confirmed tRPC batch native fast-path coverage is fully operational via `GO_NATIVE_PROCEDURES` and `getCompatPayload` bypassing to Go logic.
+- Fixed resolveCoreWsUrl bug to use HTTP scheme for SSE stream endpoint instead of WS, following code review.
+- Added descriptive tooltips to the A2A Mesh dashboard page to improve feature discoverability and UI transparency per user request.
