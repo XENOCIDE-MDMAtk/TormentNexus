@@ -46218,3 +46218,41 @@ Now let me verify the Go Wails binary builds.
 **Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus/go && go build -ldflags "-s -w" -buildvcs=false -o ../bin/tormentnexus-gui.exe ./cmd/tormentnexus-gui 2>&1 && echo "GUI: BUILT"", timeout: 120)
 **Observation**: bash: success
 
+## Turn 12 | 2026-06-30T16:23:25.744Z | deepseek/deepseek-v4-flash
+
+**Thought**: Both binaries compile clean. Now commit and push everything.
+**Thinking**: Both binaries build:
+- `bin/tormentnexus.exe` - Go sidecar server ✅
+- `bin/tormentnexus-gui.exe` - Wails desktop GUI ✅
+
+Now let me commit and push everything.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git add -A && git commit -m "feat: Wails desktop GUI fully buildable — Next.js standalone export copies to frontend/dist, tormentnexus-gui.exe compiles, mesh/cold-archive/enterprise dashboard pages added, copy-assets.mjs handles standalone->static extraction (v1.0.0-alpha.194)" && git push origin main 2>&1", timeout: 600)
+**Observation**: bash: success
+
+## Turn 13 | 2026-06-30T16:31:46.441Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: Wait, there's a `.next-build2` directory that I should NOT have committed. That's a stale build artifact. Let me add it to .gitignore and remove it from tracking.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && git rm -r --cached apps/web/.next-build2 2>&1 && echo "---" && cat .gitignore | grep -i "next-build" || echo "No .gitignore entry for .next-build"")
+**Observation**: bash: success
+
+## Turn 14 | 2026-06-30T16:31:50.467Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: There's a `.next-build/` entry in .gitignore but `.next-build2` was created by a prior stale build. Let me also add `.next-build2` to .gitignore and also `.next/`.
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && grep -n "\.next" .gitignore | head -5")
+**Observation**: bash: success
+
+## Turn 15 | 2026-06-30T16:31:54.333Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Thinking**: The `.next/` is at line 104, and `.next-build/` at line 105. But `.next-build2` is not covered. Let me add a wildcard pattern.
+**Action**: edit(path: "C:/Users/hyper/workspace/tormentnexus/.gitignore", edits: [object Object])
+**Observation**: edit: error
+
+## Turn 16 | 2026-06-30T16:31:57.517Z | deepseek/deepseek-v4-flash
+
+**Thought**: 
+**Action**: bash(command: "cd C:/Users/hyper/workspace/tormentnexus && sed -i 's|.next-build/|.next-build*|g' .gitignore && grep "next-build" .gitignore")
+**Observation**: bash: success
+

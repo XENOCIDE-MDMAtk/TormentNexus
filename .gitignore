@@ -102,7 +102,7 @@ appwrite_utils_temp/
 
 # === Next.js / Turbopack ===
 .next/
-.next-build/
+.next-build*
 .next-dev*/
 **/.next-dev*/
 .turbo/
