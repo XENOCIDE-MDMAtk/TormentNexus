@@ -9,8 +9,8 @@ const GO_SIDECAR_BASE =
  * Browser requests to /api/go/<path> are forwarded to the Go sidecar
  * at GO_SIDECAR_BASE/<path>.  The path is passed through verbatim so
  * that callers can target any sidecar endpoint — e.g. /api/go/health
- * → http://127.0.0.1:4300/health, or /api/go/api/mcp/status →
- * http://127.0.0.1:4300/api/mcp/status.
+ * → http://127.0.0.1:7778/health, or /api/go/api/mcp/status →
+ * http://127.0.0.1:7778/api/mcp/status.
  */
 
 export async function GET(

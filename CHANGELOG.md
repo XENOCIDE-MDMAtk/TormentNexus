@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.196] - 2026-06-30
+
+### Fixed
+
+- **Go Sidecar Port**: Resolved connection refused console errors by updating the browser status check port from legacy `4300` to the correct active `7778` port in `@tormentnexus/ui` components and API routes.
+- **Pre-fetch 404s**: Compiled and validated squads, director, and council redirect routes.
+
 ## [1.0.0-alpha.195] - 2026-06-30
 
 ### Fixed

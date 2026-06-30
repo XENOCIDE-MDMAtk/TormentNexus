@@ -170,5 +170,10 @@
 - **WebSocket Broker Mounting**: Instantiating and initializing WebSocket telemetry managers (like calling `server.StartWSBroker()`) during sidecar startup guarantees that real-time event listeners are bound before routes begin serving traffic.
 - **Dynamic Port & Path Resolution**: Centralizing WebSocket URL resolution in shared frontend helper libraries (e.g., `resolveCoreWsUrl`) prevents components like `TrafficInspector` from hardcoding target ports (like `3001`), seamlessly adapting telemetry flows as backend layers shift to Go-native servers on port `4300` at `/api/mcp/traffic/ws`.
 - **PowerShell script Execution**: In PowerShell environments on Windows, scripts must be run as `.\build.bat` rather than `build.bat` to avoid command execution exceptions.
-- **WebSocket Replay Buffer**: Maintaining a slice of recent telemetry JSON payloads inside the global WebSocket broker and replaying it immediately upon a client's connection ensures that dashboard UI feeds populate historical packet captures instantly without requiring new activity trigger loops.
+
+## Session 2026-06-30 (Go Sidecar Port Cleanups & Route Verification)
+
+### Active Port Alignment
+- **Port 4300 Legacy Cleanup**: Components checking Go Sidecar status (such as `StreamStatus.tsx` in `@tormentnexus/ui`) must point to the active Go sidecar port `7778`, not the legacy `4300` port, to avoid browser-level connection refused errors.
+- **RSC Dynamic Route compilation**: Next.js redirect pages (like squads, director, and council pages) must be compiled and served successfully to handle App Router `_rsc` dynamic pre-fetches during client-side tab navigation.
 

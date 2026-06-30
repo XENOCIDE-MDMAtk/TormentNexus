@@ -17,7 +17,7 @@ export function StreamStatus() {
   useEffect(() => {
     const checkSidecar = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:4300/health', { signal: AbortSignal.timeout(2000) });
+        const res = await fetch('http://127.0.0.1:7778/health', { signal: AbortSignal.timeout(2000) });
         setSidecarOnline(res.ok);
       } catch {
         setSidecarOnline(false);
