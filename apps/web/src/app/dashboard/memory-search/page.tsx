@@ -1,5 +1,6 @@
 "use client";
 
+import { LimboPanel } from "./limbo-panel";
 import { useState, useCallback } from "react";
 import {
 	Search,
@@ -32,29 +33,34 @@ const PAGE_SIZE = 20;
 export default function MemorySearchPage() {
 	const [query, setQuery] = useState("");
 	const [offset, setOffset] = useState(0);
+	const [total, setTotal] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [results, setResults] = useState<FTSResult[]>([]);
 	const [coldCount, setColdCount] = useState<number | null>(null);
 	const [limboStats, setLimboStats] = useState<Record<string, number>>({});
 	const [error, setError] = useState("");
 
-	const search = useCallback(async (newOffset = 0) => {
-		if (!query.trim()) return;
-		setLoading(true);
-		setError("");
-		setOffset(newOffset);
-		try {
-			const fts = await fetch(
-				`/api/go/api/memory/fts-search?q=${encodeURIComponent(query)}&limit=${PAGE_SIZE}&offset=${newOffset}`,
-			);
-			if (!fts.ok) throw new Error(`FTS: ${fts.status}`);
-			const ftsData = await fts.json();
-			setResults(ftsData.data ?? []);
-		} catch (e) {
-			setError(String(e));
-		}
-		setLoading(false);
-	}, [query]);
+	const search = useCallback(
+		async (newOffset = 0) => {
+			if (!query.trim()) return;
+			setLoading(true);
+			setError("");
+			setOffset(newOffset);
+			try {
+				const fts = await fetch(
+					`/api/go/api/memory/fts-search?q=${encodeURIComponent(query)}&limit=${PAGE_SIZE}&offset=${newOffset}`,
+				);
+				if (!fts.ok) throw new Error(`FTS: ${fts.status}`);
+				const ftsData = await fts.json();
+				setResults(ftsData.data ?? []);
+				setTotal(ftsData.total ?? 0);
+			} catch (e) {
+				setError(String(e));
+			}
+			setLoading(false);
+		},
+		[query],
+	);
 
 	const refreshStats = useCallback(async () => {
 		try {
@@ -152,7 +158,14 @@ export default function MemorySearchPage() {
 			{error && <div className="text-red-400 text-sm">{error}</div>}
 
 			{/* Results */}
-			{results.length > 0 && <p className="text-xs text-zinc-600" title={`Showing results ${offset + 1}-${offset + results.length}`}>Page {Math.floor(offset / PAGE_SIZE) + 1} ({offset + 1}–{offset + results.length})</p>}
+			{results.length > 0 && (
+				<p
+					className="text-xs text-zinc-600"
+					title={`Showing results ${offset + 1}-${offset + results.length}`}
+				>
+					Page {Math.floor(offset / PAGE_SIZE) + 1} ({offset + 1}–{offset + results.length}{total > 0 ? ` / ${total}` : ""})
+				</p>
+			)}
 
 			<div className="space-y-3">
 				{results.map(({ record }) => (
@@ -195,33 +208,33 @@ export default function MemorySearchPage() {
 						</p>
 					</div>
 				)}
-        {/* Pagination */}
-        {results.length > 0 && (
-          <div className="flex justify-center gap-4 pt-4">
-            <button
-              onClick={() => search(Math.max(0, offset - PAGE_SIZE))}
-              disabled={offset === 0 || loading}
-              className="px-4 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 text-sm disabled:opacity-30 disabled:cursor-not-allowed"
-              title="Go to previous page of results"
-            >
-              Previous
-            </button>
-            <span className="px-4 py-2 text-sm text-zinc-500">
-              Page {Math.floor(offset / PAGE_SIZE) + 1}
-            </span>
-            <button
-              onClick={() => search(offset + PAGE_SIZE)}
-              disabled={results.length < PAGE_SIZE || loading}
-              className="px-4 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 text-sm disabled:opacity-30 disabled:cursor-not-allowed"
-              title="Go to next page of results"
-            >
-              Next
-            </button>
-          </div>
-        )}
+				{/* Pagination */}
+				{results.length > 0 && (
+					<div className="flex justify-center gap-4 pt-4">
+						<button
+							onClick={() => search(Math.max(0, offset - PAGE_SIZE))}
+							disabled={offset === 0 || loading}
+							className="px-4 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 text-sm disabled:opacity-30 disabled:cursor-not-allowed"
+							title="Go to previous page of results"
+						>
+							Previous
+						</button>
+						<span className="px-4 py-2 text-sm text-zinc-500">
+							Page {Math.floor(offset / PAGE_SIZE) + 1}
+						</span>
+						<button
+							onClick={() => search(offset + PAGE_SIZE)}
+							disabled={results.length < PAGE_SIZE || loading}
+							className="px-4 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 text-sm disabled:opacity-30 disabled:cursor-not-allowed"
+							title="Go to next page of results"
+						>
+							Next
+						</button>
+					</div>
+				)}
 
-        {!loading && !query && results.length === 0 && (
-          <div className="text-center py-16 text-zinc-600">
+				{!loading && !query && results.length === 0 && (
+					<div className="text-center py-16 text-zinc-600">
 						<Database className="w-12 h-12 mx-auto mb-4 opacity-20" />
 						<p className="font-medium">Explore your memory vault</p>
 						<p className="text-xs text-zinc-600 mt-2 max-w-md mx-auto">
@@ -233,6 +246,16 @@ export default function MemorySearchPage() {
 					</div>
 				)}
 			</div>
+
+			{/* L4 Limbo Vault Section */}
+			<details className="border border-zinc-800 rounded-lg p-4 bg-zinc-900/30">
+				<summary className="cursor-pointer text-sm font-medium text-zinc-400 hover:text-zinc-200 select-none" title="The L4 Limbo vault stores memories that were discarded, lost, or decayed. Memories can be resurrected back to the L2 vault.">
+					L4 Limbo Vault
+				</summary>
+				<div className="mt-4">
+					<LimboPanel />
+				</div>
+			</details>
 		</div>
 	);
 }

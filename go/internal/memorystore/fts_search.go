@@ -60,10 +60,17 @@ type FTSMemorySearchResult struct {
 	Tier   string                     `json:"tier"` // "l2" or "l3"
 }
 
+type SearchResponse struct {
+	Results []FTSMemorySearchResult `json:"results"`
+	Total   int                     `json:"total"`
+	Offset  int                     `json:"offset"`
+	Limit   int                     `json:"limit"`
+}
+
 // Search executes a full-text query across L2 and (optionally) L3 memories.
 // Query syntax uses FTS5 standard: words, phrases ("in quotes"), prefix (term*),
 // and NEAR/AND/OR operators.
-func (f *FTSMemorySearch) Search(ctx context.Context, query string, includeCold bool, limit int, offset int) ([]FTSMemorySearchResult, error) {
+func (f *FTSMemorySearch) Search(ctx context.Context, query string, includeCold bool, limit int, offset int) (*SearchResponse, error) {
 	if limit <= 0 || limit > 100 {
 		limit = 20
 	}
@@ -72,6 +79,12 @@ func (f *FTSMemorySearch) Search(ctx context.Context, query string, includeCold 
 	}
 
 	var results []FTSMemorySearchResult
+	total := 0
+
+	// Get total count first
+	_ = f.db.QueryRowContext(ctx, `
+		SELECT COUNT(*) FROM l2_memory_fts WHERE l2_memory_fts MATCH ?
+	`, query).Scan(&total)
 
 	// Search L2 vault via FTS5
 	rows, err := f.db.QueryContext(ctx, `
@@ -135,7 +148,7 @@ func (f *FTSMemorySearch) Search(ctx context.Context, query string, includeCold 
 		}
 	}
 
-	return results, nil
+	return &SearchResponse{Results: results, Total: total, Offset: offset, Limit: limit}, nil
 }
 
 // RebuildIndex drops and re-creates the FTS index from scratch.

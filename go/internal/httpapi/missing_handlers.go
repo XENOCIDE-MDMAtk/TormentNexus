@@ -181,7 +181,13 @@ func (s *Server) handleMemoryFTSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, http.StatusOK, map[string]any{"success": true, "data": results})
+	writeJSON(w, http.StatusOK, map[string]any{
+		"success": true,
+		"data":    results.Results,
+		"total":   results.Total,
+		"offset":  results.Offset,
+		"limit":   results.Limit,
+	})
 }
 
 func (s *Server) handleColdArchive(w http.ResponseWriter, r *http.Request) {
