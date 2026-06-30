@@ -83,7 +83,7 @@ export default function MemorySearchPage() {
             Full-text search across {coldCount !== null ? `${(coldCount + results.length + Object.values(limboStats).reduce((a,b) => a+b, 0))}+` : ""} L2 memories
           </p>
         </div>
-        <button onClick={refreshStats} className="text-xs text-zinc-500 hover:text-zinc-300">Refresh stats</button>
+        <button onClick={refreshStats} className="text-xs text-zinc-500 hover:text-zinc-300" title="Refresh cold archive and limbo statistics from the server">Refresh stats</button>
       </div>
 
       {/* Stats bar */}
@@ -106,7 +106,7 @@ export default function MemorySearchPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
           <input
             type="text"
-            placeholder="Search memories..."
+            placeholder="Search memories... (FTS5 BM25 full-text search across all L2 vault records)"
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={e => e.key === "Enter" && search()}
@@ -117,6 +117,7 @@ export default function MemorySearchPage() {
           onClick={search}
           disabled={loading}
           className="px-4 py-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 text-sm disabled:opacity-50"
+          title="Execute BM25 full-text search across 86K+ indexed memories"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Search"}
         </button>
@@ -144,7 +145,7 @@ export default function MemorySearchPage() {
               <button
                 onClick={() => buryMemory(record.id)}
                 className="shrink-0 p-2 rounded-lg hover:bg-red-950/30 text-zinc-600 hover:text-red-400 transition-colors"
-                title="Send to L4 limbo"
+                title="Bury this memory in the L4 Limbo vault (discarded). It can be resurrected later from the limbo search."
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -152,7 +153,22 @@ export default function MemorySearchPage() {
           </div>
         ))}
         {!loading && query && results.length === 0 && (
-          <div className="text-center py-12 text-zinc-600">No results found</div>
+          <div className="text-center py-12 text-zinc-500">
+            <Search className="w-8 h-8 mx-auto mb-3 opacity-30" />
+            <p className="font-medium">No results found</p>
+            <p className="text-xs text-zinc-600 mt-1">Try different keywords. FTS5 BM25 search supports AND/OR, phrases (&quot;in quotes&quot;), and prefix* matching.</p>
+          </div>
+        )}
+        {!loading && !query && results.length === 0 && (
+          <div className="text-center py-16 text-zinc-600">
+            <Database className="w-12 h-12 mx-auto mb-4 opacity-20" />
+            <p className="font-medium">Explore your memory vault</p>
+            <p className="text-xs text-zinc-600 mt-2 max-w-md mx-auto">
+              Search across 86,000+ indexed L2 memories using BM25 full-text search.
+              Results include heat scores, importance rankings, and memory kind classifications.
+              Use the trash icon to bury irrelevant memories in the L4 Limbo vault.
+            </p>
+          </div>
         )}
       </div>
     </div>
