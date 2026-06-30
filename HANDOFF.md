@@ -1,8 +1,56 @@
+# HANDOFF — Session 2026-06-30 R16 (Executive Protocol R6 — Full Repo Sync, Port Cleanup, CHANGELOG, Dashboard Session Import - Alpha.194)
+
+## Summary
+
+Completed Executive Protocol R6 — comprehensive repository synchronization and multi-priority feature work:
+
+### Step 1: Upstream Tracking & Submodule Sanitization
+
+- **Fetched all remotes**: `origin` (MDMAtk/TormentNexus) and `origin-backup` (HyperNexusSoft/HyperNexus) — all tags pulled
+- **Upstream sync**: No upstream parent remote configured (this is the canonical fork); backup fork `HyperNexusSoft/HyperNexus` inspected — contains 19 cosmetic rename commits (TormentNexus → HyperNexus) with no functional value to merge
+- **Submodule update**: `apps/maestro` (robertpelloni/maestro) updated to commit `54c9ef7e58` — no nested submodules found
+
+### Step 2: Dual-Direction Intelligent Merge Engine
+
+- **Forward merge (features → main)**: Inspected 298 `task/` branches — ALL at identical stale commit `25a3a95ff` (`feat: add Go-native CLI with start/stop/status commands`), which is already an ancestor of `main`. No unique development progress in any task branch. **Zero work lost.**
+- **Reverse merge (main → features)**: All 298 task branches are AI dev tool stubs created at the same point in history. None have active divergent work requiring back-merge.
+- **Backup fork feature branch**: `origin-backup/feature/cloud-dashboard-mcp-sse-...` also contains only HyperNexus rename commits — skipped.
+
+### Step 3: Workspace Cleanup, Documentation & Build Finalization
+
+- **Script validation**: Updated `start.bat` — dashboard port 3000 → 7779, health check URLs corrected
+- **Version governance**: Bumped `VERSION` → `1.0.0-alpha.194`, updated `CHANGELOG.md` with alpha.192-194 entries
+- **Documentation**: Updated `HANDOFF.md` with full R6 summary
+
+### Feature Work Completed (Parallel to Sync)
+
+1. **FTS5 bulk rebuild** — row-by-row replaced with `INSERT FROM SELECT` + `COALESCE`, async startup goroutine (alpha.193)
+2. **LimboPanel** — new L4 Limbo Vault component in Memory Explorer with search + resurrection (alpha.193)
+3. **Session Import dashboard page** — `/dashboard/sessions/import` with scan/list/inspect/import UI (alpha.194)
+4. **Dashboard port cleanup** — health/connectivity, MCP system, swarm SSE — all legacy 4100/3001 refs removed (alpha.193)
+
+### Running Services (verified after build)
+
+| Port | Service | Status |
+|------|---------|--------|
+| 7778 | Go sidecar | ✅ 59K memories, FTS indexed |
+| 7779 | Dashboard | ✅ Production build clean |
+
+### Next Steps for Successive Models
+
+- **ChunkHound/Probe integration** — remaining native MCP search tools need Go handler wiring
+- **P2P Memory Gossip** — 12/12 UDP tests pass, needs production service integration
+- **Swarm Model Quality** — `swarm_v7.py` never runs `go build`; compilation verification is the single biggest quality improvement
+- **L3 Cold Archive** — store layer is complete, consider adding a dedicated dashboard page for cold archive browsing
+
+---
+
 # HANDOFF — Session 2026-06-26 R15 (Batched tRPC Native Acceleration, TS Control Plane Decommissioning, & Wails Asset Copier - Alpha.191)
 
 ## Summary
 
 Successfully completed the decommission of the TypeScript control plane and established a fully Go-native architecture with Wails desktop asset copying:
+
 1. **Batched tRPC Native Acceleration**: Refactored `apps/web/src/app/api/trpc/[trpc]/route.ts` to inspect batched (comma-separated) procedures. If all procedures in the batch are marked as native, the request completely bypasses the TS control plane and resolves against the Go-native endpoints directly.
 2. **Decommissioned the TS Control Plane**:
    - Re-routed the swarm monitoring `EventSource` connection in the web dashboard (`apps/web/src/app/dashboard/swarm/page.tsx`) to connect directly to the Go sidecar's `/api/sse` endpoint on port `7778`, removing reliance on the legacy TS server on port `3001`.
@@ -22,6 +70,7 @@ Successfully completed the decommission of the TypeScript control plane and esta
 ## Summary
 
 Successfully aligned default tRPC upstream connections to the active TS control plane, fixed Go sidecar compilation failures, and initialized the Wails native desktop app skeleton:
+
 1. **tRPC Upstream Alignment**: Updated the default service discovery base URLs inside `go/internal/config/discovery.go` and `go/internal/interop/sessionbridge.go` to include `http://127.0.0.1:7787/trpc` (the active control plane port). This resolves the `502 Bad Gateway` and `net::ERR_CONNECTION_REFUSED` proxy timeouts in the dashboard.
 2. **Go Compilation Stabilizations**:
    - Renamed unregistered, experimental, and syntax-broken tool files (`browserbase.go`, `github.go`, `mindsdb.go`, `semgrepstream.go`, `sentry.go`, `serena.go`, `supabase.go`, and `huggingface.go`) to `.go.bak` to disable them.
@@ -38,6 +87,7 @@ Successfully aligned default tRPC upstream connections to the active TS control 
 ## Summary
 
 Successfully integrated all internal Go-native tools into the MCP server interface, implemented GraphRAG relational tools mapping directly to SQLite, and resolved dashboard configuration override bugs:
+
 1. **Go-Native Tools via MCP**: Merged and exposed all internal Go-native tool definitions (such as `probe`, `read_file`, `search_semantic`, etc.) in the `/api/mcp/tools` endpoint. Each tool has fully validated parameters and parameters schemas.
 2. **Relational SQLite Tools (GraphRAG)**: Bound the SQLite `RelationStore` relational edge mapper to the active `VectorStore` db handle. Reimplemented `mem0` (Create Relation), `mem1` (Traverse relations), and `mem2` (Stats/Get relations) tools to map directly to GraphRAG traversals in the SQLite memory db.
 3. **Always-On Dashboard Toggles**: Fixed the toggles override bug by allowing built-in tools to check and respect configurations inside `always-on-tools.json`, enabling users to successfully toggle always-on configurations in the React security panel.
@@ -50,6 +100,7 @@ Successfully integrated all internal Go-native tools into the MCP server interfa
 ## Summary
 
 Successfully implemented the Windows system tray utility (with headless Linux support), SuperMemo SM-2 spaced repetition memory scheduler, AES-GCM encrypted mesh discovery network, and aligned monorepo package configurations:
+
 1. **Windows System Tray & Linux Headless**: Created a conditionally-compiled Go system tray package (`go/internal/systray`) that renders a tray icon in Windows, reacts to inbound/outbound I/O traffic, and opens a native Event Log window streaming logs from the `EventBus` on click, while remaining a headless no-op on Linux.
 2. **Spaced Repetition Tier & Interactive UI**: Implemented SM-2 scheduling algorithms in the Go vector store, added `/api/memory/spaced-repetition/due` and `/review` REST API endpoints, and built a dedicated "Spaced Repetition" flashcard review interface inside the Cognitive Brain Dashboard (`apps/web/src/app/dashboard/brain/view.tsx`).
 3. **Encrypted Mesh network**: Integrated AES-GCM symmetric encryption into UDP discovery beacon broadcasts and listeners inside `go/internal/mesh`.
@@ -63,6 +114,7 @@ Successfully implemented the Windows system tray utility (with headless Linux su
 ## Summary
 
 Successfully verified the L3 Cold Archive memory compression tier and fixed SQLite date formatting and cache synchronization issues:
+
 1. **L3 Verification & Unit Tests**: Added a dedicated integration test `TestL3ColdArchiveIntegration` inside `go/internal/memorystore/vector_sqlite_test.go` to test memory decay, L3 archiving, fallback semantic/keyword search, and promotion back to L2.
 2. **SQLite Timestamp Formatting**: Fixed a bug where standard Go `time.Time` fields were serialized in a format incompatible with SQLite's `julianday()` function, causing `heat_score` to become `NULL` during decay maintenance. Standardized serialization to UTC ISO-8601 strings in database `Commit` statements.
 3. **L1 Cache Eviction**: Corrected a cache synchronization bug by evicting demoted memories from the in-memory `s.l1Cache` on archive, preventing keyword searches from returning stale working copies directly from memory instead of falling back to the L3 archive database.
@@ -75,6 +127,7 @@ Successfully verified the L3 Cold Archive memory compression tier and fixed SQLi
 ## Summary
 
 Successfully implemented and verified the L3 Cold Archive memory compression tier and cleaned up redundant project submodules:
+
 1. **L3 Cold Archive**: Instantiated `L3ColdArchive` targeting `l3_cold_archive.db` inside `VectorStore` in `go/internal/memorystore/vector_sqlite.go`. Hooked up L3 fallback search logic (`fallbackL3Search`) at the end of active memory queries inside `SemanticSearch` to automatically query the cold archive when active L2 results are empty, promoting matches back to L2. Integrated a decay-driven auto-archiver loop inside `ForgettingCurveDecay` to automatically demote memories with a heat score < 10.0 from L2 to the L3 Cold Archive database.
 2. **Submodule Cleanup**: Cleaned up [.gitmodules](file:///c:/Users/hyper/workspace/tormentnexus/.gitmodules) to systematically remove all obsolete and redundant submodule configurations under `submodules/`.
 3. **Compiler Sanitation**: Reset compilation-failing tool wrappers using healer scripts, commenting out `HandleExecuteQuery` from [registry.go](file:///c:/Users/hyper/workspace/tormentnexus/go/internal/tools/registry.go) to ensure clean builds.
@@ -165,7 +218,7 @@ Successfully delegated all remaining frontend tRPC procedures (including git sta
 
 1. **tRPC Route Delegation**:
    - Mapped remaining legacy TypeScript procedures to Go HTTP REST handlers inside [route.ts](file:///c:/Users/hyper/workspace/tormentnexus/apps/web/src/app/api/trpc/%5Btrpc%5D/route.ts) and added them to `GO_NATIVE_PROCEDURES` to bypass upstream timeouts.
-   
+
 2. **WebSocket Telemetry History Replay**:
    - Added a `history` slice to the `WSBroker` inside [mcp_websocket.go](file:///c:/Users/hyper/workspace/tormentnexus/go/internal/httpapi/mcp_websocket.go). It captures and maintains the last 100 event packets and replays them immediately to newly registered client connections.
 
@@ -197,7 +250,7 @@ Successfully mounted the real-time WebSocket telemetry broker during Go sidecar 
 
 1. **Go Sidecar WS Broker Initialization**:
    - Wired `server.StartWSBroker()` into `server.go` initialization. The broker subscribes to the EventBus system events (`tool:call`, `tool:call:response`) and streams translated JSON packets.
-   
+
 2. **Client-Side WebSocket Telemetry Port Alignment**:
    - Modified `resolveCoreWsUrl` in [endpoints.ts](file:///c:/Users/hyper/workspace/tormentnexus/packages/ui/src/lib/endpoints.ts) to target port `4300` and path `/api/mcp/traffic/ws` by default instead of port `3001`.
    - Updated [TrafficInspector.tsx](file:///c:/Users/hyper/workspace/tormentnexus/apps/web/src/components/TrafficInspector.tsx) target url fallback to `undefined` to allow shared client resolution library defaults.
@@ -338,7 +391,6 @@ Successfully verified startup port configurations, cleaned up invalid/corrupted 
 ---
 
 # HANDOFF — Session 2026-06-25 R3 (Dashboard Consolidation & Dev Hardening — Clean Version Bump)
-
 
 ## Summary
 

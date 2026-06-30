@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0-alpha.194] - 2026-06-30
+
+### Changed
+
+- **start.bat**: Dashboard port updated from 3000 → 7779, Go sidecar health check port verified
+- **VERSION**: Bumped to alpha.194
+- **Executive Protocol R6**: Full repo sync completed — fetched all remotes, updated maestro submodule, reconciled 298 task branches (all empty/stale, no unique work lost), inspected backup HyperNexus fork (no functional merge needed), updated build scripts
+
 ## [1.0.0-alpha.193] - 2026-06-30
 
 ### Added

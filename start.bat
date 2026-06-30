@@ -36,8 +36,8 @@ if "!GO_CHECK!"=="200" (
     start /B bin\tormentnexus.exe serve --port %GO_PORT% > nul 2>&1
 )
 
-REM -- 4. Start Next.js dashboard on port 3000 --
-set DASH_PORT=3000
+REM -- 4. Start Next.js dashboard on port 7779 --
+set DASH_PORT=7779
 curl -s -o nul -w "%%{http_code}" http://127.0.0.1:%DASH_PORT%/dashboard > "%TEMP%\tormentnexus_web_check.txt" 2>nul
 set /p WEB_CHECK=<"%TEMP%\tormentnexus_web_check.txt"
 if "!WEB_CHECK!"=="200" (
@@ -50,7 +50,7 @@ if "!WEB_CHECK!"=="200" (
 echo.
 echo   Go Sidecar API: http://127.0.0.1:%GO_PORT%
 echo   Go Health check: http://127.0.0.1:%GO_PORT%/health
-echo   Dashboard UI:    http://localhost:%DASH_PORT%/dashboard
+echo   Dashboard UI:    http://127.0.0.1:%DASH_PORT%/dashboard
 echo.
 echo Press Ctrl+C to stop all services.
 echo.
