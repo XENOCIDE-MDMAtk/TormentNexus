@@ -20,9 +20,7 @@ function readOption(flagNames, fallback) {
 
 const port = readOption(['--port', '-p'], process.env.PORT || '3000');
 const host = readOption(['--host', '--hostname', '-H'], process.env.HOSTNAME || 'localhost');
-const lockPath = existsSync(resolve(webDir, '.next-build'))
-  ? resolve(webDir, '.next-build', 'dev', 'lock')
-  : resolve(webDir, '.next', 'dev', 'lock');
+const lockPath = resolve(webDir, '.next-dev', 'dev', 'lock');
 const portMarkerPath = resolve(webDir, '.tormentnexus-dev-port.json');
 
 function writePortMarker() {
@@ -73,6 +71,16 @@ if (existsSync(lockPath)) {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.warn(`[web:dev] Could not clear Next dev lock (${message}). Another dev instance may still be running.`);
+  }
+}
+
+const buildDir = resolve(webDir, ".next-dev");
+if (existsSync(buildDir)) {
+  try {
+    rmSync(buildDir, { recursive: true, force: true });
+    console.log("[web:dev] Cleared .next-dev directory to prevent cache conflicts");
+  } catch (error) {
+    console.warn("[web:dev] Could not clear .next-dev directory:", error instanceof Error ? error.message : String(error));
   }
 }
 
