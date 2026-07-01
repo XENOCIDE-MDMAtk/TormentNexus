@@ -29,7 +29,15 @@ def log(msg, level="INFO"):
     line = f"[{ts}][{level}] {msg}"
     with open(LOG_PATH, "a", encoding="utf-8") as f:
         f.write(line + "\n")
-    print(line)
+    try:
+        print(line)
+    except UnicodeEncodeError:
+        try:
+            import sys
+            enc = sys.stdout.encoding or "utf-8"
+            print(line.encode(enc, errors="replace").decode(enc))
+        except Exception:
+            print(line.encode("ascii", errors="replace").decode("ascii"))
 
 
 def llm_call(prompt, max_tokens=200):

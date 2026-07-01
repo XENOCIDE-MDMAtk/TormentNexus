@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.0-alpha.215] - 2026-07-01
+
+### Fixed
+- **BobbyBookmarks Sync Crash**: Resolved a Win32 console print crash caused by `UnicodeEncodeError` when outputting summary reports containing non-ASCII symbols (such as non-breaking space characters like `\u202f`), adding a robust standard encoding fallback to `bobbybookmarks_sync.py` logger.
+
 ## [1.0.0-alpha.214] - 2026-07-01
 
 ### Added
