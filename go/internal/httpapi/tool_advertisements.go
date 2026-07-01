@@ -2,6 +2,7 @@ package httpapi
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -20,6 +21,10 @@ func (s *Server) buildToolSuggestionSnapshot(r *http.Request, query string) (Too
 }
 
 func (s *Server) buildToolSuggestionSnapshotWithLimit(r *http.Request, query string, limit int) (ToolSuggestionSnapshot, error) {
+	if strings.Contains(s.cfg.WorkspaceRoot, "\x00") {
+		return ToolSuggestionSnapshot{}, fmt.Errorf("invalid workspace root: contains null byte")
+	}
+
 	normalizedQuery := strings.TrimSpace(query)
 
 	// Inject Predictive tool recommendations using local FreeLLM
@@ -72,17 +77,27 @@ func (s *Server) buildToolSuggestionSnapshotWithLimit(r *http.Request, query str
 		relatedTools = map[string]any{}
 	}
 
+	recToolsBridge := map[string]any{
+		"upstreamBase": recommendedToolsBase,
+		"procedure":    "mcp.searchTools",
+	}
+	if recommendedToolsBase == "" {
+		recToolsBridge["fallback"] = "go-local-mcp"
+	}
+
+	relToolsBridge := map[string]any{
+		"upstreamBase": relatedToolsBase,
+		"procedure":    "mcp.callTool",
+		"toolName":     "list_all_tools",
+		"limit":        limit,
+	}
+	if relatedToolsBase == "" {
+		relToolsBridge["fallback"] = "go-local-mcp"
+	}
+
 	bridgeInfo := map[string]any{
-		"recommendedTools": map[string]any{
-			"upstreamBase": recommendedToolsBase,
-			"procedure":    "mcp.searchTools",
-		},
-		"relatedTools": map[string]any{
-			"upstreamBase": relatedToolsBase,
-			"procedure":    "mcp.callTool",
-			"toolName":     "list_all_tools",
-			"limit":        limit,
-		},
+		"recommendedTools": recToolsBridge,
+		"relatedTools":     relToolsBridge,
 	}
 	if predictErr != nil {
 		bridgeInfo["predictiveError"] = predictErr.Error()

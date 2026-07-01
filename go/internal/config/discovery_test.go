@@ -15,8 +15,8 @@ func TestDefaultServiceDiscovery(t *testing.T) {
 	if sd.DashboardPort != 3000 {
 		t.Errorf("expected DashboardPort=3000, got %d", sd.DashboardPort)
 	}
-	if len(sd.TRPCUpstreamURLs) != 3 {
-		t.Errorf("expected 3 default tRPC URLs, got %d", len(sd.TRPCUpstreamURLs))
+	if len(sd.TRPCUpstreamURLs) != 4 {
+		t.Errorf("expected 4 default tRPC URLs, got %d", len(sd.TRPCUpstreamURLs))
 	}
 }
 
