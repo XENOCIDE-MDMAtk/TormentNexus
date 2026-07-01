@@ -31,6 +31,7 @@ import SubmodulesPage from "../submodules/view";
 import MemoryHydrationPage from "../memory/hydration/view";
 import CodeSandboxPage from "../code/sandbox/view";
 import ClaudeChromePage from "../claude-chrome/view";
+import SessionImportPage from "../sessions/import/view";
 import { SwarmTranscript } from "@/components/swarm/SwarmTranscript";
 import { DebateVisualizer } from "@/components/council/DebateVisualizer";
 import { SquadsPanel } from "@tormentnexus/ui";
@@ -1028,6 +1029,7 @@ const SWARM_TABS = [
 	{ id: "hydration", label: "Memory Hydration" },
 	{ id: "sandbox", label: "Code Sandbox" },
 	{ id: "claude-chrome", label: "Chrome Automation" },
+	{ id: "session-import", label: "Session Importer" },
 ] as const;
 
 export default function SwarmDashboard(): React.JSX.Element {
@@ -1069,6 +1071,8 @@ function SwarmDashboardContent(): React.JSX.Element {
 				return <CodeSandboxPage />;
 			case "claude-chrome":
 				return <ClaudeChromePage />;
+			case "session-import":
+				return <SessionImportPage />;
 			case "swarm":
 			default:
 				return <SwarmDashboardOverview />;
