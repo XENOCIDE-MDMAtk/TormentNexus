@@ -1,3 +1,18 @@
+# HANDOFF — Session 2026-07-01 R31 (Dashboard Subpage Redirects Middleware - Alpha.211)
+
+## Summary
+
+In this session, we consolidated and simplified the dashboard routing by eliminating subpage navigation friction:
+
+1. **Next.js Routing Middleware**:
+   - Coded [middleware.ts](file:///c:/Users/hyper/workspace/tormentnexus/apps/web/src/middleware.ts) to intercept requests to all legacy subpages (e.g. `/dashboard/brain`, `/dashboard/tool-console`, `/dashboard/billing`) and automatically redirect the browser to their consolidated high-density targets on `/dashboard?tab=page-...` (`page-a`, `page-b`, `page-c`, or `page-d`).
+2. **Build Validation**:
+   - Verified that type-checking compiles cleanly across the web workspace (`pnpm -C apps/web exec tsc --noEmit`).
+3. **Workspace Version Sync**:
+   - Bumped version to `1.0.0-alpha.211` and synchronized all packages.
+
+---
+
 # HANDOFF — Session 2026-07-01 R30 (React Duplicate Key Resolution - Alpha.210)
 
 ## Summary

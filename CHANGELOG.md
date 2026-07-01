@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.0-alpha.211] - 2026-07-01
+
+### Added
+- **Unified Dashboard Middleware Redirects**: Created `middleware.ts` in `apps/web/src` to intercept legacy dashboard subpage paths (e.g., `/dashboard/brain`, `/dashboard/tool-console`, `/dashboard/billing`) and automatically redirect operators to their respective tab targets on the main consolidated high-density `/dashboard` view (`page-a`, `page-b`, `page-c`, or `page-d`).
+
 ## [1.0.0-alpha.210] - 2026-07-01
 
 ### Fixed
