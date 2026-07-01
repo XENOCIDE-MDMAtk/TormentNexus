@@ -37,6 +37,7 @@ import {
 	Map,
 	Settings,
 	Cpu,
+	Info,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
@@ -96,6 +97,15 @@ type HydrationStatus = {
 	sections: string[];
 	sectionCounts: Record<string, number>;
 };
+
+const InfoTooltip = ({ text }: { text: string }) => (
+	<span
+		className="inline-flex items-center justify-center ml-1 text-zinc-500 hover:text-zinc-300 cursor-help transition-colors select-none"
+		title={text}
+	>
+		<Info className="w-3.5 h-3.5" />
+	</span>
+);
 
 const SECTION_ICONS: Record<
 	string,
@@ -837,33 +847,40 @@ export default function CognitiveBrainDashboard() {
 						</button>
 					</div>
 					<p className="text-zinc-400 text-sm">
-						Unified control plane for Vector Memory, Knowledge Graphs, Web
-						Ingestion, and Expert Systems.
+						Unified control plane for Vector Memory, Knowledge Graphs, Web Ingestion, and Expert Systems.
 					</p>
 				</div>
 
 				{/* Stats panel in header */}
 				<div className="flex flex-wrap gap-2 text-xs">
-					<StatCard
-						label="Session"
-						value={(stats as any)?.sessionCount || 0}
-						icon={<History className="h-3.5 w-3.5 text-zinc-400" />}
-					/>
-					<StatCard
-						label="Working"
-						value={(stats as any)?.workingCount || 0}
-						icon={<Zap className="h-3.5 w-3.5 text-yellow-500" />}
-					/>
-					<StatCard
-						label="Long Term"
-						value={(stats as any)?.longTermCount || 0}
-						icon={<Database className="h-3.5 w-3.5 text-pink-500" />}
-					/>
-					<StatCard
-						label="Observations"
-						value={(stats as any)?.observationCount || 0}
-						icon={<RefreshCw className="h-3.5 w-3.5 text-green-500" />}
-					/>
+					<div className="flex items-center" title="Transient cache of recent chat sessions and temporary data">
+						<StatCard
+							label="Session"
+							value={(stats as any)?.sessionCount || 0}
+							icon={<History className="h-3.5 w-3.5 text-zinc-400" />}
+						/>
+					</div>
+					<div className="flex items-center" title="Active short-term workspace memory containing high-frequency variables">
+						<StatCard
+							label="Working"
+							value={(stats as any)?.workingCount || 0}
+							icon={<Zap className="h-3.5 w-3.5 text-yellow-500" />}
+						/>
+					</div>
+					<div className="flex items-center" title="Persistent vector database memory that survives across runs">
+						<StatCard
+							label="Long Term"
+							value={(stats as any)?.longTermCount || 0}
+							icon={<Database className="h-3.5 w-3.5 text-pink-500" />}
+						/>
+					</div>
+					<div className="flex items-center" title="Accumulated cognitive observations made during execution analysis">
+						<StatCard
+							label="Observations"
+							value={(stats as any)?.observationCount || 0}
+							icon={<RefreshCw className="h-3.5 w-3.5 text-green-500" />}
+						/>
+					</div>
 				</div>
 			</header>
 
@@ -950,7 +967,10 @@ export default function CognitiveBrainDashboard() {
 										{Object.entries(scratchpad).map(([key, val]) => (
 											<div key={key} className="border border-zinc-800 bg-zinc-950 p-4 rounded-lg space-y-3">
 												<div className="flex items-center justify-between border-b border-zinc-900 pb-2">
-													<span className="font-mono text-sm font-semibold text-emerald-400 capitalize">{key} Block</span>
+													<span className="font-mono text-sm font-semibold text-emerald-400 capitalize flex items-center">
+														{key} Block
+														<InfoTooltip text={key === "persona" ? "Defines the agent's style, format constraints, response demeanor, and core behavior directives." : "Contains information about the operator user, workspace preferences, environment parameters, and active task parameters."} />
+													</span>
 													{editingKey !== key ? (
 														<Button
 															size="sm"
