@@ -14,7 +14,10 @@ type SkillLoaded struct {
 	SkillInfo
 	LoadedAt   time.Time `json:"loadedAt"`
 	LastUsedAt time.Time `json:"lastUsedAt"`
-	UseCount   int       `json:"useCount"`
+	Successes  int
+	Failures   int
+	UseCount   int        `json:"useCount"`
+	IsRetired  bool       `json:"isRetired"`
 	AutoLoaded bool      `json:"autoLoaded"`
 }
 

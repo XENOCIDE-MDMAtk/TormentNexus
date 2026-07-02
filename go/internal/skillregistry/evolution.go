@@ -2,84 +2,108 @@ package skillregistry
 
 import (
 	"context"
-	"database/sql"
-	"os"
-	"path/filepath"
+	"fmt"
+	"strings"
 	"time"
+
+	"github.com/tormentnexushq/tormentnexus-go/internal/ai"
 )
 
-type SkillOutcome struct {
-	SkillName    string    `json:"skillName"`
-	SuccessCount int       `json:"successCount"`
-	FailureCount int       `json:"failureCount"`
-	WinRate      float64   `json:"winRate"`
-	UpdatedAt    time.Time `json:"updatedAt"`
+// SkillEvolutionRecord tracks the performance of a specific skill version
+// Evolution Config
+const (
+	MinUsesForRetirement = 5
+	RetirementThreshold  = 0.3 // < 30% win rate gets retired
+)
+
+type SkillEvolutionRecord struct {
+	SkillID    string    `json:"skillId"`
+	Version    int       `json:"version"`
+	Successes  int       `json:"successes"`
+	Failures   int       `json:"failures"`
+	LastUsedAt time.Time `json:"lastUsedAt"`
 }
 
-func RecordOutcome(ctx context.Context, db *sql.DB, skillName string, success bool) error {
-	var successInc, failureInc int
+func (r *SkillEvolutionRecord) WinRate() float64 {
+	total := r.Successes + r.Failures
+	if total == 0 {
+		return 0
+	}
+	return float64(r.Successes) / float64(total)
+}
+
+// RecordOutcome updates the performance metrics for a skill
+func (ds *SkillDecisionSystem) RecordOutcome(skillID string, success bool) {
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	id := strings.ToLower(skillID)
+	skill, ok := ds.loaded[id]
+	if !ok {
+		return
+	}
+
+	skill.UseCount++
+	skill.LastUsedAt = time.Now()
+
+	// Update evolution metrics directly on the loaded skill struct assuming we add these fields
 	if success {
-		successInc = 1
+		skill.Successes++
 	} else {
-		failureInc = 1
+		skill.Failures++
 	}
 
-	_, err := db.ExecContext(ctx, `
-		INSERT INTO skill_outcomes (skill_name, success_count, failure_count, win_rate, updated_at)
-		VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-		ON CONFLICT(skill_name) DO UPDATE SET
-			success_count = skill_outcomes.success_count + ?,
-			failure_count = skill_outcomes.failure_count + ?,
-			win_rate = CAST(skill_outcomes.success_count + ? AS REAL) / CAST(skill_outcomes.success_count + skill_outcomes.failure_count + 1 AS REAL),
-			updated_at = CURRENT_TIMESTAMP
-	`, skillName, successInc, failureInc, 1.0, successInc, failureInc, successInc)
-	return err
-}
-
-func GetLowPerformingSkills(ctx context.Context, db *sql.DB, threshold float64) ([]SkillOutcome, error) {
-	rows, err := db.QueryContext(ctx, `
-		SELECT skill_name, success_count, failure_count, win_rate, updated_at
-		FROM skill_outcomes
-		WHERE win_rate < ? AND (success_count + failure_count) >= 5
-	`, threshold)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var results []SkillOutcome
-	for rows.Next() {
-		var s SkillOutcome
-		var updateStr string
-		if err := rows.Scan(&s.SkillName, &s.SuccessCount, &s.FailureCount, &s.WinRate, &updateStr); err == nil {
-			s.UpdatedAt, _ = time.Parse("2006-01-02 15:04:05", updateStr)
-			results = append(results, s)
-		}
-	}
-	return results, nil
-}
-
-func EvolveSkills(ctx context.Context, workspaceRoot string, db *sql.DB) (int, error) {
-	lowSkills, err := GetLowPerformingSkills(ctx, db, 0.5)
-	if err != nil {
-		return 0, err
-	}
-
-	deactivatedCount := 0
-	for _, skill := range lowSkills {
-		// Move low-performing tools from go/internal/tools/ to go/internal/tools/_disabled/
-		src := filepath.Join(workspaceRoot, "go", "internal", "tools", skill.SkillName+".go")
-		dest := filepath.Join(workspaceRoot, "go", "internal", "tools", "_disabled", skill.SkillName+".go")
-		
-		if _, statErr := os.Stat(src); statErr == nil {
-			// File exists, let's move it (deactivate it)
-			if renameErr := os.Rename(src, dest); renameErr == nil {
-				deactivatedCount++
-				// Reset DB status
-				_, _ = db.ExecContext(ctx, "UPDATE mcp_servers SET status='pending', notes=? WHERE name=?", "auto-deactivated due to low win-rate", skill.SkillName)
-			}
+	// Auto-retirement check
+	total := skill.Successes + skill.Failures
+	if total >= MinUsesForRetirement {
+		winRate := float64(skill.Successes) / float64(total)
+		if winRate < RetirementThreshold {
+			fmt.Printf("[Evolution] Auto-retiring skill %s due to low win rate (%.2f)\n", id, winRate)
+			// Retire the skill
+			skill.IsRetired = true
+			skill.Successes = 0
+			skill.Failures = 0
+			ds.registry.Unregister(skill.Name)
+			delete(ds.loaded, id)
+			return
 		}
 	}
 
-	return deactivatedCount, nil
+	// In a real impl, this would persist to a SkillEvolution table in SQLite
+	fmt.Printf("[Evolution] Skill %s outcome recorded: success=%v\n", id, success)
+}
+
+func (ds *SkillDecisionSystem) EvolveSkill(ctx context.Context, skillID string, feedback string) error {
+	skill, ok := ds.registry.Get(skillID)
+	if !ok {
+		return fmt.Errorf("skill %s not found", skillID)
+	}
+
+	prompt := fmt.Sprintf(`
+		You are a Skill Evolution Engine.
+		Task: Improve the following skill runbook based on user feedback.
+
+		Skill Name: %s
+		Current Description: %s
+		Current Content:
+		---
+		%s
+		---
+
+		Feedback: %s
+
+		Return the updated SKILL.md content only.
+	`, skill.Name, skill.Description, skill.Content, feedback)
+
+	resp, err := ai.AutoRoute(ctx, []ai.Message{
+		{Role: "system", Content: "You are an expert prompt engineer and technical writer."},
+		{Role: "user", Content: prompt},
+	})
+	if err != nil {
+		return err
+	}
+
+	// Update the skill in the registry
+	skill.Content = resp.Content
+	return ds.registry.Register(*skill)
 }

@@ -16,9 +16,13 @@ export function EditMcpServer({ server, onSuccess, onCancel }: EditMcpServerProp
     const isEdit = !!server;
     const [formData, setFormData] = useState({
         name: server?.name || '',
+        type: server?.type || 'STDIO',
         command: server?.config?.command || '',
         args: (server?.config?.args || []).join(' '), // simple space separated for UI
         envJson: JSON.stringify(server?.config?.env || {}, null, 2),
+        url: server?.url || '',
+        bearerToken: server?.bearerToken || '',
+        headersJson: JSON.stringify(server?.headers || {}, null, 2),
     });
 
     const createMutation = trpc.mcpServers.create.useMutation({
@@ -48,14 +52,25 @@ export function EditMcpServer({ server, onSuccess, onCancel }: EditMcpServerProp
             const env = formData.envJson ? JSON.parse(formData.envJson) : {};
             const args = formData.args.split(' ').filter(Boolean);
 
+            let headersObj = {};
+            if (formData.type !== 'STDIO' && formData.headersJson) {
+                try {
+                    headersObj = JSON.parse(formData.headersJson);
+                } catch (err) {
+                    toast.error(`Invalid JSON in Custom Headers`);
+                    return;
+                }
+            }
+
             const payload = {
                 name: formData.name,
-                transport: {
-                    type: 'STDIO' as const,
-                    command: formData.command,
-                    args: args,
-                    env: env
-                },
+                type: formData.type as 'STDIO' | 'SSE' | 'STREAMABLE_HTTP',
+                command: formData.type === 'STDIO' ? formData.command : undefined,
+                args: formData.type === 'STDIO' ? args : undefined,
+                env: formData.type === 'STDIO' ? env : undefined,
+                url: formData.type !== 'STDIO' ? formData.url : undefined,
+                bearerToken: formData.type !== 'STDIO' ? formData.bearerToken : undefined,
+                headers: formData.type !== 'STDIO' ? headersObj : undefined,
                 enabled: true
             };
 
@@ -91,7 +106,7 @@ export function EditMcpServer({ server, onSuccess, onCancel }: EditMcpServerProp
                         <label className="text-xs font-bold text-zinc-500 uppercase">Server Name</label>
                         <input
                             required
-                            disabled={isEdit} // Often names are IDs
+                            disabled={isEdit}
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none disabled:opacity-50"
@@ -99,36 +114,82 @@ export function EditMcpServer({ server, onSuccess, onCancel }: EditMcpServerProp
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-zinc-500 uppercase">Command</label>
-                        <input
-                            required
-                            value={formData.command}
-                            onChange={(e) => setFormData({ ...formData, command: e.target.value })}
-                            className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono"
-                            placeholder="e.g. npx"
-                        />
+                        <label className="text-xs font-bold text-zinc-500 uppercase">Transport Type</label>
+                        <select
+                            value={formData.type}
+                            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                            className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none"
+                        >
+                            <option value="STDIO">Local Process (STDIO)</option>
+                            <option value="SSE">Remote Server (SSE)</option>
+                        </select>
                     </div>
                 </div>
 
-                <div className="space-y-2">
-                    <label className="text-xs font-bold text-zinc-500 uppercase">Arguments (Space separated)</label>
-                    <input
-                        value={formData.args}
-                        onChange={(e) => setFormData({ ...formData, args: e.target.value })}
-                        className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono"
-                        placeholder="-y @modelcontextprotocol/server-filesystem /path/to/allow"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <label className="text-xs font-bold text-zinc-500 uppercase">Environment Variables (JSON)</label>
-                    <textarea
-                        value={formData.envJson}
-                        onChange={(e) => setFormData({ ...formData, envJson: e.target.value })}
-                        className="w-full h-32 bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono text-sm"
-                        placeholder={'{\n  "KEY": "VALUE"\n}'}
-                    />
-                </div>
+                {formData.type === 'STDIO' ? (
+                    <>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-zinc-500 uppercase">Command</label>
+                            <input
+                                required={formData.type === 'STDIO'}
+                                value={formData.command}
+                                onChange={(e) => setFormData({ ...formData, command: e.target.value })}
+                                className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono"
+                                placeholder="e.g. npx"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-zinc-500 uppercase">Arguments (Space separated)</label>
+                            <input
+                                value={formData.args}
+                                onChange={(e) => setFormData({ ...formData, args: e.target.value })}
+                                className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono"
+                                placeholder="-y @modelcontextprotocol/server-filesystem /path/to/allow"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-zinc-500 uppercase">Environment Variables (JSON)</label>
+                            <textarea
+                                value={formData.envJson}
+                                onChange={(e) => setFormData({ ...formData, envJson: e.target.value })}
+                                className="w-full h-32 bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono text-sm"
+                                placeholder={'{\n  "KEY": "VALUE"\n}'}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-zinc-500 uppercase">Server URL</label>
+                            <input
+                                required={formData.type === 'SSE'}
+                                value={formData.url}
+                                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                                className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono"
+                                placeholder="https://api.example.com/sse"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-zinc-500 uppercase">Bearer Token (Optional)</label>
+                            <input
+                                type="password"
+                                value={formData.bearerToken}
+                                onChange={(e) => setFormData({ ...formData, bearerToken: e.target.value })}
+                                className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono"
+                                placeholder="sk-..."
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-zinc-500 uppercase">Custom Headers (JSON)</label>
+                            <textarea
+                                value={formData.headersJson}
+                                onChange={(e) => setFormData({ ...formData, headersJson: e.target.value })}
+                                className="w-full h-24 bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:border-blue-500 outline-none font-mono text-sm"
+                                placeholder={'{\n  "X-Custom-Header": "VALUE"\n}'}
+                            />
+                        </div>
+                    </>
+                )}
 
                 <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
                     <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>

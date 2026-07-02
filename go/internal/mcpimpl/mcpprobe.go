@@ -23,5 +23,5 @@ func HandleProbe_mcpprobe(ctx context.Context, args map[string]interface{}) (Too
 
 	defer resp.Body.Close()
 	msg := "server responded with status " + resp.Status
-	return success(msg)
+	return ok(msg)
 }
