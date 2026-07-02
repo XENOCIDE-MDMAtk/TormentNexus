@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.0-alpha.218] - 2026-07-02
+
+### Added
+- **Noise Cancellation for Console Logs**: Added a synchronous HTML-head interceptor to filter framework warning noise (like DevTools warnings and Fast Refresh rebuild logs).
+- **Graceful Search Safety**: Skipped cold archive API queries on blank search terms to prevent bad request server errors in the console.
+
 ## [1.0.0-alpha.217] - 2026-07-02
 
 ### Added

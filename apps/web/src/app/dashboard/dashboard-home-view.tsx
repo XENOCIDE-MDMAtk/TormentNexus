@@ -1093,11 +1093,14 @@ export function DashboardHomeView({
     const [coldPromoting, setColdPromoting] = useState<string | null>(null);
 
     const searchColdArchive = useCallback(async (searchQuery = "") => {
+        const trimmed = searchQuery.trim();
+        if (!trimmed) {
+            setColdResults([]);
+            return;
+        }
         setColdLoading(true);
         try {
-            const url = searchQuery.trim()
-                ? `/api/go/api/memory/cold-archive/search?q=${encodeURIComponent(searchQuery)}&limit=50`
-                : "/api/go/api/memory/cold-archive/search?limit=50";
+            const url = `/api/go/api/memory/cold-archive/search?q=${encodeURIComponent(trimmed)}&limit=50`;
             const res = await fetch(url);
             const d = await res.json();
             setColdResults(d.data ?? []);

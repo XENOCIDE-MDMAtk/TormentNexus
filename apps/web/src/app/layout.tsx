@@ -54,6 +54,51 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const ignorePatterns = [
+                  "react-devtools",
+                  "React DevTools",
+                  "[HMR]",
+                  "[Fast Refresh]"
+                ];
+                function shouldIgnore(args) {
+                  for (let i = 0; i < args.length; i++) {
+                    const arg = args[i];
+                    if (typeof arg === "string") {
+                      for (const pattern of ignorePatterns) {
+                        if (arg.indexOf(pattern) !== -1) {
+                          return true;
+                        }
+                      }
+                    }
+                  }
+                  return false;
+                }
+                const originalLog = console.log;
+                const originalInfo = console.info;
+                const originalWarn = console.warn;
+                
+                console.log = function(...args) {
+                  if (shouldIgnore(args)) return;
+                  originalLog.apply(console, args);
+                };
+                console.info = function(...args) {
+                  if (shouldIgnore(args)) return;
+                  originalInfo.apply(console, args);
+                };
+                console.warn = function(...args) {
+                  if (shouldIgnore(args)) return;
+                  originalWarn.apply(console, args);
+                };
+              })();
+            `
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
