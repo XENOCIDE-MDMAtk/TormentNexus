@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0-alpha.216] - 2026-07-02
+
+### Added
+- **Complete Dashboard Integration & Subpage Decommission**: Combined all subpages and features into the single, unified dashboard page (`dashboard-home-view.tsx`). This adds:
+  - **L3 Cold Archive Explorer**: Fully interactive view to query the long-term memory tier and promote low-heat memories back to L2 Episodic Vault.
+  - **Session Ingestion Panel**: Interactive scanner and importer to ingest transcript files and conversations from external engines.
+  - **Enterprise Security & Auditing**: Added modules for License validation, SSO OIDC endpoints configurator, RBAC roles matrix editor, and live security audit logs.
+- **Improved UX Guidance**: Added descriptive tooltip labels to all cards and action triggers.
+
 ## [1.0.0-alpha.215] - 2026-07-01
 
 ### Fixed

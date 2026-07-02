@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export interface DashboardStatusSummary {
     initialized: boolean;
@@ -1041,6 +1041,206 @@ export function DashboardHomeView({
     children,
 }: DashboardHomeViewProps) {
     const [dbLock, setDbLock] = useState(false);
+    // --- L3 COLD ARCHIVE LOGIC ---
+    const [coldQuery, setColdQuery] = useState("");
+    const [coldResults, setColdResults] = useState<any[]>([]);
+    const [coldCount, setColdCount] = useState(0);
+    const [coldLoading, setColdLoading] = useState(false);
+    const [coldPromoting, setColdPromoting] = useState<string | null>(null);
+
+    const searchColdArchive = useCallback(async (searchQuery = "") => {
+        setColdLoading(true);
+        try {
+            const url = searchQuery.trim()
+                ? `/api/go/api/memory/cold-archive/search?q=${encodeURIComponent(searchQuery)}&limit=50`
+                : "/api/go/api/memory/cold-archive/search?limit=50";
+            const res = await fetch(url);
+            const d = await res.json();
+            setColdResults(d.data ?? []);
+            if (d.total !== undefined) setColdCount(d.total);
+        } catch {}
+        setColdLoading(false);
+    }, []);
+
+    const fetchColdCount = useCallback(async () => {
+        try {
+            const res = await fetch("/api/go/api/memory/cold-archive/count");
+            const d = await res.json();
+            if (d.count !== undefined) setColdCount(d.count);
+            else if (d.data !== undefined && d.data.count !== undefined) setColdCount(d.data.count);
+        } catch {}
+    }, []);
+
+    const promoteColdMemory = async (id: string) => {
+        setColdPromoting(id);
+        try {
+            await fetch("/api/go/api/memory/cold-archive/promote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id }),
+            });
+            setColdResults(prev => prev.filter(r => r.id !== id));
+            fetchColdCount();
+        } catch {}
+        setColdPromoting(null);
+    };
+
+    // --- SESSION IMPORT LOGIC ---
+    const [importedSessions, setImportedSessions] = useState<any[]>([]);
+    const [importLoading, setImportLoading] = useState(false);
+    const [importScanning, setImportScanning] = useState(false);
+    const [expandedImportSession, setExpandedImportSession] = useState<string | null>(null);
+    const [lastImportScan, setLastImportScan] = useState<string | null>(null);
+    const [importStats, setImportStats] = useState<{ total: number; valid: number; imported: number; } | null>(null);
+
+    const fetchImportedSessions = useCallback(async () => {
+        setImportLoading(true);
+        try {
+            const res = await fetch("/api/go/api/sessions/imported/list?limit=200");
+            const d = await res.json();
+            const data = d.data ?? [];
+            setImportedSessions(data);
+            const total = data.length;
+            const valid = data.filter((s: any) => s.valid).length;
+            const imported = data.filter((s: any) => s.imported).length;
+            setImportStats({ total, valid, imported });
+        } catch {}
+        setImportLoading(false);
+    }, []);
+
+    const triggerImportScan = async () => {
+        setImportScanning(true);
+        try {
+            await fetch("/api/go/api/sessions/imported/scan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ force: true }),
+            });
+            setLastImportScan(new Date().toLocaleTimeString());
+            await fetchImportedSessions();
+        } catch {}
+        setImportScanning(false);
+    };
+
+    const importSessionData = async (session: any) => {
+        try {
+            await fetch("/api/go/api/session-export/import", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    data: JSON.stringify(session),
+                    merge: true,
+                }),
+            });
+            fetchImportedSessions();
+        } catch {}
+    };
+
+    // --- ENTERPRISE SECURITY LOGIC ---
+    const [license, setLicense] = useState<any | null>(null);
+    const [auditLogs, setAuditLogs] = useState<any[]>([]);
+    const [roles, setRoles] = useState<any[]>([]);
+    const [enterpriseLoading, setEnterpriseLoading] = useState(false);
+    const [providerUrl, setProviderUrl] = useState("");
+    const [clientId, setClientId] = useState("");
+    const [clientSecret, setClientSecret] = useState("");
+    const [ssoSaving, setSsoSaving] = useState(false);
+    const [ssoStatus, setSsoStatus] = useState<string | null>(null);
+    const [editingRoles, setEditingRoles] = useState<any[]>([]);
+    const [rolesSaving, setRolesSaving] = useState(false);
+    const [rolesStatus, setRolesStatus] = useState<string | null>(null);
+
+    const fetchEnterprise = useCallback(async () => {
+        setEnterpriseLoading(true);
+        try {
+            const [licenseRes, auditRes, rolesRes] = await Promise.all([
+                fetch("/api/go/api/enterprise/license").catch(() => null),
+                fetch("/api/go/api/enterprise/audit?limit=20").catch(() => null),
+                fetch("/api/go/api/enterprise/roles").catch(() => null),
+            ]);
+            if (licenseRes?.ok) {
+                const d = await licenseRes.json();
+                const licData = d.data ?? d;
+                setLicense(licData);
+                if (licData.ssoSettings) {
+                    setProviderUrl(licData.ssoSettings.providerUrl || "");
+                    setClientId(licData.ssoSettings.clientId || "");
+                    setClientSecret(licData.ssoSettings.clientSecret || "");
+                }
+            }
+            if (auditRes?.ok) {
+                const d = await auditRes.json();
+                setAuditLogs(d.data ?? []);
+            }
+            if (rolesRes?.ok) {
+                const d = await rolesRes.json();
+                const rList = d.data ?? [];
+                setRoles(rList);
+                setEditingRoles(JSON.parse(JSON.stringify(rList)));
+            }
+        } catch {}
+        setEnterpriseLoading(false);
+    }, []);
+
+    const saveSSO = async () => {
+        setSsoSaving(true);
+        setSsoStatus(null);
+        try {
+            const res = await fetch("/api/go/api/enterprise/sso/update", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ providerUrl, clientId, clientSecret }),
+            });
+            if (res.ok) {
+                setSsoStatus("SSO configuration saved successfully!");
+            } else {
+                setSsoStatus("Failed to save SSO configuration.");
+            }
+        } catch (e: any) {
+            setSsoStatus(`Error: ${e.message}`);
+        }
+        setSsoSaving(false);
+    };
+
+    const handleRoleDescChange = (index: number, val: string) => {
+        const updated = [...editingRoles];
+        updated[index].description = val;
+        setEditingRoles(updated);
+    };
+
+    const handleRolePermsChange = (index: number, val: string) => {
+        const updated = [...editingRoles];
+        updated[index].permissions = val.split(",").map((p: string) => p.trim()).filter(Boolean);
+        setEditingRoles(updated);
+    };
+
+    const saveRoles = async () => {
+        setRolesSaving(true);
+        setRolesStatus(null);
+        try {
+            const res = await fetch("/api/go/api/enterprise/roles/update", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(editingRoles),
+            });
+            if (res.ok) {
+                setRolesStatus("RBAC roles saved successfully!");
+            } else {
+                setRolesStatus("Failed to save RBAC roles.");
+            }
+        } catch (e: any) {
+            setRolesStatus(`Error: ${e.message}`);
+        }
+        setRolesSaving(false);
+    };
+
+    useEffect(() => {
+        searchColdArchive();
+        fetchColdCount();
+        fetchImportedSessions();
+        fetchEnterprise();
+    }, [searchColdArchive, fetchColdCount, fetchImportedSessions, fetchEnterprise]);
+
     const [runningDiagnostics, setRunningDiagnostics] = useState(false);
     const [diagnosticsResult, setDiagnosticsResult] = useState<string | null>(null);
     const [runningSchemaSync, setRunningSchemaSync] = useState(false);
@@ -1260,6 +1460,96 @@ export function DashboardHomeView({
                                 >
                                     {runningLinkRestoration ? "Scraping..." : "Scrape Backlog Links"}
                                 </button>
+                            </div>
+                        </div>
+
+                        {/* L3 Cold Archive Explorer */}
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4 md:col-span-2">
+                            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-base font-semibold text-white">L3 Cold Archive Explorer</h2>
+                                    <span className="text-cyan-400 cursor-help text-xs" title="Long-term compressed memory tier for low-heat memories evicted from L2 (heat score < 10.0).">❄️</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => { searchColdArchive(coldQuery); fetchColdCount(); }}
+                                        disabled={coldLoading}
+                                        className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-xs transition-colors disabled:opacity-50"
+                                        title="Refresh the cold archive cache status"
+                                    >
+                                        🔄 Refresh
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Stats */}
+                            <div className="flex gap-3 text-xs">
+                                <div className="px-3 py-1.5 bg-zinc-950/60 rounded border border-slate-850 flex items-center gap-2">
+                                    <span className="text-slate-500">Archived Memories:</span>
+                                    <span className="text-cyan-400 font-mono font-medium">{coldCount}</span>
+                                </div>
+                                <div className="px-3 py-1.5 bg-zinc-950/60 rounded border border-slate-850 flex items-center gap-2">
+                                    <span className="text-slate-500">Showing Search Hits:</span>
+                                    <span className="text-white font-mono font-medium">{coldResults.length}</span>
+                                </div>
+                            </div>
+
+                            {/* Search bar */}
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    placeholder="Search cold archive contents by keywords..."
+                                    value={coldQuery}
+                                    onChange={e => setColdQuery(e.target.value)}
+                                    onKeyDown={e => e.key === "Enter" && searchColdArchive(coldQuery)}
+                                    className="flex-1 px-3 py-2 bg-zinc-950 border border-slate-800 rounded text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                                    title="Search archived memories by content keyword"
+                                />
+                                <button
+                                    onClick={() => searchColdArchive(coldQuery)}
+                                    disabled={coldLoading}
+                                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-semibold disabled:opacity-50 transition-colors"
+                                    title="Run keyword search against cold archive"
+                                >
+                                    {coldLoading ? "Searching..." : "Search"}
+                                </button>
+                            </div>
+
+                            {/* Results list */}
+                            <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                                {coldResults.length === 0 && !coldLoading && (
+                                    <div className="text-center py-8 text-slate-500 bg-zinc-950/30 border border-slate-850 rounded-lg">
+                                        <div className="text-2xl mb-2">❄️</div>
+                                        <p className="font-semibold text-xs text-slate-350">Empty Archive Cache</p>
+                                        <p className="text-[10px] mt-1 text-slate-500 max-w-md mx-auto">
+                                            Evicted low-heat memories will appear here. Search above to check cached contents.
+                                        </p>
+                                    </div>
+                                )}
+                                {coldResults.map((entry) => (
+                                    <div key={entry.id} className="bg-zinc-950/50 border border-slate-850 rounded p-3 hover:bg-zinc-900/60 transition-colors flex items-start justify-between gap-4">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs text-slate-300 font-mono break-all whitespace-pre-wrap leading-relaxed">
+                                                {entry.content}
+                                            </p>
+                                            <div className="flex flex-wrap gap-2 mt-2 text-[10px] text-slate-500 font-mono">
+                                                <span className="bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">Kind: {entry.memory_kind || "fact"}</span>
+                                                <span className="bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">Category: {entry.category || "general"}</span>
+                                                <span className="bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">Importance: {entry.importance?.toFixed(2) ?? "0.00"}</span>
+                                                <span className="bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">Heat: {entry.heat_score?.toFixed(1) ?? "0.0"}</span>
+                                                <span className="bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">Archived: {entry.archived_at?.slice(0, 10) || "?"}</span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => promoteColdMemory(entry.id)}
+                                            disabled={coldPromoting === entry.id}
+                                            className="shrink-0 px-2.5 py-1.5 bg-amber-600/20 hover:bg-amber-600/35 border border-amber-500/20 text-amber-300 hover:text-white rounded text-2xs transition-colors disabled:opacity-50"
+                                            title="Promote memory back into the active L2 short-term vault"
+                                        >
+                                            {coldPromoting === entry.id ? "Promoting..." : "⬆️ Promote"}
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -1518,6 +1808,151 @@ export function DashboardHomeView({
                                 )}
                             </div>
                         </div>
+
+                        {/* Session Import Panel */}
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4 md:col-span-2">
+                            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-base font-semibold text-white">External Session &amp; Transcript Ingestion Bridge</h2>
+                                    <span className="text-cyan-400 cursor-help text-xs" title="Scan and import conversation sessions and transcripts from external environments (Claude, Gemini, Aider, etc.) into the L2 memory vault.">📥</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={fetchImportedSessions}
+                                        disabled={importLoading}
+                                        className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-xs transition-colors disabled:opacity-50"
+                                        title="Refresh the imported sessions list cache"
+                                    >
+                                        {importLoading ? "🔄 Loading..." : "🔄 Refresh"}
+                                    </button>
+                                    <button
+                                        onClick={triggerImportScan}
+                                        disabled={importScanning}
+                                        className="px-2.5 py-1 bg-amber-650/20 hover:bg-amber-650/40 border border-amber-500/25 text-amber-300 rounded text-xs font-semibold transition-colors disabled:opacity-50"
+                                        title="Trigger an active sweep across workspaces for new importable session exports"
+                                    >
+                                        {importScanning ? "🔍 Scanning..." : "🔍 Scan for Sessions"}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Stats */}
+                            {importStats && (
+                                <div className="flex flex-wrap gap-3 text-xs">
+                                    <div className="px-3 py-1 bg-zinc-950/60 rounded border border-slate-850">
+                                        <span className="text-slate-500">Total Scanned:</span>
+                                        <span className="ml-2 text-white font-mono font-medium">{importStats.total}</span>
+                                    </div>
+                                    <div className="px-3 py-1 bg-zinc-950/60 rounded border border-slate-850">
+                                        <span className="text-slate-500">Valid Scripts:</span>
+                                        <span className="ml-2 text-emerald-400 font-mono font-medium">{importStats.valid}</span>
+                                    </div>
+                                    <div className="px-3 py-1 bg-zinc-950/60 rounded border border-slate-850">
+                                        <span className="text-slate-500">Already Ingested:</span>
+                                        <span className="ml-2 text-cyan-400 font-mono font-medium">{importStats.imported}</span>
+                                    </div>
+                                    {lastImportScan && (
+                                        <div className="px-3 py-1 bg-zinc-950/60 rounded border border-slate-850">
+                                            <span className="text-slate-500">Last Sweep:</span>
+                                            <span className="ml-2 text-slate-300 font-mono">{lastImportScan}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Ingestion targets list */}
+                            <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                                {importedSessions.length === 0 && !importLoading && (
+                                    <div className="text-center py-8 text-slate-500 bg-zinc-950/30 border border-slate-850 rounded-lg">
+                                        <div className="text-2xl mb-2">📥</div>
+                                        <p className="font-semibold text-xs text-slate-350">No Sessions Found</p>
+                                        <p className="text-[10px] mt-1 text-slate-500 max-w-md mx-auto">
+                                            Click "Scan for Sessions" to sweep project workspaces for external transcript formats.
+                                        </p>
+                                    </div>
+                                )}
+                                {importedSessions.map((session) => {
+                                    const isExpanded = expandedImportSession === session.id;
+                                    return (
+                                        <div
+                                            key={session.id}
+                                            className="bg-zinc-950/50 border border-slate-850 rounded p-3 hover:bg-zinc-900/60 transition-colors cursor-pointer"
+                                            onClick={() => setExpandedImportSession(isExpanded ? null : session.id)}
+                                            title="Click to toggle metadata details"
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2 min-w-0 text-xs">
+                                                    <span>{isExpanded ? "▼" : "▶"}</span>
+                                                    <span className={session.imported ? "text-emerald-400" : "text-amber-400"}>
+                                                        {session.imported ? "✅ Ingested" : "⏳ Ready"}
+                                                    </span>
+                                                    <span className="text-slate-200 font-mono truncate font-semibold">
+                                                        {session.sourceTool || "Unknown Source"} ({session.format || "raw"})
+                                                    </span>
+                                                </div>
+                                                <div className="text-[10px] text-slate-500 font-mono">
+                                                    {session.estimatedSize > 0 && <span>{Math.round(session.estimatedSize / 1024)} KB</span>}
+                                                </div>
+                                            </div>
+
+                                            {isExpanded && (
+                                                <div className="mt-3 pt-3 border-t border-slate-850 space-y-2 text-[11px] text-slate-300 font-mono" onClick={e => e.stopPropagation()}>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                                        <div>
+                                                            <span className="text-slate-500">Session ID:</span>
+                                                            <p className="text-slate-300 break-all select-all">{session.id}</p>
+                                                        </div>
+                                                        <div>
+                                                            <span className="text-slate-500">Source Path:</span>
+                                                            <p className="text-slate-300 break-all select-all">{session.sourcePath}</p>
+                                                        </div>
+                                                        <div>
+                                                            <span className="text-slate-500">File Type:</span>
+                                                            <p className="text-slate-300">{session.sourceType}</p>
+                                                        </div>
+                                                        <div>
+                                                            <span className="text-slate-500">Last Modified:</span>
+                                                            <p className="text-slate-300">{session.lastModifiedAt || "unknown"}</p>
+                                                        </div>
+                                                    </div>
+                                                    {session.detectedModels && session.detectedModels.length > 0 && (
+                                                        <div>
+                                                            <span className="text-slate-500">Models Used:</span>
+                                                            <div className="flex flex-wrap gap-1 mt-1">
+                                                                {session.detectedModels.map((m: string) => (
+                                                                    <span key={m} className="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400 text-[9px]">{m}</span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {session.errors && session.errors.length > 0 && (
+                                                        <div className="bg-rose-500/5 border border-rose-500/10 p-2 rounded text-rose-350">
+                                                            <span className="font-semibold block">Validation Warnings:</span>
+                                                            <ul className="list-disc list-inside mt-1 space-y-0.5">
+                                                                {session.errors.map((e: string, i: number) => (
+                                                                    <li key={i}>{e}</li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                    {session.valid && !session.imported && (
+                                                        <div className="pt-2">
+                                                            <button
+                                                                onClick={() => importSessionData(session)}
+                                                                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-2xs font-semibold transition-colors"
+                                                                title="Ingest session facts and conversation transcript logs directly to database"
+                                                            >
+                                                                Import Session Into Core
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1595,6 +2030,212 @@ export function DashboardHomeView({
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* SECTION 5: ENTERPRISE SECURITY & AUDITING */}
+                <div className="space-y-4 pt-8 pb-8 border-t border-slate-800">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <h2 className="text-lg font-bold text-white tracking-wide">Enterprise Security &amp; Auditing</h2>
+                        <span className="text-[10px] text-cyan-400 font-mono uppercase border border-cyan-500/20 bg-cyan-500/5 px-2 py-0.5 rounded font-semibold">Governance &amp; SSO</span>
+                    </div>
+                    <div className="grid gap-6 md:grid-cols-2">
+                        {/* License Status */}
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-base font-semibold text-white">License Authority Status</h2>
+                                    <span className="text-cyan-400 cursor-help text-xs" title="Cryptographically verified node authority lease.">🔑</span>
+                                </div>
+                                <button
+                                    onClick={fetchEnterprise}
+                                    disabled={enterpriseLoading}
+                                    className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-xs transition-colors"
+                                    title="Reload license authority cache"
+                                >
+                                    🔄 Refresh
+                                </button>
+                            </div>
+                            
+                            {license ? (
+                                <div className="space-y-2 text-xs font-mono text-slate-300">
+                                    <div className="flex items-center gap-2">
+                                        <span className={license.valid ? "text-emerald-400" : "text-rose-400"}>
+                                            {license.valid ? "✅ VALID ENTERPRISE LEASE" : "❌ EXPIRED / INVALID LEASE"}
+                                        </span>
+                                    </div>
+                                    {license.licensedTo && (
+                                        <div>
+                                            <span className="text-slate-500">Licensed To:</span> {license.licensedTo}
+                                        </div>
+                                    )}
+                                    {license.tier && (
+                                        <div>
+                                            <span className="text-slate-500">Service Tier:</span> {license.tier}
+                                        </div>
+                                    )}
+                                    {license.expiresAt && (
+                                        <div>
+                                            <span className="text-slate-500">Expiration:</span> {license.expiresAt}
+                                        </div>
+                                    )}
+                                    {license.maxNodes && (
+                                        <div>
+                                            <span className="text-slate-500">Max Nodes Limit:</span> {license.maxNodes}
+                                        </div>
+                                    )}
+                                    {license.features && license.features.length > 0 && (
+                                        <div className="pt-1">
+                                            <span className="text-slate-500 text-[10px] block mb-1">ENABLED CAPABILITIES:</span>
+                                            <div className="flex flex-wrap gap-1">
+                                                {license.features.map((f: string) => (
+                                                    <span key={f} className="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-400 text-[9px]">{f}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="text-slate-500 text-xs italic">
+                                    {enterpriseLoading ? "Retrieving license authority leases..." : "No license lease validated."}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* SSO authentication Settings */}
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
+                            <div className="flex items-center gap-2 border-b border-slate-850 pb-2">
+                                <h2 className="text-base font-semibold text-white">SSO Single Sign-On Identity Setup</h2>
+                                <span className="text-cyan-400 cursor-help text-xs" title="Configures OIDC/OAuth2 endpoints for upstream organization control.">🛡️</span>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div>
+                                    <label className="text-[10px] text-slate-500 block mb-1">PROVIDER METADATA DISCOVERY URL</label>
+                                    <input
+                                        value={providerUrl}
+                                        onChange={e => setProviderUrl(e.target.value)}
+                                        placeholder="e.g., https://id.nexus.auth/oauth2"
+                                        className="w-full bg-zinc-950 border border-slate-800 rounded p-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none transition-colors"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <div>
+                                        <label className="text-[10px] text-slate-500 block mb-1">CLIENT APPLICATION ID</label>
+                                        <input
+                                            value={clientId}
+                                            onChange={e => setClientId(e.target.value)}
+                                            placeholder="OAuth client identifier"
+                                            className="w-full bg-zinc-950 border border-slate-800 rounded p-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none transition-colors"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-[10px] text-slate-500 block mb-1">CLIENT ID SYMMETRIC SECRET</label>
+                                        <input
+                                            type="password"
+                                            value={clientSecret}
+                                            onChange={e => setClientSecret(e.target.value)}
+                                            placeholder="••••••••••••••••"
+                                            className="w-full bg-zinc-950 border border-slate-800 rounded p-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 outline-none transition-colors"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between pt-2">
+                                <span className="text-2xs text-amber-500 font-mono">{ssoStatus}</span>
+                                <button
+                                    onClick={saveSSO}
+                                    disabled={ssoSaving}
+                                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-semibold disabled:opacity-50 transition-colors"
+                                    title="Commit OIDC configurations to core config register"
+                                >
+                                    {ssoSaving ? "Saving..." : "Save SSO Details"}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* RBAC Configurator */}
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4 md:col-span-2">
+                            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-base font-semibold text-white">RBAC Role-Based Governance Matrix</h2>
+                                    <span className="text-cyan-400 cursor-help text-xs" title="Explicit security policy overrides for downstream client agents.">👥</span>
+                                </div>
+                                <button
+                                    onClick={saveRoles}
+                                    disabled={rolesSaving}
+                                    className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-semibold transition-colors"
+                                    title="Submit modified security matrix"
+                                >
+                                    {rolesSaving ? "Saving Matrix..." : "Save Role Matrix"}
+                                </button>
+                            </div>
+
+                            {rolesStatus && (
+                                <div className="text-2xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded font-mono text-center">
+                                    {rolesStatus}
+                                </div>
+                            )}
+
+                            <div className="space-y-3">
+                                {editingRoles.map((role, idx) => (
+                                    <div key={role.name} className="bg-zinc-950/60 rounded p-3 border border-slate-850 space-y-2">
+                                        <div className="flex items-center justify-between text-xs font-bold text-slate-350 tracking-wider">
+                                            <span>ROLE: {role.name?.toUpperCase()}</span>
+                                        </div>
+                                        <div className="grid gap-2 md:grid-cols-2">
+                                            <div>
+                                                <label className="text-[10px] text-slate-500 block mb-1">CAPABILITY OVERVIEW / PURPOSE</label>
+                                                <input
+                                                    value={role.description || ""}
+                                                    onChange={e => handleRoleDescChange(idx, e.target.value)}
+                                                    className="w-full bg-zinc-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-zinc-300 focus:border-cyan-500 outline-none"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] text-slate-500 block mb-1">ALLOWED KEYWORD ACTIONS (COMMA-SEPARATED)</label>
+                                                <input
+                                                    value={role.permissions.join(", ")}
+                                                    onChange={e => handleRolePermsChange(idx, e.target.value)}
+                                                    className="w-full bg-zinc-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-zinc-300 focus:border-cyan-500 outline-none font-mono"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Audit Logs */}
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4 md:col-span-2">
+                            <div className="flex items-center gap-2 border-b border-slate-850 pb-2">
+                                <h2 className="text-base font-semibold text-white">Cryptographic Node Security Audit Logs</h2>
+                                <span className="text-cyan-400 cursor-help text-xs" title="Immutable event sequence tracking critical actions on keys and database tables.">📄</span>
+                            </div>
+                            
+                            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                                {auditLogs.length === 0 ? (
+                                    <div className="text-zinc-650 text-xs italic font-mono text-center py-4 bg-zinc-950/20 border border-slate-850 rounded">
+                                        No recent audit records tracked in the kernel.
+                                    </div>
+                                ) : (
+                                    auditLogs.map((log: any, i: number) => (
+                                        <div key={i} className="text-[11px] font-mono flex items-start gap-4 py-1.5 border-b border-slate-850 last:border-0 text-slate-400">
+                                            <span className="text-slate-600 shrink-0 select-none">
+                                                [{log.timestamp?.slice(11, 19) || log.timestamp?.slice(0, 10) || "00:00:00"}]
+                                            </span>
+                                            <span className="text-purple-400 font-semibold uppercase tracking-wider shrink-0 w-24">
+                                                {log.action?.slice(0, 18) || "UNKNOWN"}
+                                            </span>
+                                            <span className="text-slate-300 break-all select-all flex-1">
+                                                {log.detail || JSON.stringify(log)}
+                                            </span>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

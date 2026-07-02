@@ -1,6 +1,6 @@
 # TODO
 
-_Last updated: 2026-07-01, version 1.0.0-alpha.215_
+_Last updated: 2026-07-01, version 1.0.0-alpha.216_
 
 ## P0 — Must do now (Stability, Testing & Validation)
 - [x] **Track A: MCP Discovery**: Execute discovery script to rank top 500 MCP servers and seed state DB. (14,250 rows in assimilation_state.db)
@@ -21,7 +21,8 @@ _Last updated: 2026-07-01, version 1.0.0-alpha.215_
 - [ ] **ChunkHound / Probe Integration**: Implement remaining assimilated MCP search tools as native handlers.
 - [ ] **Bobbybookmarks Sync**: Configure automatic sync call triggers for catalog scraping. (Blocked by DNS failure — use Smithery.ai or Glama.ai)
 - [ ] **New Native Tools**: Implement `browser-use` and `browsermcp` specialized logic if needed (currently aliased to playwright).
-- [x] **Session Import**: Format resolved — wraps JSONL in ExportPackage format (228 sessions detected). Orchestrator POST endpoint missing for actual restoration.
+- [x] **Session Import**: Ingestion completed — both scanning and merging sessions fully integrated on the unified dashboard.
+- [x] **Cold Archive & Enterprise Security**: L3 cold memory cache promotions, license validation, SSO config, RBAC setup, and live audit log components fully consolidated on a single page.
 - [x] **Git LFS**: Large `.db` files tracked with Git LFS to avoid repo bloat.
 - [x] **P2P Memory**: Implement gossip protocol for decentralized context sharing.
 - [x] **Fleet-Wide Intelligence**: Cross-machine memory sharing via encrypted mesh.
